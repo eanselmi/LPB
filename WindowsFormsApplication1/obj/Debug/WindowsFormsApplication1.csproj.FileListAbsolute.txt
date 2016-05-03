@@ -9,3 +9,11 @@ C:\Users\Nazareno\Desktop\Gestion 2016\Aplicacion Desktop\MercadoEnvio\WindowsFo
 C:\Users\Nazareno\Desktop\Gestion 2016\Aplicacion Desktop\MercadoEnvio\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
 C:\Users\Nazareno\Desktop\MercadoEnvio\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
 C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe.config
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.exe
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.exe
+C:\Users\Nazareno\Desktop\Repo-Gdd\LPB\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.pdb
