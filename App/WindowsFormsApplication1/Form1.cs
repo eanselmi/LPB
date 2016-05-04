@@ -21,6 +21,7 @@ namespace WindowsFormsApplication1
         {
             MessageBox.Show("Hello World bitch!");
             button1.Enabled = false;
+            MessageBox.Show("boton deshabilitado");
         }
     }
 }
