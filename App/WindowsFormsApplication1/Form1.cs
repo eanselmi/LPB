@@ -20,6 +20,7 @@ namespace WindowsFormsApplication1
         private void button1_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Hello World bitch!");
+            button1.Enabled = false;
         }
     }
 }
