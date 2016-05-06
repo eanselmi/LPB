@@ -52,7 +52,7 @@ GO
 
 CREATE TABLE [LPB].Usuarios(
 id INT NOT NULL IDENTITY(1,1),
-TipoUsuario_id INT NOT NULL,
+TipoUsuario VARCHAR(25) NOT NULL,
 username VARCHAR(45) NOT NULL,
 pass VARCHAR(100) NOT NULL,
 habilitado BIT DEFAULT 1,
@@ -60,18 +60,10 @@ cantIntentosFallidos INT DEFAULT 0,
 nuevo BIT DEFAULT 1,
 PRIMARY KEY(id));
 
-
-CREATE TABLE [LPB].TiposDeUsuario(
-id INT NOT NULL IDENTITY(1,1),
-descripcion VARCHAR(14) NOT NULL,
-PRIMARY KEY(id));
-
-
 CREATE TABLE [LPB].RolesxUsuarios(
 Roles_id INT NOT NULL,
 Usuarios_id INT NOT NULL,
 PRIMARY KEY(Roles_id, Usuarios_id));
-
 
 CREATE TABLE [LPB].Roles(
 id INT NOT NULL IDENTITY(1,1),
@@ -84,7 +76,6 @@ id INT NOT NULL IDENTITY(1,1),
 descripcion varchar(45) NOT NULL,
 PRIMARY KEY(id));
 
-
 CREATE TABLE [LPB].FuncionalidadesxRoles(
 Funcionalidades_id INT NOT NULL,
 Roles_id INT NOT NULL,
@@ -95,9 +86,6 @@ PRIMARY KEY(Funcionalidades_id, Roles_id));
 /*---------Definiciones de FK-------*/
 
 
-ALTER TABLE LPB.usuarios ADD
-            FOREIGN KEY (TipoUsuario_id) references LPB.TiposDeUsuario;            
-                                
 ALTER TABLE LPB.RolesxUsuarios ADD
             FOREIGN KEY (Roles_id) references LPB.Roles,
             FOREIGN KEY (Usuarios_id) references LPB.Usuarios;
@@ -108,14 +96,6 @@ ALTER TABLE LPB.FuncionalidadesxRoles ADD
                                 
 
 /*---------Carga de datos / migracion--------------------*/
-
-
-/*Tipos de usuario*/
-BEGIN TRANSACTION
-INSERT INTO LPB.TiposDeUsuario (descripcion) VALUES ('Administrador');
-INSERT INTO LPB.TiposDeUsuario (descripcion) VALUES ('Cliente');
-INSERT INTO LPB.TiposDeUsuario (descripcion) VALUES ('Empresa');
-COMMIT;
 
 
 /*Roles*/
@@ -170,7 +150,7 @@ COMMIT;
 
 /*creacion Usuarios -HASH del password w23e: 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7'*/
 BEGIN TRANSACTION
-INSERT INTO LPB.Usuarios (TipoUsuario_id, username, pass, nuevo) VALUES(1,'admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',0);
+INSERT INTO LPB.Usuarios (TipoUsuario, username, pass, nuevo) VALUES('Administrador','admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',0);
 COMMIT;
 
 
