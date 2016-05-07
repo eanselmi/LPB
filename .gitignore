@@ -2,3 +2,5 @@
 /App/WindowsFormsApplication1/bin/Debug
 /App/WindowsFormsApplication1/obj/Debug
 /App/MercadoEnvio.v11.suo
+*/**/obj/Debug
+Debug/
