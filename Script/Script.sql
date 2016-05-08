@@ -24,6 +24,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Empresa') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Empresa ;
+END;
+GO
+
 IF OBJECT_ID('LPB.Usuarios') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Usuarios ;
@@ -85,6 +91,21 @@ Funcionalidades_id INT NOT NULL,
 Roles_id INT NOT NULL,
 PRIMARY KEY(Funcionalidades_id, Roles_id));
 GO
+
+CREATE TABLE [LPB].Empresa(
+id INT NOT NULL IDENTITY(1,1),
+razonSocial varchar(45) NOT NULL,
+cuit bigint NOT NULL,
+mail varchar(45) NOT NULL,
+domicilioCalle varchar(100) NOT NULL,
+nroCalle INT NOT NULL,
+dpto varchar(2),
+codPostal INT NOT NULL,
+Usuario_id INT NOT NULL,
+PRIMARY KEY(id));
+GO
+
+
 /*---------Definiciones de FK-------*/
 
 
@@ -96,6 +117,10 @@ GO
 ALTER TABLE LPB.FuncionalidadesxRoles ADD
             FOREIGN KEY (Funcionalidades_id) references LPB.Funcionalidades,
             FOREIGN KEY (Roles_id) references LPB.roles;
+GO
+
+ALTER TABLE LPB.Empresa ADD
+            FOREIGN KEY (Usuario_id) references LPB.Usuarios;
 GO
 
 /* Declaración de variables */
@@ -196,6 +221,22 @@ SELECT DISTINCT @DocumentoCodigo_Dni + CAST([Publ_Cli_Dni] AS VARCHAR(20))
 	            ,0
 FROM [gd_esquema].[Maestra]
 WHERE [Publ_Cli_Dni] IS NOT NULL
+
+
+/* Creación/Migración a la par de Empresas */
+INSERT INTO LPB.Empresa (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto,codPostal, Usuario_id)	
+SELECT DISTINCT [Publ_Empresa_Razon_Social],
+	            REPLACE([Publ_Empresa_Cuit],'-',''),
+				[Publ_Empresa_Mail],
+	            [Publ_Empresa_Dom_Calle],
+			    CAST([Publ_Empresa_Nro_Calle] AS INT),
+			    [Publ_Empresa_Depto],
+			    CAST([Publ_Empresa_Cod_Postal] AS INT),
+				Usuarios.id
+FROM [gd_esquema].[Maestra]
+INNER JOIN LPB.Usuarios ON username = @DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-','') 
+/* ralentiza muchisimo la ejecucion */
+WHERE [Publ_Empresa_Cuit] IS NOT NULL
 
 
 /* Migracion de RolesxUsuario de los usuarios migrados en el paso anterior */
