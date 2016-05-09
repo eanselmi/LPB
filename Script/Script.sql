@@ -226,7 +226,7 @@ INSERT INTO LPB.Usuarios (TipoUsuario, username, pass, nuevo) VALUES('Administra
 COMMIT;
 
 /* Migracion Usuarios */
-
+BEGIN TRANSACTION
 INSERT INTO LPB.Usuarios (username, pass,TipoUsuario, nuevo)	
 SELECT DISTINCT @DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-','')
 	            ,'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'
@@ -252,9 +252,10 @@ SELECT DISTINCT @DocumentoCodigo_Dni + CAST([Publ_Cli_Dni] AS VARCHAR(20))
 	            ,0
 FROM [gd_esquema].[Maestra]
 WHERE [Publ_Cli_Dni] IS NOT NULL
-
+COMMIT;
 
 /* Creación/Migración a la par de Empresas */
+BEGIN TRANSACTION
 INSERT INTO LPB.Empresa (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto,codPostal, Usuario_id)	
 SELECT DISTINCT [Publ_Empresa_Razon_Social],
 	            REPLACE([Publ_Empresa_Cuit],'-',''),
@@ -268,9 +269,10 @@ FROM [gd_esquema].[Maestra]
 INNER JOIN LPB.Usuarios ON username = @DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-','') 
 /* ralentiza muchisimo la ejecucion */
 WHERE [Publ_Empresa_Cuit] IS NOT NULL
-
+COMMIT;
 
 /* Migracion de RolesxUsuario de los usuarios migrados en el paso anterior */
+BEGIN TRANSACTION
 INSERT INTO LPB.RolesxUsuarios (Usuarios_id, Roles_id)
 SELECT Id, CASE [TipoUsuario]
 		        WHEN @TipoDeUsuario_Administrador THEN @RolId_Administrador
@@ -278,3 +280,36 @@ SELECT Id, CASE [TipoUsuario]
 		        WHEN @TipoDeUsuario_Cliente THEN @RolId_Cliente
 	       END
 FROM LPB.Usuarios
+COMMIT;
+
+/*Migracion de Clientes*/
+BEGIN TRANSACTION
+INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,codPostal,Usuario_id)
+select distinct CAST([Publ_Cli_Dni] AS INT),
+				[Publ_Cli_Apeliido],
+				[Publ_Cli_Nombre],
+				[Publ_Cli_Fecha_Nac],
+				[Publ_Cli_Mail],
+				[Publ_Cli_Dom_Calle],
+				CAST([Publ_Cli_Nro_Calle] AS INT),
+				CAST([Publ_Cli_Piso] AS INT),
+				[Publ_Cli_Depto],
+				[Publ_Cli_Cod_Postal],
+				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Publ_Cli_Dni] AS varchar(20)))
+FROM [gd_esquema].Maestra
+where [Publ_Cli_Dni] IS NOT NULL
+UNION
+Select DISTINCT CAST([Cli_Dni] AS INT),
+				[Cli_Apeliido],
+				[Cli_Nombre],
+				[Cli_Fecha_Nac],
+				[Cli_Mail],
+				[Cli_Dom_Calle],
+				CAST([Cli_Nro_Calle] AS INT),
+				CAST([Cli_Piso] AS INT),
+				[Cli_Depto],
+				[Cli_Cod_Postal],
+				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Cli_Dni] AS VARCHAR(20)))
+FROM [gd_esquema].Maestra
+where Cli_Dni is not null
+COMMIT;
