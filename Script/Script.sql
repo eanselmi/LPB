@@ -30,6 +30,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Clientes') IS NOT NULL
+BEGIN
+	DROP TABLE LPB.Clientes;
+END;
+GO
+
 IF OBJECT_ID('LPB.Usuarios') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Usuarios ;
@@ -54,11 +60,6 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.Clientes') IS NOT NULL
-BEGIN
-	DROP TABLE LPB.Clientes;
-END;
-GO
 
 /*---------Definiciones de Tabla-------------*/
 
