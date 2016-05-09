@@ -78,6 +78,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Calificaciones') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Calificaciones ;
+END;
+GO
+
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -173,6 +179,13 @@ GO
 CREATE TABLE [LPB].Localidades(
 id INT NOT NULL IDENTITY(1,1),
 descripcion varchar(45) NOT NULL,
+)
+GO
+
+CREATE TABLE [LPB].Calificaciones(
+codigo INT NOT NULL ,
+descripcion varchar(45) NOT NULL,
+cantEstrellas INT NOT NULL,
 )
 GO
 
@@ -378,6 +391,7 @@ FROM [gd_esquema].Maestra
 where Cli_Dni is not null
 COMMIT;
 
+/*Migracion Factura*/
 
 BEGIN TRANSACTION
 
@@ -388,6 +402,19 @@ SELECT DISTINCT [Factura_Nro],
 				(SELECT id FROM [LPB].FormaDePago WHERE descripcion=[Forma_Pago_Desc])
 FROM [gd_esquema].[Maestra]
 WHERE [Factura_Nro] IS NOT NULL
+
+COMMIT;
+
+/* Migracion calificaciones */
+
+BEGIN TRANSACTION
+
+INSERT INTO LPB.Calificaciones(codigo,descripcion, cantEstrellas)	
+SELECT DISTINCT [Calificacion_Codigo],
+	            [Calificacion_Descripcion],
+				(CASE WHEN  [Calificacion_Cant_Estrellas] >5 THEN [Calificacion_Cant_Estrellas] - 5 ELSE [Calificacion_Cant_Estrellas] END )
+FROM [gd_esquema].[Maestra]
+WHERE [Calificacion_Codigo] IS NOT NULL
 
 COMMIT;
 
