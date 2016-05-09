@@ -60,6 +60,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Factura') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Factura ;
+END;
+GO
+
 IF OBJECT_ID('LPB.FormaDePago') IS NOT NULL
 BEGIN
         DROP TABLE LPB.FormaDePago ;
@@ -108,6 +114,15 @@ GO
 CREATE TABLE [LPB].FormaDePago(
 id INT NOT NULL IDENTITY(1,1),
 descripcion nvarchar(255) NOT NULL,
+PRIMARY KEY(id));
+GO
+
+CREATE TABLE [LPB].Factura(
+id INT NOT NULL IDENTITY(1,1),
+numero numeric(18,0) NOT NULL,
+fecha DATETIME NOT NULL,
+total numeric(18,2) NOT NULL,
+FormaDePago_id INT NOT NULL,
 PRIMARY KEY(id));
 GO
 
@@ -160,7 +175,12 @@ GO
 ALTER TABLE LPB.FuncionalidadesxRoles ADD
             FOREIGN KEY (Funcionalidades_id) references LPB.Funcionalidades,
             FOREIGN KEY (Roles_id) references LPB.roles;
+GO   
+                                                         
+ALTER TABLE LPB.Factura ADD
+            FOREIGN KEY (FormaDePago_id) references LPB.FormaDePago
 GO
+
 
 ALTER TABLE LPB.Empresa ADD
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
@@ -344,4 +364,16 @@ Select DISTINCT CAST([Cli_Dni] AS INT),
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Cli_Dni] AS VARCHAR(20)))
 FROM [gd_esquema].Maestra
 where Cli_Dni is not null
+COMMIT;
+
+BEGIN TRANSACTION
+
+INSERT INTO LPB.Factura (numero, fecha, total, FormaDePago_id)	
+SELECT DISTINCT [Factura_Nro],
+	            [Factura_Fecha],
+				[Factura_Total],
+				(SELECT id FROM [LPB].FormaDePago WHERE descripcion=[Forma_Pago_Desc])
+FROM [gd_esquema].[Maestra]
+WHERE [Factura_Nro] IS NOT NULL
+
 COMMIT;
