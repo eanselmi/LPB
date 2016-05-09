@@ -66,6 +66,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Localidades') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Localidades ;
+END;
+GO
+
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -147,6 +153,12 @@ Localidad_id INT,
 -- .
 Usuario_id INT NOT NULL,
 PRIMARY KEY(ID));
+GO
+
+CREATE TABLE [LPB].Localidades(
+id INT NOT NULL IDENTITY(1,1),
+descripcion varchar(45) NOT NULL,
+)
 GO
 
 /*---------Definiciones de FK-------*/
@@ -345,3 +357,5 @@ Select DISTINCT CAST([Cli_Dni] AS INT),
 FROM [gd_esquema].Maestra
 where Cli_Dni is not null
 COMMIT;
+
+
