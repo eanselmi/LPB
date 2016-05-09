@@ -60,6 +60,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.FormaDePago') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.FormaDePago ;
+END;
+GO
+
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -97,6 +103,12 @@ CREATE TABLE [LPB].FuncionalidadesxRoles(
 Funcionalidades_id INT NOT NULL,
 Roles_id INT NOT NULL,
 PRIMARY KEY(Funcionalidades_id, Roles_id));
+GO
+
+CREATE TABLE [LPB].FormaDePago(
+id INT NOT NULL IDENTITY(1,1),
+descripcion nvarchar(255) NOT NULL,
+PRIMARY KEY(id));
 GO
 
 CREATE TABLE [LPB].Empresa(
@@ -222,6 +234,15 @@ SET @ID = (SELECT id FROM [LPB].Roles WHERE nombre='Empresa');
 
 INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (5, @ID);
 INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (9, @ID);
+
+COMMIT;
+
+BEGIN TRANSACTION
+
+INSERT INTO LPB.FormaDePago(descripcion) 
+SELECT DISTINCT Forma_Pago_Desc
+FROM [gd_esquema].[Maestra]
+WHERE Forma_Pago_Desc IS NOT NULL;
 
 COMMIT;
 
