@@ -54,6 +54,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Clientes') IS NOT NULL
+BEGIN
+	DROP TABLE LPB.Clientes;
+END;
+GO
+
 /*---------Definiciones de Tabla-------------*/
 
 CREATE TABLE [LPB].Usuarios(
@@ -105,6 +111,25 @@ Usuario_id INT NOT NULL,
 PRIMARY KEY(id));
 GO
 
+CREATE TABLE [LPB].Clientes(
+id INT NOT NULL IDENTITY(1,1),
+dni INT NOT NULL,
+apellido VARCHAR(45) NOT NULL,
+nombre VARCHAR(45) NOT NULL,
+fechaNacimiento DATETIME NOT NULL,
+mail VARCHAR(45) NOT NULL,
+domicilioCalle varchar(100) NOT NULL,
+nroCalle INT NOT NULL,
+piso INT NOT NULL,
+dpto VARCHAR(2),
+codPostal INT NOT NULL,
+fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+-- A MODIFICAR CUANDO SE AGREGE LA TABLA LOCALIDADES
+Localidad_id INT NOT NULL DEFAULT 0, 
+-- .
+Usuario_id INT NOT NULL,
+PRIMARY KEY(ID));
+GO
 
 /*---------Definiciones de FK-------*/
 
@@ -123,7 +148,12 @@ ALTER TABLE LPB.Empresa ADD
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
 GO
 
-/* Declaración de variables */
+ALTER TABLE LPB.Clientes add
+	    FOREIGN KEY (Usuario_ID) references LPB.Usuarios;
+	    --FOREIGN KEY (Localidades_ID) references LPB.Localidades;
+GO
+
+/* DeclaraciÃ³n de variables */
 
 DECLARE @DocumentoCodigo_Dni VARCHAR(10) = 'DNI'
 DECLARE @DocumentoCodigo_Cuil VARCHAR(10) = 'CUIL'
@@ -223,7 +253,7 @@ FROM [gd_esquema].[Maestra]
 WHERE [Publ_Cli_Dni] IS NOT NULL
 
 
-/* Creación/Migración a la par de Empresas */
+/* CreaciÃ³n/MigraciÃ³n a la par de Empresas */
 INSERT INTO LPB.Empresa (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto,codPostal, Usuario_id)	
 SELECT DISTINCT [Publ_Empresa_Razon_Social],
 	            REPLACE([Publ_Empresa_Cuit],'-',''),
