@@ -126,7 +126,7 @@ dpto VARCHAR(2),
 codPostal INT NOT NULL,
 fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 -- A MODIFICAR CUANDO SE AGREGE LA TABLA LOCALIDADES
-Localidad_id INT NOT NULL DEFAULT 0, 
+Localidad_id INT, 
 -- .
 Usuario_id INT NOT NULL,
 PRIMARY KEY(ID));
@@ -151,7 +151,7 @@ GO
 
 ALTER TABLE LPB.Clientes add
 	    FOREIGN KEY (Usuario_ID) references LPB.Usuarios;
-	    --FOREIGN KEY (Localidades_ID) references LPB.Localidades;
+	    --FOREIGN KEY (Localidad_ID) references LPB.Localidades;
 GO
 
 /* Declaración de variables */
@@ -285,7 +285,7 @@ COMMIT;
 
 /*Migracion de Clientes*/
 BEGIN TRANSACTION
-INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,codPostal,Usuario_id)
+INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,localidad,codPostal,Usuario_id)
 select distinct CAST([Publ_Cli_Dni] AS INT),
 				[Publ_Cli_Apeliido],
 				[Publ_Cli_Nombre],
@@ -295,6 +295,7 @@ select distinct CAST([Publ_Cli_Dni] AS INT),
 				CAST([Publ_Cli_Nro_Calle] AS INT),
 				CAST([Publ_Cli_Piso] AS INT),
 				[Publ_Cli_Depto],
+				NULL,
 				[Publ_Cli_Cod_Postal],
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Publ_Cli_Dni] AS varchar(20)))
 FROM [gd_esquema].Maestra
@@ -309,6 +310,7 @@ Select DISTINCT CAST([Cli_Dni] AS INT),
 				CAST([Cli_Nro_Calle] AS INT),
 				CAST([Cli_Piso] AS INT),
 				[Cli_Depto],
+				NULL,
 				[Cli_Cod_Postal],
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Cli_Dni] AS VARCHAR(20)))
 FROM [gd_esquema].Maestra
