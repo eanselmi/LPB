@@ -101,13 +101,18 @@ GO
 
 CREATE TABLE [LPB].Empresa(
 id INT NOT NULL IDENTITY(1,1),
-razonSocial varchar(45) NOT NULL,
-cuit bigint NOT NULL,
-mail varchar(45) NOT NULL,
-domicilioCalle varchar(100) NOT NULL,
-nroCalle INT NOT NULL,
-dpto varchar(2),
-codPostal INT NOT NULL,
+razonSocial nvarchar(255) NOT NULL,
+cuit nvarchar(50) NOT NULL,
+mail nvarchar(50) NOT NULL,
+domicilioCalle nvarchar(100) NOT NULL,
+nroCalle numeric(18,0) NOT NULL,
+piso numeric(18,0),
+dpto nvarchar(50),
+codPostal nvarchar(50) NOT NULL,
+rubro nvarchar(100) NULL,
+nombreContacto nvarchar(100),
+fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
 PRIMARY KEY(id));
 GO
@@ -147,6 +152,7 @@ GO
 
 ALTER TABLE LPB.Empresa ADD
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
+			--FOREIGN KEY (Localidad_ID) references LPB.Localidades;
 GO
 
 ALTER TABLE LPB.Clientes add
@@ -256,14 +262,16 @@ COMMIT;
 
 /* Creación/Migración a la par de Empresas */
 BEGIN TRANSACTION
-INSERT INTO LPB.Empresa (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto,codPostal, Usuario_id)	
+INSERT INTO LPB.Empresa (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto, piso, codPostal, fechaCreacion, Usuario_id)	
 SELECT DISTINCT [Publ_Empresa_Razon_Social],
-	            REPLACE([Publ_Empresa_Cuit],'-',''),
+	            [Publ_Empresa_Cuit],
 				[Publ_Empresa_Mail],
 	            [Publ_Empresa_Dom_Calle],
-			    CAST([Publ_Empresa_Nro_Calle] AS INT),
+			    [Publ_Empresa_Nro_Calle],
 			    [Publ_Empresa_Depto],
-			    CAST([Publ_Empresa_Cod_Postal] AS INT),
+				[Publ_Empresa_Piso],
+			    [Publ_Empresa_Cod_Postal],
+				[Publ_Empresa_Fecha_Creacion],
 				--Usuarios.id
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-',''))
 FROM [gd_esquema].[Maestra]
