@@ -285,7 +285,7 @@ COMMIT;
 
 /*Migracion de Clientes*/
 BEGIN TRANSACTION
-INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,localidad,codPostal,Usuario_id)
+INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
 select distinct CAST([Publ_Cli_Dni] AS INT),
 				[Publ_Cli_Apeliido],
 				[Publ_Cli_Nombre],
@@ -295,8 +295,8 @@ select distinct CAST([Publ_Cli_Dni] AS INT),
 				CAST([Publ_Cli_Nro_Calle] AS INT),
 				CAST([Publ_Cli_Piso] AS INT),
 				[Publ_Cli_Depto],
-				NULL,
 				[Publ_Cli_Cod_Postal],
+				NULL,
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Publ_Cli_Dni] AS varchar(20)))
 FROM [gd_esquema].Maestra
 where [Publ_Cli_Dni] IS NOT NULL
@@ -310,8 +310,8 @@ Select DISTINCT CAST([Cli_Dni] AS INT),
 				CAST([Cli_Nro_Calle] AS INT),
 				CAST([Cli_Piso] AS INT),
 				[Cli_Depto],
-				NULL,
 				[Cli_Cod_Postal],
+				NULL,
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Cli_Dni] AS VARCHAR(20)))
 FROM [gd_esquema].Maestra
 where Cli_Dni is not null
