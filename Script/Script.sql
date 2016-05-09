@@ -264,9 +264,10 @@ SELECT DISTINCT [Publ_Empresa_Razon_Social],
 			    CAST([Publ_Empresa_Nro_Calle] AS INT),
 			    [Publ_Empresa_Depto],
 			    CAST([Publ_Empresa_Cod_Postal] AS INT),
-				Usuarios.id
+				--Usuarios.id
+				(select id from LPB.Usuarios where username=@DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-',''))
 FROM [gd_esquema].[Maestra]
-INNER JOIN LPB.Usuarios ON username = @DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-','') 
+--INNER JOIN LPB.Usuarios ON username = @DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-','') 
 /* ralentiza muchisimo la ejecucion */
 WHERE [Publ_Empresa_Cuit] IS NOT NULL
 COMMIT;
