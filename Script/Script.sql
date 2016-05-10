@@ -30,6 +30,18 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Compras') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.Compras;
+END;
+GO
+
+IF OBJECT_ID('LPB.Ofertas') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.Ofertas;
+END;
+GO
+
 IF OBJECT_ID('LPB.Clientes') IS NOT NULL
 BEGIN
 	DROP TABLE LPB.Clientes;
@@ -183,13 +195,15 @@ GO
 CREATE TABLE [LPB].Localidades(
 id INT NOT NULL IDENTITY(1,1),
 descripcion varchar(45) NOT NULL,
+PRIMARY KEY(id)
 )
 GO
 
 CREATE TABLE [LPB].Calificaciones(
-codigo INT NOT NULL ,
+codigo INT NOT NULL , -- HAY QUE CAMBIAR A NUMERIC (18,0)
 descripcion varchar(45) NOT NULL,
 cantEstrellas INT NOT NULL,
+PRIMARY KEY(codigo)
 )
 GO
 
@@ -200,6 +214,29 @@ precio NUMERIC(18,2) NOT NULL,
 porcentaje NUMERIC(18,2) NOT NULL,
 comisionPorEnvio NUMERIC(18,2),
 )
+GO
+
+CREATE TABLE [LPB].Compras(
+id INT NOT NULL IDENTITY(1,1),
+fecha DATETIME NOT NULL default getdate(),
+cantidad NUMERIC(18,0) NOT NULL,
+Cliente_id INT NOT NULL,
+Publicacion_cod NUMERIC(18,0) NOT NULL,
+Calificacion_cod INT, --HAY QUE CAMBIAR A NUMERIC(18,0)
+envio BIT NOT NULL,
+primary key (id))
+GO
+
+CREATE TABLE [LPB].Ofertas(
+id INT NOT NULL IDENTITY(1,1),
+fecha DATETIME NOT NULL default getdate(),
+monto NUMERIC(18,2) NOT NULL,
+Cliente_id INT NOT NULL,
+Publicacion_cod NUMERIC(18,0) NOT NULL,
+Calificacion_cod INT, --HAY QUE CAMBIAR A NUMERIC(18,0)
+ganadora BIT NOT NULL,
+envio BIT NOT NULL,
+primary key (id))
 GO
 
 
@@ -227,8 +264,21 @@ ALTER TABLE LPB.Empresa ADD
 GO
 
 ALTER TABLE LPB.Clientes add
-	    FOREIGN KEY (Usuario_id) references LPB.Usuarios;
-	   -- FOREIGN KEY (Localidad_id) references LPB.Localidades;
+	    FOREIGN KEY (Usuario_id) references LPB.Usuarios,
+	    FOREIGN KEY (Localidad_id) references LPB.Localidades;
+GO
+
+
+ALTER TABLE LPB.Compras ADD
+		FOREIGN KEY (Cliente_id) references LPB.Clientes,
+		--FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones,
+		FOREIGN KEY (Calificacion_cod) references LPB.Calificaciones;
+GO
+
+ALTER TABLE LPB.Ofertas ADD
+		FOREIGN KEY (Cliente_id) references LPB.Clientes,
+		--FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones,
+		FOREIGN KEY (Calificacion_cod) references LPB.Calificaciones;
 GO
 
 /* Declaración de variables */
