@@ -213,6 +213,7 @@ descripcion varchar(45) NOT NULL,
 precio NUMERIC(18,2) NOT NULL,
 porcentaje NUMERIC(18,2) NOT NULL,
 comisionPorEnvio NUMERIC(18,2),
+PRIMARY KEY(codigo)
 )
 GO
 
