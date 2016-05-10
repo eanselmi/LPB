@@ -443,7 +443,7 @@ SELECT DISTINCT [Publicacion_Visibilidad_Cod],
 	            [Publicacion_Visibilidad_Desc],
 				[Publicacion_Visibilidad_Precio],
 				[Publicacion_Visibilidad_Porcentaje],
-				NULL
+				98
 FROM [gd_esquema].[Maestra]
 WHERE [Publicacion_Visibilidad_Cod] IS NOT NULL
 
