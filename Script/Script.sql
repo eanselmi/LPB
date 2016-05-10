@@ -84,6 +84,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Visibilidades') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Visibilidades ;
+END;
+GO
+
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -188,6 +194,16 @@ descripcion varchar(45) NOT NULL,
 cantEstrellas INT NOT NULL,
 )
 GO
+
+CREATE TABLE [LPB].Visibilidades(
+codigo INT NOT NULL ,
+descripcion varchar(45) NOT NULL,
+precio NUMERIC(18,2) NOT NULL,
+porcentaje NUMERIC(18,2) NOT NULL,
+comisionPorEnvio NUMERIC(18,2),
+)
+GO
+
 
 /*---------Definiciones de FK-------*/
 
@@ -415,6 +431,21 @@ SELECT DISTINCT [Calificacion_Codigo],
 				(CASE WHEN  [Calificacion_Cant_Estrellas] >5 THEN [Calificacion_Cant_Estrellas] - 5 ELSE [Calificacion_Cant_Estrellas] END )
 FROM [gd_esquema].[Maestra]
 WHERE [Calificacion_Codigo] IS NOT NULL
+
+COMMIT;
+
+/*Migracion Visibilidades*/
+
+BEGIN TRANSACTION
+
+INSERT INTO LPB.Visibilidades(codigo,descripcion, precio, porcentaje,comisionPorEnvio)	
+SELECT DISTINCT [Publicacion_Visibilidad_Cod],
+	            [Publicacion_Visibilidad_Desc],
+				[Publicacion_Visibilidad_Precio],
+				[Publicacion_Visibilidad_Porcentaje],
+				NULL
+FROM [gd_esquema].[Maestra]
+WHERE [Publicacion_Visibilidad_Cod] IS NOT NULL
 
 COMMIT;
 
