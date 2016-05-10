@@ -164,20 +164,18 @@ GO
 
 CREATE TABLE [LPB].Clientes(
 id INT NOT NULL IDENTITY(1,1),
-dni INT NOT NULL,
-apellido VARCHAR(45) NOT NULL,
-nombre VARCHAR(45) NOT NULL,
+dni NUMERIC(18,0) NOT NULL,
+apellido NVARCHAR(255) NOT NULL,
+nombre NVARCHAR(255) NOT NULL,
 fechaNacimiento DATETIME NOT NULL,
-mail VARCHAR(45) NOT NULL,
-domicilioCalle varchar(100) NOT NULL,
-nroCalle INT NOT NULL,
-piso INT NOT NULL,
-dpto VARCHAR(2),
-codPostal INT NOT NULL,
+mail NVARCHAR(255) NOT NULL,
+domicilioCalle nvarchar(255) NOT NULL,
+nroCalle NUMERIC(18,0) NOT NULL,
+piso NUMERIC(18,0) NOT NULL,
+dpto NVARCHAR(50),
+codPostal NVARCHAR(50) NOT NULL,
 fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
--- A MODIFICAR CUANDO SE AGREGE LA TABLA LOCALIDADES
 Localidad_id INT, 
--- .
 Usuario_id INT NOT NULL,
 PRIMARY KEY(ID));
 GO
@@ -229,8 +227,8 @@ ALTER TABLE LPB.Empresa ADD
 GO
 
 ALTER TABLE LPB.Clientes add
-	    FOREIGN KEY (Usuario_ID) references LPB.Usuarios;
-	    --FOREIGN KEY (Localidad_ID) references LPB.Localidades;
+	    FOREIGN KEY (Usuario_id) references LPB.Usuarios;
+	   -- FOREIGN KEY (Localidad_id) references LPB.Localidades;
 GO
 
 /* Declaración de variables */
@@ -376,14 +374,14 @@ COMMIT;
 /*Migracion de Clientes*/
 BEGIN TRANSACTION
 INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
-select distinct CAST([Publ_Cli_Dni] AS INT),
+select distinct [Publ_Cli_Dni],
 				[Publ_Cli_Apeliido],
 				[Publ_Cli_Nombre],
 				[Publ_Cli_Fecha_Nac],
 				[Publ_Cli_Mail],
 				[Publ_Cli_Dom_Calle],
-				CAST([Publ_Cli_Nro_Calle] AS INT),
-				CAST([Publ_Cli_Piso] AS INT),
+				[Publ_Cli_Nro_Calle],
+				[Publ_Cli_Piso],
 				[Publ_Cli_Depto],
 				[Publ_Cli_Cod_Postal],
 				NULL,
@@ -391,14 +389,14 @@ select distinct CAST([Publ_Cli_Dni] AS INT),
 FROM [gd_esquema].Maestra
 where [Publ_Cli_Dni] IS NOT NULL
 UNION
-Select DISTINCT CAST([Cli_Dni] AS INT),
+Select DISTINCT [Cli_Dni],
 				[Cli_Apeliido],
 				[Cli_Nombre],
 				[Cli_Fecha_Nac],
 				[Cli_Mail],
 				[Cli_Dom_Calle],
-				CAST([Cli_Nro_Calle] AS INT),
-				CAST([Cli_Piso] AS INT),
+				[Cli_Nro_Calle],
+				[Cli_Piso],
 				[Cli_Depto],
 				[Cli_Cod_Postal],
 				NULL,
