@@ -498,3 +498,18 @@ WHERE [Publicacion_Visibilidad_Cod] IS NOT NULL
 
 COMMIT;
 
+/*Migracion Compras*/
+
+BEGIN TRANSACTION
+
+INSERT INTO LPB.Compras (fecha,cantidad,Cliente_id,Publicacion_cod,Calificacion_cod,envio)
+select distinct [Compra_Fecha],
+				[Compra_Cantidad],
+				(select id from LPB.Clientes where dni=Cli_Dni),
+				Publicacion_Cod, --MODIFICAR CUANDO SE AGREGA LA TABLA PUBLICACIONES
+				Calificacion_codigo,
+				0 -- Todas sin envio
+from gd_esquema.Maestra
+where Compra_Fecha IS NOT NULL
+and calificacion_codigo is not null
+COMMIT;
