@@ -148,12 +148,11 @@ PRIMARY KEY(id));
 GO
 
 CREATE TABLE [LPB].Factura(
-id INT NOT NULL IDENTITY(1,1),
-numero numeric(18,0) NOT NULL,
+numero numeric(18,0) UNIQUE NOT NULL,
 fecha DATETIME NOT NULL,
 total numeric(18,2) NOT NULL,
 FormaDePago_id INT NOT NULL,
-PRIMARY KEY(id));
+PRIMARY KEY(numero));
 GO
 
 CREATE TABLE [LPB].Empresa(
