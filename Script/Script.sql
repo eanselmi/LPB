@@ -170,7 +170,7 @@ GO
 CREATE TABLE [LPB].Item(
 id INT NOT NULL IDENTITY(1,1),
 monto numeric(18,2) NOT NULL,
-cantidad INT NOT NULL,
+cantidad numeric(18,0) NOT NULL,
 Factura_nro	numeric(18,0) NOT NULL,
 Publicacion_cod numeric(18,0) NOT NULL,
 PRIMARY KEY(id));
@@ -226,16 +226,16 @@ PRIMARY KEY(codigo)
 GO
 
 CREATE TABLE [LPB].Calificaciones(
-codigo INT NOT NULL , -- HAY QUE CAMBIAR A NUMERIC (18,0)
-descripcion varchar(45) NOT NULL,
-cantEstrellas INT NOT NULL,
+codigo NUMERIC (18,0) NOT NULL,
+descripcion nvarchar(255) NOT NULL,
+cantEstrellas NUMERIC (18,0) NOT NULL,
 PRIMARY KEY(codigo)
 )
 GO
 
 CREATE TABLE [LPB].Visibilidades(
-codigo INT NOT NULL ,
-descripcion varchar(45) NOT NULL,
+codigo NUMERIC (18,0) NOT NULL ,
+descripcion nvarchar(255) NOT NULL,
 precio NUMERIC(18,2) NOT NULL,
 porcentaje NUMERIC(18,2) NOT NULL,
 comisionPorEnvio NUMERIC(18,2),
@@ -249,7 +249,7 @@ fecha DATETIME NOT NULL default getdate(),
 cantidad NUMERIC(18,0) NOT NULL,
 Cliente_id INT NOT NULL,
 Publicacion_cod NUMERIC(18,0) NOT NULL,
-Calificacion_cod INT, --HAY QUE CAMBIAR A NUMERIC(18,0)
+Calificacion_cod NUMERIC(18,0),
 envio BIT NOT NULL,
 primary key (id))
 GO
@@ -260,7 +260,7 @@ fecha DATETIME NOT NULL default getdate(),
 monto NUMERIC(18,2) NOT NULL,
 Cliente_id INT NOT NULL,
 Publicacion_cod NUMERIC(18,0) NOT NULL,
-Calificacion_cod INT, --HAY QUE CAMBIAR A NUMERIC(18,0)
+Calificacion_cod NUMERIC(18,0), 
 ganadora BIT NOT NULL,
 envio BIT NOT NULL,
 primary key (id))
