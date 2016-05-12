@@ -72,6 +72,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Item') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Item ;
+END;
+GO
+
 IF OBJECT_ID('LPB.Factura') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Factura ;
@@ -87,6 +93,12 @@ GO
 IF OBJECT_ID('LPB.Localidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Localidades ;
+END;
+GO
+
+IF OBJECT_ID('LPB.Publicacion') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Publicacion ;
 END;
 GO
 
@@ -155,6 +167,15 @@ FormaDePago_id INT NOT NULL,
 PRIMARY KEY(numero));
 GO
 
+CREATE TABLE [LPB].Item(
+id INT NOT NULL IDENTITY(1,1),
+monto numeric(18,2) NOT NULL,
+cantidad INT NOT NULL,
+Factura_nro	numeric(18,0) NOT NULL,
+Publicacion_cod numeric(18,0) NOT NULL,
+PRIMARY KEY(id));
+GO
+
 CREATE TABLE [LPB].Empresa(
 id INT NOT NULL IDENTITY(1,1),
 razonSocial nvarchar(255) NOT NULL,
@@ -195,6 +216,12 @@ CREATE TABLE [LPB].Localidades(
 id INT NOT NULL IDENTITY(1,1),
 descripcion varchar(45) NOT NULL,
 PRIMARY KEY(id)
+)
+GO
+
+CREATE TABLE [LPB].Publicacion(
+codigo NUMERIC (18,0) NOT NULL,
+PRIMARY KEY(codigo)
 )
 GO
 
@@ -257,6 +284,10 @@ ALTER TABLE LPB.Factura ADD
             FOREIGN KEY (FormaDePago_id) references LPB.FormaDePago
 GO
 
+ALTER TABLE LPB.Item ADD
+            FOREIGN KEY (Factura_nro) references LPB.Factura,
+			FOREIGN KEY (Publicacion_cod) references LPB.Publicacion;
+GO
 
 ALTER TABLE LPB.Empresa ADD
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
@@ -511,4 +542,23 @@ select distinct [Compra_Fecha],
 from gd_esquema.Maestra
 where Compra_Fecha IS NOT NULL
 and calificacion_codigo is not null
+COMMIT;
+
+/*Migracion Publicaciones*/
+
+BEGIN TRANSACTION
+INSERT INTO LPB.Publicacion(codigo)
+	select distinct [Publicacion_Cod]
+	from gd_esquema.Maestra
+	where Publicacion_Cod IS NOT NULL
+COMMIT;
+
+/*Migracion Items*/
+
+BEGIN TRANSACTION
+INSERT INTO LPB.Item(Publicacion_cod,Factura_nro,monto,cantidad)
+	select  Publicacion_cod, Factura_Nro, Item_Factura_Monto, Item_Factura_Cantidad 
+	from gd_esquema.Maestra 
+	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
+	ORDER BY PUBLICACION_COD 
 COMMIT;
