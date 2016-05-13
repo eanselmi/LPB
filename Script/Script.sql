@@ -648,14 +648,3 @@ INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
 	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
 	ORDER BY PUBLICACION_COD 
 COMMIT;
-/*
-BEGIN TRANSACTION
-INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
-	select distinct Publicacion_cod, Factura_Nro, sum(Item_Factura_Monto), sum(Item_Factura_Cantidad) 
-	from gd_esquema.Maestra 
-	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
-	group by Publicacion_cod, Factura_Nro
-	order by 1
-COMMIT;
-INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
-VALUES('12',121315,3159,4)*/
