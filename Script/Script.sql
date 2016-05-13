@@ -143,6 +143,7 @@ numero numeric(18,0) UNIQUE NOT NULL,
 fecha DATETIME NOT NULL,
 total numeric(18,2) NOT NULL,
 FormaDePago_id INT NOT NULL,
+Usuario_id INT NOT NULL,
 PRIMARY KEY(numero));
 GO
 
@@ -299,7 +300,9 @@ ALTER TABLE LPB.FuncionalidadesPorRol ADD
 GO   
                                                          
 ALTER TABLE LPB.Facturas ADD
-            FOREIGN KEY (FormaDePago_id) references LPB.FormasDePago
+            FOREIGN KEY (FormaDePago_id) references LPB.FormasDePago,
+            FOREIGN KEY (Usuario_id) references LPB.Usuarios;
+            
 GO
 
 ALTER TABLE LPB.Items ADD
@@ -507,15 +510,30 @@ COMMIT;
 /*Migracion Factura*/
 
 BEGIN TRANSACTION
-
-INSERT INTO LPB.Facturas (numero, fecha, total, FormaDePago_id)	
+INSERT INTO LPB.Facturas (numero, fecha, total, FormaDePago_id,Usuario_id)	
 SELECT DISTINCT [Factura_Nro],
 	            [Factura_Fecha],
 				[Factura_Total],
-				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc])
+				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc]),
+				(select id from LPB.Usuarios where username=@DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-',''))
 FROM [gd_esquema].[Maestra]
-WHERE [Factura_Nro] IS NOT NULL
-
+WHERE [Factura_Nro] IS NOT NULL and [Publ_Empresa_Cuit] IS NOT NULL
+UNION ALL
+SELECT DISTINCT [Factura_Nro],
+	            [Factura_Fecha],
+				[Factura_Total],
+				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc]),
+				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Cli_Dni] AS varchar(20)))				
+FROM [gd_esquema].[Maestra]
+WHERE [Factura_Nro] IS NOT NULL and [Cli_Dni] IS NOT NULL
+UNION
+SELECT DISTINCT [Factura_Nro],
+	            [Factura_Fecha],
+				[Factura_Total],
+				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc]),
+				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Publ_Cli_Dni] AS varchar(20)))				
+FROM [gd_esquema].[Maestra]
+WHERE [Factura_Nro] IS NOT NULL and [Publ_Cli_Dni] IS NOT NULL
 COMMIT;
 
 /* Migracion calificaciones */
