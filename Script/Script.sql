@@ -12,21 +12,21 @@ GO
 /*---------------Limpieza de Tablas-------------*/
 /*---------Si la tabla ya existe la borro-------------*/
 
-IF OBJECT_ID('LPB.FuncionalidadesxRoles') IS NOT NULL
+IF OBJECT_ID('LPB.FuncionalidadesPorRol') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.FuncionalidadesxRoles ;
+        DROP TABLE LPB.FuncionalidadesPorRol ;
 END;
 GO
 
-IF OBJECT_ID('LPB.RolesxUsuarios') IS NOT NULL
+IF OBJECT_ID('LPB.RolesPorUsuario') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.RolesxUsuarios ;
+        DROP TABLE LPB.RolesPorUsuario ;
 END;
 GO
 
-IF OBJECT_ID('LPB.Empresa') IS NOT NULL
+IF OBJECT_ID('LPB.Empresas') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.Empresa ;
+        DROP TABLE LPB.Empresas ;
 END;
 GO
 
@@ -54,12 +54,6 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.TiposDeUsuario') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.TiposDeUsuario ;
-END;
-GO
-
 IF OBJECT_ID('LPB.Roles') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Roles ;
@@ -72,21 +66,21 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.Item') IS NOT NULL
+IF OBJECT_ID('LPB.Items') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.Item ;
+        DROP TABLE LPB.Items ;
 END;
 GO
 
-IF OBJECT_ID('LPB.Factura') IS NOT NULL
+IF OBJECT_ID('LPB.Facturas') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.Factura ;
+        DROP TABLE LPB.Facturas ;
 END;
 GO
 
-IF OBJECT_ID('LPB.FormaDePago') IS NOT NULL
+IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.FormaDePago ;
+        DROP TABLE LPB.FormasDePago ;
 END;
 GO
 
@@ -96,9 +90,9 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.Publicacion') IS NOT NULL
+IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
 BEGIN
-        DROP TABLE LPB.Publicacion ;
+        DROP TABLE LPB.Publicaciones ;
 END;
 GO
 
@@ -128,10 +122,10 @@ nuevo BIT DEFAULT 1,
 PRIMARY KEY(id));
 GO
 
-CREATE TABLE [LPB].RolesxUsuarios(
-Roles_id INT NOT NULL,
-Usuarios_id INT NOT NULL,
-PRIMARY KEY(Roles_id, Usuarios_id));
+CREATE TABLE [LPB].RolesPorUsuario(
+Rol_id INT NOT NULL,
+Usuario_id INT NOT NULL,
+PRIMARY KEY(Rol_id, Usuario_id));
 GO
 
 CREATE TABLE [LPB].Roles(
@@ -147,19 +141,19 @@ descripcion varchar(45) NOT NULL,
 PRIMARY KEY(id));
 GO
 
-CREATE TABLE [LPB].FuncionalidadesxRoles(
-Funcionalidades_id INT NOT NULL,
-Roles_id INT NOT NULL,
-PRIMARY KEY(Funcionalidades_id, Roles_id));
+CREATE TABLE [LPB].FuncionalidadesPorRol(
+Funcionalidad_id INT NOT NULL,
+Rol_id INT NOT NULL,
+PRIMARY KEY(Funcionalidad_id, Rol_id));
 GO
 
-CREATE TABLE [LPB].FormaDePago(
+CREATE TABLE [LPB].FormasDePago(
 id INT NOT NULL IDENTITY(1,1),
 descripcion nvarchar(255) NOT NULL,
 PRIMARY KEY(id));
 GO
 
-CREATE TABLE [LPB].Factura(
+CREATE TABLE [LPB].Facturas(
 numero numeric(18,0) UNIQUE NOT NULL,
 fecha DATETIME NOT NULL,
 total numeric(18,2) NOT NULL,
@@ -167,7 +161,7 @@ FormaDePago_id INT NOT NULL,
 PRIMARY KEY(numero));
 GO
 
-CREATE TABLE [LPB].Item(
+CREATE TABLE [LPB].Items(
 id INT NOT NULL IDENTITY(1,1),
 monto numeric(18,2) NOT NULL,
 cantidad numeric(18,0) NOT NULL,
@@ -176,7 +170,7 @@ Publicacion_cod numeric(18,0) NOT NULL,
 PRIMARY KEY(id));
 GO
 
-CREATE TABLE [LPB].Empresa(
+CREATE TABLE [LPB].Empresas(
 id INT NOT NULL IDENTITY(1,1),
 razonSocial nvarchar(255) NOT NULL,
 cuit nvarchar(50) NOT NULL,
@@ -219,7 +213,7 @@ PRIMARY KEY(id)
 )
 GO
 
-CREATE TABLE [LPB].Publicacion(
+CREATE TABLE [LPB].Publicaciones(
 codigo NUMERIC (18,0) NOT NULL,
 PRIMARY KEY(codigo)
 )
@@ -270,26 +264,26 @@ GO
 /*---------Definiciones de FK-------*/
 
 
-ALTER TABLE LPB.RolesxUsuarios ADD
-            FOREIGN KEY (Roles_id) references LPB.Roles,
-            FOREIGN KEY (Usuarios_id) references LPB.Usuarios;
+ALTER TABLE LPB.RolesPorUsuario ADD
+            FOREIGN KEY (Rol_id) references LPB.Roles,
+            FOREIGN KEY (Usuario_id) references LPB.Usuarios;
 GO
                                                             
-ALTER TABLE LPB.FuncionalidadesxRoles ADD
-            FOREIGN KEY (Funcionalidades_id) references LPB.Funcionalidades,
-            FOREIGN KEY (Roles_id) references LPB.roles;
+ALTER TABLE LPB.FuncionalidadesPorRol ADD
+            FOREIGN KEY (Funcionalidad_id) references LPB.Funcionalidades,
+            FOREIGN KEY (Rol_id) references LPB.roles;
 GO   
                                                          
-ALTER TABLE LPB.Factura ADD
-            FOREIGN KEY (FormaDePago_id) references LPB.FormaDePago
+ALTER TABLE LPB.Facturas ADD
+            FOREIGN KEY (FormaDePago_id) references LPB.FormasDePago
 GO
 
-ALTER TABLE LPB.Item ADD
-            FOREIGN KEY (Factura_nro) references LPB.Factura,
-			FOREIGN KEY (Publicacion_cod) references LPB.Publicacion;
+ALTER TABLE LPB.Items ADD
+            FOREIGN KEY (Factura_nro) references LPB.Facturas,
+			FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones;
 GO
 
-ALTER TABLE LPB.Empresa ADD
+ALTER TABLE LPB.Empresas ADD
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
 			--FOREIGN KEY (Localidad_ID) references LPB.Localidades;
 GO
@@ -357,29 +351,29 @@ DECLARE @ID INTEGER;
 SET @ID = (SELECT id FROM [LPB].Roles WHERE nombre='Administrador');
 
 BEGIN TRANSACTION
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (1, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (2, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (3, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (4, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (10, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (1, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (2, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (3, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (4, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (10, @ID);
 
 SET @ID = (SELECT id FROM [LPB].Roles WHERE nombre='Cliente');
 
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (5, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (6, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (7, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (8, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (5, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (6, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (7, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (8, @ID);
 
 SET @ID = (SELECT id FROM [LPB].Roles WHERE nombre='Empresa');
 
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (5, @ID);
-INSERT INTO LPB.FuncionalidadesxRoles (Funcionalidades_id, Roles_id) VALUES (9, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (5, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (9, @ID);
 
 COMMIT;
 
 BEGIN TRANSACTION
 
-INSERT INTO LPB.FormaDePago(descripcion) 
+INSERT INTO LPB.FormasDePago(descripcion) 
 SELECT DISTINCT Forma_Pago_Desc
 FROM [gd_esquema].[Maestra]
 WHERE Forma_Pago_Desc IS NOT NULL;
@@ -423,7 +417,7 @@ COMMIT;
 
 /* Creación/Migración a la par de Empresas */
 BEGIN TRANSACTION
-INSERT INTO LPB.Empresa (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto, piso, codPostal, fechaCreacion, Usuario_id)	
+INSERT INTO LPB.Empresas (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto, piso, codPostal, fechaCreacion, Usuario_id)	
 SELECT DISTINCT [Publ_Empresa_Razon_Social],
 	            [Publ_Empresa_Cuit],
 				[Publ_Empresa_Mail],
@@ -443,7 +437,7 @@ COMMIT;
 
 /* Migracion de RolesxUsuario de los usuarios migrados en el paso anterior */
 BEGIN TRANSACTION
-INSERT INTO LPB.RolesxUsuarios (Usuarios_id, Roles_id)
+INSERT INTO LPB.RolesPorUsuario (Usuario_id, Rol_id)
 SELECT Id, CASE [TipoUsuario]
 		        WHEN @TipoDeUsuario_Administrador THEN @RolId_Administrador
 		        WHEN @TipoDeUsuario_Empresa THEN @RolId_Empresa
@@ -490,11 +484,11 @@ COMMIT;
 
 BEGIN TRANSACTION
 
-INSERT INTO LPB.Factura (numero, fecha, total, FormaDePago_id)	
+INSERT INTO LPB.Facturas (numero, fecha, total, FormaDePago_id)	
 SELECT DISTINCT [Factura_Nro],
 	            [Factura_Fecha],
 				[Factura_Total],
-				(SELECT id FROM [LPB].FormaDePago WHERE descripcion=[Forma_Pago_Desc])
+				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc])
 FROM [gd_esquema].[Maestra]
 WHERE [Factura_Nro] IS NOT NULL
 
@@ -547,7 +541,7 @@ COMMIT;
 /*Migracion Publicaciones*/
 
 BEGIN TRANSACTION
-INSERT INTO LPB.Publicacion(codigo)
+INSERT INTO LPB.Publicaciones(codigo)
 	select distinct [Publicacion_Cod]
 	from gd_esquema.Maestra
 	where Publicacion_Cod IS NOT NULL
@@ -556,7 +550,7 @@ COMMIT;
 /*Migracion Items*/
 
 BEGIN TRANSACTION
-INSERT INTO LPB.Item(Publicacion_cod,Factura_nro,monto,cantidad)
+INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
 	select  Publicacion_cod, Factura_Nro, Item_Factura_Monto, Item_Factura_Cantidad 
 	from gd_esquema.Maestra 
 	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
