@@ -36,6 +36,49 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.Items') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Items ;
+END;
+GO
+
+IF OBJECT_ID('LPB.Facturas') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Facturas ;
+END;
+GO
+
+IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.FormasDePago ;
+END;
+GO
+
+IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.Publicaciones;
+END;
+GO
+
+IF OBJECT_ID('LPB.Rubros') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.Rubros;
+END;
+GO
+
+IF OBJECT_ID('LPB.EstadosDePublicacion') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.EstadosDePublicacion;
+END;
+GO
+
+IF OBJECT_ID('LPB.TiposDePublicacion') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.TiposDePublicacion;
+END;
+GO
+
+
 IF OBJECT_ID('LPB.Ofertas') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Ofertas;
@@ -63,24 +106,6 @@ GO
 IF OBJECT_ID('LPB.Funcionalidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Funcionalidades ;
-END;
-GO
-
-IF OBJECT_ID('LPB.Items') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.Items ;
-END;
-GO
-
-IF OBJECT_ID('LPB.Facturas') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.Facturas ;
-END;
-GO
-
-IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.FormasDePago ;
 END;
 GO
 
@@ -215,7 +240,39 @@ GO
 
 CREATE TABLE [LPB].Publicaciones(
 codigo NUMERIC (18,0) NOT NULL,
+Usuario_id INT,
+EstadoDePublicacion_id INT,
+TipoDePublicacion_id INT,
+descripcion NVARCHAR(255),
+stock NUMERIC(18,0) NOT NULL,
+fechaCreacion DATETIME NOT NULL,
+fechaVencimiento DATETIME NOT NULL,
+precio NUMERIC(18,2) NOT NULL,
+aceptaEnvio BIT,
+Visibilidad_codigo NUMERIC(18,0),
+Rubro_id INT,
 PRIMARY KEY(codigo)
+)
+GO
+
+CREATE TABLE [LPB].Rubros(
+id INT NOT NULL IDENTITY(1,1),
+descripcion NVARCHAR(255),
+PRIMARY KEY(id)
+)
+GO
+
+CREATE TABLE [LPB].EstadosDePublicacion(
+id INT NOT NULL IDENTITY(1,1),
+descripcion NVARCHAR(255),
+PRIMARY KEY(id)
+)
+GO
+
+CREATE TABLE [LPB].TiposDePublicacion(
+id INT NOT NULL IDENTITY(1,1),
+descripcion NVARCHAR(255),
+PRIMARY KEY(id)
 )
 GO
 
@@ -263,6 +320,13 @@ GO
 
 /*---------Definiciones de FK-------*/
 
+ALTER TABLE LPB.Publicaciones ADD
+            FOREIGN KEY (Usuario_id) references LPB.Usuarios,
+            FOREIGN KEY (EstadoDePublicacion_id) references LPB.EstadosDePublicacion,
+			FOREIGN KEY (TipoDePublicacion_id) references LPB.TiposDePublicacion,
+			FOREIGN KEY (Visibilidad_codigo) references LPB.Visibilidades,
+			FOREIGN KEY (Rubro_id) references LPB.Rubros;
+GO
 
 ALTER TABLE LPB.RolesPorUsuario ADD
             FOREIGN KEY (Rol_id) references LPB.Roles,
@@ -284,8 +348,8 @@ ALTER TABLE LPB.Items ADD
 GO
 
 ALTER TABLE LPB.Empresas ADD
-            FOREIGN KEY (Usuario_id) references LPB.Usuarios;
-			--FOREIGN KEY (Localidad_ID) references LPB.Localidades;
+            FOREIGN KEY (Usuario_id) references LPB.Usuarios,
+			FOREIGN KEY (Localidad_ID) references LPB.Localidades;
 GO
 
 ALTER TABLE LPB.Clientes add
@@ -296,13 +360,13 @@ GO
 
 ALTER TABLE LPB.Compras ADD
 		FOREIGN KEY (Cliente_id) references LPB.Clientes,
-		--FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones,
+		FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones,
 		FOREIGN KEY (Calificacion_cod) references LPB.Calificaciones;
 GO
 
 ALTER TABLE LPB.Ofertas ADD
 		FOREIGN KEY (Cliente_id) references LPB.Clientes,
-		--FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones,
+		FOREIGN KEY (Publicacion_cod) references LPB.Publicaciones,
 		FOREIGN KEY (Calificacion_cod) references LPB.Calificaciones;
 GO
 
@@ -522,6 +586,57 @@ WHERE [Publicacion_Visibilidad_Cod] IS NOT NULL
 
 COMMIT;
 
+/*Migracion Publicaciones*/
+
+BEGIN TRANSACTION
+
+INSERT INTO [LPB].[Publicaciones] (
+	[codigo]
+	,[Usuario_Id]
+	,[EstadoDePublicacion_Id]
+	,[TipoDePublicacion_Id]	
+	,[Descripcion]
+	,[Stock]
+	,[fechaCreacion]
+	,[fechaVencimiento]	
+	,[precio]
+	,[Visibilidad_codigo]	
+	)
+SELECT DISTINCT [Publicacion_Cod]
+	,[Empresas].[Usuario_Id]
+	,1
+	,[Tipos].[Id]
+	,[Publicacion_Descripcion]	
+	,[Publicacion_Stock]
+	,[Publicacion_Fecha]
+	,[Publicacion_Fecha_Venc]	
+	,[Publicacion_Precio]
+	,[Publicacion_Visibilidad_Cod]	
+FROM [gd_esquema].[Maestra] AS Maestra
+INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
+INNER JOIN [LPB].[Empresas] AS Empresas ON Maestra.Publ_Empresa_Cuit = Empresas.Cuit
+WHERE [Publicacion_Cod] IS NOT NULL
+	AND [Publ_Empresa_Cuit] IS NOT NULL
+
+UNION ALL
+
+SELECT DISTINCT [Publicacion_Cod]
+	,[Clientes].[Usuario_Id]
+	,1
+	,[Tipos].[Id]
+	,[Publicacion_Descripcion]	
+	,[Publicacion_Stock]
+	,[Publicacion_Fecha]
+	,[Publicacion_Fecha_Venc]	
+	,[Publicacion_Precio]
+	,[Publicacion_Visibilidad_Cod]	
+FROM [gd_esquema].[Maestra] AS Maestra
+INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
+INNER JOIN [LPB].[Clientes] AS Clientes ON Maestra.Publ_Cli_Dni = Clientes.dni
+WHERE [Publicacion_Cod] IS NOT NULL
+	AND [Publ_Cli_Dni] IS NOT NULL
+COMMIT;
+
 /*Migracion Compras*/
 
 BEGIN TRANSACTION
@@ -538,20 +653,11 @@ where Compra_Fecha IS NOT NULL
 and calificacion_codigo is not null
 COMMIT;
 
-/*Migracion Publicaciones*/
-
-BEGIN TRANSACTION
-INSERT INTO LPB.Publicaciones(codigo)
-	select distinct [Publicacion_Cod]
-	from gd_esquema.Maestra
-	where Publicacion_Cod IS NOT NULL
-COMMIT;
-
 /*Migracion Items*/
 
 BEGIN TRANSACTION
 INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
-	select  Publicacion_cod, Factura_Nro, Item_Factura_Monto, Item_Factura_Cantidad 
+	select Publicacion_cod, Factura_Nro, Item_Factura_Monto, Item_Factura_Cantidad 
 	from gd_esquema.Maestra 
 	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
 	ORDER BY PUBLICACION_COD 
