@@ -12,128 +12,88 @@ GO
 /*---------------Limpieza de Tablas-------------*/
 /*---------Si la tabla ya existe la borro-------------*/
 
+BEGIN TRANSACTION
 IF OBJECT_ID('LPB.FuncionalidadesPorRol') IS NOT NULL
 BEGIN
         DROP TABLE LPB.FuncionalidadesPorRol ;
 END;
-GO
-
 IF OBJECT_ID('LPB.RolesPorUsuario') IS NOT NULL
 BEGIN
         DROP TABLE LPB.RolesPorUsuario ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Empresas') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Empresas ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Compras') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Compras;
 END;
-GO
-
 IF OBJECT_ID('LPB.Items') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Items ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Facturas') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Facturas ;
 END;
-GO
-
-IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.FormasDePago ;
-END;
-GO
-
-IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
-BEGIN
-		DROP TABLE LPB.Publicaciones;
-END;
-GO
-
-IF OBJECT_ID('LPB.Rubros') IS NOT NULL
-BEGIN
-		DROP TABLE LPB.Rubros;
-END;
-GO
-
-IF OBJECT_ID('LPB.EstadosDePublicacion') IS NOT NULL
-BEGIN
-		DROP TABLE LPB.EstadosDePublicacion;
-END;
-GO
-
-IF OBJECT_ID('LPB.TiposDePublicacion') IS NOT NULL
-BEGIN
-		DROP TABLE LPB.TiposDePublicacion;
-END;
-GO
-
-
 IF OBJECT_ID('LPB.Ofertas') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Ofertas;
 END;
-GO
-
+IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.FormasDePago ;
+END;
+IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.Publicaciones;
+END;
+IF OBJECT_ID('LPB.Rubros') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.Rubros;
+END;
+IF OBJECT_ID('LPB.EstadosDePublicacion') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.EstadosDePublicacion;
+END;
+IF OBJECT_ID('LPB.TiposDePublicacion') IS NOT NULL
+BEGIN
+		DROP TABLE LPB.TiposDePublicacion;
+END;
 IF OBJECT_ID('LPB.Clientes') IS NOT NULL
 BEGIN
 	DROP TABLE LPB.Clientes;
 END;
-GO
-
 IF OBJECT_ID('LPB.Usuarios') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Usuarios ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Roles') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Roles ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Funcionalidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Funcionalidades ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Localidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Localidades ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Publicaciones ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Calificaciones') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Calificaciones ;
 END;
-GO
-
 IF OBJECT_ID('LPB.Visibilidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Visibilidades ;
 END;
-GO
-
-
+COMMIT;
 /*---------Definiciones de Tabla-------------*/
 
 CREATE TABLE [LPB].Usuarios(
@@ -571,6 +531,27 @@ WHERE [Calificacion_Codigo] IS NOT NULL
 
 COMMIT;
 
+/*TiposDePublicacion*/
+BEGIN TRANSACTION
+INSERT INTO LPB.tiposDePublicacion (descripcion) VALUES ('Compra Inmediata');
+INSERT INTO LPB.tiposDePublicacion (descripcion) VALUES ('Subasta');
+COMMIT;
+
+/*EstadosDePublcacion*/
+BEGIN TRANSACTION
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Finalizada');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Activa');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Publicada');
+COMMIT;
+
+/*Rubros*/
+BEGIN TRANSACTION
+INSERT INTO LPB.Rubros (descripcion)	
+SELECT DISTINCT [Publicacion_Rubro_Descripcion]	            
+FROM [gd_esquema].[Maestra]
+COMMIT;
+
+
 /*Migracion Visibilidades*/
 
 BEGIN TRANSACTION
@@ -601,6 +582,7 @@ INSERT INTO [LPB].[Publicaciones] (
 	,[fechaVencimiento]	
 	,[precio]
 	,[Visibilidad_codigo]	
+	,[Rubro_id] 
 	)
 SELECT DISTINCT [Publicacion_Cod]
 	,[Empresas].[Usuario_Id]
@@ -612,9 +594,11 @@ SELECT DISTINCT [Publicacion_Cod]
 	,[Publicacion_Fecha_Venc]	
 	,[Publicacion_Precio]
 	,[Publicacion_Visibilidad_Cod]	
+	,[Rubros].id  
 FROM [gd_esquema].[Maestra] AS Maestra
 INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
 INNER JOIN [LPB].[Empresas] AS Empresas ON Maestra.Publ_Empresa_Cuit = Empresas.Cuit
+INNER JOIN [LPB].[Rubros] AS Rubros ON Maestra.Publicacion_Rubro_Descripcion = Rubros.descripcion
 WHERE [Publicacion_Cod] IS NOT NULL
 	AND [Publ_Empresa_Cuit] IS NOT NULL
 
@@ -630,9 +614,11 @@ SELECT DISTINCT [Publicacion_Cod]
 	,[Publicacion_Fecha_Venc]	
 	,[Publicacion_Precio]
 	,[Publicacion_Visibilidad_Cod]	
+	,[Rubros].id  
 FROM [gd_esquema].[Maestra] AS Maestra
 INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
 INNER JOIN [LPB].[Clientes] AS Clientes ON Maestra.Publ_Cli_Dni = Clientes.dni
+INNER JOIN [LPB].[Rubros] AS Rubros ON Maestra.Publicacion_Rubro_Descripcion = Rubros.descripcion
 WHERE [Publicacion_Cod] IS NOT NULL
 	AND [Publ_Cli_Dni] IS NOT NULL
 COMMIT;
@@ -662,3 +648,14 @@ INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
 	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
 	ORDER BY PUBLICACION_COD 
 COMMIT;
+/*
+BEGIN TRANSACTION
+INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
+	select distinct Publicacion_cod, Factura_Nro, sum(Item_Factura_Monto), sum(Item_Factura_Cantidad) 
+	from gd_esquema.Maestra 
+	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
+	group by Publicacion_cod, Factura_Nro
+	order by 1
+COMMIT;
+INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
+VALUES('12',121315,3159,4)*/
