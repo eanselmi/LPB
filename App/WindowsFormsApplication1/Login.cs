@@ -24,12 +24,7 @@ namespace WindowsFormsApplication1
         public Login()
         {
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
-        }
+        }       
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -135,10 +130,24 @@ namespace WindowsFormsApplication1
             //this.Hide();
             //Cargar el menu que aun no hice
             //mp.Show();
-            //mp.cargarUsuario(text_usuario.Text, this);
+            //mp.cargarUsuario(text_usuario.Text, this);            
+            //MessageBox.Show("Ingreso Correcto, te debo el menu", "Inicio de sesion exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            grp_login.Visible = false;
+            grp_rol.Visible = true;
+            
+            /*CARGA LOS ROLES DEL USUARIO EN EL COMBOBOX*/
+            query = "select r.nombre from lpb.Usuarios u, lpb.RolesPorUsuario rxu, lpb.Roles r "+
+                    "where u.id = rxu.Usuario_id and rxu.Rol_id=r.id and u.username= "+ "'" + text_usuario.Text + "'";            
+            con.cnn.Open();
+            command = new SqlCommand(query, con.cnn);
+            lector = command.ExecuteReader();
+            while (lector.Read())
+            {
+                cmb_roles.Items.Add(lector.GetString(0));
+            }
+            con.cnn.Close();
             text_usuario.Text = "";
             text_password.Text = "";
-            MessageBox.Show("Ingreso Correcto, te debo el menu", "Inicio de sesion exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void text_password_KeyPress(object sender, KeyPressEventArgs e)
@@ -147,6 +156,13 @@ namespace WindowsFormsApplication1
             {
                 btn_ingresar.PerformClick();
             }
+        }
+
+        private void btn_volver_Click(object sender, EventArgs e)
+        {
+            grp_rol.Visible = false;
+            grp_login.Visible = true;
+            
         }
       
     }
