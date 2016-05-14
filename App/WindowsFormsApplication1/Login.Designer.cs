@@ -37,10 +37,10 @@
             this.text_password = new System.Windows.Forms.TextBox();
             this.text_usuario = new System.Windows.Forms.TextBox();
             this.grp_rol = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmb_roles = new System.Windows.Forms.ComboBox();
             this.btn_volver = new System.Windows.Forms.Button();
             this.btn_aceptar = new System.Windows.Forms.Button();
-            this.cmb_roles = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.grp_login.SuspendLayout();
             this.grp_rol.SuspendLayout();
             this.SuspendLayout();
@@ -143,6 +143,23 @@
             this.grp_rol.Text = "Seleccion de Rol";
             this.grp_rol.Visible = false;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(37, 78);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(73, 26);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Roles";
+            // 
+            // cmb_roles
+            // 
+            this.cmb_roles.FormattingEnabled = true;
+            this.cmb_roles.Location = new System.Drawing.Point(119, 70);
+            this.cmb_roles.Name = "cmb_roles";
+            this.cmb_roles.Size = new System.Drawing.Size(251, 34);
+            this.cmb_roles.TabIndex = 3;
+            // 
             // btn_volver
             // 
             this.btn_volver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -165,23 +182,7 @@
             this.btn_aceptar.TabIndex = 1;
             this.btn_aceptar.Text = "Aceptar";
             this.btn_aceptar.UseVisualStyleBackColor = true;
-            // 
-            // cmb_roles
-            // 
-            this.cmb_roles.FormattingEnabled = true;
-            this.cmb_roles.Location = new System.Drawing.Point(119, 70);
-            this.cmb_roles.Name = "cmb_roles";
-            this.cmb_roles.Size = new System.Drawing.Size(251, 34);
-            this.cmb_roles.TabIndex = 3;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(37, 78);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(73, 26);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Roles";
+            this.btn_aceptar.Click += new System.EventHandler(this.btn_aceptar_Click);
             // 
             // Login
             // 

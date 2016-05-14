@@ -17,6 +17,7 @@ namespace WindowsFormsApplication1
 {
     public partial class Login : Form
     {
+        public Menu mp = new Menu();
         public int intFallidos;
         public bool userHabilitado;
         public string pass = "";
@@ -163,6 +164,12 @@ namespace WindowsFormsApplication1
             grp_rol.Visible = false;
             grp_login.Visible = true;
             
+        }
+
+        private void btn_aceptar_Click(object sender, EventArgs e)
+        {            
+            this.Hide();
+            mp.Show();
         }
       
     }
