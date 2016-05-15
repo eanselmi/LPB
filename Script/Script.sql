@@ -651,6 +651,7 @@ select distinct [Compra_Fecha],
 from gd_esquema.Maestra
 where Compra_Fecha IS NOT NULL
 and calificacion_codigo is not null
+and Publicacion_Tipo='Compra Inmediata'
 COMMIT;
 
 /*Migracion Items*/
