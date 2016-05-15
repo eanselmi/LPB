@@ -81,10 +81,6 @@ IF OBJECT_ID('LPB.Localidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Localidades ;
 END;
-IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.Publicaciones ;
-END;
 IF OBJECT_ID('LPB.Calificaciones') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Calificaciones ;
@@ -649,7 +645,7 @@ INSERT INTO LPB.Compras (fecha,cantidad,Cliente_id,Publicacion_cod,Calificacion_
 select distinct [Compra_Fecha],
 				[Compra_Cantidad],
 				(select id from LPB.Clientes where dni=Cli_Dni),
-				Publicacion_Cod, --MODIFICAR CUANDO SE AGREGA LA TABLA PUBLICACIONES
+				Publicacion_Cod,
 				Calificacion_codigo,
 				0 -- Todas sin envio
 from gd_esquema.Maestra
