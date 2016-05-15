@@ -663,3 +663,33 @@ INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
 	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
 	ORDER BY PUBLICACION_COD 
 COMMIT;
+
+/*Migracion Ofertas*/
+
+BEGIN TRANSACTION
+INSERT INTO LPB.Ofertas(fecha,monto,Cliente_id,Publicacion_cod,Calificacion_cod,ganadora,envio)
+select distinct M1.Oferta_Fecha,
+					M1.Oferta_Monto,
+					(select id from LPB.Clientes where dni=M1.Cli_Dni),
+					M1.Publicacion_Cod,
+					(CASE 
+						when exists(select * from gd_esquema.Maestra M2 
+							where M1.Publicacion_Cod=M2.Publicacion_Cod and M2.Compra_Fecha is not null
+							and M2.Cli_Dni=M1.Cli_Dni
+							and M1.Oferta_Monto=(select max(oferta_monto) from gd_esquema.Maestra M3 where M1.Publicacion_Cod=M3.Publicacion_Cod))
+							then (select M4.calificacion_codigo from gd_esquema.Maestra M4 where M4.Publicacion_Cod=M1.Publicacion_Cod and M4.Calificacion_Codigo is not null)
+							else NULL
+					END),
+					(CASE 
+						when exists(select * from gd_esquema.Maestra M2 
+							where M1.Publicacion_Cod=M2.Publicacion_Cod and M2.Compra_Fecha is not null
+							and M2.Cli_Dni=M1.Cli_Dni
+							and M1.Oferta_Monto=(select max(oferta_monto) from gd_esquema.Maestra M3 where M1.Publicacion_Cod=M3.Publicacion_Cod))
+							then 1
+							else 0 
+					END),
+					0 -- Todas sin envio
+	from gd_esquema.Maestra M1
+	where M1.Oferta_Fecha is not null
+	and M1.Compra_Fecha is null
+COMMIT;
