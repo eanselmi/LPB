@@ -112,6 +112,7 @@
             // 
             // text_password
             // 
+            this.text_password.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_password.Location = new System.Drawing.Point(161, 80);
             this.text_password.Name = "text_password";
             this.text_password.PasswordChar = '*';
@@ -121,6 +122,7 @@
             // 
             // text_usuario
             // 
+            this.text_usuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.text_usuario.Location = new System.Drawing.Point(161, 25);
             this.text_usuario.Name = "text_usuario";
             this.text_usuario.Size = new System.Drawing.Size(242, 30);
@@ -154,6 +156,7 @@
             // 
             // cmb_roles
             // 
+            this.cmb_roles.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmb_roles.FormattingEnabled = true;
             this.cmb_roles.Location = new System.Drawing.Point(119, 70);
             this.cmb_roles.Name = "cmb_roles";
@@ -208,18 +211,18 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox grp_login;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_ingresar;
         private System.Windows.Forms.TextBox text_password;
         private System.Windows.Forms.TextBox text_usuario;
         private System.Windows.Forms.Button btn_cancelar;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox grp_rol;
         private System.Windows.Forms.Button btn_volver;
         private System.Windows.Forms.Button btn_aceptar;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cmb_roles;
+        public System.Windows.Forms.GroupBox grp_login;
+        public System.Windows.Forms.GroupBox grp_rol;
 
     }
 }

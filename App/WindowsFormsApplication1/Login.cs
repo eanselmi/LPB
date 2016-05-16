@@ -142,13 +142,25 @@ namespace WindowsFormsApplication1
             con.cnn.Open();
             command = new SqlCommand(query, con.cnn);
             lector = command.ExecuteReader();
+            int cont = 0;            
             while (lector.Read())
             {
                 cmb_roles.Items.Add(lector.GetString(0));
+                cont++;                
             }
             con.cnn.Close();
             text_usuario.Text = "";
             text_password.Text = "";
+            if (cont == 1)
+            {
+                this.Hide();
+                mp.Show();
+                cmb_roles.SelectedIndex = 0;                
+                mp.cargarRoles(cmb_roles.Text, this);
+                grp_rol.Visible = false;
+                grp_login.Visible = true;
+                
+            }
         }
 
         private void text_password_KeyPress(object sender, KeyPressEventArgs e)
@@ -167,9 +179,17 @@ namespace WindowsFormsApplication1
         }
 
         private void btn_aceptar_Click(object sender, EventArgs e)
-        {            
-            this.Hide();
-            mp.Show();
+        {
+            if (cmb_roles.Text == "")
+                MessageBox.Show("Debe seleccionar un Rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            else
+            {            
+                this.Hide();
+                mp.Show();
+                mp.cargarRoles(cmb_roles.Text, this);
+                grp_rol.Visible = false;
+                grp_login.Visible = true;
+            }
         }
       
     }
