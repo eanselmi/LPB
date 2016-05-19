@@ -14,7 +14,7 @@ using conectar;
 using readConfiguracion;
 
 
-namespace WindowsFormsApplication1
+namespace MercadoEnvio
 {
     public partial class Menu : Form
     {
@@ -99,6 +99,25 @@ namespace WindowsFormsApplication1
             this.Close();
             log.Show();
             log.Refresh();
+        }
+
+        private void altaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+            Abm_Rol.ABMRol abmrol = new Abm_Rol.ABMRol("A");
+            abmrol.Show();
+        }
+
+        private void bajaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Abm_Rol.BuscarRol buscarRol = new Abm_Rol.BuscarRol("B");
+            buscarRol.Show();
+        }
+
+        private void modificarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Abm_Rol.BuscarRol buscarRolMod = new Abm_Rol.BuscarRol("M");
+            buscarRolMod.Show();
         }
     }
 }

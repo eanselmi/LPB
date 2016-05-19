@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace MercadoEnvio
 {
     partial class Menu
     {
@@ -129,18 +129,21 @@
             this.altaToolStripMenuItem.Name = "altaToolStripMenuItem";
             this.altaToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.altaToolStripMenuItem.Text = "Alta";
+            this.altaToolStripMenuItem.Click += new System.EventHandler(this.altaToolStripMenuItem_Click);
             // 
             // bajaToolStripMenuItem
             // 
             this.bajaToolStripMenuItem.Name = "bajaToolStripMenuItem";
             this.bajaToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.bajaToolStripMenuItem.Text = "Baja";
+            this.bajaToolStripMenuItem.Click += new System.EventHandler(this.bajaToolStripMenuItem_Click);
             // 
             // modificarToolStripMenuItem
             // 
             this.modificarToolStripMenuItem.Name = "modificarToolStripMenuItem";
             this.modificarToolStripMenuItem.Size = new System.Drawing.Size(159, 30);
             this.modificarToolStripMenuItem.Text = "Modificar";
+            this.modificarToolStripMenuItem.Click += new System.EventHandler(this.modificarToolStripMenuItem_Click);
             // 
             // usuariosToolStripMenuItem
             // 
@@ -278,7 +281,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::WindowsFormsApplication1.Properties.Resources.Fondo1;
+            this.BackgroundImage = global::MercadoEnvio.Properties.Resources.Fondo1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1515, 678);
             this.Controls.Add(this.menuStrip1);

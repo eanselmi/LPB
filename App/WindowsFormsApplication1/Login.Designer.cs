@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApplication1
+﻿namespace MercadoEnvio
 {
     partial class Login
     {
@@ -191,7 +191,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::WindowsFormsApplication1.Properties.Resources.Fondo1;
+            this.BackgroundImage = global::MercadoEnvio.Properties.Resources.Fondo1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1260, 731);
             this.Controls.Add(this.grp_rol);

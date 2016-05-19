@@ -7,8 +7,8 @@
     <ProjectGuid>{DC2F8B5F-0A5A-49AA-A29A-D0DEB02B45E0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WindowsFormsApplication1</RootNamespace>
-    <AssemblyName>WindowsFormsApplication1</AssemblyName>
+    <RootNamespace>MercadoEnvio</RootNamespace>
+    <AssemblyName>MercadoEnvio</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -44,11 +44,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ABM Rol\Form1.cs">
+    <Compile Include="ABM Rol\ABMRol.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Rol\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ABM Rol\ABMRol.Designer.cs">
+      <DependentUpon>ABMRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\BuscarRol.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\BuscarRol.Designer.cs">
+      <DependentUpon>BuscarRol.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Rubro\Form1.cs">
       <SubType>Form</SubType>
@@ -121,6 +127,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ABM Rol\ABMRol.resx">
+      <DependentUpon>ABMRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\BuscarRol.resx">
+      <DependentUpon>BuscarRol.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>

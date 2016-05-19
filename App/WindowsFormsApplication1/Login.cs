@@ -13,7 +13,7 @@ using Helper;
 using conectar;
 using readConfiguracion;
 
-namespace WindowsFormsApplication1
+namespace MercadoEnvio
 {
     public partial class Login : Form
     {
