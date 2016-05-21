@@ -10,26 +10,19 @@ using System.Windows.Forms;
 
 namespace MercadoEnvio.ABM_Usuario
 {
-    public partial class ABM_Usuario : Form
+    public partial class ABM_Usuario_A : Form
     {
-        public ABM_Usuario()
+
+        public ABM_Usuario_A()
         {
             InitializeComponent();
         }
 
-        private void ABM_Usuario_Load(object sender, EventArgs e)
+        private void ABM_Usuario_A_Load(object sender, EventArgs e)
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.TopMost = true;
         }
-
-        private void btn_Alta_Click(object sender, EventArgs e)
-        {
-            this.grp_ABM.Visible = false;
-            this.grp_Alta.Visible = true;
-        }
-
-
     }
 }

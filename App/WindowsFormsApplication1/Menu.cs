@@ -13,13 +13,12 @@ using Helper;
 using conectar;
 using readConfiguracion;
 
-
 namespace MercadoEnvio
 {
     public partial class Menu : Form
     {
 
-        public Login log;
+        public Login log;       
         public Menu()
         {
             InitializeComponent();
@@ -118,6 +117,12 @@ namespace MercadoEnvio
         {
             Abm_Rol.BuscarRol buscarRolMod = new Abm_Rol.BuscarRol("M");
             buscarRolMod.Show();
+        }
+
+        private void altaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ABM_Usuario.ABM_Usuario_A abmUsuariosAlta = new ABM_Usuario.ABM_Usuario_A();
+            abmUsuariosAlta.Show();
         }
     }
 }

@@ -62,11 +62,23 @@
     <Compile Include="ABM Rubro\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Usuario\ABM_Usuario.cs">
+    <Compile Include="ABM Usuario\ABM_Usuario_A.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Usuario\ABM_Usuario.Designer.cs">
-      <DependentUpon>ABM_Usuario.cs</DependentUpon>
+    <Compile Include="ABM Usuario\ABM_Usuario_A.Designer.cs">
+      <DependentUpon>ABM_Usuario_A.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Usuario\ABM_Usuario_B.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Usuario\ABM_Usuario_B.Designer.cs">
+      <DependentUpon>ABM_Usuario_B.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Usuario\ABM_Usuario_M.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Usuario\ABM_Usuario_M.Designer.cs">
+      <DependentUpon>ABM_Usuario_M.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Visibilidad\Form1.cs">
       <SubType>Form</SubType>
@@ -136,8 +148,8 @@
     <EmbeddedResource Include="ABM Rubro\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Usuario\ABM_Usuario.resx">
-      <DependentUpon>ABM_Usuario.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Usuario\ABM_Usuario_A.resx">
+      <DependentUpon>ABM_Usuario_A.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
