@@ -100,6 +100,7 @@ pass VARCHAR(100) NOT NULL,
 habilitado BIT DEFAULT 1,
 cantIntentosFallidos INT DEFAULT 0,
 nuevo BIT DEFAULT 1,
+fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 PRIMARY KEY(id));
 GO
 
@@ -164,7 +165,6 @@ dpto nvarchar(50),
 codPostal nvarchar(50) NOT NULL,
 rubro nvarchar(100) NULL,
 nombreContacto nvarchar(100),
-fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
 PRIMARY KEY(id));
@@ -182,7 +182,6 @@ nroCalle NUMERIC(18,0) NOT NULL,
 piso NUMERIC(18,0) NOT NULL,
 dpto NVARCHAR(50),
 codPostal NVARCHAR(50) NOT NULL,
-fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 Localidad_id INT, 
 Usuario_id INT NOT NULL,
 PRIMARY KEY(ID));
