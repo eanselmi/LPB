@@ -100,6 +100,7 @@ pass VARCHAR(100) NOT NULL,
 habilitado BIT DEFAULT 1,
 cantIntentosFallidos INT DEFAULT 0,
 nuevo BIT DEFAULT 1,
+fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 PRIMARY KEY(id));
 GO
 
@@ -164,7 +165,6 @@ dpto nvarchar(50),
 codPostal nvarchar(50) NOT NULL,
 rubro nvarchar(100) NULL,
 nombreContacto nvarchar(100),
-fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
 PRIMARY KEY(id));
@@ -182,7 +182,6 @@ nroCalle NUMERIC(18,0) NOT NULL,
 piso NUMERIC(18,0) NOT NULL,
 dpto NVARCHAR(50),
 codPostal NVARCHAR(50) NOT NULL,
-fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
 Localidad_id INT, 
 Usuario_id INT NOT NULL,
 PRIMARY KEY(ID));
@@ -692,4 +691,144 @@ select distinct M1.Oferta_Fecha,
 	from gd_esquema.Maestra M1
 	where M1.Oferta_Fecha is not null
 	and M1.Compra_Fecha is null
+COMMIT;
+
+
+/*Agrego localidades*/
+BEGIN TRANSACTION
+Insert into LPB.Localidades(descripcion) values('25 de Mayo');
+Insert into LPB.Localidades(descripcion) values('9 de Julio');
+Insert into LPB.Localidades(descripcion) values('Adolfo Alsina');
+Insert into LPB.Localidades(descripcion) values('Adolfo Gonzales Chaves');
+Insert into LPB.Localidades(descripcion) values('Alberti');
+Insert into LPB.Localidades(descripcion) values('Almirante Brown');
+Insert into LPB.Localidades(descripcion) values('Arrecifes');
+Insert into LPB.Localidades(descripcion) values('Avellaneda');
+Insert into LPB.Localidades(descripcion) values('Ayacucho');
+Insert into LPB.Localidades(descripcion) values('Azul');
+Insert into LPB.Localidades(descripcion) values('Bahía Blanca');
+Insert into LPB.Localidades(descripcion) values('Balcarce');
+Insert into LPB.Localidades(descripcion) values('Baradero');
+Insert into LPB.Localidades(descripcion) values('Benito Juárez');
+Insert into LPB.Localidades(descripcion) values('Berazategui');
+Insert into LPB.Localidades(descripcion) values('Berisso');
+Insert into LPB.Localidades(descripcion) values('Bolívar');
+Insert into LPB.Localidades(descripcion) values('Bragado');
+Insert into LPB.Localidades(descripcion) values('Brandsen');
+Insert into LPB.Localidades(descripcion) values('CABA (Ciudad Autónoma de Buenos Aires)');
+Insert into LPB.Localidades(descripcion) values('Cañuelas');
+Insert into LPB.Localidades(descripcion) values('Campana');
+Insert into LPB.Localidades(descripcion) values('Capitán Sarmiento');
+Insert into LPB.Localidades(descripcion) values('Carlos Casares');
+Insert into LPB.Localidades(descripcion) values('Carlos Tejedor');
+Insert into LPB.Localidades(descripcion) values('Carmen de Areco');
+Insert into LPB.Localidades(descripcion) values('Castelli');
+Insert into LPB.Localidades(descripcion) values('Chacabuco');
+Insert into LPB.Localidades(descripcion) values('Chascomús');
+Insert into LPB.Localidades(descripcion) values('Chivilcoy');
+Insert into LPB.Localidades(descripcion) values('Colón');
+Insert into LPB.Localidades(descripcion) values('Coronel de Marina L. Rosales');
+Insert into LPB.Localidades(descripcion) values('Coronel Dorrego');
+Insert into LPB.Localidades(descripcion) values('Coronel Pringles');
+Insert into LPB.Localidades(descripcion) values('Coronel Suárez');
+Insert into LPB.Localidades(descripcion) values('Daireaux');
+Insert into LPB.Localidades(descripcion) values('Dolores');
+Insert into LPB.Localidades(descripcion) values('Ensenada');
+Insert into LPB.Localidades(descripcion) values('Escobar');
+Insert into LPB.Localidades(descripcion) values('Esteban Echeverría');
+Insert into LPB.Localidades(descripcion) values('Exaltación de la Cruz');
+Insert into LPB.Localidades(descripcion) values('Ezeiza');
+Insert into LPB.Localidades(descripcion) values('Florencio Varela');
+Insert into LPB.Localidades(descripcion) values('Florentino Ameghino');
+Insert into LPB.Localidades(descripcion) values('General Alvarado');
+Insert into LPB.Localidades(descripcion) values('General Alvear');
+Insert into LPB.Localidades(descripcion) values('General Arenales');
+Insert into LPB.Localidades(descripcion) values('General Belgrano');
+Insert into LPB.Localidades(descripcion) values('General Guido');
+Insert into LPB.Localidades(descripcion) values('General Juan Madariaga');
+Insert into LPB.Localidades(descripcion) values('General La Madrid');
+Insert into LPB.Localidades(descripcion) values('General Las Heras');
+Insert into LPB.Localidades(descripcion) values('General Lavalle');
+Insert into LPB.Localidades(descripcion) values('General Paz');
+Insert into LPB.Localidades(descripcion) values('General Pinto');
+Insert into LPB.Localidades(descripcion) values('General Pueyrredón');
+Insert into LPB.Localidades(descripcion) values('General Rodríguez');
+Insert into LPB.Localidades(descripcion) values('General San Martín');
+Insert into LPB.Localidades(descripcion) values('General Viamonte');
+Insert into LPB.Localidades(descripcion) values('General Villegas');
+Insert into LPB.Localidades(descripcion) values('Guaminí');
+Insert into LPB.Localidades(descripcion) values('Hipólito Yrigoyen');
+Insert into LPB.Localidades(descripcion) values('Hurlingham');
+Insert into LPB.Localidades(descripcion) values('Ituzaingó');
+Insert into LPB.Localidades(descripcion) values('José C. Paz');
+Insert into LPB.Localidades(descripcion) values('Junín');
+Insert into LPB.Localidades(descripcion) values('La Costa');
+Insert into LPB.Localidades(descripcion) values('La Matanza');
+Insert into LPB.Localidades(descripcion) values('La Plata');
+Insert into LPB.Localidades(descripcion) values('Lanús');
+Insert into LPB.Localidades(descripcion) values('Laprida');
+Insert into LPB.Localidades(descripcion) values('Las Flores');
+Insert into LPB.Localidades(descripcion) values('Leandro N. Alem');
+Insert into LPB.Localidades(descripcion) values('Lincoln');
+Insert into LPB.Localidades(descripcion) values('Lobería');
+Insert into LPB.Localidades(descripcion) values('Lobos');
+Insert into LPB.Localidades(descripcion) values('Lomas de Zamora');
+Insert into LPB.Localidades(descripcion) values('Luján');
+Insert into LPB.Localidades(descripcion) values('Magdalena');
+Insert into LPB.Localidades(descripcion) values('Maipú');
+Insert into LPB.Localidades(descripcion) values('Malvinas Argentinas');
+Insert into LPB.Localidades(descripcion) values('Mar Chiquita');
+Insert into LPB.Localidades(descripcion) values('Marcos Paz');
+Insert into LPB.Localidades(descripcion) values('Mercedes');
+Insert into LPB.Localidades(descripcion) values('Merlo');
+Insert into LPB.Localidades(descripcion) values('Monte');
+Insert into LPB.Localidades(descripcion) values('Monte Hermoso');
+Insert into LPB.Localidades(descripcion) values('Morón');
+Insert into LPB.Localidades(descripcion) values('Moreno');
+Insert into LPB.Localidades(descripcion) values('Navarro');
+Insert into LPB.Localidades(descripcion) values('Necochea');
+Insert into LPB.Localidades(descripcion) values('Olavarría');
+Insert into LPB.Localidades(descripcion) values('Patagones');
+Insert into LPB.Localidades(descripcion) values('Pehuajó');
+Insert into LPB.Localidades(descripcion) values('Pellegrini');
+Insert into LPB.Localidades(descripcion) values('Pergamino');
+Insert into LPB.Localidades(descripcion) values('Pila');
+Insert into LPB.Localidades(descripcion) values('Pilar');
+Insert into LPB.Localidades(descripcion) values('Pinamar');
+Insert into LPB.Localidades(descripcion) values('Presidente Perón');
+Insert into LPB.Localidades(descripcion) values('Puán');
+Insert into LPB.Localidades(descripcion) values('Punta Indio');
+Insert into LPB.Localidades(descripcion) values('Quilmes');
+Insert into LPB.Localidades(descripcion) values('Ramallo');
+Insert into LPB.Localidades(descripcion) values('Rauch');
+Insert into LPB.Localidades(descripcion) values('Rivadavia');
+Insert into LPB.Localidades(descripcion) values('Rojas');
+Insert into LPB.Localidades(descripcion) values('Roque Pérez');
+Insert into LPB.Localidades(descripcion) values('Saavedra');
+Insert into LPB.Localidades(descripcion) values('Saladillo');
+Insert into LPB.Localidades(descripcion) values('Salliqueló');
+Insert into LPB.Localidades(descripcion) values('Salto');
+Insert into LPB.Localidades(descripcion) values('San Andrés de Giles');
+Insert into LPB.Localidades(descripcion) values('San Antonio de Areco');
+Insert into LPB.Localidades(descripcion) values('San Cayetano');
+Insert into LPB.Localidades(descripcion) values('San Fernando');
+Insert into LPB.Localidades(descripcion) values('San Isidro');
+Insert into LPB.Localidades(descripcion) values('San Miguel');
+Insert into LPB.Localidades(descripcion) values('San Nicolás');
+Insert into LPB.Localidades(descripcion) values('San Pedro');
+Insert into LPB.Localidades(descripcion) values('San Vicente');
+Insert into LPB.Localidades(descripcion) values('Suipacha');
+Insert into LPB.Localidades(descripcion) values('Tandil');
+Insert into LPB.Localidades(descripcion) values('Tapalqué');
+Insert into LPB.Localidades(descripcion) values('Tigre');
+Insert into LPB.Localidades(descripcion) values('Tordillo');
+Insert into LPB.Localidades(descripcion) values('Tornquist');
+Insert into LPB.Localidades(descripcion) values('Trenque Lauquen');
+Insert into LPB.Localidades(descripcion) values('Tres Arroyos');
+Insert into LPB.Localidades(descripcion) values('Tres de Febrero');
+Insert into LPB.Localidades(descripcion) values('Tres Lomas');
+Insert into LPB.Localidades(descripcion) values('Vicente López');
+Insert into LPB.Localidades(descripcion) values('Villa Gesell');
+Insert into LPB.Localidades(descripcion) values('Villarino');
+Insert into LPB.Localidades(descripcion) values('Zárate');
 COMMIT;
