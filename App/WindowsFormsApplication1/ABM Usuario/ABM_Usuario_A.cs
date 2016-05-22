@@ -90,6 +90,43 @@ namespace MercadoEnvio.ABM_Usuario
             textBoxFechaNac.Text = monthCalendar1.SelectionStart.Date.ToShortDateString();
         }
 
+        private void buttonGuardar_Click(object sender, EventArgs e)
+        {
+            if (comboBoxRol.Text.Equals("Cliente"))
+            {
+                // VALIDACION DE CAMPOS OBLIGATORIOS
+
+                if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals("")
+                    || textBoxNombre.Text.Equals("") || textBoxApellido.Text.Equals("") || textBoxMail.Text.Equals("")
+                    || textBoxTelefono.Text.Equals("") || textBoxCalleCl.Text.Equals("") || textBoxCodPostCl.Text.Equals("")
+                    || textBoxNumeroDoc.Text.Equals("") || comboBoxTipoDoc.Text.Equals("") || textBoxNroCl.Text.Equals("")
+                    || comboBoxLocalidades.Text.Equals("") || textBoxPisoCl.Text.Equals("") || textBoxFechaNac.Text.Equals("")
+                    ) 
+                {
+                    MessageBox.Show("Campos obligatorios vacios", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                //VALIDACION DE CONFIRMAR PASSWORD
+                if (!(textBoxPass.Text.Equals(textBoxConfirmarPass.Text)))
+                {
+                      MessageBox.Show("Los campos Password y Confirmar Password no coinciden", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                return;
+            }
+
+            if (comboBoxRol.Text.Equals("Empresa"))
+            {
+                if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals(""))
+                {
+                    MessageBox.Show("Campos obligatorios vacios", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                } 
+                return;
+            }
+            MessageBox.Show("Seleccione tipo de usuario: Cliente o Empresa", "Error al guardar usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+           
+        }
+
  
     }
 }

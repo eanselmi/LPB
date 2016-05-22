@@ -37,6 +37,7 @@
             this.buttonSalir = new System.Windows.Forms.Button();
             this.buttonGuardar = new System.Windows.Forms.Button();
             this.groupBoxCliente = new System.Windows.Forms.GroupBox();
+            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.comboBoxTipoDoc = new System.Windows.Forms.ComboBox();
             this.textBoxFechaNac = new System.Windows.Forms.TextBox();
             this.comboBoxLocalidades = new System.Windows.Forms.ComboBox();
@@ -50,7 +51,7 @@
             this.textBoxCalleCl = new System.Windows.Forms.TextBox();
             this.textBoxTelefono = new System.Windows.Forms.TextBox();
             this.textBoxMail = new System.Windows.Forms.TextBox();
-            this.textBoxDNI = new System.Windows.Forms.TextBox();
+            this.textBoxNumeroDoc = new System.Windows.Forms.TextBox();
             this.textBoxApellido = new System.Windows.Forms.TextBox();
             this.textBoxNombre = new System.Windows.Forms.TextBox();
             this.labelCodPostal = new System.Windows.Forms.Label();
@@ -66,7 +67,6 @@
             this.labelNumDoc = new System.Windows.Forms.Label();
             this.labelApellido = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.groupBoxEmpresa = new System.Windows.Forms.GroupBox();
             this.comboBoxRubro = new System.Windows.Forms.ComboBox();
             this.labelRubro = new System.Windows.Forms.Label();
@@ -130,6 +130,7 @@
             // 
             this.textBoxPass.Location = new System.Drawing.Point(75, 38);
             this.textBoxPass.Name = "textBoxPass";
+            this.textBoxPass.PasswordChar = '*';
             this.textBoxPass.Size = new System.Drawing.Size(79, 20);
             this.textBoxPass.TabIndex = 3;
             // 
@@ -173,9 +174,11 @@
             this.buttonGuardar.TabIndex = 7;
             this.buttonGuardar.Text = "Guardar";
             this.buttonGuardar.UseVisualStyleBackColor = true;
+            this.buttonGuardar.Click += new System.EventHandler(this.buttonGuardar_Click);
             // 
             // groupBoxCliente
             // 
+            this.groupBoxCliente.Controls.Add(this.monthCalendar1);
             this.groupBoxCliente.Controls.Add(this.comboBoxTipoDoc);
             this.groupBoxCliente.Controls.Add(this.textBoxFechaNac);
             this.groupBoxCliente.Controls.Add(this.comboBoxLocalidades);
@@ -189,7 +192,7 @@
             this.groupBoxCliente.Controls.Add(this.textBoxCalleCl);
             this.groupBoxCliente.Controls.Add(this.textBoxTelefono);
             this.groupBoxCliente.Controls.Add(this.textBoxMail);
-            this.groupBoxCliente.Controls.Add(this.textBoxDNI);
+            this.groupBoxCliente.Controls.Add(this.textBoxNumeroDoc);
             this.groupBoxCliente.Controls.Add(this.textBoxApellido);
             this.groupBoxCliente.Controls.Add(this.textBoxNombre);
             this.groupBoxCliente.Controls.Add(this.labelCodPostal);
@@ -205,7 +208,6 @@
             this.groupBoxCliente.Controls.Add(this.labelNumDoc);
             this.groupBoxCliente.Controls.Add(this.labelApellido);
             this.groupBoxCliente.Controls.Add(this.labelNombre);
-            this.groupBoxCliente.Controls.Add(this.monthCalendar1);
             this.groupBoxCliente.Location = new System.Drawing.Point(3, 99);
             this.groupBoxCliente.Name = "groupBoxCliente";
             this.groupBoxCliente.Size = new System.Drawing.Size(376, 292);
@@ -214,8 +216,17 @@
             this.groupBoxCliente.Text = "Datos del cliente";
             this.groupBoxCliente.Visible = false;
             // 
+            // monthCalendar1
+            // 
+            this.monthCalendar1.Location = new System.Drawing.Point(109, 85);
+            this.monthCalendar1.Name = "monthCalendar1";
+            this.monthCalendar1.TabIndex = 14;
+            this.monthCalendar1.Visible = false;
+            this.monthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateSelected);
+            // 
             // comboBoxTipoDoc
             // 
+            this.comboBoxTipoDoc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxTipoDoc.FormattingEnabled = true;
             this.comboBoxTipoDoc.Items.AddRange(new object[] {
             "DNI",
@@ -318,12 +329,12 @@
             this.textBoxMail.Size = new System.Drawing.Size(91, 20);
             this.textBoxMail.TabIndex = 17;
             // 
-            // textBoxDNI
+            // textBoxNumeroDoc
             // 
-            this.textBoxDNI.Location = new System.Drawing.Point(267, 64);
-            this.textBoxDNI.Name = "textBoxDNI";
-            this.textBoxDNI.Size = new System.Drawing.Size(94, 20);
-            this.textBoxDNI.TabIndex = 16;
+            this.textBoxNumeroDoc.Location = new System.Drawing.Point(267, 64);
+            this.textBoxNumeroDoc.Name = "textBoxNumeroDoc";
+            this.textBoxNumeroDoc.Size = new System.Drawing.Size(94, 20);
+            this.textBoxNumeroDoc.TabIndex = 16;
             // 
             // textBoxApellido
             // 
@@ -455,14 +466,6 @@
             this.labelNombre.Size = new System.Drawing.Size(54, 13);
             this.labelNombre.TabIndex = 0;
             this.labelNombre.Text = "*Nombre: ";
-            // 
-            // monthCalendar1
-            // 
-            this.monthCalendar1.Location = new System.Drawing.Point(109, 85);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 14;
-            this.monthCalendar1.Visible = false;
-            this.monthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateSelected);
             // 
             // groupBoxEmpresa
             // 
@@ -717,6 +720,7 @@
             // 
             this.textBoxConfirmarPass.Location = new System.Drawing.Point(286, 38);
             this.textBoxConfirmarPass.Name = "textBoxConfirmarPass";
+            this.textBoxConfirmarPass.PasswordChar = '*';
             this.textBoxConfirmarPass.Size = new System.Drawing.Size(79, 20);
             this.textBoxConfirmarPass.TabIndex = 10;
             // 
@@ -802,7 +806,7 @@
         private System.Windows.Forms.TextBox textBoxCalleCl;
         private System.Windows.Forms.TextBox textBoxTelefono;
         private System.Windows.Forms.TextBox textBoxMail;
-        private System.Windows.Forms.TextBox textBoxDNI;
+        private System.Windows.Forms.TextBox textBoxNumeroDoc;
         private System.Windows.Forms.TextBox textBoxApellido;
         private System.Windows.Forms.TextBox textBoxNombre;
         private System.Windows.Forms.TextBox textBoxLocalidadCl;
