@@ -2,7 +2,7 @@ USE [GD1C2016]
 
 IF NOT EXISTS (
 	SELECT  schema_name
-	FROM        information_schema.SCHEMATA
+	FROM    information_schema.SCHEMATA
 	WHERE   schema_name = 'LPB' )
 BEGIN
 	EXEC sp_executesql N'CREATE SCHEMA LPB '
@@ -90,6 +90,7 @@ BEGIN
         DROP TABLE LPB.Visibilidades ;
 END;
 COMMIT;
+
 /*---------Definiciones de Tabla-------------*/
 
 CREATE TABLE [LPB].Usuarios(
@@ -328,6 +329,24 @@ ALTER TABLE LPB.Ofertas ADD
 		FOREIGN KEY (Calificacion_cod) references LPB.Calificaciones;
 GO
 
+/*---------- Limpieza de Procedures ------------*/
+
+IF OBJECT_ID('LPB.SP_Baja_Rol') IS NOT NULL
+BEGIN
+    DROP PROCEDURE LPB.SP_Baja_Rol
+END;
+GO
+
+/*-------------- Definiciones de Stored Procedures ----------------*/
+
+CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
+AS BEGIN
+UPDATE lpb.roles SET habilitado = 0 WHERE nombre = @rol
+DELETE lpb.funcionalidadesPorRol WHERE Rol_id = @id
+DELETE lpb.RolesPorUsuario WHERE Rol_id = @id
+END
+GO
+
 /* Declaración de variables */
 
 DECLARE @DocumentoCodigo_Dni VARCHAR(10) = 'DNI'
@@ -439,7 +458,7 @@ COMMIT;
 
 /* Creación/Migración a la par de Empresas */
 BEGIN TRANSACTION
-INSERT INTO LPB.Empresas (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto, piso, codPostal, fechaCreacion, Usuario_id)	
+INSERT INTO LPB.Empresas (razonSocial, cuit, mail, domicilioCalle, nroCalle, dpto, piso, codPostal, Usuario_id)	
 SELECT DISTINCT [Publ_Empresa_Razon_Social],
 	            [Publ_Empresa_Cuit],
 				[Publ_Empresa_Mail],
@@ -447,8 +466,7 @@ SELECT DISTINCT [Publ_Empresa_Razon_Social],
 			    [Publ_Empresa_Nro_Calle],
 			    [Publ_Empresa_Depto],
 				[Publ_Empresa_Piso],
-			    [Publ_Empresa_Cod_Postal],
-				[Publ_Empresa_Fecha_Creacion],
+			    [Publ_Empresa_Cod_Postal],				
 				--Usuarios.id
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-',''))
 FROM [gd_esquema].[Maestra]
