@@ -27,8 +27,6 @@ namespace MercadoEnvio.Abm_Rol
 
                 text_rol.Text = evento;
                 checkBox_habilitado.Visible = true;
-                //text_rol.Enabled = false;
-
             }
             else
             {
@@ -139,15 +137,7 @@ namespace MercadoEnvio.Abm_Rol
                 btn_grabar.Enabled = false;
                 btn_seleccionar_todo.Enabled = false;
                 btn_limpiar.Enabled = false;
-                //  foreach (int i in checkedList_funciones.CheckedIndices)
-                // {
-                //     checkedList_funciones.SetItemCheckState(i, CheckState.Unchecked);
-                // }
-
                 checkedList_funciones.Enabled = false;
-
-
-
             }
         }
 
@@ -218,8 +208,6 @@ namespace MercadoEnvio.Abm_Rol
                     SqlCommand command2 = new SqlCommand(query, con.cnn);
                     command2.ExecuteNonQuery();
                     con.cnn.Close();
-
-
                 }
                 MessageBox.Show("Rol Creado Correctamente", "Operacion Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
@@ -233,9 +221,6 @@ namespace MercadoEnvio.Abm_Rol
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.TopMost = true;
-
-            //this.FormBorderStyle = FormBorderStyle.None;
-            //this.Anchor = AnchorStyles.None;
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
