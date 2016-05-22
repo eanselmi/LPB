@@ -17,7 +17,7 @@ namespace MercadoEnvio
 {
     public partial class Login : Form
     {
-        public Menu mp = new Menu();
+        
         public int intFallidos;
         public bool userHabilitado;
         public string pass = "";
@@ -128,15 +128,12 @@ namespace MercadoEnvio
             }
             
             text_usuario.Focus();
-            //this.Hide();
-            //Cargar el menu que aun no hice
-            //mp.Show();
-            //mp.cargarUsuario(text_usuario.Text, this);            
-            //MessageBox.Show("Ingreso Correcto, te debo el menu", "Inicio de sesion exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
             grp_login.Visible = false;
             grp_rol.Visible = true;
             
             /*CARGA LOS ROLES DEL USUARIO EN EL COMBOBOX*/
+            cmb_roles.Items.Clear();
             query = "select r.nombre from lpb.Usuarios u, lpb.RolesPorUsuario rxu, lpb.Roles r "+
                     "where u.id = rxu.Usuario_id and rxu.Rol_id=r.id and u.username= "+ "'" + text_usuario.Text + "'";            
             con.cnn.Open();
@@ -153,12 +150,13 @@ namespace MercadoEnvio
             text_password.Text = "";
             if (cont == 1)
             {
+                Menu mp = new Menu();
                 this.Hide();
                 mp.Show();
                 cmb_roles.SelectedIndex = 0;                
                 mp.cargarRoles(cmb_roles.Text, this);
                 grp_rol.Visible = false;
-                grp_login.Visible = true;
+                grp_login.Visible = true;                
                 
             }
         }
@@ -183,7 +181,8 @@ namespace MercadoEnvio
             if (cmb_roles.Text == "")
                 MessageBox.Show("Debe seleccionar un Rol", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             else
-            {            
+            {
+                Menu mp = new Menu();
                 this.Hide();
                 mp.Show();
                 mp.cargarRoles(cmb_roles.Text, this);

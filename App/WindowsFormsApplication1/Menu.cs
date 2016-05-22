@@ -29,6 +29,7 @@ namespace MercadoEnvio
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.TopMost = true;
+            
         }
 
         public void cargarRoles(string rol, Login form)
@@ -98,6 +99,7 @@ namespace MercadoEnvio
             this.Close();
             log.Show();
             log.Refresh();
+            
         }
 
         private void altaToolStripMenuItem_Click(object sender, EventArgs e)
