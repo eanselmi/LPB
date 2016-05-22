@@ -27,5 +27,14 @@ namespace Helper
             }
             return hash;
         }
+        public static List<string> generarListaParaProcedure(params Object[] parametros)
+        {
+            List<string> lista = new List<string>();
+            for (int i = 0; i < parametros.Length; i++)
+            {
+                lista.Add(parametros[i].ToString());
+            }
+            return lista;
+        }
     }
 }

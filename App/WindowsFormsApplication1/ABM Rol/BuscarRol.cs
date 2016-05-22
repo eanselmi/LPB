@@ -65,23 +65,15 @@ namespace MercadoEnvio.Abm_Rol
         private void button1_Click(object sender, EventArgs e)
         {
             if (evento == "B")
-            {
-                Conexion con = new Conexion();
-                string query = "UPDATE lpb.roles SET habilitado = 0 WHERE nombre = '" + combo_funciones.Text + "'";
-                con.cnn.Open();
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                command.ExecuteNonQuery();
-                con.cnn.Close();
-
-                Int32 id_rol = getIdRol(combo_funciones.Text);
-                query = "DELETE lpb.funcionalidadesPorRol WHERE Rol_id = " + id_rol + "";
-                con.cnn.Open();
-                SqlCommand command2 = new SqlCommand(query, con.cnn);
-                command2.ExecuteNonQuery();
-                con.cnn.Close();
-
-                
-                MessageBox.Show("Rol Eliminado Correctamente", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            {                
+                Conexion cn = new Conexion();
+                cn.cnn.Open();
+                bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Baja_Rol", Helper.Help.generarListaParaProcedure("@rol", "@id"), this.combo_funciones.Text, getIdRol(combo_funciones.Text));
+                if (resultado)
+                    MessageBox.Show("Rol Eliminado Correctamente", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("El rol no pudo ser eliminado", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cn.cnn.Close();
                 this.Close();
             }
             else
