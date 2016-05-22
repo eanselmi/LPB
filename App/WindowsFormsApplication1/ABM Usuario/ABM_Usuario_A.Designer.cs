@@ -144,6 +144,7 @@
             // 
             // comboBoxRol
             // 
+            this.comboBoxRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRol.FormattingEnabled = true;
             this.comboBoxRol.Items.AddRange(new object[] {
             "Cliente",
@@ -234,6 +235,7 @@
             // 
             // comboBoxLocalidades
             // 
+            this.comboBoxLocalidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLocalidades.FormattingEnabled = true;
             this.comboBoxLocalidades.Location = new System.Drawing.Point(118, 215);
             this.comboBoxLocalidades.Name = "comboBoxLocalidades";
@@ -500,6 +502,7 @@
             // 
             // comboBoxRubro
             // 
+            this.comboBoxRubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRubro.FormattingEnabled = true;
             this.comboBoxRubro.Location = new System.Drawing.Point(86, 112);
             this.comboBoxRubro.Name = "comboBoxRubro";
@@ -570,6 +573,7 @@
             // 
             // comboBoxLocalidadEmpr
             // 
+            this.comboBoxLocalidadEmpr.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLocalidadEmpr.FormattingEnabled = true;
             this.comboBoxLocalidadEmpr.Location = new System.Drawing.Point(124, 235);
             this.comboBoxLocalidadEmpr.Name = "comboBoxLocalidadEmpr";
@@ -742,7 +746,6 @@
             this.Controls.Add(this.labelCamposObligatorios);
             this.Controls.Add(this.textBoxConfirmarPass);
             this.Controls.Add(this.labelConfirmarPass);
-            this.Controls.Add(this.groupBoxEmpresa);
             this.Controls.Add(this.buttonGuardar);
             this.Controls.Add(this.buttonSalir);
             this.Controls.Add(this.comboBoxRol);
@@ -752,6 +755,7 @@
             this.Controls.Add(this.labelPass);
             this.Controls.Add(this.labelUser);
             this.Controls.Add(this.groupBoxCliente);
+            this.Controls.Add(this.groupBoxEmpresa);
             this.Name = "ABM_Usuario_A";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alta de un usuario";

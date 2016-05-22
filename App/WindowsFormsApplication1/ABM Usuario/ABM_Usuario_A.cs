@@ -59,6 +59,7 @@ namespace MercadoEnvio.ABM_Usuario
 
         private void comboBoxRol_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             if (comboBoxRol.Text.Equals("Cliente"))
             {
                 groupBoxCliente.Visible = true;
