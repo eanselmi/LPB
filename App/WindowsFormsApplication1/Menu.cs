@@ -126,5 +126,11 @@ namespace MercadoEnvio
             ABM_Usuario.ABM_Usuario_A abmUsuariosAlta = new ABM_Usuario.ABM_Usuario_A();
             abmUsuariosAlta.Show();
         }
+
+        private void altaToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ABM_Visibilidad.AltaVisibilidad abmVisibilidadAlta = new ABM_Visibilidad.AltaVisibilidad();
+            abmVisibilidadAlta.Show();
+        }
     }
 }
