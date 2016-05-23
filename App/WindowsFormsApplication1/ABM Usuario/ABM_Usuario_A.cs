@@ -33,8 +33,8 @@ namespace MercadoEnvio.ABM_Usuario
                 comboBoxLocalidades.Items.Add(lector.GetString(0));
                 comboBoxLocalidadEmpr.Items.Add(lector.GetString(0));
             }
-            comboBoxLocalidades.Items.Add("Otra");
-            comboBoxLocalidadEmpr.Items.Add("Otra");
+            //comboBoxLocalidades.Items.Add("Otra");
+            //comboBoxLocalidadEmpr.Items.Add("Otra");
             con.cnn.Close();
 
         }
@@ -280,6 +280,27 @@ namespace MercadoEnvio.ABM_Usuario
                 }
 
                 //SI NO HAY ERRORES PROCEDO CON LA CARGA
+                Conexion cargaUsuario = new Conexion();
+                cargaUsuario.cnn.Open();
+                //CARGA USUARIO
+                bool resultadoUser = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Usuario", 
+                    Helper.Help.generarListaParaProcedure("@tipo", "@username","@pass"),
+                    this.comboBoxRol.Text, this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text));
+                //CARGA CLIENTE
+                bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
+                    Helper.Help.generarListaParaProcedure("@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
+                    "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad", "@user")
+                    , this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
+                    this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
+                    this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text, this.textBoxUser.Text);
+                // Hay que ver que pasa cuando dpto va null//
+                //VERIFICACION ÉXITO POSITIVO
+                if (resultadoUser && resultadoCliente)
+                    MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                cargaUsuario.cnn.Close();
 
                 return;
             }
@@ -327,9 +348,9 @@ namespace MercadoEnvio.ABM_Usuario
             textBoxTelefono.Text = "";
             textBoxTelefonoEmp.Text = "";
             textBoxUser.Text = "";
-            comboBoxLocalidadEmpr.SelectedText = "";
-            comboBoxLocalidades.SelectedText = "";
-            comboBoxTipoDoc.SelectedText = "";
+            comboBoxLocalidades.ResetText();
+            comboBoxLocalidadEmpr.ResetText();
+            comboBoxTipoDoc.ResetText();
         }
 
  
