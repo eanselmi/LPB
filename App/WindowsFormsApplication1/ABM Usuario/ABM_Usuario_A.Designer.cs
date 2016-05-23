@@ -68,7 +68,7 @@
             this.labelApellido = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
             this.groupBoxEmpresa = new System.Windows.Forms.GroupBox();
-            this.comboBoxRubro = new System.Windows.Forms.ComboBox();
+            this.textBoxRubroEmp = new System.Windows.Forms.TextBox();
             this.labelRubro = new System.Windows.Forms.Label();
             this.textBoxNombreContacto = new System.Windows.Forms.TextBox();
             this.textBoxCUIT = new System.Windows.Forms.TextBox();
@@ -97,6 +97,7 @@
             this.textBoxConfirmarPass = new System.Windows.Forms.TextBox();
             this.labelConfirmarPass = new System.Windows.Forms.Label();
             this.labelCamposObligatorios = new System.Windows.Forms.Label();
+            this.buttonLimpiar = new System.Windows.Forms.Button();
             this.groupBoxCliente.SuspendLayout();
             this.groupBoxEmpresa.SuspendLayout();
             this.SuspendLayout();
@@ -158,7 +159,7 @@
             // 
             // buttonSalir
             // 
-            this.buttonSalir.Location = new System.Drawing.Point(229, 397);
+            this.buttonSalir.Location = new System.Drawing.Point(253, 397);
             this.buttonSalir.Name = "buttonSalir";
             this.buttonSalir.Size = new System.Drawing.Size(75, 23);
             this.buttonSalir.TabIndex = 6;
@@ -168,7 +169,7 @@
             // 
             // buttonGuardar
             // 
-            this.buttonGuardar.Location = new System.Drawing.Point(82, 397);
+            this.buttonGuardar.Location = new System.Drawing.Point(49, 397);
             this.buttonGuardar.Name = "buttonGuardar";
             this.buttonGuardar.Size = new System.Drawing.Size(75, 23);
             this.buttonGuardar.TabIndex = 7;
@@ -469,7 +470,7 @@
             // 
             // groupBoxEmpresa
             // 
-            this.groupBoxEmpresa.Controls.Add(this.comboBoxRubro);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxRubroEmp);
             this.groupBoxEmpresa.Controls.Add(this.labelRubro);
             this.groupBoxEmpresa.Controls.Add(this.textBoxNombreContacto);
             this.groupBoxEmpresa.Controls.Add(this.textBoxCUIT);
@@ -503,23 +504,21 @@
             this.groupBoxEmpresa.Text = "Datos de la empresa";
             this.groupBoxEmpresa.Visible = false;
             // 
-            // comboBoxRubro
+            // textBoxRubroEmp
             // 
-            this.comboBoxRubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxRubro.FormattingEnabled = true;
-            this.comboBoxRubro.Location = new System.Drawing.Point(86, 112);
-            this.comboBoxRubro.Name = "comboBoxRubro";
-            this.comboBoxRubro.Size = new System.Drawing.Size(201, 21);
-            this.comboBoxRubro.TabIndex = 67;
+            this.textBoxRubroEmp.Location = new System.Drawing.Point(119, 112);
+            this.textBoxRubroEmp.Name = "textBoxRubroEmp";
+            this.textBoxRubroEmp.Size = new System.Drawing.Size(167, 20);
+            this.textBoxRubroEmp.TabIndex = 67;
             // 
             // labelRubro
             // 
             this.labelRubro.AutoSize = true;
             this.labelRubro.Location = new System.Drawing.Point(6, 115);
             this.labelRubro.Name = "labelRubro";
-            this.labelRubro.Size = new System.Drawing.Size(46, 13);
+            this.labelRubro.Size = new System.Drawing.Size(115, 13);
             this.labelRubro.TabIndex = 66;
-            this.labelRubro.Text = "*Rubro: ";
+            this.labelRubro.Text = "*Rubro de la empresa: ";
             // 
             // textBoxNombreContacto
             // 
@@ -742,11 +741,22 @@
             this.labelCamposObligatorios.TabIndex = 11;
             this.labelCamposObligatorios.Text = "* : Campos Obligatorios";
             // 
+            // buttonLimpiar
+            // 
+            this.buttonLimpiar.Location = new System.Drawing.Point(150, 397);
+            this.buttonLimpiar.Name = "buttonLimpiar";
+            this.buttonLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.buttonLimpiar.TabIndex = 31;
+            this.buttonLimpiar.Text = "Limpiar";
+            this.buttonLimpiar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
+            // 
             // ABM_Usuario_A
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(382, 454);
+            this.Controls.Add(this.buttonLimpiar);
             this.Controls.Add(this.labelCamposObligatorios);
             this.Controls.Add(this.textBoxConfirmarPass);
             this.Controls.Add(this.labelConfirmarPass);
@@ -842,7 +852,8 @@
         private System.Windows.Forms.TextBox textBoxRazonSocial;
         private System.Windows.Forms.TextBox textBoxNombreContacto;
         private System.Windows.Forms.TextBox textBoxCUIT;
-        private System.Windows.Forms.ComboBox comboBoxRubro;
         private System.Windows.Forms.Label labelRubro;
+        private System.Windows.Forms.TextBox textBoxRubroEmp;
+        private System.Windows.Forms.Button buttonLimpiar;
     }
 }

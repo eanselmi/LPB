@@ -37,18 +37,6 @@ namespace MercadoEnvio.ABM_Usuario
             comboBoxLocalidadEmpr.Items.Add("Otra");
             con.cnn.Close();
 
-            /*CARGA LOS RUBROS EN EL COMBOBOX*/
-            Conexion conRub = new Conexion();
-            string queryRubro = "SELECT descripcion FROM lpb.Rubros";
-            conRub.cnn.Open();
-            SqlCommand commandRubro = new SqlCommand(queryRubro, conRub.cnn);
-            SqlDataReader lectorRubro = commandRubro.ExecuteReader();
-            while (lectorRubro.Read())
-            {
-                comboBoxRubro.Items.Add(lectorRubro.GetString(0));
-            }
-            conRub.cnn.Close();
-
         }
 
         private void ABM_Usuario_A_Load(object sender, EventArgs e)
@@ -98,7 +86,8 @@ namespace MercadoEnvio.ABM_Usuario
             if (comboBoxRol.Text.Equals("Cliente"))
             {
                 // VALIDACION DE CAMPOS OBLIGATORIOS
-
+                String mensajeDeError="Se produjeron los siguientes errores:\n";
+                bool hayError = false;
                 if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals("")
                     || textBoxNombre.Text.Equals("") || textBoxApellido.Text.Equals("") || textBoxMail.Text.Equals("")
                     || textBoxTelefono.Text.Equals("") || textBoxCalleCl.Text.Equals("") || textBoxCodPostCl.Text.Equals("")
@@ -106,20 +95,23 @@ namespace MercadoEnvio.ABM_Usuario
                     || comboBoxLocalidades.Text.Equals("") || textBoxPisoCl.Text.Equals("") || textBoxFechaNac.Text.Equals("")
                     )
                 {
-                    MessageBox.Show("Campos obligatorios vacios", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tHay campos obligatorios vacios\n");
                 }
 
                 //VALIDACION DE CONFIRMAR PASSWORD
                 if (!(textBoxPass.Text.Equals(textBoxConfirmarPass.Text)))
                 {
-                      MessageBox.Show("Los campos Password y Confirmar Password no coinciden", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tLos campos Password y Confirmar Password no coinciden\n");  
                 }
 
                 //VALIDACION TIPO DE DATOS
                 //USERNAME
                 if (textBoxUser.Text.Length.CompareTo(45) == 1)
                 {
-                    MessageBox.Show("Username demasiado largo", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tUsername demasiado largo\n");
                 }
 
                 //NOMBRE
@@ -127,7 +119,8 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if (!(Regex.Match(textBoxNombre.Text, "^\\D+$").Success))
                     {
-                        MessageBox.Show("Solo puede haber letras en el nombre", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tSolo puede haber letras en el nombre\n");
                     }
                 }
 
@@ -136,7 +129,8 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if (!(Regex.Match(textBoxApellido.Text, "^\\D+$").Success))
                     {
-                        MessageBox.Show("Solo puede haber letras en el apellido", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tSolo puede haber letras en el apellido\n");
                     }
                 }
 
@@ -145,11 +139,13 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if (!(Regex.Match(textBoxNumeroDoc.Text, "^\\d+$").Success))
                     {
-                        MessageBox.Show("Ingrese el DNI numérico y sin .", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tIngrese el DNI numérico y sin .\n");
                     }
                     if (textBoxNumeroDoc.Text.Length.CompareTo(8) == 1)
                     {
-                        MessageBox.Show("El DNI no puede ser tan largo", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl DNI no puede ser tan largo\n");
                     }
                 }
 
@@ -157,11 +153,13 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if (!(Regex.Match(textBoxNumeroDoc.Text, "^[0-9A-Z]+$").Success))
                     {
-                        MessageBox.Show("El número de pasaporte debe comprender letras y números", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de pasaporte debe comprender letras y números\n");
                     }
                     if (textBoxNumeroDoc.Text.Length.CompareTo(10) == 1)
                     {
-                        MessageBox.Show("El número de pasaporte no puede ser tan largo", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de pasaporte no puede ser tan largo\n");
                     }
                 }
 
@@ -171,7 +169,8 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if(!(Regex.Match(textBoxMail.Text, "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,3})$").Success))
                     {
-                        MessageBox.Show("El mail ingresado no es válido", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl mail ingresado no es válido\n");
                     }
                 }
 
@@ -180,11 +179,13 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if (!(Regex.Match(textBoxTelefono.Text, "^(011|15)\\d+$").Success))
                     {
-                        MessageBox.Show("El número telefónico debe ser solo numérico y debe comenzar con 011 o 15", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 011 o 15\n");
                     }
                     if (textBoxTelefono.Text.Length.CompareTo(11) == 1 || textBoxTelefono.Text.Length.CompareTo(10)==-1)
                     {
-                        MessageBox.Show("El número de teléfono debe ser de 11 o 10 dígitos", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de teléfono debe ser de 11 o 10 dígitos\n");
                     }
                 }
 
@@ -194,15 +195,93 @@ namespace MercadoEnvio.ABM_Usuario
                 {
                     if (!(Regex.Match(textBoxNroCl.Text, "^\\d+$").Success))
                     {
-                        MessageBox.Show("Ingrese el número de la dirección solo con números", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tIngrese el número de la dirección solo con números\n");
                     }
                     if (textBoxNroCl.Text.Length.CompareTo(5) == 1)
                     {
-                        MessageBox.Show("El número de la dirección debe ser como máximo de 5 dígitos", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de la dirección debe ser como máximo de 5 dígitos\n");
                     }
                 }
-                return;
 
+                //PISO 
+
+                if (!(textBoxPisoCl.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxPisoCl.Text, "^\\d\\d?$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                    }
+                }
+
+                //DPTO
+
+                if (!(textBoxDptoCl.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxDptoCl.Text, "^([A-Z]|[0-9]{1,2})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl dpto debe ser una letra de A a Z, o bien numérico, hasta dos dígitos\n");
+                    }
+                }
+
+                //CODIGO POSTAL
+
+                if (!(textBoxCodPostCl.Text.Equals(""))) 
+                {
+                    if (!(Regex.Match(textBoxCodPostCl.Text, "^([0-9]{4}|[0-9A-Z]{8})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl código postal debe ser numérico de 4 caractéres o alfanumérico de 8 caractéres\n");
+                    }
+                }
+
+                //VALIDACION DNI ÚNICO
+
+                if (!(textBoxNumeroDoc.Text.Equals("")) && comboBoxTipoDoc.Text.Equals("DNI"))
+                {
+                    Conexion conDNI = new Conexion();
+                    string queryDNI = "Select * from LPB.Clientes where dni = '" + textBoxNumeroDoc.Text + "'";
+                    conDNI.cnn.Open();
+                    SqlCommand commandDNI = new SqlCommand(queryDNI, conDNI.cnn);
+                    SqlDataReader lectorDNI = commandDNI.ExecuteReader();
+                    if (lectorDNI.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese numero de documento\n");
+                    }
+                    conDNI.cnn.Close();
+                }
+
+                //VALIDACION USERNAME ÚNICO
+
+                if (!(textBoxUser.Text.Equals("")))
+                {
+                    Conexion conUser = new Conexion();
+                    string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
+                    conUser.cnn.Open();
+                    SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
+                    SqlDataReader lectorUser = commandUser.ExecuteReader();
+                    if (lectorUser.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                    }
+                    conUser.cnn.Close();
+                }
+
+                //SI HAY ERRORES LOS MUESTRO A TODOS
+                if (hayError)
+                {
+                    MessageBox.Show(mensajeDeError, "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                //SI NO HAY ERRORES PROCEDO CON LA CARGA
+
+                return;
             }
 
             if (comboBoxRol.Text.Equals("Empresa"))
@@ -213,8 +292,44 @@ namespace MercadoEnvio.ABM_Usuario
                 } 
                 return;
             }
+
+
             MessageBox.Show("Seleccione tipo de usuario: Cliente o Empresa", "Error al guardar usuario", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
            
+        }
+
+        private void buttonLimpiar_Click(object sender, EventArgs e)
+        {
+            textBoxApellido.Text = "";
+            textBoxCalleCl.Text = "";
+            textBoxCodPostCl.Text = "";
+            textboxcodpostEmpr.Text = "";
+            textBoxConfirmarPass.Text = "";
+            textBoxCUIT.Text = "";
+            textBoxDptoCl.Text = "";
+            textboxDptoEmpr.Text = "";
+            textBoxFechaNac.Text = "";
+            textBoxLocalidadCl.Text = "";
+            textboxLocalidadEmp.Text = "";
+            textboxLocalidadEmpr.Text = "";
+            textBoxMail.Text = "";
+            textBoxMailEmp.Text = "";
+            textBoxNombre.Text = "";
+            textBoxNombreContacto.Text = "";
+            textBoxNroCl.Text = "";
+            textboxNroEmpr.Text = "";
+            textBoxNumeroDoc.Text = "";
+            textBoxPass.Text = "";
+            textBoxPisoCl.Text = "";
+            textboxPisoEmpr.Text = "";
+            textBoxRazonSocial.Text = "";
+            textBoxRubroEmp.Text = "";
+            textBoxTelefono.Text = "";
+            textBoxTelefonoEmp.Text = "";
+            textBoxUser.Text = "";
+            comboBoxLocalidadEmpr.SelectedText = "";
+            comboBoxLocalidades.SelectedText = "";
+            comboBoxTipoDoc.SelectedText = "";
         }
 
  
