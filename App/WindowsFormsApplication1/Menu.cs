@@ -129,8 +129,14 @@ namespace MercadoEnvio
 
         private void altaToolStripMenuItem3_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void altaToolStripMenuItem3_Click_1(object sender, EventArgs e)
+        {
             ABM_Visibilidad.AltaVisibilidad abmVisibilidadAlta = new ABM_Visibilidad.AltaVisibilidad();
             abmVisibilidadAlta.Show();
+
         }
     }
 }

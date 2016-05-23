@@ -72,6 +72,13 @@ namespace MercadoEnvio.ABM_Visibilidad
             }
 
             return msg;
+        }
+
+        private void AltaVisibilidad_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.TopMost = true;
         } 
     }
 }
