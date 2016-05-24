@@ -33,9 +33,20 @@ namespace MercadoEnvio.ABM_Usuario
                 comboBoxLocalidades.Items.Add(lector.GetString(0));
                 comboBoxLocalidadEmpr.Items.Add(lector.GetString(0));
             }
-            //comboBoxLocalidades.Items.Add("Otra");
-            //comboBoxLocalidadEmpr.Items.Add("Otra");
             con.cnn.Close();
+
+            /*CARGA LOS RUBROS DE EMPRESA EN EL COMBOBOX*/
+
+            Conexion conEm = new Conexion();
+            string queryEm = "SELECT descripcion FROM lpb.RubrosEmpresa";
+            conEm.cnn.Open();
+            SqlCommand commandEm = new SqlCommand(queryEm, conEm.cnn);
+            SqlDataReader lectorEm = commandEm.ExecuteReader();
+            while (lectorEm.Read())
+            {
+                comboBoxRubro.Items.Add(lectorEm.GetString(0));
+            }
+            conEm.cnn.Close();
 
         }
 
@@ -344,7 +355,6 @@ namespace MercadoEnvio.ABM_Usuario
             textBoxPisoCl.Text = "";
             textboxPisoEmpr.Text = "";
             textBoxRazonSocial.Text = "";
-            textBoxRubroEmp.Text = "";
             textBoxTelefono.Text = "";
             textBoxTelefonoEmp.Text = "";
             textBoxUser.Text = "";

@@ -68,7 +68,6 @@
             this.labelApellido = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
             this.groupBoxEmpresa = new System.Windows.Forms.GroupBox();
-            this.textBoxRubroEmp = new System.Windows.Forms.TextBox();
             this.labelRubro = new System.Windows.Forms.Label();
             this.textBoxNombreContacto = new System.Windows.Forms.TextBox();
             this.textBoxCUIT = new System.Windows.Forms.TextBox();
@@ -98,6 +97,7 @@
             this.labelConfirmarPass = new System.Windows.Forms.Label();
             this.labelCamposObligatorios = new System.Windows.Forms.Label();
             this.buttonLimpiar = new System.Windows.Forms.Button();
+            this.comboBoxRubro = new System.Windows.Forms.ComboBox();
             this.groupBoxCliente.SuspendLayout();
             this.groupBoxEmpresa.SuspendLayout();
             this.SuspendLayout();
@@ -470,7 +470,7 @@
             // 
             // groupBoxEmpresa
             // 
-            this.groupBoxEmpresa.Controls.Add(this.textBoxRubroEmp);
+            this.groupBoxEmpresa.Controls.Add(this.comboBoxRubro);
             this.groupBoxEmpresa.Controls.Add(this.labelRubro);
             this.groupBoxEmpresa.Controls.Add(this.textBoxNombreContacto);
             this.groupBoxEmpresa.Controls.Add(this.textBoxCUIT);
@@ -503,13 +503,6 @@
             this.groupBoxEmpresa.TabStop = false;
             this.groupBoxEmpresa.Text = "Datos de la empresa";
             this.groupBoxEmpresa.Visible = false;
-            // 
-            // textBoxRubroEmp
-            // 
-            this.textBoxRubroEmp.Location = new System.Drawing.Point(119, 112);
-            this.textBoxRubroEmp.Name = "textBoxRubroEmp";
-            this.textBoxRubroEmp.Size = new System.Drawing.Size(167, 20);
-            this.textBoxRubroEmp.TabIndex = 67;
             // 
             // labelRubro
             // 
@@ -751,6 +744,15 @@
             this.buttonLimpiar.UseVisualStyleBackColor = true;
             this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
+            // comboBoxRubro
+            // 
+            this.comboBoxRubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRubro.FormattingEnabled = true;
+            this.comboBoxRubro.Location = new System.Drawing.Point(127, 112);
+            this.comboBoxRubro.Name = "comboBoxRubro";
+            this.comboBoxRubro.Size = new System.Drawing.Size(214, 21);
+            this.comboBoxRubro.TabIndex = 67;
+            // 
             // ABM_Usuario_A
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -768,8 +770,8 @@
             this.Controls.Add(this.textBoxUser);
             this.Controls.Add(this.labelPass);
             this.Controls.Add(this.labelUser);
-            this.Controls.Add(this.groupBoxCliente);
             this.Controls.Add(this.groupBoxEmpresa);
+            this.Controls.Add(this.groupBoxCliente);
             this.Name = "ABM_Usuario_A";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alta de un usuario";
@@ -853,7 +855,7 @@
         private System.Windows.Forms.TextBox textBoxNombreContacto;
         private System.Windows.Forms.TextBox textBoxCUIT;
         private System.Windows.Forms.Label labelRubro;
-        private System.Windows.Forms.TextBox textBoxRubroEmp;
         private System.Windows.Forms.Button buttonLimpiar;
+        private System.Windows.Forms.ComboBox comboBoxRubro;
     }
 }
