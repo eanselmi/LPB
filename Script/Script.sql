@@ -25,6 +25,10 @@ IF OBJECT_ID('LPB.Empresas') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Empresas ;
 END;
+IF OBJECT_ID('LPB.RubrosEmpresa') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.RubrosEmpresa ;
+END;
 IF OBJECT_ID('LPB.Compras') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Compras;
@@ -77,10 +81,6 @@ IF OBJECT_ID('LPB.Funcionalidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Funcionalidades ;
 END;
-IF OBJECT_ID('LPB.Localidades') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.Localidades ;
-END;
 IF OBJECT_ID('LPB.Calificaciones') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Calificaciones ;
@@ -90,6 +90,10 @@ BEGIN
         DROP TABLE LPB.Visibilidades ;
 END;
 COMMIT;
+IF OBJECT_ID('LPB.Localidades') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Localidades ;
+END;
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -165,7 +169,7 @@ nroCalle numeric(18,0) NOT NULL,
 piso numeric(18,0),
 dpto nvarchar(50),
 codPostal nvarchar(50) NOT NULL,
-rubro nvarchar(100) NULL,
+Rubro_id nvarchar(100) NULL,
 nombreContacto nvarchar(100),
 Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
@@ -276,6 +280,11 @@ envio BIT NOT NULL,
 primary key (id))
 GO
 
+create table [LPB].RubrosEmpresa(
+id INT NOT NULL IDENTITY(1,1),
+descripcion VARCHAR(45) NOT NULL,
+primary key(ID))
+GO
 
 /*---------Definiciones de FK-------*/
 
@@ -309,6 +318,7 @@ ALTER TABLE LPB.Items ADD
 GO
 
 ALTER TABLE LPB.Empresas ADD
+FOREIGN KEY (Rubro_id) references LPB.RubrosEmpresa,
             FOREIGN KEY (Usuario_id) references LPB.Usuarios,
 			FOREIGN KEY (Localidad_ID) references LPB.Localidades;
 GO
@@ -884,4 +894,5 @@ Insert into LPB.Localidades(descripcion) values('Vicente López');
 Insert into LPB.Localidades(descripcion) values('Villa Gesell');
 Insert into LPB.Localidades(descripcion) values('Villarino');
 Insert into LPB.Localidades(descripcion) values('Zárate');
+Insert into LPB.Localidades(descripcion) values('Otra');
 COMMIT;
