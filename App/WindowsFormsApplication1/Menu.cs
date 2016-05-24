@@ -26,9 +26,9 @@ namespace MercadoEnvio
 
         private void Menu_Load(object sender, EventArgs e)
         {
-            this.MaximizeBox = false;
+            //this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.TopMost = true;
+            //this.TopMost = true;
             
         }
 

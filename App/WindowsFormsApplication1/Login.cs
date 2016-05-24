@@ -31,7 +31,7 @@ namespace MercadoEnvio
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.TopMost = true;
+            //this.TopMost = true;
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -78,7 +78,7 @@ namespace MercadoEnvio.ABM_Visibilidad
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.TopMost = true;
+            //this.TopMost = true;
         } 
     }
 }

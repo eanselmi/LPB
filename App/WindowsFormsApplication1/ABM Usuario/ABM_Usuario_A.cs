@@ -43,7 +43,7 @@ namespace MercadoEnvio.ABM_Usuario
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.TopMost = true;
+            //this.TopMost = true;
         }
 
         private void comboBoxRol_SelectedIndexChanged(object sender, EventArgs e)
