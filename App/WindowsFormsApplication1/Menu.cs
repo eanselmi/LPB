@@ -138,5 +138,11 @@ namespace MercadoEnvio
             abmVisibilidadAlta.Show();
 
         }
+
+        private void modificarToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ABM_Visibilidad.BuscarVisibilidad busquedaVisibilidad = new ABM_Visibilidad.BuscarVisibilidad();
+            busquedaVisibilidad.Show();
+        }
     }
 }
