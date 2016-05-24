@@ -26,9 +26,9 @@ namespace MercadoEnvio
 
         private void Menu_Load(object sender, EventArgs e)
         {
-            this.MaximizeBox = false;
+            //this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.TopMost = true;
+            //this.TopMost = true;
             
         }
 
@@ -129,8 +129,14 @@ namespace MercadoEnvio
 
         private void altaToolStripMenuItem3_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void altaToolStripMenuItem3_Click_1(object sender, EventArgs e)
+        {
             ABM_Visibilidad.AltaVisibilidad abmVisibilidadAlta = new ABM_Visibilidad.AltaVisibilidad();
             abmVisibilidadAlta.Show();
+
         }
     }
 }

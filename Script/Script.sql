@@ -25,6 +25,10 @@ IF OBJECT_ID('LPB.Empresas') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Empresas ;
 END;
+IF OBJECT_ID('LPB.RubrosEmpresa') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.RubrosEmpresa ;
+END;
 IF OBJECT_ID('LPB.Compras') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Compras;
@@ -77,10 +81,6 @@ IF OBJECT_ID('LPB.Funcionalidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Funcionalidades ;
 END;
-IF OBJECT_ID('LPB.Localidades') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.Localidades ;
-END;
 IF OBJECT_ID('LPB.Calificaciones') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Calificaciones ;
@@ -90,6 +90,10 @@ BEGIN
         DROP TABLE LPB.Visibilidades ;
 END;
 COMMIT;
+IF OBJECT_ID('LPB.Localidades') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.Localidades ;
+END;
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -165,7 +169,7 @@ nroCalle numeric(18,0) NOT NULL,
 piso numeric(18,0),
 dpto nvarchar(50),
 codPostal nvarchar(50) NOT NULL,
-rubro nvarchar(100) NULL,
+Rubro_id INT NULL,
 nombreContacto nvarchar(100),
 Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
@@ -276,6 +280,11 @@ envio BIT NOT NULL,
 primary key (id))
 GO
 
+create table [LPB].RubrosEmpresa(
+id INT NOT NULL IDENTITY(1,1),
+descripcion VARCHAR(45) NOT NULL,
+primary key(ID))
+GO
 
 /*---------Definiciones de FK-------*/
 
@@ -309,6 +318,7 @@ ALTER TABLE LPB.Items ADD
 GO
 
 ALTER TABLE LPB.Empresas ADD
+FOREIGN KEY (Rubro_id) references LPB.RubrosEmpresa,
             FOREIGN KEY (Usuario_id) references LPB.Usuarios,
 			FOREIGN KEY (Localidad_ID) references LPB.Localidades;
 GO
@@ -884,4 +894,63 @@ Insert into LPB.Localidades(descripcion) values('Vicente López');
 Insert into LPB.Localidades(descripcion) values('Villa Gesell');
 Insert into LPB.Localidades(descripcion) values('Villarino');
 Insert into LPB.Localidades(descripcion) values('Zárate');
+Insert into LPB.Localidades(descripcion) values('Otra');
+COMMIT;
+
+/*Agrego Rubros de empresa*/
+BEGIN TRANSACTION
+Insert into LPB.RubrosEmpresa(descripcion) values('Aerolíneas');
+Insert into LPB.RubrosEmpresa(descripcion) values('Agencias de Viajes y Turismo');
+Insert into LPB.RubrosEmpresa(descripcion) values('Agencias de Publicidad');
+Insert into LPB.RubrosEmpresa(descripcion) values('Alquiler de vehículos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Arte');
+Insert into LPB.RubrosEmpresa(descripcion) values('Barracas y Aserraderos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Construcción');
+Insert into LPB.RubrosEmpresa(descripcion) values('Cuero/Curtiembres');
+Insert into LPB.RubrosEmpresa(descripcion) values('Diarios y periódicos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Diseño gráfico');
+Insert into LPB.RubrosEmpresa(descripcion) values('Diseño de interiores');
+Insert into LPB.RubrosEmpresa(descripcion) values('Eventos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Educación a distancia');
+Insert into LPB.RubrosEmpresa(descripcion) values('Electricidad');
+Insert into LPB.RubrosEmpresa(descripcion) values('Equipo e instrumental médico/hospitalario');
+Insert into LPB.RubrosEmpresa(descripcion) values('Florerías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Fundiciones');
+Insert into LPB.RubrosEmpresa(descripcion) values('Funerarias');
+Insert into LPB.RubrosEmpresa(descripcion) values('Gigantografías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Gimnasios');
+Insert into LPB.RubrosEmpresa(descripcion) values('Gastronomía');
+Insert into LPB.RubrosEmpresa(descripcion) values('Hoteles');
+Insert into LPB.RubrosEmpresa(descripcion) values('Heladerías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Imprentas');
+Insert into LPB.RubrosEmpresa(descripcion) values('Industrias textiles');
+Insert into LPB.RubrosEmpresa(descripcion) values('Industrias químicas');
+Insert into LPB.RubrosEmpresa(descripcion) values('Importaciones');
+Insert into LPB.RubrosEmpresa(descripcion) values('Juguetes');
+Insert into LPB.RubrosEmpresa(descripcion) values('Joyerías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Jabones');
+Insert into LPB.RubrosEmpresa(descripcion) values('Laboratorios farmaceúticos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Librerías y papelerías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Marketing');
+Insert into LPB.RubrosEmpresa(descripcion) values('Mueblerias');
+Insert into LPB.RubrosEmpresa(descripcion) values('Operadores logísticos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Ópticas');
+Insert into LPB.RubrosEmpresa(descripcion) values('Organizaciones internacionales');
+Insert into LPB.RubrosEmpresa(descripcion) values('Organismos no gubernamentales');
+Insert into LPB.RubrosEmpresa(descripcion) values('Peluquerías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Plásticos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Petroleras');
+Insert into LPB.RubrosEmpresa(descripcion) values('Serigrafía');
+Insert into LPB.RubrosEmpresa(descripcion) values('Saunas');
+Insert into LPB.RubrosEmpresa(descripcion) values('SPA');
+Insert into LPB.RubrosEmpresa(descripcion) values('Seguridad física');
+Insert into LPB.RubrosEmpresa(descripcion) values('Transporte');
+Insert into LPB.RubrosEmpresa(descripcion) values('Turismo');
+Insert into LPB.RubrosEmpresa(descripcion) values('Universidades');
+Insert into LPB.RubrosEmpresa(descripcion) values('Vidrio');
+Insert into LPB.RubrosEmpresa(descripcion) values('Veterinarias');
+Insert into LPB.RubrosEmpresa(descripcion) values('Vinos');
+Insert into LPB.RubrosEmpresa(descripcion) values('Web y multimedia');
+Insert into LPB.RubrosEmpresa(descripcion) values('Zapaterías');
+Insert into LPB.RubrosEmpresa(descripcion) values('Otro');
 COMMIT;

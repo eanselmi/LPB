@@ -89,7 +89,7 @@ namespace MercadoEnvio.Abm_Rol
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.TopMost = true;
+            //this.TopMost = true;
 
         }
 
