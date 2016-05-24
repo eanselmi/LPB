@@ -169,11 +169,7 @@ nroCalle numeric(18,0) NOT NULL,
 piso numeric(18,0),
 dpto nvarchar(50),
 codPostal nvarchar(50) NOT NULL,
-<<<<<<< HEAD
 Rubro_id int NULL,
-=======
-Rubro_id INT NULL,
->>>>>>> 0aac4010e1db402574ad0741262a54fbdac22646
 nombreContacto nvarchar(100),
 Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
