@@ -169,7 +169,7 @@ nroCalle numeric(18,0) NOT NULL,
 piso numeric(18,0),
 dpto nvarchar(50),
 codPostal nvarchar(50) NOT NULL,
-Rubro_id nvarchar(100) NULL,
+Rubro_id int NULL,
 nombreContacto nvarchar(100),
 Localidad_id INT NULL,
 Usuario_id INT NOT NULL,
@@ -213,7 +213,7 @@ fechaVencimiento DATETIME NOT NULL,
 precio NUMERIC(18,2) NOT NULL,
 aceptaEnvio BIT,
 Visibilidad_codigo NUMERIC(18,0),
-Rubro_id INT,
+Rubro_id int,
 PRIMARY KEY(codigo)
 )
 GO
@@ -281,7 +281,7 @@ primary key (id))
 GO
 
 create table [LPB].RubrosEmpresa(
-id INT NOT NULL IDENTITY(1,1),
+ID INT NOT NULL IDENTITY(1,1),
 descripcion VARCHAR(45) NOT NULL,
 primary key(ID))
 GO
@@ -361,6 +361,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Alta_Visibilidad') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Alta_Visibilidad
+END;
+GO
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -389,6 +395,27 @@ INSERT INTO lpb.Clientes
 select @numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,@piso,@dpto,@codPostal,
 (select id from lpb.Localidades where descripcion=@descrpLocalidad),
 (select id from lpb.Usuarios where username=@user)
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Alta_Visibilidad (@descripcion nvarchar(255), @precio numeric(18,2),@porcentaje numeric(18,2), @comision bit)
+AS BEGIN
+DECLARE @precioComision numeric(18,2)
+DECLARE @codigo numeric(18,0)
+IF(@comision = 1)
+BEGIN
+SET @precioComision = 98.0
+END 
+ELSE
+BEGIN
+SET @precioComision = 0
+END
+
+SET @codigo = (select MAX(codigo) from LPB.Visibilidades where codigo IS NOT NULL) + 1;
+
+INSERT INTO lpb.Visibilidades 
+(codigo,descripcion,precio,porcentaje,comisionPorEnvio)
+VALUES (@codigo, @descripcion, @precio, @porcentaje, @precioComision)
 END
 GO
 
