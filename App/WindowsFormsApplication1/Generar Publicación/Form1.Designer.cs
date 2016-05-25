@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.Generar_Publicación
+﻿namespace visibilidad.Generar_Publicación
 {
     partial class Form1
     {

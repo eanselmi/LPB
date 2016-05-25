@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using conectar;
 using System.Data.SqlClient;
 
-namespace MercadoEnvio.ABM_Visibilidad
+namespace visibilidad.ABM_Visibilidad
 {
     public partial class ModificacionVisiblidad : Form
     {

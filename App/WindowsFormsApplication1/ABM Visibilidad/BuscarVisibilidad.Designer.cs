@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.ABM_Visibilidad
+﻿namespace visibilidad.ABM_Visibilidad
 {
     partial class BuscarVisibilidad
     {

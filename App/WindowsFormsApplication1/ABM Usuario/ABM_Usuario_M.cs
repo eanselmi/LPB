@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MercadoEnvio.ABM_Usuario
+namespace visibilidad.ABM_Usuario
 {
     public partial class ABM_Usuario_M : Form
     {

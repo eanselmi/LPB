@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.Facturas
+﻿namespace visibilidad.Facturas
 {
     partial class Form1
     {

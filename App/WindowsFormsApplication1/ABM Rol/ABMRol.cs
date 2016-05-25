@@ -11,7 +11,7 @@ using Helper;
 using conectar;
 using System.Data.SqlClient;
 
-namespace MercadoEnvio.Abm_Rol
+namespace visibilidad.Abm_Rol
 {
     public partial class ABMRol : Form
     {

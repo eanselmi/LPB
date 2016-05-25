@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.Abm_Rol
+﻿namespace visibilidad.Abm_Rol
 {
     partial class ABMRol
     {

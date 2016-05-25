@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MercadoEnvio.Listado_Estadistico
+namespace visibilidad.Listado_Estadistico
 {
     public partial class Form1 : Form
     {

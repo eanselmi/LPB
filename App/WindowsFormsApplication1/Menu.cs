@@ -13,7 +13,7 @@ using Helper;
 using conectar;
 using readConfiguracion;
 
-namespace MercadoEnvio
+namespace visibilidad
 {
     public partial class Menu : Form
     {

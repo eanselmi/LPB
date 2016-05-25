@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.Listado_Estadistico
+﻿namespace visibilidad.Listado_Estadistico
 {
     partial class Form1
     {

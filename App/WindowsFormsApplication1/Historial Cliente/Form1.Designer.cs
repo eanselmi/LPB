@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.Historial_Cliente
+﻿namespace visibilidad.Historial_Cliente
 {
     partial class Form1
     {

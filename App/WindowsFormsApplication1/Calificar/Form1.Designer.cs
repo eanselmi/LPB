@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.Calificar
+﻿namespace visibilidad.Calificar
 {
     partial class Form1
     {

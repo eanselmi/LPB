@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.ABM_Visibilidad
+﻿namespace visibilidad.ABM_Visibilidad
 {
     partial class ModificacionVisiblidad
     {
@@ -187,7 +187,7 @@
             this.Controls.Add(this.tbox_descr);
             this.Controls.Add(this.label_descr);
             this.Name = "ModificacionVisiblidad";
-            this.Text = "Form1";
+            this.Text = "Editar visibilidad";
             this.Load += new System.EventHandler(this.ModificacionVisiblidad_Load);
             this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);

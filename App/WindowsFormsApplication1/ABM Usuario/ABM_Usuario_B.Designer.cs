@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.ABM_Usuario
+﻿namespace visibilidad.ABM_Usuario
 {
     partial class ABM_Usuario_B
     {

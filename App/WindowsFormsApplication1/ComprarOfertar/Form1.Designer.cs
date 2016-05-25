@@ -1,4 +1,4 @@
-﻿namespace MercadoEnvio.ComprarOfertar
+﻿namespace visibilidad.ComprarOfertar
 {
     partial class Form1
     {

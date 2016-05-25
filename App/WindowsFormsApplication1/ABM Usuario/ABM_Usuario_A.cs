@@ -12,7 +12,7 @@ using Helper;
 using conectar;
 using System.Data.SqlClient;
 
-namespace MercadoEnvio.ABM_Usuario
+namespace visibilidad.ABM_Usuario
 {
     public partial class ABM_Usuario_A : Form
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MercadoEnvio.Facturas
+namespace visibilidad.Facturas
 {
     public partial class Form1 : Form
     {
