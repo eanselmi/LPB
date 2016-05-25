@@ -92,6 +92,12 @@
     <Compile Include="ABM Visibilidad\BuscarVisibilidad.Designer.cs">
       <DependentUpon>BuscarVisibilidad.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM Visibilidad\BajaVisibilidad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Visibilidad\BajaVisibilidad.Designer.cs">
+      <DependentUpon>BajaVisibilidad.cs</DependentUpon>
+    </Compile>
     <Compile Include="ABM Visibilidad\ModificacionVisiblidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -166,6 +172,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Visibilidad\AltaVisibilidad.resx">
       <DependentUpon>AltaVisibilidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Visibilidad\BajaVisibilidad.resx">
+      <DependentUpon>BajaVisibilidad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Visibilidad\BuscarVisibilidad.resx">
       <DependentUpon>BuscarVisibilidad.cs</DependentUpon>

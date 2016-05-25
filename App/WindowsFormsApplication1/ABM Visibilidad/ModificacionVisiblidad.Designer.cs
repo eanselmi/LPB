@@ -41,6 +41,7 @@
             this.label_precio = new System.Windows.Forms.Label();
             this.tbox_descr = new System.Windows.Forms.TextBox();
             this.label_descr = new System.Windows.Forms.Label();
+            this.label_codigo = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -170,11 +171,21 @@
             this.label_descr.TabIndex = 11;
             this.label_descr.Text = "Descripción*";
             // 
+            // label_codigo
+            // 
+            this.label_codigo.AutoSize = true;
+            this.label_codigo.Location = new System.Drawing.Point(245, 189);
+            this.label_codigo.Name = "label_codigo";
+            this.label_codigo.Size = new System.Drawing.Size(0, 17);
+            this.label_codigo.TabIndex = 22;
+            this.label_codigo.Visible = false;
+            // 
             // ModificacionVisiblidad
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(335, 209);
+            this.Controls.Add(this.label_codigo);
             this.Controls.Add(this.label_aviso);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.check_comision);
@@ -210,5 +221,6 @@
         private System.Windows.Forms.Label label_precio;
         private System.Windows.Forms.TextBox tbox_descr;
         private System.Windows.Forms.Label label_descr;
+        private System.Windows.Forms.Label label_codigo;
     }
 }

@@ -367,6 +367,18 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Modificacion_Visibilidad') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Modificacion_Visibilidad
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Baja_Visibilidad') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Baja_Visibilidadº
+END;
+GO
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -418,6 +430,35 @@ INSERT INTO lpb.Visibilidades
 VALUES (@codigo, @descripcion, @precio, @porcentaje, @precioComision)
 END
 GO
+
+CREATE PROCEDURE LPB.SP_Modificacion_Visibilidad (@codigo decimal, @descripcion nvarchar(255), @precio numeric(18,2),@porcentaje numeric(18,2), @comision bit)
+AS BEGIN
+DECLARE @precioComision numeric(18,2)
+IF(@comision = 1)
+BEGIN
+SET @precioComision = 98.0
+END 
+ELSE
+BEGIN
+SET @precioComision = 0
+END
+
+UPDATE lpb.Visibilidades 
+SET descripcion = @descripcion,
+	precio = @precio, 
+	porcentaje = @porcentaje,
+	comisionPorEnvio = @precioComision
+WHERE codigo = @codigo
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Baja_Visibilidad (@codigo decimal)
+AS BEGIN
+DELETE FROM LPB.Visibilidades
+WHERE codigo = @codigo
+END
+GO
+
 
 /* Declaración de variables */
 

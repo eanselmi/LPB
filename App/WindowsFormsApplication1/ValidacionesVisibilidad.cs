@@ -69,11 +69,11 @@ namespace visibilidad
             return msg_final;
         }
 
-        public String validarExistente(String campo)
+        public String validarExistente(String campo, String evento)
         {
             String msg_final = "";
+            string query = "select * from LPB.Visibilidades where descripcion = '" +campo+ "' "+evento;
             Conexion conexion = new Conexion();
-            string query = "select * from LPB.Visibilidades where descripcion = '" +campo+ "'";
             conexion.cnn.Open();
             SqlCommand command = new SqlCommand(query, conexion.cnn);
             SqlDataReader lector = command.ExecuteReader();
@@ -85,7 +85,7 @@ namespace visibilidad
             return msg_final;
         }
 
-        public Boolean impactarDBVisibilidad(String descripcion, decimal precio, decimal porcentaje, bool comision)
+        public Boolean impactarDBAltaVisibilidad(String descripcion, decimal precio, decimal porcentaje, bool comision)
         {
             Boolean resultadoAlta;
             Conexion conexion = new Conexion();
@@ -93,6 +93,28 @@ namespace visibilidad
             resultadoAlta = conexion.executeProcedure(conexion.getSchema() + @".SP_Alta_Visibilidad",
                    Helper.Help.generarListaParaProcedure("@descripcion", "@precio", "@porcentaje", "@comision"),
                    descripcion, precio, porcentaje, comision);
+            conexion.cnn.Close();
+            return resultadoAlta;
+        }
+
+        public Boolean impactarDBModificacionVisibilidad(decimal codigo, String descripcion, decimal precio, decimal porcentaje, bool comision)
+        {
+            Boolean resultadoAlta;
+            Conexion conexion = new Conexion();
+            conexion.cnn.Open();
+            resultadoAlta = conexion.executeProcedure(conexion.getSchema() + @".SP_Modificacion_Visibilidad",
+                   Helper.Help.generarListaParaProcedure("@codigo", "@descripcion", "@precio", "@porcentaje", "@comision"),
+                   codigo, descripcion, precio, porcentaje, comision);
+            conexion.cnn.Close();
+            return resultadoAlta;
+        }
+
+        public Boolean impactarDBBajaVisibilidad(decimal codigoVisibilidad){
+            Boolean resultadoAlta;
+            Conexion conexion = new Conexion();
+            conexion.cnn.Open();
+            resultadoAlta = conexion.executeProcedure(conexion.getSchema() + @".SP_Baja_Visibilidad",
+                   Helper.Help.generarListaParaProcedure("@codigo"), codigoVisibilidad);
             conexion.cnn.Close();
             return resultadoAlta;
         }

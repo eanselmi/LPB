@@ -141,7 +141,13 @@ namespace visibilidad
 
         private void modificarToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            ABM_Visibilidad.BuscarVisibilidad busquedaVisibilidad = new ABM_Visibilidad.BuscarVisibilidad();
+            ABM_Visibilidad.BuscarVisibilidad busquedaVisibilidad = new ABM_Visibilidad.BuscarVisibilidad("M");
+            busquedaVisibilidad.Show();
+        }
+
+        private void bajaToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            ABM_Visibilidad.BuscarVisibilidad busquedaVisibilidad = new ABM_Visibilidad.BuscarVisibilidad("B");
             busquedaVisibilidad.Show();
         }
     }

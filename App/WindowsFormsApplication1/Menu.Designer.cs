@@ -128,21 +128,21 @@
             // altaToolStripMenuItem
             // 
             this.altaToolStripMenuItem.Name = "altaToolStripMenuItem";
-            this.altaToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.altaToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
             this.altaToolStripMenuItem.Text = "Alta";
             this.altaToolStripMenuItem.Click += new System.EventHandler(this.altaToolStripMenuItem_Click);
             // 
             // bajaToolStripMenuItem
             // 
             this.bajaToolStripMenuItem.Name = "bajaToolStripMenuItem";
-            this.bajaToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.bajaToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
             this.bajaToolStripMenuItem.Text = "Baja";
             this.bajaToolStripMenuItem.Click += new System.EventHandler(this.bajaToolStripMenuItem_Click);
             // 
             // modificarToolStripMenuItem
             // 
             this.modificarToolStripMenuItem.Name = "modificarToolStripMenuItem";
-            this.modificarToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
+            this.modificarToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
             this.modificarToolStripMenuItem.Text = "Modificar";
             this.modificarToolStripMenuItem.Click += new System.EventHandler(this.modificarToolStripMenuItem_Click);
             // 
@@ -159,20 +159,20 @@
             // altaToolStripMenuItem1
             // 
             this.altaToolStripMenuItem1.Name = "altaToolStripMenuItem1";
-            this.altaToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+            this.altaToolStripMenuItem1.Size = new System.Drawing.Size(142, 24);
             this.altaToolStripMenuItem1.Text = "Alta";
             this.altaToolStripMenuItem1.Click += new System.EventHandler(this.altaToolStripMenuItem1_Click);
             // 
             // bajaToolStripMenuItem1
             // 
             this.bajaToolStripMenuItem1.Name = "bajaToolStripMenuItem1";
-            this.bajaToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+            this.bajaToolStripMenuItem1.Size = new System.Drawing.Size(142, 24);
             this.bajaToolStripMenuItem1.Text = "Baja";
             // 
             // modificarToolStripMenuItem1
             // 
             this.modificarToolStripMenuItem1.Name = "modificarToolStripMenuItem1";
-            this.modificarToolStripMenuItem1.Size = new System.Drawing.Size(152, 24);
+            this.modificarToolStripMenuItem1.Size = new System.Drawing.Size(142, 24);
             this.modificarToolStripMenuItem1.Text = "Modificar";
             // 
             // rubroToolStripMenuItem
@@ -188,19 +188,19 @@
             // altaToolStripMenuItem2
             // 
             this.altaToolStripMenuItem2.Name = "altaToolStripMenuItem2";
-            this.altaToolStripMenuItem2.Size = new System.Drawing.Size(152, 24);
+            this.altaToolStripMenuItem2.Size = new System.Drawing.Size(142, 24);
             this.altaToolStripMenuItem2.Text = "Alta";
             // 
             // bajaToolStripMenuItem2
             // 
             this.bajaToolStripMenuItem2.Name = "bajaToolStripMenuItem2";
-            this.bajaToolStripMenuItem2.Size = new System.Drawing.Size(152, 24);
+            this.bajaToolStripMenuItem2.Size = new System.Drawing.Size(142, 24);
             this.bajaToolStripMenuItem2.Text = "Baja";
             // 
             // modificarToolStripMenuItem2
             // 
             this.modificarToolStripMenuItem2.Name = "modificarToolStripMenuItem2";
-            this.modificarToolStripMenuItem2.Size = new System.Drawing.Size(152, 24);
+            this.modificarToolStripMenuItem2.Size = new System.Drawing.Size(142, 24);
             this.modificarToolStripMenuItem2.Text = "Modificar";
             // 
             // visibilidadToolStripMenuItem
@@ -225,6 +225,7 @@
             this.bajaToolStripMenuItem3.Name = "bajaToolStripMenuItem3";
             this.bajaToolStripMenuItem3.Size = new System.Drawing.Size(152, 24);
             this.bajaToolStripMenuItem3.Text = "Baja";
+            this.bajaToolStripMenuItem3.Click += new System.EventHandler(this.bajaToolStripMenuItem3_Click);
             // 
             // modificarToolStripMenuItem3
             // 

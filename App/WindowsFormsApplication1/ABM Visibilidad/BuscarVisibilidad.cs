@@ -14,7 +14,9 @@ namespace visibilidad.ABM_Visibilidad
 {
     public partial class BuscarVisibilidad : Form
     {
-        public BuscarVisibilidad()
+        public String eventoARealizar;
+
+        public BuscarVisibilidad(String evento)
         {
             InitializeComponent();
             Conexion con = new Conexion();
@@ -29,6 +31,7 @@ namespace visibilidad.ABM_Visibilidad
             }
             con.cnn.Close();
             btn_seleccionar.Enabled = false;
+            eventoARealizar = evento;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -53,9 +56,19 @@ namespace visibilidad.ABM_Visibilidad
         }
 
         private void btn_seleccionar_Click(object sender, EventArgs e) {
-            ABM_Visibilidad.ModificacionVisiblidad abmVisibilidad = new ABM_Visibilidad.ModificacionVisiblidad(combo_visibilidades.Text);
-            abmVisibilidad.Show();
-            this.Close();
+            if (eventoARealizar.Equals("M"))
+            {
+                ABM_Visibilidad.ModificacionVisiblidad abmVisibilidad = new ABM_Visibilidad.ModificacionVisiblidad(combo_visibilidades.Text);
+                abmVisibilidad.Show();
+                this.Close();
+            }
+            if (eventoARealizar.Equals("B"))
+            {
+                ABM_Visibilidad.BajaVisibilidad abmVisibilidad = new ABM_Visibilidad.BajaVisibilidad(combo_visibilidades.Text);
+                abmVisibilidad.Show();
+                this.Close();
+            }
+
         }
     }
 }
