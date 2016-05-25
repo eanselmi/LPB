@@ -55,8 +55,8 @@ namespace visibilidad.ABM_Visibilidad
             String msg_final = null;
             String evento = "";
             
-            msg_final = vv.validarInputVisibilidad(tbox_descr.Text, tbox_precio.Text, precio, tbox_porc.Text, porcentaje);
-            msg_final = vv.validarExistente(tbox_descr.Text, evento);
+            msg_final += vv.validarInputVisibilidad(tbox_descr.Text, tbox_precio.Text, precio, tbox_porc.Text, porcentaje);
+            msg_final += vv.validarExistente(tbox_descr.Text, evento);
 
             if (!msg_final.Equals("")) {
                 MessageBox.Show(msg_final, "Error al guardar visibilidad", MessageBoxButtons.OK, MessageBoxIcon.Error);
