@@ -1,3 +1,4 @@
+
 USE [GD1C2016]
 
 IF NOT EXISTS (
@@ -178,7 +179,8 @@ GO
 
 CREATE TABLE [LPB].Clientes(
 id INT NOT NULL IDENTITY(1,1),
-dni NUMERIC(18,0) NOT NULL,
+documento_tipo VARCHAR(10) NOT NULL,
+documento_numero NUMERIC(18,0) NOT NULL,
 apellido NVARCHAR(255) NOT NULL,
 nombre NVARCHAR(255) NOT NULL,
 fechaNacimiento DATETIME NOT NULL,
@@ -398,7 +400,7 @@ values
 END
 GO
 
-CREATE PROCEDURE lpb.SP_Alta_Cliente (@numeroDoc numeric(18,0),@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,
+/*CREATE PROCEDURE lpb.SP_Alta_Cliente (@numeroDoc numeric(18,0),@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,
 @mail nvarchar(255),@telefono numeric(12,0), @calle nvarchar(255),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),
 @codPostal nvarchar(50),@descrpLocalidad varchar(45), @user varchar(45))
 AS BEGIN
@@ -408,7 +410,7 @@ select @numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,@
 (select id from lpb.Localidades where descripcion=@descrpLocalidad),
 (select id from lpb.Usuarios where username=@user)
 END
-GO
+GO*/
 
 CREATE PROCEDURE LPB.SP_Alta_Visibilidad (@descripcion nvarchar(255), @precio numeric(18,2),@porcentaje numeric(18,2), @comision bit)
 AS BEGIN
@@ -601,8 +603,9 @@ COMMIT;
 
 /*Migracion de Clientes*/
 BEGIN TRANSACTION
-INSERT INTO LPB.Clientes (dni,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
-select distinct [Publ_Cli_Dni],
+INSERT INTO LPB.Clientes (documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
+select distinct 'DNI',
+				[Publ_Cli_Dni],
 				[Publ_Cli_Apeliido],
 				[Publ_Cli_Nombre],
 				[Publ_Cli_Fecha_Nac],
@@ -617,7 +620,8 @@ select distinct [Publ_Cli_Dni],
 FROM [gd_esquema].Maestra
 where [Publ_Cli_Dni] IS NOT NULL
 UNION
-Select DISTINCT [Cli_Dni],
+Select DISTINCT 'DNI',
+                [Cli_Dni],
 				[Cli_Apeliido],
 				[Cli_Nombre],
 				[Cli_Fecha_Nac],
@@ -761,7 +765,7 @@ SELECT DISTINCT [Publicacion_Cod]
 	,[Rubros].id  
 FROM [gd_esquema].[Maestra] AS Maestra
 INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
-INNER JOIN [LPB].[Clientes] AS Clientes ON Maestra.Publ_Cli_Dni = Clientes.dni
+INNER JOIN [LPB].[Clientes] AS Clientes ON Maestra.Publ_Cli_Dni = Clientes.documento_numero
 INNER JOIN [LPB].[Rubros] AS Rubros ON Maestra.Publicacion_Rubro_Descripcion = Rubros.descripcion
 WHERE [Publicacion_Cod] IS NOT NULL
 	AND [Publ_Cli_Dni] IS NOT NULL
@@ -774,7 +778,7 @@ BEGIN TRANSACTION
 INSERT INTO LPB.Compras (fecha,cantidad,Cliente_id,Publicacion_cod,Calificacion_cod,envio)
 select distinct [Compra_Fecha],
 				[Compra_Cantidad],
-				(select id from LPB.Clientes where dni=Cli_Dni),
+				(select id from LPB.Clientes where documento_numero=Cli_Dni),
 				Publicacion_Cod,
 				Calificacion_codigo,
 				0 -- Todas sin envio
@@ -800,7 +804,7 @@ BEGIN TRANSACTION
 INSERT INTO LPB.Ofertas(fecha,monto,Cliente_id,Publicacion_cod,Calificacion_cod,ganadora,envio)
 select distinct M1.Oferta_Fecha,
 					M1.Oferta_Monto,
-					(select id from LPB.Clientes where dni=M1.Cli_Dni),
+					(select id from LPB.Clientes where documento_numero=M1.Cli_Dni),
 					M1.Publicacion_Cod,
 					(CASE 
 						when exists(select * from gd_esquema.Maestra M2 
