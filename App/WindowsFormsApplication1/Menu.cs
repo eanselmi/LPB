@@ -18,6 +18,7 @@ namespace visibilidad
     public partial class Menu : Form
     {
 
+        public int id_usuario;
         public Login log;       
         public Menu()
         {
@@ -32,9 +33,10 @@ namespace visibilidad
             
         }
 
-        public void cargarRoles(string rol, Login form)
+        public void cargarRoles(int usuario_id,string rol, Login form)
         {
-            log = form;            
+            log = form;
+            id_usuario = usuario_id;
             aBMToolStripMenuItem.Visible = false;
             generarPublicacionToolStripMenuItem.Visible = false;
             comprarToolStripMenuItem.Visible = false;
@@ -149,6 +151,12 @@ namespace visibilidad
         {
             ABM_Visibilidad.BuscarVisibilidad busquedaVisibilidad = new ABM_Visibilidad.BuscarVisibilidad("B");
             busquedaVisibilidad.Show();
+        }
+
+        private void generarPublicacionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Generar_Publicación.GenerarPublicacion generarPublicacion = new Generar_Publicación.GenerarPublicacion(id_usuario);
+            generarPublicacion.Show();
         }
     }
 }

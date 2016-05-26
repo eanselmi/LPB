@@ -161,7 +161,7 @@ namespace visibilidad.Abm_Rol
 
                 foreach (object itemsCheck in checkedList_funciones.CheckedItems)
                 {
-                    string query2 = "INSERT INTO lpb.funcionalidadesPorRol (rol_d, funcionalidad_id) VALUES ('" + id_rol_nuevo + "',(SELECT F.id FROM lpb.funcionalidades F WHERE F.descripcion = '" + itemsCheck.ToString() + "'))";
+                    string query2 = "INSERT INTO lpb.funcionalidadesPorRol (rol_id, funcionalidad_id) VALUES ('" + id_rol_nuevo + "',(SELECT F.id FROM lpb.funcionalidades F WHERE F.descripcion = '" + itemsCheck.ToString() + "'))";
                     con.cnn.Open();
                     SqlCommand command2 = new SqlCommand(query2, con.cnn);
                     command2.ExecuteNonQuery();

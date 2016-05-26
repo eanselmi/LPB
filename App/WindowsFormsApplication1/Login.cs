@@ -17,7 +17,8 @@ namespace visibilidad
 {
     public partial class Login : Form
     {
-        
+
+        public int id_usuario;
         public int intFallidos;
         public bool userHabilitado;
         public string pass = "";
@@ -53,7 +54,7 @@ namespace visibilidad
             }
 
             Conexion con = new Conexion();
-            string query = "SELECT pass, cantIntentosFallidos, habilitado " +
+            string query = "SELECT pass, cantIntentosFallidos, habilitado, id " +
                            "FROM lpb.Usuarios WHERE userName = '" + text_usuario.Text + "'";
 
             con.cnn.Open();
@@ -73,6 +74,7 @@ namespace visibilidad
             pass = lector.GetString(0);
             intFallidos = lector.GetInt32(1);
             userHabilitado = lector.GetBoolean(2);
+            id_usuario = lector.GetInt32(3);            
             con.cnn.Close();
 
             ///////////////////////////////////////////////////////////////////////////
@@ -154,7 +156,7 @@ namespace visibilidad
                 this.Hide();
                 mp.Show();
                 cmb_roles.SelectedIndex = 0;                
-                mp.cargarRoles(cmb_roles.Text, this);
+                mp.cargarRoles(id_usuario, cmb_roles.Text, this);
                 grp_rol.Visible = false;
                 grp_login.Visible = true;                
                 
@@ -185,7 +187,7 @@ namespace visibilidad
                 Menu mp = new Menu();
                 this.Hide();
                 mp.Show();
-                mp.cargarRoles(cmb_roles.Text, this);
+                mp.cargarRoles(id_usuario, cmb_roles.Text, this);
                 grp_rol.Visible = false;
                 grp_login.Visible = true;
             }
