@@ -47,7 +47,9 @@ namespace visibilidad.ABM_Visibilidad
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         private void btn_salir_Click(object sender, EventArgs e)

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModificacionVisiblidad));
             this.label_aviso = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_cancelar = new System.Windows.Forms.Button();
@@ -49,9 +50,9 @@
             // 
             this.label_aviso.AutoSize = true;
             this.label_aviso.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_aviso.Location = new System.Drawing.Point(12, 189);
+            this.label_aviso.Location = new System.Drawing.Point(14, 236);
             this.label_aviso.Name = "label_aviso";
-            this.label_aviso.Size = new System.Drawing.Size(110, 13);
+            this.label_aviso.Size = new System.Drawing.Size(130, 15);
             this.label_aviso.TabIndex = 21;
             this.label_aviso.Text = "* Campos Obligatorios";
             // 
@@ -59,20 +60,20 @@
             // 
             this.groupBox2.Controls.Add(this.btn_cancelar);
             this.groupBox2.Controls.Add(this.btn_guardar);
-            this.groupBox2.Location = new System.Drawing.Point(15, 129);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Location = new System.Drawing.Point(17, 161);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox2.Size = new System.Drawing.Size(301, 55);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.groupBox2.Size = new System.Drawing.Size(339, 69);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             // 
             // btn_cancelar
             // 
-            this.btn_cancelar.Location = new System.Drawing.Point(152, 17);
-            this.btn_cancelar.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_cancelar.Location = new System.Drawing.Point(171, 21);
+            this.btn_cancelar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_cancelar.Name = "btn_cancelar";
-            this.btn_cancelar.Size = new System.Drawing.Size(139, 28);
+            this.btn_cancelar.Size = new System.Drawing.Size(156, 35);
             this.btn_cancelar.TabIndex = 1;
             this.btn_cancelar.Text = "Cancelar";
             this.btn_cancelar.UseVisualStyleBackColor = true;
@@ -80,10 +81,10 @@
             // 
             // btn_guardar
             // 
-            this.btn_guardar.Location = new System.Drawing.Point(8, 17);
-            this.btn_guardar.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_guardar.Location = new System.Drawing.Point(9, 21);
+            this.btn_guardar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btn_guardar.Name = "btn_guardar";
-            this.btn_guardar.Size = new System.Drawing.Size(139, 28);
+            this.btn_guardar.Size = new System.Drawing.Size(156, 35);
             this.btn_guardar.TabIndex = 0;
             this.btn_guardar.Text = "Guardar";
             this.btn_guardar.UseVisualStyleBackColor = true;
@@ -93,11 +94,11 @@
             // 
             this.check_comision.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.check_comision.AutoSize = true;
-            this.check_comision.Location = new System.Drawing.Point(12, 103);
+            this.check_comision.Location = new System.Drawing.Point(14, 131);
             this.check_comision.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.check_comision.Name = "check_comision";
             this.check_comision.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.check_comision.Size = new System.Drawing.Size(156, 21);
+            this.check_comision.Size = new System.Drawing.Size(176, 24);
             this.check_comision.TabIndex = 19;
             this.check_comision.Text = "*Comisión por Envío";
             this.check_comision.UseVisualStyleBackColor = true;
@@ -105,86 +106,86 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(208, 77);
+            this.label3.Location = new System.Drawing.Point(234, 96);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(20, 17);
+            this.label3.Size = new System.Drawing.Size(23, 20);
             this.label3.TabIndex = 18;
             this.label3.Text = "%";
             // 
             // tbox_porc
             // 
-            this.tbox_porc.Location = new System.Drawing.Point(239, 77);
+            this.tbox_porc.Location = new System.Drawing.Point(269, 96);
             this.tbox_porc.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbox_porc.Name = "tbox_porc";
-            this.tbox_porc.Size = new System.Drawing.Size(72, 22);
+            this.tbox_porc.Size = new System.Drawing.Size(80, 26);
             this.tbox_porc.TabIndex = 17;
             // 
             // label_porc
             // 
             this.label_porc.AutoSize = true;
-            this.label_porc.Location = new System.Drawing.Point(12, 76);
+            this.label_porc.Location = new System.Drawing.Point(14, 95);
             this.label_porc.Name = "label_porc";
-            this.label_porc.Size = new System.Drawing.Size(81, 17);
+            this.label_porc.Size = new System.Drawing.Size(91, 20);
             this.label_porc.TabIndex = 16;
             this.label_porc.Text = "Porcentaje*";
             // 
             // label
             // 
             this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(196, 49);
+            this.label.Location = new System.Drawing.Point(220, 61);
             this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(35, 17);
+            this.label.Size = new System.Drawing.Size(41, 20);
             this.label.TabIndex = 15;
             this.label.Text = "AR$";
             // 
             // tbox_precio
             // 
-            this.tbox_precio.Location = new System.Drawing.Point(239, 48);
+            this.tbox_precio.Location = new System.Drawing.Point(269, 60);
             this.tbox_precio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbox_precio.Name = "tbox_precio";
-            this.tbox_precio.Size = new System.Drawing.Size(72, 22);
+            this.tbox_precio.Size = new System.Drawing.Size(80, 26);
             this.tbox_precio.TabIndex = 14;
             // 
             // label_precio
             // 
             this.label_precio.AutoSize = true;
-            this.label_precio.Location = new System.Drawing.Point(12, 48);
+            this.label_precio.Location = new System.Drawing.Point(14, 60);
             this.label_precio.Name = "label_precio";
-            this.label_precio.Size = new System.Drawing.Size(53, 17);
+            this.label_precio.Size = new System.Drawing.Size(59, 20);
             this.label_precio.TabIndex = 13;
             this.label_precio.Text = "Precio*";
             // 
             // tbox_descr
             // 
-            this.tbox_descr.Location = new System.Drawing.Point(145, 20);
+            this.tbox_descr.Location = new System.Drawing.Point(163, 25);
             this.tbox_descr.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbox_descr.Name = "tbox_descr";
-            this.tbox_descr.Size = new System.Drawing.Size(167, 22);
+            this.tbox_descr.Size = new System.Drawing.Size(187, 26);
             this.tbox_descr.TabIndex = 12;
             // 
             // label_descr
             // 
             this.label_descr.AutoSize = true;
-            this.label_descr.Location = new System.Drawing.Point(12, 20);
+            this.label_descr.Location = new System.Drawing.Point(14, 25);
             this.label_descr.Name = "label_descr";
-            this.label_descr.Size = new System.Drawing.Size(87, 17);
+            this.label_descr.Size = new System.Drawing.Size(98, 20);
             this.label_descr.TabIndex = 11;
             this.label_descr.Text = "Descripción*";
             // 
             // label_codigo
             // 
             this.label_codigo.AutoSize = true;
-            this.label_codigo.Location = new System.Drawing.Point(245, 189);
+            this.label_codigo.Location = new System.Drawing.Point(276, 236);
             this.label_codigo.Name = "label_codigo";
-            this.label_codigo.Size = new System.Drawing.Size(0, 17);
+            this.label_codigo.Size = new System.Drawing.Size(0, 20);
             this.label_codigo.TabIndex = 22;
             this.label_codigo.Visible = false;
             // 
             // ModificacionVisiblidad
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(335, 209);
+            this.ClientSize = new System.Drawing.Size(377, 261);
             this.Controls.Add(this.label_codigo);
             this.Controls.Add(this.label_aviso);
             this.Controls.Add(this.groupBox2);
@@ -197,6 +198,8 @@
             this.Controls.Add(this.label_precio);
             this.Controls.Add(this.tbox_descr);
             this.Controls.Add(this.label_descr);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "ModificacionVisiblidad";
             this.Text = "Editar visibilidad";
             this.Load += new System.EventHandler(this.ModificacionVisiblidad_Load);

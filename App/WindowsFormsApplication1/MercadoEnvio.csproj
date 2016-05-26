@@ -124,6 +124,12 @@
     <Compile Include="Facturas\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generar Publicación\FormularioPublicacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Publicación\FormularioPublicacion.Designer.cs">
+      <DependentUpon>FormularioPublicacion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Help.cs" />
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
@@ -170,6 +176,12 @@
     <EmbeddedResource Include="ABM Usuario\ABM_Usuario_A.resx">
       <DependentUpon>ABM_Usuario_A.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ABM Usuario\ABM_Usuario_B.resx">
+      <DependentUpon>ABM_Usuario_B.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Usuario\ABM_Usuario_M.resx">
+      <DependentUpon>ABM_Usuario_M.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ABM Visibilidad\AltaVisibilidad.resx">
       <DependentUpon>AltaVisibilidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,6 +193,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Visibilidad\ModificacionVisiblidad.resx">
       <DependentUpon>ModificacionVisiblidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Publicación\FormularioPublicacion.resx">
+      <DependentUpon>FormularioPublicacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicación\GenerarPublicacion.resx">
       <DependentUpon>GenerarPublicacion.cs</DependentUpon>

@@ -29,6 +29,7 @@ namespace visibilidad.Generar_Publicación
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
             Conexion con = new Conexion();
             string query;
             

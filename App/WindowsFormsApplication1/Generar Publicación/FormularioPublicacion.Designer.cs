@@ -1,6 +1,6 @@
-﻿namespace visibilidad.ABM_Usuario
+﻿namespace visibilidad.Generar_Publicación
 {
-    partial class ABM_Usuario_M
+    partial class FormularioPublicacion
     {
         /// <summary>
         /// Required designer variable.
@@ -28,17 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ABM_Usuario_M));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioPublicacion));
             this.SuspendLayout();
             // 
-            // ABM_Usuario_M
+            // FormularioPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(278, 244);
+            this.ClientSize = new System.Drawing.Size(557, 522);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "ABM_Usuario_M";
-            this.Text = "ABM_Usuario_M";
+            this.Name = "FormularioPublicacion";
+            this.Text = "FormularioPublicacion";
+            this.Load += new System.EventHandler(this.FormularioPublicacion_Load);
             this.ResumeLayout(false);
 
         }

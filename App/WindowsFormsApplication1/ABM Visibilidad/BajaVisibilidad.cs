@@ -68,5 +68,12 @@ namespace visibilidad.ABM_Visibilidad
         {
             this.Close();
         }
+
+        private void BajaVisibilidad_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
     }
 }

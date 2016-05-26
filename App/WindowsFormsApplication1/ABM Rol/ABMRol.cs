@@ -220,6 +220,7 @@ namespace visibilidad.Abm_Rol
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
             //this.TopMost = true;
         }
 

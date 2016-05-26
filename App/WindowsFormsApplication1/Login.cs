@@ -32,6 +32,7 @@ namespace visibilidad
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
             //this.TopMost = true;
         }
 

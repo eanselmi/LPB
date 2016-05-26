@@ -45,6 +45,7 @@ namespace visibilidad.ABM_Visibilidad
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         private void btn_guardar_Click(object sender, EventArgs e)
