@@ -375,7 +375,7 @@ GO
 
 IF OBJECT_ID('LPB.SP_Baja_Visibilidad') IS NOT NULL
 BEGIN
-	DROP PROCEDURE LPB.SP_Baja_Visibilidadº
+	DROP PROCEDURE LPB.SP_Baja_Visibilidad
 END;
 GO
 
