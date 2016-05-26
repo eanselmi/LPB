@@ -32,10 +32,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -72,23 +72,15 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
-            // button1
+            // button4
             // 
-            this.button1.Location = new System.Drawing.Point(6, 25);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(172, 36);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Nueva Publicacion";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(274, 25);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(178, 36);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Eliminar Publicacion";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button4.Location = new System.Drawing.Point(802, 25);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(178, 36);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Salir";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button3
             // 
@@ -99,15 +91,24 @@
             this.button3.Text = "Modificar Publicacion";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // button4
+            // button2
             // 
-            this.button4.Location = new System.Drawing.Point(802, 25);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(178, 36);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Salir";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.button2.Location = new System.Drawing.Point(274, 25);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(178, 36);
+            this.button2.TabIndex = 3;
+            this.button2.Text = "Eliminar Publicacion";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(18, 25);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(172, 36);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Nueva Publicacion";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // GenerarPublicacion
             // 

@@ -58,5 +58,12 @@ namespace visibilidad.Generar_Publicación
         {
             this.Close();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this);
+            formularioPublicacion.Show();
+            this.Hide();
+        }
     }
 }

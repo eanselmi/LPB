@@ -159,5 +159,11 @@ namespace visibilidad
             Generar_Publicación.GenerarPublicacion generarPublicacion = new Generar_Publicación.GenerarPublicacion(id_usuario);
             generarPublicacion.Show();
         }
+
+        private void ayudaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Ayuda ayuda = new Ayuda();
+            ayuda.Show();
+        }
     }
 }
