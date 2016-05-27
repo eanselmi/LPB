@@ -36,5 +36,33 @@ namespace visibilidad.Generar_Publicación
             this.Close();
             generar.Show();
         }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            text_precio.Text = text_precio.Text.Replace('.', ',');
+            Double value;
+            if (Double.TryParse(text_precio.Text, out value))
+                text_precio.Text = string.Format("{0:0.00}", value);
+
+            else
+            {
+                if (text_precio.Text != "")
+                {
+                    text_precio.Text = String.Empty;
+                    MessageBox.Show("El formato de moneda ingresado no es valido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    text_precio.Focus();
+                }
+            }
+            text_precio.Text = text_precio.Text.Replace(',', '.');
+        }
+
+        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!(char.IsNumber(e.KeyChar)) && (e.KeyChar != (char)Keys.Back))
+            {                
+                e.Handled = true;
+                return;
+            }
+        }
     }
 }

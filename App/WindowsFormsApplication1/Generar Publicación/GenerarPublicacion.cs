@@ -41,16 +41,16 @@ namespace visibilidad.Generar_Publicación
             SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
             da.Fill(dtDatos);
             //dt = dtDatos;
-            dataGridView1.DataSource = dtDatos;
+            datagrid_listado.DataSource = dtDatos;
             con.cnn.Close();
-            dataGridView1.ReadOnly = true;
+            datagrid_listado.ReadOnly = true;
             //c.AutoResizeColumn(0);
             //dataGridView1.AutoResizeColumn(1);
             //dataGridView1.AutoResizeColumn(2);
             //dataGridView1.AutoResizeColumn(3);
             //dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             //dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            datagrid_listado.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             
         }
 

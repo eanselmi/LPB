@@ -30,58 +30,58 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormularioPublicacion));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton5 = new System.Windows.Forms.RadioButton();
-            this.radioButton6 = new System.Windows.Forms.RadioButton();
-            this.label2 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.btn_volver = new System.Windows.Forms.Button();
+            this.btn_limpiar = new System.Windows.Forms.Button();
+            this.btn_guardar = new System.Windows.Forms.Button();
+            this.check_envio = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.checklist_rubros = new System.Windows.Forms.CheckedListBox();
+            this.date_fin = new System.Windows.Forms.DateTimePicker();
+            this.date_inicio = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmb_visibilidad = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.radio_finalizada = new System.Windows.Forms.RadioButton();
+            this.radio_pausada = new System.Windows.Forms.RadioButton();
+            this.radio_activa = new System.Windows.Forms.RadioButton();
+            this.radio_borrador = new System.Windows.Forms.RadioButton();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.radio_subasta = new System.Windows.Forms.RadioButton();
+            this.radio_compra = new System.Windows.Forms.RadioButton();
+            this.text_descripcion = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.text_precio = new System.Windows.Forms.TextBox();
+            this.text_stock = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.Controls.Add(this.text_stock);
+            this.groupBox1.Controls.Add(this.text_precio);
+            this.groupBox1.Controls.Add(this.btn_volver);
+            this.groupBox1.Controls.Add(this.btn_limpiar);
+            this.groupBox1.Controls.Add(this.btn_guardar);
+            this.groupBox1.Controls.Add(this.check_envio);
             this.groupBox1.Controls.Add(this.groupBox4);
-            this.groupBox1.Controls.Add(this.dateTimePicker2);
-            this.groupBox1.Controls.Add(this.dateTimePicker1);
+            this.groupBox1.Controls.Add(this.date_fin);
+            this.groupBox1.Controls.Add(this.date_inicio);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.cmb_visibilidad);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.text_descripcion);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -90,169 +90,77 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // label1
+            // btn_volver
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 35);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(92, 20);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Descripcion";
+            this.btn_volver.Location = new System.Drawing.Point(548, 501);
+            this.btn_volver.Name = "btn_volver";
+            this.btn_volver.Size = new System.Drawing.Size(165, 36);
+            this.btn_volver.TabIndex = 19;
+            this.btn_volver.Text = "Volver";
+            this.btn_volver.UseVisualStyleBackColor = true;
+            this.btn_volver.Click += new System.EventHandler(this.button3_Click);
             // 
-            // textBox1
+            // btn_limpiar
             // 
-            this.textBox1.Location = new System.Drawing.Point(120, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(226, 26);
-            this.textBox1.TabIndex = 1;
+            this.btn_limpiar.Location = new System.Drawing.Point(548, 446);
+            this.btn_limpiar.Name = "btn_limpiar";
+            this.btn_limpiar.Size = new System.Drawing.Size(165, 36);
+            this.btn_limpiar.TabIndex = 18;
+            this.btn_limpiar.Text = "Limpiar";
+            this.btn_limpiar.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // btn_guardar
             // 
-            this.groupBox2.Controls.Add(this.radioButton2);
-            this.groupBox2.Controls.Add(this.radioButton1);
-            this.groupBox2.Location = new System.Drawing.Point(530, 25);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(189, 143);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Tipo";
+            this.btn_guardar.Location = new System.Drawing.Point(548, 395);
+            this.btn_guardar.Name = "btn_guardar";
+            this.btn_guardar.Size = new System.Drawing.Size(165, 36);
+            this.btn_guardar.TabIndex = 17;
+            this.btn_guardar.Text = "Guardar";
+            this.btn_guardar.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // check_envio
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(18, 41);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(165, 24);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Compra Inmediata";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.check_envio.AutoSize = true;
+            this.check_envio.Location = new System.Drawing.Point(305, 198);
+            this.check_envio.Name = "check_envio";
+            this.check_envio.Size = new System.Drawing.Size(129, 24);
+            this.check_envio.TabIndex = 16;
+            this.check_envio.Text = "Acepta Envio";
+            this.check_envio.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // groupBox4
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(18, 90);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(94, 24);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Subasta";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.groupBox4.Controls.Add(this.checklist_rubros);
+            this.groupBox4.Location = new System.Drawing.Point(26, 361);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(486, 193);
+            this.groupBox4.TabIndex = 14;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Rubros";
             // 
-            // groupBox3
+            // checklist_rubros
             // 
-            this.groupBox3.Controls.Add(this.radioButton6);
-            this.groupBox3.Controls.Add(this.radioButton5);
-            this.groupBox3.Controls.Add(this.radioButton4);
-            this.groupBox3.Controls.Add(this.radioButton3);
-            this.groupBox3.Location = new System.Drawing.Point(530, 174);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(189, 204);
-            this.groupBox3.TabIndex = 3;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Estado";
+            this.checklist_rubros.FormattingEnabled = true;
+            this.checklist_rubros.Location = new System.Drawing.Point(18, 25);
+            this.checklist_rubros.Name = "checklist_rubros";
+            this.checklist_rubros.Size = new System.Drawing.Size(445, 151);
+            this.checklist_rubros.TabIndex = 0;
             // 
-            // radioButton3
+            // date_fin
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(36, 37);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(96, 24);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "Borrador";
-            this.radioButton3.UseVisualStyleBackColor = true;
+            this.date_fin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.date_fin.Location = new System.Drawing.Point(352, 299);
+            this.date_fin.Name = "date_fin";
+            this.date_fin.Size = new System.Drawing.Size(137, 26);
+            this.date_fin.TabIndex = 13;
             // 
-            // radioButton4
+            // date_inicio
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(35, 78);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(77, 24);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Activa";
-            this.radioButton4.UseVisualStyleBackColor = true;
-            // 
-            // radioButton5
-            // 
-            this.radioButton5.AutoSize = true;
-            this.radioButton5.Location = new System.Drawing.Point(35, 119);
-            this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(97, 24);
-            this.radioButton5.TabIndex = 4;
-            this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "Pausada";
-            this.radioButton5.UseVisualStyleBackColor = true;
-            // 
-            // radioButton6
-            // 
-            this.radioButton6.AutoSize = true;
-            this.radioButton6.Location = new System.Drawing.Point(36, 160);
-            this.radioButton6.Name = "radioButton6";
-            this.radioButton6.Size = new System.Drawing.Size(106, 24);
-            this.radioButton6.TabIndex = 5;
-            this.radioButton6.TabStop = true;
-            this.radioButton6.Text = "Finalizada";
-            this.radioButton6.UseVisualStyleBackColor = true;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 99);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 20);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Visibilidad";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(120, 96);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(226, 28);
-            this.comboBox1.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 170);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(50, 20);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Stock";
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(120, 164);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(95, 26);
-            this.textBox2.TabIndex = 7;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(22, 233);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(53, 20);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Precio";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(120, 230);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(95, 26);
-            this.textBox3.TabIndex = 9;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(22, 304);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(95, 20);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "Fecha Inicio";
+            this.date_inicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.date_inicio.Location = new System.Drawing.Point(123, 299);
+            this.date_inicio.Name = "date_inicio";
+            this.date_inicio.Size = new System.Drawing.Size(137, 26);
+            this.date_inicio.TabIndex = 12;
             // 
             // label6
             // 
@@ -263,77 +171,171 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "Fecha Fin";
             // 
-            // dateTimePicker1
+            // label5
             // 
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker1.Location = new System.Drawing.Point(123, 299);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(137, 26);
-            this.dateTimePicker1.TabIndex = 12;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(22, 304);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(95, 20);
+            this.label5.TabIndex = 10;
+            this.label5.Text = "Fecha Inicio";
             // 
-            // dateTimePicker2
+            // label4
             // 
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dateTimePicker2.Location = new System.Drawing.Point(352, 299);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.Size = new System.Drawing.Size(137, 26);
-            this.dateTimePicker2.TabIndex = 13;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 233);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(53, 20);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Precio";
             // 
-            // groupBox4
+            // label3
             // 
-            this.groupBox4.Controls.Add(this.checkedListBox1);
-            this.groupBox4.Location = new System.Drawing.Point(26, 361);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(486, 193);
-            this.groupBox4.TabIndex = 14;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Rubros";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(22, 170);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(50, 20);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Stock";
             // 
-            // checkedListBox1
+            // cmb_visibilidad
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(18, 25);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(445, 151);
-            this.checkedListBox1.TabIndex = 0;
+            this.cmb_visibilidad.FormattingEnabled = true;
+            this.cmb_visibilidad.Location = new System.Drawing.Point(120, 96);
+            this.cmb_visibilidad.Name = "cmb_visibilidad";
+            this.cmb_visibilidad.Size = new System.Drawing.Size(226, 28);
+            this.cmb_visibilidad.TabIndex = 5;
             // 
-            // checkBox1
+            // label2
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(305, 198);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(129, 24);
-            this.checkBox1.TabIndex = 16;
-            this.checkBox1.Text = "Acepta Envio";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(22, 99);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(79, 20);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Visibilidad";
             // 
-            // button1
+            // groupBox3
             // 
-            this.button1.Location = new System.Drawing.Point(548, 395);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(165, 36);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Guardar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.groupBox3.Controls.Add(this.radio_finalizada);
+            this.groupBox3.Controls.Add(this.radio_pausada);
+            this.groupBox3.Controls.Add(this.radio_activa);
+            this.groupBox3.Controls.Add(this.radio_borrador);
+            this.groupBox3.Location = new System.Drawing.Point(530, 174);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(189, 204);
+            this.groupBox3.TabIndex = 3;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Estado";
             // 
-            // button2
+            // radio_finalizada
             // 
-            this.button2.Location = new System.Drawing.Point(548, 446);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(165, 36);
-            this.button2.TabIndex = 18;
-            this.button2.Text = "Limpiar";
-            this.button2.UseVisualStyleBackColor = true;
+            this.radio_finalizada.AutoSize = true;
+            this.radio_finalizada.Location = new System.Drawing.Point(36, 160);
+            this.radio_finalizada.Name = "radio_finalizada";
+            this.radio_finalizada.Size = new System.Drawing.Size(106, 24);
+            this.radio_finalizada.TabIndex = 5;
+            this.radio_finalizada.TabStop = true;
+            this.radio_finalizada.Text = "Finalizada";
+            this.radio_finalizada.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // radio_pausada
             // 
-            this.button3.Location = new System.Drawing.Point(548, 501);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(165, 36);
-            this.button3.TabIndex = 19;
-            this.button3.Text = "Volver";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.radio_pausada.AutoSize = true;
+            this.radio_pausada.Location = new System.Drawing.Point(35, 119);
+            this.radio_pausada.Name = "radio_pausada";
+            this.radio_pausada.Size = new System.Drawing.Size(97, 24);
+            this.radio_pausada.TabIndex = 4;
+            this.radio_pausada.TabStop = true;
+            this.radio_pausada.Text = "Pausada";
+            this.radio_pausada.UseVisualStyleBackColor = true;
+            // 
+            // radio_activa
+            // 
+            this.radio_activa.AutoSize = true;
+            this.radio_activa.Location = new System.Drawing.Point(35, 78);
+            this.radio_activa.Name = "radio_activa";
+            this.radio_activa.Size = new System.Drawing.Size(77, 24);
+            this.radio_activa.TabIndex = 3;
+            this.radio_activa.TabStop = true;
+            this.radio_activa.Text = "Activa";
+            this.radio_activa.UseVisualStyleBackColor = true;
+            // 
+            // radio_borrador
+            // 
+            this.radio_borrador.AutoSize = true;
+            this.radio_borrador.Location = new System.Drawing.Point(36, 37);
+            this.radio_borrador.Name = "radio_borrador";
+            this.radio_borrador.Size = new System.Drawing.Size(96, 24);
+            this.radio_borrador.TabIndex = 2;
+            this.radio_borrador.TabStop = true;
+            this.radio_borrador.Text = "Borrador";
+            this.radio_borrador.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.radio_subasta);
+            this.groupBox2.Controls.Add(this.radio_compra);
+            this.groupBox2.Location = new System.Drawing.Point(530, 25);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(189, 143);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Tipo";
+            // 
+            // radio_subasta
+            // 
+            this.radio_subasta.AutoSize = true;
+            this.radio_subasta.Location = new System.Drawing.Point(18, 90);
+            this.radio_subasta.Name = "radio_subasta";
+            this.radio_subasta.Size = new System.Drawing.Size(94, 24);
+            this.radio_subasta.TabIndex = 1;
+            this.radio_subasta.TabStop = true;
+            this.radio_subasta.Text = "Subasta";
+            this.radio_subasta.UseVisualStyleBackColor = true;
+            // 
+            // radio_compra
+            // 
+            this.radio_compra.AutoSize = true;
+            this.radio_compra.Location = new System.Drawing.Point(18, 41);
+            this.radio_compra.Name = "radio_compra";
+            this.radio_compra.Size = new System.Drawing.Size(165, 24);
+            this.radio_compra.TabIndex = 0;
+            this.radio_compra.TabStop = true;
+            this.radio_compra.Text = "Compra Inmediata";
+            this.radio_compra.UseVisualStyleBackColor = true;
+            // 
+            // text_descripcion
+            // 
+            this.text_descripcion.Location = new System.Drawing.Point(120, 32);
+            this.text_descripcion.Name = "text_descripcion";
+            this.text_descripcion.Size = new System.Drawing.Size(226, 26);
+            this.text_descripcion.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(22, 35);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(92, 20);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Descripcion";
+            // 
+            // text_precio
+            // 
+            this.text_precio.Location = new System.Drawing.Point(115, 230);
+            this.text_precio.Name = "text_precio";
+            this.text_precio.Size = new System.Drawing.Size(100, 26);
+            this.text_precio.TabIndex = 21;
+            this.text_precio.Leave += new System.EventHandler(this.textBox2_Leave);
+            // 
+            // text_stock
+            // 
+            this.text_stock.Location = new System.Drawing.Point(115, 167);
+            this.text_stock.Name = "text_stock";
+            this.text_stock.Size = new System.Drawing.Size(100, 26);
+            this.text_stock.TabIndex = 22;
+            this.text_stock.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // FormularioPublicacion
             // 
@@ -348,11 +350,11 @@
             this.Load += new System.EventHandler(this.FormularioPublicacion_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -360,31 +362,31 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox cmb_visibilidad;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.RadioButton radioButton6;
-        private System.Windows.Forms.RadioButton radioButton5;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButton3;
+        private System.Windows.Forms.RadioButton radio_finalizada;
+        private System.Windows.Forms.RadioButton radio_pausada;
+        private System.Windows.Forms.RadioButton radio_activa;
+        private System.Windows.Forms.RadioButton radio_borrador;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RadioButton radio_subasta;
+        private System.Windows.Forms.RadioButton radio_compra;
+        private System.Windows.Forms.TextBox text_descripcion;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button btn_volver;
+        private System.Windows.Forms.Button btn_limpiar;
+        private System.Windows.Forms.Button btn_guardar;
+        private System.Windows.Forms.CheckBox check_envio;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.CheckedListBox checklist_rubros;
+        private System.Windows.Forms.DateTimePicker date_fin;
+        private System.Windows.Forms.DateTimePicker date_inicio;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox text_precio;
+        private System.Windows.Forms.TextBox text_stock;
     }
 }
