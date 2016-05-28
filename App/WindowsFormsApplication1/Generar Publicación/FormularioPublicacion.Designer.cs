@@ -269,39 +269,43 @@
             this.radio_finalizada.TabStop = true;
             this.radio_finalizada.Text = "Finalizada";
             this.radio_finalizada.UseVisualStyleBackColor = true;
+            this.radio_finalizada.CheckedChanged += new System.EventHandler(this.radio_finalizada_CheckedChanged);
             // 
             // radio_pausada
             // 
             this.radio_pausada.AutoSize = true;
-            this.radio_pausada.Location = new System.Drawing.Point(34, 118);
+            this.radio_pausada.Location = new System.Drawing.Point(36, 113);
             this.radio_pausada.Name = "radio_pausada";
             this.radio_pausada.Size = new System.Drawing.Size(97, 24);
             this.radio_pausada.TabIndex = 4;
             this.radio_pausada.TabStop = true;
             this.radio_pausada.Text = "Pausada";
             this.radio_pausada.UseVisualStyleBackColor = true;
+            this.radio_pausada.CheckedChanged += new System.EventHandler(this.radio_pausada_CheckedChanged);
             // 
             // radio_activa
             // 
             this.radio_activa.AutoSize = true;
-            this.radio_activa.Location = new System.Drawing.Point(34, 78);
+            this.radio_activa.Location = new System.Drawing.Point(36, 70);
             this.radio_activa.Name = "radio_activa";
             this.radio_activa.Size = new System.Drawing.Size(77, 24);
             this.radio_activa.TabIndex = 3;
             this.radio_activa.TabStop = true;
             this.radio_activa.Text = "Activa";
             this.radio_activa.UseVisualStyleBackColor = true;
+            this.radio_activa.CheckedChanged += new System.EventHandler(this.radio_activa_CheckedChanged);
             // 
             // radio_borrador
             // 
             this.radio_borrador.AutoSize = true;
-            this.radio_borrador.Location = new System.Drawing.Point(36, 37);
+            this.radio_borrador.Location = new System.Drawing.Point(36, 25);
             this.radio_borrador.Name = "radio_borrador";
             this.radio_borrador.Size = new System.Drawing.Size(96, 24);
             this.radio_borrador.TabIndex = 2;
             this.radio_borrador.TabStop = true;
             this.radio_borrador.Text = "Borrador";
             this.radio_borrador.UseVisualStyleBackColor = true;
+            this.radio_borrador.CheckedChanged += new System.EventHandler(this.radio_borrador_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -336,6 +340,7 @@
             this.radio_compra.TabStop = true;
             this.radio_compra.Text = "Compra Inmediata";
             this.radio_compra.UseVisualStyleBackColor = true;
+            this.radio_compra.CheckedChanged += new System.EventHandler(this.radio_compra_CheckedChanged);
             // 
             // text_descripcion
             // 

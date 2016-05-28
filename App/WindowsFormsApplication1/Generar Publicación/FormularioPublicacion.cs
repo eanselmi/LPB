@@ -18,9 +18,15 @@ namespace visibilidad.Generar_Publicación
     public partial class FormularioPublicacion : Form
     {
         public Generar_Publicación.GenerarPublicacion generar;
-        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form)
+        public int id_usuario;
+        public int publicacion_tipo;
+        public int publicacion_estado;
+        public int publicacion_acepta_envio;
+        public int publicacion_acepta_preguntas;
+        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form,int usuario_id)
         {
             generar = form;
+            id_usuario = usuario_id;
             InitializeComponent();
         }
 
@@ -90,8 +96,13 @@ namespace visibilidad.Generar_Publicación
 
         private void radio_subasta_CheckedChanged(object sender, EventArgs e)
         {
-            if (radio_subasta.Checked == true) text_stock.Enabled = false;
+            if (radio_subasta.Checked == true) 
+            {
+                text_stock.Enabled = false;
+                publicacion_tipo = 2;
+            }    
             else text_stock.Enabled = true;
+            
         }
 
         private void cmb_visibilidad_SelectedIndexChanged(object sender, EventArgs e)
@@ -140,6 +151,31 @@ namespace visibilidad.Generar_Publicación
             {
                 checklist_rubros.SetItemCheckState(i, CheckState.Unchecked);
             }
+        }
+
+        private void radio_compra_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_compra.Checked == true) publicacion_tipo = 1;
+        }
+
+        private void radio_borrador_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_borrador.Checked == true) publicacion_estado = 1;
+        }
+
+        private void radio_activa_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_activa.Checked == true) publicacion_estado = 2;
+        }
+
+        private void radio_pausada_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_pausada.Checked == true) publicacion_estado = 3;
+        }
+
+        private void radio_finalizada_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radio_finalizada.Checked == true) publicacion_estado = 4;
         }
     }
 }
