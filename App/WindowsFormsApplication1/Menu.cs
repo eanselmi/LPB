@@ -172,5 +172,11 @@ namespace visibilidad
             listadosEstadisticos.Show();
         }
 
+        private void comprarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ComprarOfertar.BusquedaPublicacion busquedaPublicacion = new ComprarOfertar.BusquedaPublicacion();
+            busquedaPublicacion.Show();
+        }
+
     }
 }

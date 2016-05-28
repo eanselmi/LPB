@@ -117,11 +117,11 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Conexion.cs" />
-    <Compile Include="ComprarOfertar\Form1.cs">
+    <Compile Include="ComprarOfertar\BusquedaPublicacion.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ComprarOfertar\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="ComprarOfertar\BusquedaPublicacion.Designer.cs">
+      <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuracion.cs" />
     <Compile Include="Facturas\Form1.cs">
@@ -207,6 +207,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ayuda.resx">
       <DependentUpon>Ayuda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOfertar\BusquedaPublicacion.resx">
+      <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicación\FormularioPublicacion.resx">
       <DependentUpon>FormularioPublicacion.cs</DependentUpon>
