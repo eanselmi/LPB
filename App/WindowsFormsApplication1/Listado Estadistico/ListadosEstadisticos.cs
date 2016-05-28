@@ -56,18 +56,29 @@ namespace visibilidad.Listado_Estadistico
             Conexion listado = new Conexion();
 
             DataTable dt = new DataTable();
-            Int32 mesInicio;
-            Int32 mesFin;
-            if (comboBoxTrimestre.SelectedIndex == 0)
-            {
+            Int32 mesInicio = 0;
+            Int32 mesFin = 0;
+            if(comboBoxTrimestre.SelectedIndex == 0){
                 mesInicio = 1;
                 mesFin = 3;
             }
-            else                
+            if (comboBoxTrimestre.SelectedIndex == 1)      
             {
                 mesInicio = 4;
                 mesFin = 6;
               
+            }
+            if (comboBoxTrimestre.SelectedIndex == 2)
+            {
+                mesInicio = 7;
+                mesFin = 9;
+
+            }
+            if (comboBoxTrimestre.SelectedIndex == 3)
+            {
+                mesInicio = 10;
+                mesFin = 12;
+
             }
 
             //Creo las fechas de Inicio y Fin dependiendo del año y trimestre elegido
