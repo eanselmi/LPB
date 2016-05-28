@@ -219,6 +219,7 @@ fechaCreacion DATETIME NOT NULL,
 fechaVencimiento DATETIME NOT NULL,
 precio NUMERIC(18,2) NOT NULL,
 aceptaEnvio BIT,
+aceptaPreguntas BIT,
 Visibilidad_codigo NUMERIC(18,0),
 PRIMARY KEY(codigo)
 )
@@ -701,11 +702,11 @@ COMMIT;
 
 /*EstadosDePublcacion*/
 BEGIN TRANSACTION
-INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Finalizada');
-INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Activa');
-INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Publicada');
-INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Pausada');
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Borrador');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Activa');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Pausada');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Finalizada');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Publicada');
 COMMIT;
 
 /*Rubros*/
