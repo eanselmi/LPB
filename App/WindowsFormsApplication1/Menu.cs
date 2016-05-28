@@ -19,7 +19,7 @@ namespace visibilidad
     {
 
         public int id_usuario;
-        public Login log;       
+        public Login log;
         public Menu()
         {
             InitializeComponent();
@@ -31,10 +31,10 @@ namespace visibilidad
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             //this.TopMost = true;
-            
+
         }
 
-        public void cargarRoles(int usuario_id,string rol, Login form)
+        public void cargarRoles(int usuario_id, string rol, Login form)
         {
             log = form;
             id_usuario = usuario_id;
@@ -51,7 +51,7 @@ namespace visibilidad
             string query;
             query = "select f.descripcion from lpb.roles r, lpb.FuncionalidadesPorRol fpr, lpb.Funcionalidades f " +
                      "where r.id=fpr.Rol_id and fpr.Funcionalidad_id=f.id and r.nombre= '" + rol + "'";
-            
+
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector1 = command.ExecuteReader();
@@ -59,7 +59,7 @@ namespace visibilidad
             {
                 if (lector1.GetString(0) == "abmRol" || lector1.GetString(0) == "abmUsuario" || lector1.GetString(0) == "abmRubro" || lector1.GetString(0) == "abmVisibilidad")
                 {
-                    aBMToolStripMenuItem.Visible = true;                
+                    aBMToolStripMenuItem.Visible = true;
                 }
                 else if (lector1.GetString(0) == "generarPublicacion")
                 {
@@ -85,10 +85,10 @@ namespace visibilidad
                 else if (lector1.GetString(0) == "listadoEstadistico")
                 {
                     listadoEstadisticoToolStripMenuItem.Visible = true;
-                }            
+                }
             }
             con.cnn.Close();
-     
+
         }
 
         private void salirToolStripMenuItem_Click(object sender, EventArgs e)
@@ -102,12 +102,13 @@ namespace visibilidad
             this.Close();
             log.Show();
             log.Refresh();
-            
+            log.text_usuario.Focus();
+
         }
 
         private void altaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            
+
             Abm_Rol.ABMRol abmrol = new Abm_Rol.ABMRol("A");
             abmrol.Show();
         }
@@ -132,7 +133,7 @@ namespace visibilidad
 
         private void altaToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void altaToolStripMenuItem3_Click_1(object sender, EventArgs e)

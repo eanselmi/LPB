@@ -26,7 +26,7 @@ namespace visibilidad
         public Login()
         {
             InitializeComponent();
-        }       
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -75,7 +75,7 @@ namespace visibilidad
             pass = lector.GetString(0);
             intFallidos = lector.GetInt32(1);
             userHabilitado = lector.GetBoolean(2);
-            id_usuario = lector.GetInt32(3);            
+            id_usuario = lector.GetInt32(3);
             con.cnn.Close();
 
             ///////////////////////////////////////////////////////////////////////////
@@ -129,24 +129,24 @@ namespace visibilidad
                 command2.ExecuteNonQuery();
                 con.cnn.Close();
             }
-            
+
             text_usuario.Focus();
-            
+
             grp_login.Visible = false;
             grp_rol.Visible = true;
-            
+
             /*CARGA LOS ROLES DEL USUARIO EN EL COMBOBOX*/
             cmb_roles.Items.Clear();
-            query = "select r.nombre from lpb.Usuarios u, lpb.RolesPorUsuario rxu, lpb.Roles r "+
-                    "where u.id = rxu.Usuario_id and rxu.Rol_id=r.id and u.username= "+ "'" + text_usuario.Text + "'";            
+            query = "select r.nombre from lpb.Usuarios u, lpb.RolesPorUsuario rxu, lpb.Roles r " +
+                    "where u.id = rxu.Usuario_id and rxu.Rol_id=r.id and u.username= " + "'" + text_usuario.Text + "'";
             con.cnn.Open();
             command = new SqlCommand(query, con.cnn);
             lector = command.ExecuteReader();
-            int cont = 0;            
+            int cont = 0;
             while (lector.Read())
             {
                 cmb_roles.Items.Add(lector.GetString(0));
-                cont++;                
+                cont++;
             }
             con.cnn.Close();
             text_usuario.Text = "";
@@ -156,11 +156,12 @@ namespace visibilidad
                 Menu mp = new Menu();
                 this.Hide();
                 mp.Show();
-                cmb_roles.SelectedIndex = 0;                
+                cmb_roles.SelectedIndex = 0;
                 mp.cargarRoles(id_usuario, cmb_roles.Text, this);
                 grp_rol.Visible = false;
-                grp_login.Visible = true;                
-                
+                grp_login.Visible = true;
+                cmb_roles.SelectedIndex = -1;
+
             }
         }
 
@@ -176,7 +177,7 @@ namespace visibilidad
         {
             grp_rol.Visible = false;
             grp_login.Visible = true;
-            
+
         }
 
         private void btn_aceptar_Click(object sender, EventArgs e)
@@ -191,8 +192,9 @@ namespace visibilidad
                 mp.cargarRoles(id_usuario, cmb_roles.Text, this);
                 grp_rol.Visible = false;
                 grp_login.Visible = true;
+                cmb_roles.SelectedIndex = -1;
             }
         }
-      
+
     }
 }
