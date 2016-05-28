@@ -726,7 +726,7 @@ SELECT DISTINCT [Publicacion_Visibilidad_Cod],
 	            [Publicacion_Visibilidad_Desc],
 				[Publicacion_Visibilidad_Precio],
 				[Publicacion_Visibilidad_Porcentaje],
-				98
+				(CASE WHEN  [Publicacion_Visibilidad_Desc] = 'Gratis' THEN 0 ELSE 98 END)
 FROM [gd_esquema].[Maestra]
 WHERE [Publicacion_Visibilidad_Cod] IS NOT NULL
 
