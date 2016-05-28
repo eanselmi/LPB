@@ -50,6 +50,10 @@ IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
 BEGIN
         DROP TABLE LPB.FormasDePago ;
 END;
+IF OBJECT_ID('LPB.PublicacionesPorRubro') IS NOT NULL
+BEGIN
+        DROP TABLE LPB.PublicacionesPorRubro;
+END;
 IF OBJECT_ID('LPB.Publicaciones') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Publicaciones;
@@ -95,6 +99,7 @@ IF OBJECT_ID('LPB.Localidades') IS NOT NULL
 BEGIN
         DROP TABLE LPB.Localidades ;
 END;
+
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -215,9 +220,14 @@ fechaVencimiento DATETIME NOT NULL,
 precio NUMERIC(18,2) NOT NULL,
 aceptaEnvio BIT,
 Visibilidad_codigo NUMERIC(18,0),
-Rubro_id int,
 PRIMARY KEY(codigo)
 )
+GO
+
+CREATE TABLE [LPB].PublicacionesPorRubro(
+Publicacion_id NUMERIC (18,0) NOT NULL,
+Rubro_id INT NOT NULL,
+PRIMARY KEY(Publicacion_id, Rubro_id));
 GO
 
 CREATE TABLE [LPB].Rubros(
@@ -294,13 +304,17 @@ ALTER TABLE LPB.Publicaciones ADD
             FOREIGN KEY (Usuario_id) references LPB.Usuarios,
             FOREIGN KEY (EstadoDePublicacion_id) references LPB.EstadosDePublicacion,
 			FOREIGN KEY (TipoDePublicacion_id) references LPB.TiposDePublicacion,
-			FOREIGN KEY (Visibilidad_codigo) references LPB.Visibilidades,
-			FOREIGN KEY (Rubro_id) references LPB.Rubros;
+			FOREIGN KEY (Visibilidad_codigo) references LPB.Visibilidades;			
 GO
 
 ALTER TABLE LPB.RolesPorUsuario ADD
             FOREIGN KEY (Rol_id) references LPB.Roles,
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
+GO
+
+ALTER TABLE LPB.PublicacionesPorRubro ADD
+            FOREIGN KEY (Rubro_id) references LPB.Rubros,
+            FOREIGN KEY (Publicacion_id) references LPB.Publicaciones;
 GO
                                                             
 ALTER TABLE LPB.FuncionalidadesPorRol ADD
@@ -690,6 +704,8 @@ BEGIN TRANSACTION
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Finalizada');
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Activa');
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Publicada');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Pausada');
+INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Borrador');
 COMMIT;
 
 /*Rubros*/
@@ -729,8 +745,7 @@ INSERT INTO [LPB].[Publicaciones] (
 	,[fechaCreacion]
 	,[fechaVencimiento]	
 	,[precio]
-	,[Visibilidad_codigo]	
-	,[Rubro_id] 
+	,[Visibilidad_codigo]		
 	)
 SELECT DISTINCT [Publicacion_Cod]
 	,[Empresas].[Usuario_Id]
@@ -741,8 +756,7 @@ SELECT DISTINCT [Publicacion_Cod]
 	,[Publicacion_Fecha]
 	,[Publicacion_Fecha_Venc]	
 	,[Publicacion_Precio]
-	,[Publicacion_Visibilidad_Cod]	
-	,[Rubros].id  
+	,[Publicacion_Visibilidad_Cod]		
 FROM [gd_esquema].[Maestra] AS Maestra
 INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
 INNER JOIN [LPB].[Empresas] AS Empresas ON Maestra.Publ_Empresa_Cuit = Empresas.Cuit
@@ -761,8 +775,7 @@ SELECT DISTINCT [Publicacion_Cod]
 	,[Publicacion_Fecha]
 	,[Publicacion_Fecha_Venc]	
 	,[Publicacion_Precio]
-	,[Publicacion_Visibilidad_Cod]	
-	,[Rubros].id  
+	,[Publicacion_Visibilidad_Cod]		
 FROM [gd_esquema].[Maestra] AS Maestra
 INNER JOIN [LPB].[TiposDePublicacion] AS Tipos ON Maestra.Publicacion_Tipo = Tipos.Descripcion
 INNER JOIN [LPB].[Clientes] AS Clientes ON Maestra.Publ_Cli_Dni = Clientes.documento_numero
@@ -770,6 +783,14 @@ INNER JOIN [LPB].[Rubros] AS Rubros ON Maestra.Publicacion_Rubro_Descripcion = R
 WHERE [Publicacion_Cod] IS NOT NULL
 	AND [Publ_Cli_Dni] IS NOT NULL
 COMMIT;
+
+/* Migracion PublicacionesPorRubro */
+INSERT INTO [lpb].[PublicacionesPorRubro] ([Rubro_id],[Publicacion_Id])
+SELECT DISTINCT [Rubros].[id],[Publicacion_Cod]
+FROM [gd_esquema].[Maestra] AS Maestra
+INNER JOIN [lpb].[Rubros] AS Rubros ON Maestra.[Publicacion_Rubro_Descripcion] = Rubros.Descripcion
+WHERE [Publicacion_Cod] IS NOT NULL
+	AND ( [Publ_Cli_Dni] IS NOT NULL OR [Publ_Empresa_Cuit] IS NOT NULL)
 
 /*Migracion Compras*/
 
