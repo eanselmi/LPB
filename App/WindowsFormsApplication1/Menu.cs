@@ -165,5 +165,12 @@ namespace visibilidad
             Ayuda ayuda = new Ayuda();
             ayuda.Show();
         }
+
+        private void listadoEstadisticoToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            Listado_Estadistico.ListadoEstadistico listadosEstadisticos = new Listado_Estadistico.ListadoEstadistico();
+            listadosEstadisticos.Show();
+        }
+
     }
 }
