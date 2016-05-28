@@ -231,7 +231,7 @@
             this.labelRolesCli.Name = "labelRolesCli";
             this.labelRolesCli.Size = new System.Drawing.Size(37, 13);
             this.labelRolesCli.TabIndex = 30;
-            this.labelRolesCli.Text = "Roles:";
+            this.labelRolesCli.Text = "*Roles:";
             // 
             // monthCalendar1
             // 
@@ -240,6 +240,7 @@
             this.monthCalendar1.TabIndex = 14;
             this.monthCalendar1.Visible = false;
             this.monthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateSelected);
+            this.monthCalendar1.MaxSelectionCount = 1;
             // 
             // comboBoxTipoDoc
             // 
@@ -529,7 +530,7 @@
             this.labelRolesEmp.Name = "labelRolesEmp";
             this.labelRolesEmp.Size = new System.Drawing.Size(37, 13);
             this.labelRolesEmp.TabIndex = 68;
-            this.labelRolesEmp.Text = "Roles:";
+            this.labelRolesEmp.Text = "*Roles:";
             // 
             // comboBoxRubro
             // 

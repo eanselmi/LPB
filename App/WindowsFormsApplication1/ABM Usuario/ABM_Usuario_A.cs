@@ -274,6 +274,18 @@ namespace visibilidad.ABM_Usuario
                     }
                 }
 
+                //FECHA DE NACIMIENTO
+
+                if (!(textBoxFechaNac.Text.Equals("")))
+                {
+                    int age = DateTime.Today.Year - monthCalendar1.SelectionStart.Date.Year;
+                    if (age < 18)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tNo puede darse de alta a clientes menores de 18 años\n");
+                    }
+                }
+
                 //ROLES
                 if (CheckedListBoxCli.CheckedItems.Count == 0)
                 {
