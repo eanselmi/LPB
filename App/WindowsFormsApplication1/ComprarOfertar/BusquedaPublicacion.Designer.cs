@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.group_buscar = new System.Windows.Forms.GroupBox();
+            this.btn_limpiar = new System.Windows.Forms.Button();
             this.label_rubro = new System.Windows.Forms.Label();
             this.tbox_descr = new System.Windows.Forms.TextBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.checklist_rubros = new System.Windows.Forms.CheckedListBox();
             this.label_palabrasclave = new System.Windows.Forms.Label();
             this.btn_volver = new System.Windows.Forms.Button();
-            this.btn_aceptar = new System.Windows.Forms.Button();
+            this.btn_buscar = new System.Windows.Forms.Button();
             this.grid_publis = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,9 +43,8 @@
             this.Stock = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_comprar = new System.Windows.Forms.Button();
             this.btn_pregunta = new System.Windows.Forms.Button();
-            this.btn_limpiar = new System.Windows.Forms.Button();
+            this.btn_comprar = new System.Windows.Forms.Button();
             this.group_buscar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid_publis)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -57,10 +56,10 @@
             this.group_buscar.Controls.Add(this.btn_limpiar);
             this.group_buscar.Controls.Add(this.label_rubro);
             this.group_buscar.Controls.Add(this.tbox_descr);
-            this.group_buscar.Controls.Add(this.checkedListBox1);
+            this.group_buscar.Controls.Add(this.checklist_rubros);
             this.group_buscar.Controls.Add(this.label_palabrasclave);
             this.group_buscar.Controls.Add(this.btn_volver);
-            this.group_buscar.Controls.Add(this.btn_aceptar);
+            this.group_buscar.Controls.Add(this.btn_buscar);
             this.group_buscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.group_buscar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.group_buscar.Location = new System.Drawing.Point(12, 11);
@@ -71,6 +70,19 @@
             this.group_buscar.TabIndex = 4;
             this.group_buscar.TabStop = false;
             this.group_buscar.Text = "Búsqueda de Publicaciones";
+            // 
+            // btn_limpiar
+            // 
+            this.btn_limpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_limpiar.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_limpiar.Location = new System.Drawing.Point(714, 96);
+            this.btn_limpiar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_limpiar.Name = "btn_limpiar";
+            this.btn_limpiar.Size = new System.Drawing.Size(150, 30);
+            this.btn_limpiar.TabIndex = 8;
+            this.btn_limpiar.Text = "Limpiar";
+            this.btn_limpiar.UseVisualStyleBackColor = true;
+            this.btn_limpiar.Click += new System.EventHandler(this.btn_limpiar_Click);
             // 
             // label_rubro
             // 
@@ -87,14 +99,17 @@
             this.tbox_descr.Name = "tbox_descr";
             this.tbox_descr.Size = new System.Drawing.Size(541, 27);
             this.tbox_descr.TabIndex = 6;
+            this.tbox_descr.TextChanged += new System.EventHandler(this.tbox_descr_TextChanged);
             // 
-            // checkedListBox1
+            // checklist_rubros
             // 
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(158, 73);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.Size = new System.Drawing.Size(541, 114);
-            this.checkedListBox1.TabIndex = 5;
+            this.checklist_rubros.CheckOnClick = true;
+            this.checklist_rubros.FormattingEnabled = true;
+            this.checklist_rubros.Location = new System.Drawing.Point(158, 73);
+            this.checklist_rubros.Name = "checklist_rubros";
+            this.checklist_rubros.Size = new System.Drawing.Size(541, 114);
+            this.checklist_rubros.TabIndex = 5;
+            this.checklist_rubros.SelectedIndexChanged += new System.EventHandler(this.checklist_rubros_SelectedIndexChanged);
             // 
             // label_palabrasclave
             // 
@@ -116,29 +131,22 @@
             this.btn_volver.TabIndex = 2;
             this.btn_volver.Text = "Volver";
             this.btn_volver.UseVisualStyleBackColor = true;
+            this.btn_volver.Click += new System.EventHandler(this.btn_volver_Click);
             // 
-            // btn_aceptar
+            // btn_buscar
             // 
-            this.btn_aceptar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_aceptar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_aceptar.Location = new System.Drawing.Point(714, 39);
-            this.btn_aceptar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_aceptar.Name = "btn_aceptar";
-            this.btn_aceptar.Size = new System.Drawing.Size(150, 30);
-            this.btn_aceptar.TabIndex = 1;
-            this.btn_aceptar.Text = "Buscar";
-            this.btn_aceptar.UseVisualStyleBackColor = true;
+            this.btn_buscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_buscar.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_buscar.Location = new System.Drawing.Point(714, 39);
+            this.btn_buscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_buscar.Name = "btn_buscar";
+            this.btn_buscar.Size = new System.Drawing.Size(150, 30);
+            this.btn_buscar.TabIndex = 1;
+            this.btn_buscar.Text = "Buscar";
+            this.btn_buscar.UseVisualStyleBackColor = true;
             // 
             // grid_publis
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial", 7.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grid_publis.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grid_publis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grid_publis.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -204,18 +212,6 @@
             this.groupBox1.Text = "Búsqueda de Publicaciones";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // btn_comprar
-            // 
-            this.btn_comprar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_comprar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_comprar.Location = new System.Drawing.Point(714, 35);
-            this.btn_comprar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_comprar.Name = "btn_comprar";
-            this.btn_comprar.Size = new System.Drawing.Size(150, 30);
-            this.btn_comprar.TabIndex = 8;
-            this.btn_comprar.Text = "Comprar";
-            this.btn_comprar.UseVisualStyleBackColor = true;
-            // 
             // btn_pregunta
             // 
             this.btn_pregunta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -228,17 +224,17 @@
             this.btn_pregunta.Text = "Realizar Pregunta";
             this.btn_pregunta.UseVisualStyleBackColor = true;
             // 
-            // btn_limpiar
+            // btn_comprar
             // 
-            this.btn_limpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_limpiar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_limpiar.Location = new System.Drawing.Point(714, 96);
-            this.btn_limpiar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_limpiar.Name = "btn_limpiar";
-            this.btn_limpiar.Size = new System.Drawing.Size(150, 30);
-            this.btn_limpiar.TabIndex = 8;
-            this.btn_limpiar.Text = "Limpiar";
-            this.btn_limpiar.UseVisualStyleBackColor = true;
+            this.btn_comprar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_comprar.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btn_comprar.Location = new System.Drawing.Point(714, 35);
+            this.btn_comprar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btn_comprar.Name = "btn_comprar";
+            this.btn_comprar.Size = new System.Drawing.Size(150, 30);
+            this.btn_comprar.TabIndex = 8;
+            this.btn_comprar.Text = "Comprar";
+            this.btn_comprar.UseVisualStyleBackColor = true;
             // 
             // BusquedaPublicacion
             // 
@@ -264,10 +260,10 @@
         public System.Windows.Forms.GroupBox group_buscar;
         private System.Windows.Forms.Label label_rubro;
         private System.Windows.Forms.TextBox tbox_descr;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
+        private System.Windows.Forms.CheckedListBox checklist_rubros;
         private System.Windows.Forms.Label label_palabrasclave;
         private System.Windows.Forms.Button btn_volver;
-        private System.Windows.Forms.Button btn_aceptar;
+        private System.Windows.Forms.Button btn_buscar;
         private System.Windows.Forms.DataGridView grid_publis;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripción;
