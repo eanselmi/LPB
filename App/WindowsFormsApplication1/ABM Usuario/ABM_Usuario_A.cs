@@ -48,6 +48,30 @@ namespace visibilidad.ABM_Usuario
             }
             conEm.cnn.Close();
 
+            /*CARGA LOS ROLES EN LOS LISTBOX*/
+            //Cliente
+            Conexion conRolesC = new Conexion();
+            string queryRolesC = "SELECT nombre FROM lpb.Roles where nombre not in ('Administrador','Empresa')";
+            conRolesC.cnn.Open();
+            SqlCommand commandRolesC = new SqlCommand(queryRolesC, conRolesC.cnn);
+            SqlDataReader lectorRolesC = commandRolesC.ExecuteReader();
+            while (lectorRolesC.Read())
+            {
+                CheckedListBoxCli.Items.Add(lectorRolesC.GetString(0));
+            }
+            conRolesC.cnn.Close();
+
+            Conexion conRolesE = new Conexion();
+            string queryRolesE = "SELECT nombre FROM lpb.Roles where nombre not in ('Administrador','Cliente')";
+            conRolesE.cnn.Open();
+            SqlCommand commandRolesE = new SqlCommand(queryRolesE, conRolesE.cnn);
+            SqlDataReader lectorRolesE = commandRolesE.ExecuteReader();
+            while (lectorRolesE.Read())
+            {
+                CheckedListBoxEmp.Items.Add(lectorRolesE.GetString(0));
+            }
+            conRolesE.cnn.Close();
+
         }
 
         private void ABM_Usuario_A_Load(object sender, EventArgs e)
@@ -250,6 +274,13 @@ namespace visibilidad.ABM_Usuario
                     }
                 }
 
+                //ROLES
+                if (CheckedListBoxCli.CheckedItems.Count == 0)
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tNo selecciono ningún rol\n");
+                }
+
                 //VALIDACION DNI ÚNICO
 
                 if (!(textBoxNumeroDoc.Text.Equals("")) && comboBoxTipoDoc.Text.Equals("DNI"))
@@ -311,26 +342,34 @@ namespace visibilidad.ABM_Usuario
                 //SI NO HAY ERRORES PROCEDO CON LA CARGA
                 Conexion cargaUsuario = new Conexion();
                 cargaUsuario.cnn.Open();
-                //CARGA USUARIO
-                bool resultadoUser = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Usuario", 
-                    Helper.Help.generarListaParaProcedure("@tipo", "@username","@pass"),
-                    this.comboBoxRol.Text, this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text));
+
                 //CARGA CLIENTE
+
                 bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
-                    Helper.Help.generarListaParaProcedure("@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
+                    Helper.Help.generarListaParaProcedure("@username","@pass","@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
                     "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad", "@user")
-                    ,this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
+                    ,this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
                     this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
                     this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text, this.textBoxUser.Text);
                 // Hay que ver que pasa cuando dpto va null//
+
+                //Asignacion Roles
+                foreach (object itemChecked in CheckedListBoxCli.CheckedItems)
+                {
+                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                    if (!resultadoRoles)
+                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 //VERIFICACION ÉXITO POSITIVO
-                if (resultadoUser && resultadoCliente)
+                if (resultadoCliente)
                     MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 cargaUsuario.cnn.Close();
-
+                this.Close();
                 return;
             }
 
@@ -376,10 +415,25 @@ namespace visibilidad.ABM_Usuario
             textBoxTelefono.Text = "";
             textBoxTelefonoEmp.Text = "";
             textBoxUser.Text = "";
-            comboBoxLocalidades.ResetText();
-            comboBoxLocalidadEmpr.ResetText();
-            comboBoxTipoDoc.ResetText();
+            comboBoxLocalidades.SelectedIndex = -1;
+            comboBoxLocalidadEmpr.SelectedIndex = -1;
+            comboBoxTipoDoc.SelectedIndex = -1;
+            comboBoxRubro.SelectedIndex = -1;
+            int iCli = CheckedListBoxCli.Items.Count - 1;
+            int iEmp = CheckedListBoxEmp.Items.Count - 1;
+            while (iCli > -1)
+            {
+                CheckedListBoxCli.SetItemChecked(iCli, false);
+                iCli--;
+            }
+            
+            while (iEmp > -1)
+            {
+                CheckedListBoxEmp.SetItemChecked(iEmp, false);
+                iEmp--;
+            }
         }
+
 
  
     }
