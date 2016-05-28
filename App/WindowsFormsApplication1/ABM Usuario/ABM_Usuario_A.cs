@@ -161,17 +161,17 @@ namespace visibilidad.ABM_Usuario
                     }
                 }
 
-                if ((!(textBoxNumeroDoc.Text.Equals(""))) && comboBoxTipoDoc.Text.Equals("Pasaporte"))
+                if ((!(textBoxNumeroDoc.Text.Equals(""))) && comboBoxTipoDoc.Text.Equals("CUIL"))
                 {
-                    if (!(Regex.Match(textBoxNumeroDoc.Text, "^[0-9A-Z]+$").Success))
+                    if (!(Regex.Match(textBoxNumeroDoc.Text, "^\\d+$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de pasaporte debe comprender letras y números\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tIngrese para el CUIL solo numeros\n");
                     }
-                    if (textBoxNumeroDoc.Text.Length.CompareTo(10) == 1)
+                    if (textBoxNumeroDoc.Text.Length.CompareTo(11) != 0)
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de pasaporte no puede ser tan largo\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de CUIL debe ser de 11 caracteres\n");
                     }
                 }
 
@@ -189,15 +189,15 @@ namespace visibilidad.ABM_Usuario
                 //TELEFONO
                 if (!(textBoxTelefono.Text.Equals("")))
                 {
-                    if (!(Regex.Match(textBoxTelefono.Text, "^(011|15)\\d+$").Success))
+                    if (!(Regex.Match(textBoxTelefono.Text, "^(11|15)\\d+$").Success))
                     {
                         hayError = true;
                         mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 011 o 15\n");
                     }
-                    if (textBoxTelefono.Text.Length.CompareTo(11) == 1 || textBoxTelefono.Text.Length.CompareTo(10)==-1)
+                    if (textBoxTelefono.Text.Length.CompareTo(10)!=0)
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de teléfono debe ser de 11 o 10 dígitos\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de teléfono debe ser de 10 dígitos\n");
                     }
                 }
 
@@ -255,14 +255,31 @@ namespace visibilidad.ABM_Usuario
                 if (!(textBoxNumeroDoc.Text.Equals("")) && comboBoxTipoDoc.Text.Equals("DNI"))
                 {
                     Conexion conDNI = new Conexion();
-                    string queryDNI = "Select * from LPB.Clientes where dni = '" + textBoxNumeroDoc.Text + "'";
+                    string queryDNI = "Select * from LPB.Clientes where documento_tipo='DNI' and documento_numero = '" + textBoxNumeroDoc.Text + "'";
                     conDNI.cnn.Open();
                     SqlCommand commandDNI = new SqlCommand(queryDNI, conDNI.cnn);
                     SqlDataReader lectorDNI = commandDNI.ExecuteReader();
                     if (lectorDNI.Read())
                     {
                         hayError = true;
-                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese numero de documento\n");
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese número de DNI\n");
+                    }
+                    conDNI.cnn.Close();
+                }
+
+                //VALIDACION CUIL ÚNICO
+
+                if (!(textBoxNumeroDoc.Text.Equals("")) && comboBoxTipoDoc.Text.Equals("CUIL"))
+                {
+                    Conexion conDNI = new Conexion();
+                    string queryDNI = "Select * from LPB.Clientes where documento_tipo='CUIL' and documento_numero = '" + textBoxNumeroDoc.Text + "'";
+                    conDNI.cnn.Open();
+                    SqlCommand commandDNI = new SqlCommand(queryDNI, conDNI.cnn);
+                    SqlDataReader lectorDNI = commandDNI.ExecuteReader();
+                    if (lectorDNI.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese número de CUIL\n");
                     }
                     conDNI.cnn.Close();
                 }
@@ -300,9 +317,9 @@ namespace visibilidad.ABM_Usuario
                     this.comboBoxRol.Text, this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text));
                 //CARGA CLIENTE
                 bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
-                    Helper.Help.generarListaParaProcedure("@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
+                    Helper.Help.generarListaParaProcedure("@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
                     "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad", "@user")
-                    , this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
+                    ,this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
                     this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
                     this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text, this.textBoxUser.Text);
                 // Hay que ver que pasa cuando dpto va null//
