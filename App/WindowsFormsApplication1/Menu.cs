@@ -179,5 +179,11 @@ namespace visibilidad
             busquedaPublicacion.Show();
         }
 
+        private void bajaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ABM_Usuario.ABM_Usuario_B abmUsuariosBaja = new ABM_Usuario.ABM_Usuario_B();
+            abmUsuariosBaja.Show();
+        }
+
     }
 }

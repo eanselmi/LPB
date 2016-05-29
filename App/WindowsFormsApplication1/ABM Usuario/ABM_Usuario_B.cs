@@ -24,5 +24,10 @@ namespace visibilidad.ABM_Usuario
             this.MinimizeBox = false;
             this.TopMost = true;
         }
+
+        private void buttonSalir_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
