@@ -35,6 +35,14 @@ namespace visibilidad.Generar_Publicación
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            radio_compra.Checked = true;
+            radio_borrador.Checked = true;
+
+            date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            date_fin.Value = date_fin.Value.AddDays(30);
+            date_fin.Enabled = false;
+            date_inicio.Enabled = false;
             cmb_visibilidad.Items.Clear();
             string query_visibilidad = "select v.descripcion from lpb.visibilidades v";
             Conexion con = new Conexion();
@@ -52,7 +60,7 @@ namespace visibilidad.Generar_Publicación
             while (lector.Read())
                 checklist_rubros.Items.Add(lector.GetString(0));
             con.cnn.Close();
-
+            cmb_visibilidad.SelectedIndex = 0;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -139,14 +147,14 @@ namespace visibilidad.Generar_Publicación
             text_stock.Text = "";
             text_visibilidad_id.Text = "";
             radio_activa.Checked = false;
-            radio_borrador.Checked = false;
-            radio_compra.Checked = false;
+            radio_borrador.Checked = true;
+            radio_compra.Checked = true;
             radio_pausada.Checked = false;
             radio_subasta.Checked = false;
             radio_finalizada.Checked = false;
             check_envio.Checked = false;
             check_pregunta.Checked = false;
-            cmb_visibilidad.SelectedIndex = -1;
+            cmb_visibilidad.SelectedIndex = 0;
             foreach (int i in checklist_rubros.CheckedIndices)
             {
                 checklist_rubros.SetItemCheckState(i, CheckState.Unchecked);
@@ -176,6 +184,29 @@ namespace visibilidad.Generar_Publicación
         private void radio_finalizada_CheckedChanged(object sender, EventArgs e)
         {
             if (radio_finalizada.Checked == true) publicacion_estado = 4;
+        }
+
+        private void btn_guardar_Click(object sender, EventArgs e)
+        {
+            //Guardar publicacion
+            
+            
+            
+            
+            //Control de Errores
+            string error = "Se encontraron los siguientes errores\n";
+            if (text_descripcion.Text == "")
+                error = error + "El campo Descripcion no puede estar vacio\n";
+            if (text_precio.Text == "")
+                error = error + "El campo Precio no puede estar vacio\n";
+            if (text_stock.Text == "")
+                error = error + "El campo Stock no puede estar vacio\n";
+            int rubros_seleccionados = 0;
+            for (int i = 0; i < checklist_rubros.Items.Count; i++)
+                if (checklist_rubros.GetItemChecked(i)) rubros_seleccionados++;
+            if (rubros_seleccionados==0)
+                error=error+"Debe seleccionar almenos 1 Rubro para la publicacion\n";
+            MessageBox.Show(error,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 }

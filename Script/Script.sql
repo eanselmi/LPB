@@ -366,15 +366,21 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.SP_Alta_Usuario') IS NOT NULL
-BEGIN
-	DROP PROCEDURE LPB.SP_Alta_Usuario
-END;
-GO
-
 IF OBJECT_ID('LPB.SP_Alta_Cliente') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Alta_Cliente
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Alta_Empresa') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Alta_Empresa
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Asignacion_Rol_Usuario') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Asignacion_Rol_Usuario
 END;
 GO
 
@@ -406,24 +412,56 @@ DELETE lpb.RolesPorUsuario WHERE Rol_id = @id
 END
 GO
 
-CREATE PROCEDURE lpb.SP_Alta_Usuario (@tipo varchar(25),@username varchar(45),@pass varchar(100))
-AS BEGIN
+CREATE PROCEDURE lpb.SP_Alta_Cliente (@username varchar(45),@pass varchar(100),@tipoDoc varchar(10),@numeroDoc numeric(18,0),@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,
+@mail nvarchar(255),@telefono numeric(12,0), @calle nvarchar(255),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),
+@codPostal nvarchar(50),@descrpLocalidad varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
 INSERT INTO lpb.Usuarios
 (TipoUsuario,username,pass,habilitado,cantIntentosFallidos,nuevo)
 values
-(@tipo,@username,@pass,1,0,1)
-END
-GO
-
-CREATE PROCEDURE lpb.SP_Alta_Cliente (@tipoDoc varchar(10),@numeroDoc numeric(18,0),@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,
-@mail nvarchar(255),@telefono numeric(12,0), @calle nvarchar(255),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),
-@codPostal nvarchar(50),@descrpLocalidad varchar(45), @user varchar(45))
-AS BEGIN
+('Cliente',@username,@pass,1,0,1)
 INSERT INTO lpb.Clientes 
 (documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
 select @tipoDoc,@numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,@piso,@dpto,@codPostal,
 (select id from lpb.Localidades where descripcion=@descrpLocalidad),
-(select id from lpb.Usuarios where username=@user)
+(select id from lpb.Usuarios where username=@username)
+COMMIT TRANSACTION
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Alta_Empresa (@username varchar(45),@pass varchar(100),@razonSoc nvarchar(255),@cuit nvarchar(50),@mail nvarchar(50),
+@telefono numeric(12,0),@calle nvarchar(100),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@rubroDesc varchar(45),
+@nombreContacto nvarchar(100),@descLocalidad varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+INSERT INTO LPB.Usuarios
+(TipoUsuario,username,pass,habilitado,cantIntentosFallidos,nuevo)
+values
+('Empresa',@username,@pass,1,0,1)
+INSERT INTO LPB.Empresas
+(razonSocial,cuit,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Rubro_id,nombreContacto,Localidad_id,Usuario_id)
+select @razonSoc,@cuit,@mail,@telefono,@calle,@nroCalle,@piso,@dpto,@codPostal,
+(select id from LPB.RubrosEmpresa where descripcion=@rubroDesc),
+@nombreContacto,
+(select id from lpb.Localidades where descripcion=@descLocalidad),
+(select id from lpb.Usuarios where username=@username)
+COMMIT TRANSACTION
+END
+GO
+
+CREATE PROCEDURE lpb.SP_Asignacion_Rol_Usuario (@username varchar(45),@nombreRol varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+insert into lpb.RolesPorUsuario(Rol_id,Usuario_id)
+values(
+(select id from lpb.Roles where nombre=@nombreRol),
+(select id from lpb.Usuarios where username=@username)
+)
+COMMIT TRANSACTION
 END
 GO
 

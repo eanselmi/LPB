@@ -48,6 +48,30 @@ namespace visibilidad.ABM_Usuario
             }
             conEm.cnn.Close();
 
+            /*CARGA LOS ROLES EN LOS LISTBOX*/
+            //Cliente
+            Conexion conRolesC = new Conexion();
+            string queryRolesC = "SELECT nombre FROM lpb.Roles where nombre not in ('Administrador','Empresa')";
+            conRolesC.cnn.Open();
+            SqlCommand commandRolesC = new SqlCommand(queryRolesC, conRolesC.cnn);
+            SqlDataReader lectorRolesC = commandRolesC.ExecuteReader();
+            while (lectorRolesC.Read())
+            {
+                CheckedListBoxCli.Items.Add(lectorRolesC.GetString(0));
+            }
+            conRolesC.cnn.Close();
+
+            Conexion conRolesE = new Conexion();
+            string queryRolesE = "SELECT nombre FROM lpb.Roles where nombre not in ('Administrador','Cliente')";
+            conRolesE.cnn.Open();
+            SqlCommand commandRolesE = new SqlCommand(queryRolesE, conRolesE.cnn);
+            SqlDataReader lectorRolesE = commandRolesE.ExecuteReader();
+            while (lectorRolesE.Read())
+            {
+                CheckedListBoxEmp.Items.Add(lectorRolesE.GetString(0));
+            }
+            conRolesE.cnn.Close();
+
         }
 
         private void ABM_Usuario_A_Load(object sender, EventArgs e)
@@ -192,7 +216,7 @@ namespace visibilidad.ABM_Usuario
                     if (!(Regex.Match(textBoxTelefono.Text, "^(11|15)\\d+$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 011 o 15\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 11 o 15\n");
                     }
                     if (textBoxTelefono.Text.Length.CompareTo(10)!=0)
                     {
@@ -248,6 +272,25 @@ namespace visibilidad.ABM_Usuario
                         hayError = true;
                         mensajeDeError = String.Concat(mensajeDeError, "\tEl código postal debe ser numérico de 4 caractéres o alfanumérico de 8 caractéres\n");
                     }
+                }
+
+                //FECHA DE NACIMIENTO
+
+                if (!(textBoxFechaNac.Text.Equals("")))
+                {
+                    int age = DateTime.Today.Year - monthCalendar1.SelectionStart.Date.Year;
+                    if (age < 18)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tNo puede darse de alta a clientes menores de 18 años\n");
+                    }
+                }
+
+                //ROLES
+                if (CheckedListBoxCli.CheckedItems.Count == 0)
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tNo selecciono ningún rol\n");
                 }
 
                 //VALIDACION DNI ÚNICO
@@ -311,35 +354,279 @@ namespace visibilidad.ABM_Usuario
                 //SI NO HAY ERRORES PROCEDO CON LA CARGA
                 Conexion cargaUsuario = new Conexion();
                 cargaUsuario.cnn.Open();
-                //CARGA USUARIO
-                bool resultadoUser = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Usuario", 
-                    Helper.Help.generarListaParaProcedure("@tipo", "@username","@pass"),
-                    this.comboBoxRol.Text, this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text));
+
                 //CARGA CLIENTE
+
                 bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
-                    Helper.Help.generarListaParaProcedure("@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
-                    "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad", "@user")
-                    ,this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
+                    Helper.Help.generarListaParaProcedure("@username","@pass","@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
+                    "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
+                    ,this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
                     this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
-                    this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text, this.textBoxUser.Text);
+                    this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text);
                 // Hay que ver que pasa cuando dpto va null//
+
+                //Asignacion Roles
+                foreach (object itemChecked in CheckedListBoxCli.CheckedItems)
+                {
+                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                    if (!resultadoRoles)
+                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
                 //VERIFICACION ÉXITO POSITIVO
-                if (resultadoUser && resultadoCliente)
+                if (resultadoCliente)
                     MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 cargaUsuario.cnn.Close();
-
+                this.Close();
                 return;
+                
             }
+
+            //GUARDAR UNA EMPRESA
 
             if (comboBoxRol.Text.Equals("Empresa"))
             {
-                if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals(""))
+                // VALIDACION DE CAMPOS OBLIGATORIOS
+                String mensajeDeError = "Se produjeron los siguientes errores:\n";
+                bool hayError = false;
+                if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals("")
+                    || textBoxRazonSocial.Text.Equals("") || textBoxCUITTipo.Text.Equals("") || textBoxMailEmp.Text.Equals("")
+                    || textBoxTelefonoEmp.Text.Equals("") || textBoxNombreContacto.Text.Equals("") || comboBoxRubro.Text.Equals("")
+                    || textBoxCalleEmp.Text.Equals("") || textboxNroEmpr.Text.Equals("") || textboxPisoEmpr.Text.Equals("")
+                    || textboxcodpostEmpr.Text.Equals("") || comboBoxLocalidadEmpr.Text.Equals("") || textBoxCUITNro.Text.Equals("")
+                    || textBoxCUITVerif.Text.Equals("")
+                    )
                 {
-                    MessageBox.Show("Campos obligatorios vacios", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } 
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tHay campos obligatorios vacios\n");
+                }
+                
+                //VALIDACION DE CONFIRMAR PASSWORD
+                if (!(textBoxPass.Text.Equals(textBoxConfirmarPass.Text)))
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tLos campos Password y Confirmar Password no coinciden\n");
+                }
+
+                //VALIDACION TIPO DE DATOS
+                //USERNAME
+                if (textBoxUser.Text.Length.CompareTo(45) == 1)
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tUsername demasiado largo\n");
+                }
+
+                //CUIT
+                if (!(textBoxCUITTipo.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxCUITTipo.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por números\n");
+                    }
+                    if (textBoxCUITTipo.Text.Length.CompareTo(2) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por 11 dígitos: 2 - 8 - 1\n");
+                    }
+                }
+                if (!(textBoxCUITNro.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxCUITNro.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por números\n");
+                    }
+                    if (textBoxCUITNro.Text.Length.CompareTo(8) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por 11 dígitos: 2 - 8 - 1\n");
+                    }
+                }
+                if (!(textBoxCUITVerif.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxCUITVerif.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por números\n");
+                    }
+                    if (textBoxCUITVerif.Text.Length.CompareTo(1) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por 11 dígitos: 2 - 8 - 1\n");
+                    }
+                }
+
+                //MAIL
+
+                if (!(textBoxMailEmp.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxMailEmp.Text, "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,3})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl mail ingresado no es válido\n");
+                    }
+                }
+
+                //TELEFONO
+                if (!(textBoxTelefonoEmp.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxTelefonoEmp.Text, "^(11|15)\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 11 o 15\n");
+                    }
+                    if (textBoxTelefonoEmp.Text.Length.CompareTo(10) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de teléfono debe ser de 10 dígitos\n");
+                    }
+                }
+
+                //NOMBRE CONTACTO
+                if (!(textBoxNombreContacto.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxNombreContacto.Text, "^\\D+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tSolo puede haber letras en el nombre de contacto\n");
+                    }
+                }
+
+                //NUMERO DE CALLE
+
+                if (!(textboxNroEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxNroEmpr.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tIngrese el número de la dirección solo con números\n");
+                    }
+                    if (textboxNroEmpr.Text.Length.CompareTo(5) == 1)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de la dirección debe ser como máximo de 5 dígitos\n");
+                    }
+                }
+
+                //PISO 
+
+                if (!(textboxPisoEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxPisoEmpr.Text, "^\\d\\d?$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                    }
+                }
+
+                //DPTO
+
+                if (!(textboxDptoEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxDptoEmpr.Text, "^([A-Z]|[0-9]{1,2})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl dpto debe ser una letra de A a Z, o bien numérico, hasta dos dígitos\n");
+                    }
+                }
+
+                //CODIGO POSTAL
+
+                if (!(textboxcodpostEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxcodpostEmpr.Text, "^([0-9]{4}|[0-9A-Z]{8})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl código postal debe ser numérico de 4 caractéres o alfanumérico de 8 caractéres\n");
+                    }
+                }
+
+                //ROLES
+                if (CheckedListBoxEmp.CheckedItems.Count == 0)
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tNo selecciono ningún rol\n");
+                }
+
+                //VALIDACION CUIT ÚNICO
+
+                if (!(textBoxCUITTipo.Text.Equals("") || textBoxCUITNro.Text.Equals("") || textBoxCUITVerif.Text.Equals("")))
+                {
+                    Conexion conCUIT = new Conexion();
+                    string queryCUIT = "Select * from LPB.Empresas where cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'";
+                    conCUIT.cnn.Open();
+                    SqlCommand commandCUIT = new SqlCommand(queryCUIT, conCUIT.cnn);
+                    SqlDataReader lectorCUIT = commandCUIT.ExecuteReader();
+                    if (lectorCUIT.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese número de CUIT\n");
+                    }
+                    conCUIT.cnn.Close();
+                }
+
+                //VALIDACION USERNAME ÚNICO
+
+                if (!(textBoxUser.Text.Equals("")))
+                {
+                    Conexion conUser = new Conexion();
+                    string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
+                    conUser.cnn.Open();
+                    SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
+                    SqlDataReader lectorUser = commandUser.ExecuteReader();
+                    if (lectorUser.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                    }
+                    conUser.cnn.Close();
+                }
+
+                //SI HAY ERRORES LOS MUESTRO A TODOS
+                if (hayError)
+                {
+                    MessageBox.Show(mensajeDeError, "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
+                //SI NO HAY ERRORES PROCEDO CON LA CARGA
+                Conexion cargaUsuario = new Conexion();
+                cargaUsuario.cnn.Open();
+
+                //CARGA EMPRESA
+
+                bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
+                    Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
+                    "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
+                    , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,
+                    this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,
+                    this.textboxPisoEmpr.Text,this.textboxDptoEmpr.Text,this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,
+                    this.comboBoxLocalidadEmpr.Text);
+                // Hay que ver que pasa cuando dpto va null//
+
+                //Asignacion Roles
+                foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                {
+                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                    if (!resultadoRoles)
+                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                //VERIFICACION ÉXITO POSITIVO
+                if (resultadoEmpresa)
+                    MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                cargaUsuario.cnn.Close();
+                this.Close();
                 return;
             }
 
@@ -355,13 +642,13 @@ namespace visibilidad.ABM_Usuario
             textBoxCodPostCl.Text = "";
             textboxcodpostEmpr.Text = "";
             textBoxConfirmarPass.Text = "";
-            textBoxCUIT.Text = "";
+            textBoxCUITTipo.Text = "";
+            textBoxCUITNro.Text = "";
+            textBoxCUITVerif.Text = "";
             textBoxDptoCl.Text = "";
             textboxDptoEmpr.Text = "";
             textBoxFechaNac.Text = "";
-            textBoxLocalidadCl.Text = "";
-            textboxLocalidadEmp.Text = "";
-            textboxLocalidadEmpr.Text = "";
+            textBoxCalleEmp.Text = "";
             textBoxMail.Text = "";
             textBoxMailEmp.Text = "";
             textBoxNombre.Text = "";
@@ -376,11 +663,26 @@ namespace visibilidad.ABM_Usuario
             textBoxTelefono.Text = "";
             textBoxTelefonoEmp.Text = "";
             textBoxUser.Text = "";
-            comboBoxLocalidades.ResetText();
-            comboBoxLocalidadEmpr.ResetText();
-            comboBoxTipoDoc.ResetText();
+            comboBoxLocalidades.SelectedIndex = -1;
+            comboBoxLocalidadEmpr.SelectedIndex = -1;
+            comboBoxTipoDoc.SelectedIndex = -1;
+            comboBoxRubro.SelectedIndex = -1;
+            int iCli = CheckedListBoxCli.Items.Count - 1;
+            int iEmp = CheckedListBoxEmp.Items.Count - 1;
+            while (iCli > -1)
+            {
+                CheckedListBoxCli.SetItemChecked(iCli, false);
+                iCli--;
+            }
+            
+            while (iEmp > -1)
+            {
+                CheckedListBoxEmp.SetItemChecked(iEmp, false);
+                iEmp--;
+            }
         }
 
+ 
  
     }
 }

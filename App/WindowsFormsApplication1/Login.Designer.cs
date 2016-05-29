@@ -214,7 +214,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_ingresar;
         private System.Windows.Forms.TextBox text_password;
-        private System.Windows.Forms.TextBox text_usuario;
         private System.Windows.Forms.Button btn_cancelar;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btn_volver;
@@ -223,6 +222,7 @@
         private System.Windows.Forms.ComboBox cmb_roles;
         public System.Windows.Forms.GroupBox grp_login;
         public System.Windows.Forms.GroupBox grp_rol;
+        public System.Windows.Forms.TextBox text_usuario;
 
     }
 }

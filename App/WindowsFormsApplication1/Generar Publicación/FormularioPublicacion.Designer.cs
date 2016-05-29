@@ -135,7 +135,7 @@
             this.btn_limpiar.Name = "btn_limpiar";
             this.btn_limpiar.Size = new System.Drawing.Size(165, 35);
             this.btn_limpiar.TabIndex = 18;
-            this.btn_limpiar.Text = "Limpiar";
+            this.btn_limpiar.Text = "Reestablecer";
             this.btn_limpiar.UseVisualStyleBackColor = true;
             this.btn_limpiar.Click += new System.EventHandler(this.btn_limpiar_Click);
             // 
@@ -147,6 +147,7 @@
             this.btn_guardar.TabIndex = 17;
             this.btn_guardar.Text = "Guardar";
             this.btn_guardar.UseVisualStyleBackColor = true;
+            this.btn_guardar.Click += new System.EventHandler(this.btn_guardar_Click);
             // 
             // check_envio
             // 
@@ -360,7 +361,7 @@
             // 
             // text_visibilidad_id
             // 
-            this.text_visibilidad_id.Location = new System.Drawing.Point(814, 110);
+            this.text_visibilidad_id.Location = new System.Drawing.Point(795, 110);
             this.text_visibilidad_id.Name = "text_visibilidad_id";
             this.text_visibilidad_id.Size = new System.Drawing.Size(100, 26);
             this.text_visibilidad_id.TabIndex = 1;
@@ -369,7 +370,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(776, 602);
+            this.ClientSize = new System.Drawing.Size(774, 602);
             this.Controls.Add(this.text_visibilidad_id);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
