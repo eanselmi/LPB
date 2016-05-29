@@ -359,10 +359,10 @@ namespace visibilidad.ABM_Usuario
 
                 bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
                     Helper.Help.generarListaParaProcedure("@username","@pass","@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
-                    "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad", "@user")
+                    "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
                     ,this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
                     this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
-                    this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text, this.textBoxUser.Text);
+                    this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text);
                 // Hay que ver que pasa cuando dpto va null//
 
                 //Asignacion Roles
@@ -383,6 +383,7 @@ namespace visibilidad.ABM_Usuario
                 cargaUsuario.cnn.Close();
                 this.Close();
                 return;
+                
             }
 
             //GUARDAR UNA EMPRESA
@@ -593,8 +594,40 @@ namespace visibilidad.ABM_Usuario
                     return;
                 }
 
+
+                //SI NO HAY ERRORES PROCEDO CON LA CARGA
+                Conexion cargaUsuario = new Conexion();
+                cargaUsuario.cnn.Open();
+
+                //CARGA EMPRESA
+
+                bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
+                    Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
+                    "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
+                    , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,
+                    this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,
+                    this.textboxPisoEmpr.Text,this.textboxDptoEmpr.Text,this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,
+                    this.comboBoxLocalidadEmpr.Text);
+                // Hay que ver que pasa cuando dpto va null//
+
+                //Asignacion Roles
+                foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                {
+                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                    if (!resultadoRoles)
+                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                //VERIFICACION ÉXITO POSITIVO
+                if (resultadoEmpresa)
+                    MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                cargaUsuario.cnn.Close();
+                this.Close();
                 return;
-                
             }
 
 
