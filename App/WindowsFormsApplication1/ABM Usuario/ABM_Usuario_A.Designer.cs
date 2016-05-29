@@ -38,13 +38,13 @@
             this.buttonSalir = new System.Windows.Forms.Button();
             this.buttonGuardar = new System.Windows.Forms.Button();
             this.groupBoxCliente = new System.Windows.Forms.GroupBox();
-            this.labelRolesCli = new System.Windows.Forms.Label();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
+            this.comboBoxLocalidades = new System.Windows.Forms.ComboBox();
+            this.CheckedListBoxCli = new System.Windows.Forms.CheckedListBox();
+            this.labelRolesCli = new System.Windows.Forms.Label();
             this.comboBoxTipoDoc = new System.Windows.Forms.ComboBox();
             this.textBoxFechaNac = new System.Windows.Forms.TextBox();
-            this.comboBoxLocalidades = new System.Windows.Forms.ComboBox();
             this.buttonSeleccionar = new System.Windows.Forms.Button();
-            this.textBoxLocalidadCl = new System.Windows.Forms.TextBox();
             this.labelFechaNac = new System.Windows.Forms.Label();
             this.textBoxCodPostCl = new System.Windows.Forms.TextBox();
             this.textBoxDptoCl = new System.Windows.Forms.TextBox();
@@ -70,23 +70,27 @@
             this.labelApellido = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
             this.groupBoxEmpresa = new System.Windows.Forms.GroupBox();
+            this.labelGuionCUIT2 = new System.Windows.Forms.Label();
+            this.labelGuionCUIT1 = new System.Windows.Forms.Label();
+            this.textBoxCUITVerif = new System.Windows.Forms.TextBox();
+            this.textBoxCUITNro = new System.Windows.Forms.TextBox();
+            this.CheckedListBoxEmp = new System.Windows.Forms.CheckedListBox();
             this.labelRolesEmp = new System.Windows.Forms.Label();
             this.comboBoxRubro = new System.Windows.Forms.ComboBox();
             this.labelRubro = new System.Windows.Forms.Label();
             this.textBoxNombreContacto = new System.Windows.Forms.TextBox();
-            this.textBoxCUIT = new System.Windows.Forms.TextBox();
+            this.textBoxCUITTipo = new System.Windows.Forms.TextBox();
             this.labelNombreContacto = new System.Windows.Forms.Label();
             this.labelCUIT = new System.Windows.Forms.Label();
             this.textBoxTelefonoEmp = new System.Windows.Forms.TextBox();
             this.textBoxMailEmp = new System.Windows.Forms.TextBox();
             this.textBoxRazonSocial = new System.Windows.Forms.TextBox();
             this.comboBoxLocalidadEmpr = new System.Windows.Forms.ComboBox();
-            this.textboxLocalidadEmp = new System.Windows.Forms.TextBox();
             this.textboxcodpostEmpr = new System.Windows.Forms.TextBox();
             this.textboxDptoEmpr = new System.Windows.Forms.TextBox();
             this.textboxPisoEmpr = new System.Windows.Forms.TextBox();
             this.textboxNroEmpr = new System.Windows.Forms.TextBox();
-            this.textboxLocalidadEmpr = new System.Windows.Forms.TextBox();
+            this.textBoxCalleEmp = new System.Windows.Forms.TextBox();
             this.labelCodPostEmpr = new System.Windows.Forms.Label();
             this.labelLocalidadEmpr = new System.Windows.Forms.Label();
             this.labelDptoEmpr = new System.Windows.Forms.Label();
@@ -101,8 +105,6 @@
             this.labelConfirmarPass = new System.Windows.Forms.Label();
             this.labelCamposObligatorios = new System.Windows.Forms.Label();
             this.buttonLimpiar = new System.Windows.Forms.Button();
-            this.CheckedListBoxEmp = new System.Windows.Forms.CheckedListBox();
-            this.CheckedListBoxCli = new System.Windows.Forms.CheckedListBox();
             this.groupBoxCliente.SuspendLayout();
             this.groupBoxEmpresa.SuspendLayout();
             this.SuspendLayout();
@@ -184,14 +186,13 @@
             // 
             // groupBoxCliente
             // 
+            this.groupBoxCliente.Controls.Add(this.monthCalendar1);
+            this.groupBoxCliente.Controls.Add(this.comboBoxLocalidades);
             this.groupBoxCliente.Controls.Add(this.CheckedListBoxCli);
             this.groupBoxCliente.Controls.Add(this.labelRolesCli);
-            this.groupBoxCliente.Controls.Add(this.monthCalendar1);
             this.groupBoxCliente.Controls.Add(this.comboBoxTipoDoc);
             this.groupBoxCliente.Controls.Add(this.textBoxFechaNac);
-            this.groupBoxCliente.Controls.Add(this.comboBoxLocalidades);
             this.groupBoxCliente.Controls.Add(this.buttonSeleccionar);
-            this.groupBoxCliente.Controls.Add(this.textBoxLocalidadCl);
             this.groupBoxCliente.Controls.Add(this.labelFechaNac);
             this.groupBoxCliente.Controls.Add(this.textBoxCodPostCl);
             this.groupBoxCliente.Controls.Add(this.textBoxDptoCl);
@@ -224,23 +225,40 @@
             this.groupBoxCliente.Text = "Datos del cliente";
             this.groupBoxCliente.Visible = false;
             // 
+            // monthCalendar1
+            // 
+            this.monthCalendar1.Location = new System.Drawing.Point(126, 106);
+            this.monthCalendar1.MaxSelectionCount = 1;
+            this.monthCalendar1.Name = "monthCalendar1";
+            this.monthCalendar1.TabIndex = 14;
+            this.monthCalendar1.Visible = false;
+            this.monthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateSelected);
+            // 
+            // comboBoxLocalidades
+            // 
+            this.comboBoxLocalidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLocalidades.FormattingEnabled = true;
+            this.comboBoxLocalidades.Location = new System.Drawing.Point(118, 236);
+            this.comboBoxLocalidades.Name = "comboBoxLocalidades";
+            this.comboBoxLocalidades.Size = new System.Drawing.Size(206, 21);
+            this.comboBoxLocalidades.TabIndex = 28;
+            // 
+            // CheckedListBoxCli
+            // 
+            this.CheckedListBoxCli.FormattingEnabled = true;
+            this.CheckedListBoxCli.Location = new System.Drawing.Point(391, 63);
+            this.CheckedListBoxCli.Name = "CheckedListBoxCli";
+            this.CheckedListBoxCli.Size = new System.Drawing.Size(120, 169);
+            this.CheckedListBoxCli.TabIndex = 70;
+            // 
             // labelRolesCli
             // 
             this.labelRolesCli.AutoSize = true;
             this.labelRolesCli.Location = new System.Drawing.Point(419, 37);
             this.labelRolesCli.Name = "labelRolesCli";
-            this.labelRolesCli.Size = new System.Drawing.Size(37, 13);
+            this.labelRolesCli.Size = new System.Drawing.Size(41, 13);
             this.labelRolesCli.TabIndex = 30;
             this.labelRolesCli.Text = "*Roles:";
-            // 
-            // monthCalendar1
-            // 
-            this.monthCalendar1.Location = new System.Drawing.Point(126, 106);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 14;
-            this.monthCalendar1.Visible = false;
-            this.monthCalendar1.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateSelected);
-            this.monthCalendar1.MaxSelectionCount = 1;
             // 
             // comboBoxTipoDoc
             // 
@@ -262,15 +280,6 @@
             this.textBoxFechaNac.Size = new System.Drawing.Size(109, 20);
             this.textBoxFechaNac.TabIndex = 29;
             // 
-            // comboBoxLocalidades
-            // 
-            this.comboBoxLocalidades.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxLocalidades.FormattingEnabled = true;
-            this.comboBoxLocalidades.Location = new System.Drawing.Point(118, 236);
-            this.comboBoxLocalidades.Name = "comboBoxLocalidades";
-            this.comboBoxLocalidades.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxLocalidades.TabIndex = 28;
-            // 
             // buttonSeleccionar
             // 
             this.buttonSeleccionar.Location = new System.Drawing.Point(265, 272);
@@ -280,14 +289,6 @@
             this.buttonSeleccionar.Text = "Seleccionar";
             this.buttonSeleccionar.UseVisualStyleBackColor = true;
             this.buttonSeleccionar.Click += new System.EventHandler(this.buttonSeleccionar_Click);
-            // 
-            // textBoxLocalidadCl
-            // 
-            this.textBoxLocalidadCl.Location = new System.Drawing.Point(250, 237);
-            this.textBoxLocalidadCl.Name = "textBoxLocalidadCl";
-            this.textBoxLocalidadCl.Size = new System.Drawing.Size(90, 20);
-            this.textBoxLocalidadCl.TabIndex = 26;
-            this.textBoxLocalidadCl.Visible = false;
             // 
             // labelFechaNac
             // 
@@ -487,24 +488,25 @@
             // 
             // groupBoxEmpresa
             // 
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCUITVerif);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCUITNro);
             this.groupBoxEmpresa.Controls.Add(this.CheckedListBoxEmp);
             this.groupBoxEmpresa.Controls.Add(this.labelRolesEmp);
             this.groupBoxEmpresa.Controls.Add(this.comboBoxRubro);
             this.groupBoxEmpresa.Controls.Add(this.labelRubro);
             this.groupBoxEmpresa.Controls.Add(this.textBoxNombreContacto);
-            this.groupBoxEmpresa.Controls.Add(this.textBoxCUIT);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCUITTipo);
             this.groupBoxEmpresa.Controls.Add(this.labelNombreContacto);
             this.groupBoxEmpresa.Controls.Add(this.labelCUIT);
             this.groupBoxEmpresa.Controls.Add(this.textBoxTelefonoEmp);
             this.groupBoxEmpresa.Controls.Add(this.textBoxMailEmp);
             this.groupBoxEmpresa.Controls.Add(this.textBoxRazonSocial);
             this.groupBoxEmpresa.Controls.Add(this.comboBoxLocalidadEmpr);
-            this.groupBoxEmpresa.Controls.Add(this.textboxLocalidadEmp);
             this.groupBoxEmpresa.Controls.Add(this.textboxcodpostEmpr);
             this.groupBoxEmpresa.Controls.Add(this.textboxDptoEmpr);
             this.groupBoxEmpresa.Controls.Add(this.textboxPisoEmpr);
             this.groupBoxEmpresa.Controls.Add(this.textboxNroEmpr);
-            this.groupBoxEmpresa.Controls.Add(this.textboxLocalidadEmpr);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCalleEmp);
             this.groupBoxEmpresa.Controls.Add(this.labelCodPostEmpr);
             this.groupBoxEmpresa.Controls.Add(this.labelLocalidadEmpr);
             this.groupBoxEmpresa.Controls.Add(this.labelDptoEmpr);
@@ -515,6 +517,8 @@
             this.groupBoxEmpresa.Controls.Add(this.labelTelEmpr);
             this.groupBoxEmpresa.Controls.Add(this.labelMailEmp);
             this.groupBoxEmpresa.Controls.Add(this.labelRazonSoc);
+            this.groupBoxEmpresa.Controls.Add(this.labelGuionCUIT2);
+            this.groupBoxEmpresa.Controls.Add(this.labelGuionCUIT1);
             this.groupBoxEmpresa.Location = new System.Drawing.Point(3, 99);
             this.groupBoxEmpresa.Name = "groupBoxEmpresa";
             this.groupBoxEmpresa.Size = new System.Drawing.Size(533, 323);
@@ -523,12 +527,54 @@
             this.groupBoxEmpresa.Text = "Datos de la empresa";
             this.groupBoxEmpresa.Visible = false;
             // 
+            // labelGuionCUIT2
+            // 
+            this.labelGuionCUIT2.AutoSize = true;
+            this.labelGuionCUIT2.Location = new System.Drawing.Point(330, 25);
+            this.labelGuionCUIT2.Name = "labelGuionCUIT2";
+            this.labelGuionCUIT2.Size = new System.Drawing.Size(10, 13);
+            this.labelGuionCUIT2.TabIndex = 73;
+            this.labelGuionCUIT2.Text = "-";
+            // 
+            // labelGuionCUIT1
+            // 
+            this.labelGuionCUIT1.AutoSize = true;
+            this.labelGuionCUIT1.Location = new System.Drawing.Point(258, 25);
+            this.labelGuionCUIT1.Name = "labelGuionCUIT1";
+            this.labelGuionCUIT1.Size = new System.Drawing.Size(10, 13);
+            this.labelGuionCUIT1.TabIndex = 72;
+            this.labelGuionCUIT1.Text = "-";
+            // 
+            // textBoxCUITVerif
+            // 
+            this.textBoxCUITVerif.Location = new System.Drawing.Point(337, 22);
+            this.textBoxCUITVerif.Name = "textBoxCUITVerif";
+            this.textBoxCUITVerif.Size = new System.Drawing.Size(19, 20);
+            this.textBoxCUITVerif.TabIndex = 71;
+            this.textBoxCUITVerif.MaxLength = 1;
+            // 
+            // textBoxCUITNro
+            // 
+            this.textBoxCUITNro.Location = new System.Drawing.Point(265, 22);
+            this.textBoxCUITNro.Name = "textBoxCUITNro";
+            this.textBoxCUITNro.Size = new System.Drawing.Size(66, 20);
+            this.textBoxCUITNro.TabIndex = 70;
+            this.textBoxCUITNro.MaxLength = 8;
+            // 
+            // CheckedListBoxEmp
+            // 
+            this.CheckedListBoxEmp.FormattingEnabled = true;
+            this.CheckedListBoxEmp.Location = new System.Drawing.Point(391, 53);
+            this.CheckedListBoxEmp.Name = "CheckedListBoxEmp";
+            this.CheckedListBoxEmp.Size = new System.Drawing.Size(120, 169);
+            this.CheckedListBoxEmp.TabIndex = 69;
+            // 
             // labelRolesEmp
             // 
             this.labelRolesEmp.AutoSize = true;
             this.labelRolesEmp.Location = new System.Drawing.Point(419, 28);
             this.labelRolesEmp.Name = "labelRolesEmp";
-            this.labelRolesEmp.Size = new System.Drawing.Size(37, 13);
+            this.labelRolesEmp.Size = new System.Drawing.Size(41, 13);
             this.labelRolesEmp.TabIndex = 68;
             this.labelRolesEmp.Text = "*Roles:";
             // 
@@ -557,12 +603,13 @@
             this.textBoxNombreContacto.Size = new System.Drawing.Size(145, 20);
             this.textBoxNombreContacto.TabIndex = 65;
             // 
-            // textBoxCUIT
+            // textBoxCUITTipo
             // 
-            this.textBoxCUIT.Location = new System.Drawing.Point(235, 22);
-            this.textBoxCUIT.Name = "textBoxCUIT";
-            this.textBoxCUIT.Size = new System.Drawing.Size(126, 20);
-            this.textBoxCUIT.TabIndex = 64;
+            this.textBoxCUITTipo.Location = new System.Drawing.Point(235, 22);
+            this.textBoxCUITTipo.Name = "textBoxCUITTipo";
+            this.textBoxCUITTipo.Size = new System.Drawing.Size(24, 20);
+            this.textBoxCUITTipo.TabIndex = 64;
+            this.textBoxCUITTipo.MaxLength = 2;
             // 
             // labelNombreContacto
             // 
@@ -609,16 +656,8 @@
             this.comboBoxLocalidadEmpr.FormattingEnabled = true;
             this.comboBoxLocalidadEmpr.Location = new System.Drawing.Point(130, 268);
             this.comboBoxLocalidadEmpr.Name = "comboBoxLocalidadEmpr";
-            this.comboBoxLocalidadEmpr.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxLocalidadEmpr.Size = new System.Drawing.Size(168, 21);
             this.comboBoxLocalidadEmpr.TabIndex = 58;
-            // 
-            // textboxLocalidadEmp
-            // 
-            this.textboxLocalidadEmp.Location = new System.Drawing.Point(262, 269);
-            this.textboxLocalidadEmp.Name = "textboxLocalidadEmp";
-            this.textboxLocalidadEmp.Size = new System.Drawing.Size(90, 20);
-            this.textboxLocalidadEmp.TabIndex = 57;
-            this.textboxLocalidadEmp.Visible = false;
             // 
             // textboxcodpostEmpr
             // 
@@ -648,12 +687,12 @@
             this.textboxNroEmpr.Size = new System.Drawing.Size(47, 20);
             this.textboxNroEmpr.TabIndex = 53;
             // 
-            // textboxLocalidadEmpr
+            // textBoxCalleEmp
             // 
-            this.textboxLocalidadEmpr.Location = new System.Drawing.Point(80, 202);
-            this.textboxLocalidadEmpr.Name = "textboxLocalidadEmpr";
-            this.textboxLocalidadEmpr.Size = new System.Drawing.Size(130, 20);
-            this.textboxLocalidadEmpr.TabIndex = 52;
+            this.textBoxCalleEmp.Location = new System.Drawing.Point(80, 202);
+            this.textBoxCalleEmp.Name = "textBoxCalleEmp";
+            this.textBoxCalleEmp.Size = new System.Drawing.Size(130, 20);
+            this.textBoxCalleEmp.TabIndex = 52;
             // 
             // labelCodPostEmpr
             // 
@@ -781,22 +820,6 @@
             this.buttonLimpiar.UseVisualStyleBackColor = true;
             this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
-            // CheckedListBoxEmp
-            // 
-            this.CheckedListBoxEmp.FormattingEnabled = true;
-            this.CheckedListBoxEmp.Location = new System.Drawing.Point(391, 53);
-            this.CheckedListBoxEmp.Name = "CheckedListBoxEmp";
-            this.CheckedListBoxEmp.Size = new System.Drawing.Size(120, 169);
-            this.CheckedListBoxEmp.TabIndex = 69;
-            // 
-            // CheckedListBoxCli
-            // 
-            this.CheckedListBoxCli.FormattingEnabled = true;
-            this.CheckedListBoxCli.Location = new System.Drawing.Point(391, 63);
-            this.CheckedListBoxCli.Name = "CheckedListBoxCli";
-            this.CheckedListBoxCli.Size = new System.Drawing.Size(120, 169);
-            this.CheckedListBoxCli.TabIndex = 70;
-            // 
             // ABM_Usuario_A
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -814,8 +837,8 @@
             this.Controls.Add(this.textBoxUser);
             this.Controls.Add(this.labelPass);
             this.Controls.Add(this.labelUser);
-            this.Controls.Add(this.groupBoxCliente);
             this.Controls.Add(this.groupBoxEmpresa);
+            this.Controls.Add(this.groupBoxCliente);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ABM_Usuario_A";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -866,7 +889,6 @@
         private System.Windows.Forms.TextBox textBoxNumeroDoc;
         private System.Windows.Forms.TextBox textBoxApellido;
         private System.Windows.Forms.TextBox textBoxNombre;
-        private System.Windows.Forms.TextBox textBoxLocalidadCl;
         private System.Windows.Forms.Button buttonSeleccionar;
         private System.Windows.Forms.TextBox textBoxFechaNac;
         private System.Windows.Forms.ComboBox comboBoxLocalidades;
@@ -876,12 +898,11 @@
         private System.Windows.Forms.ComboBox comboBoxTipoDoc;
         private System.Windows.Forms.GroupBox groupBoxEmpresa;
         private System.Windows.Forms.ComboBox comboBoxLocalidadEmpr;
-        private System.Windows.Forms.TextBox textboxLocalidadEmp;
         private System.Windows.Forms.TextBox textboxcodpostEmpr;
         private System.Windows.Forms.TextBox textboxDptoEmpr;
         private System.Windows.Forms.TextBox textboxPisoEmpr;
         private System.Windows.Forms.TextBox textboxNroEmpr;
-        private System.Windows.Forms.TextBox textboxLocalidadEmpr;
+        private System.Windows.Forms.TextBox textBoxCalleEmp;
         private System.Windows.Forms.Label labelCodPostEmpr;
         private System.Windows.Forms.Label labelLocalidadEmpr;
         private System.Windows.Forms.Label labelDptoEmpr;
@@ -898,7 +919,7 @@
         private System.Windows.Forms.TextBox textBoxMailEmp;
         private System.Windows.Forms.TextBox textBoxRazonSocial;
         private System.Windows.Forms.TextBox textBoxNombreContacto;
-        private System.Windows.Forms.TextBox textBoxCUIT;
+        private System.Windows.Forms.TextBox textBoxCUITTipo;
         private System.Windows.Forms.Label labelRubro;
         private System.Windows.Forms.Button buttonLimpiar;
         private System.Windows.Forms.ComboBox comboBoxRubro;
@@ -906,5 +927,9 @@
         private System.Windows.Forms.Label labelRolesEmp;
         private System.Windows.Forms.CheckedListBox CheckedListBoxCli;
         private System.Windows.Forms.CheckedListBox CheckedListBoxEmp;
+        private System.Windows.Forms.Label labelGuionCUIT2;
+        private System.Windows.Forms.Label labelGuionCUIT1;
+        private System.Windows.Forms.TextBox textBoxCUITVerif;
+        private System.Windows.Forms.TextBox textBoxCUITNro;
     }
 }

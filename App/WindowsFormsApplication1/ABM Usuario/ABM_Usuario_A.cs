@@ -216,7 +216,7 @@ namespace visibilidad.ABM_Usuario
                     if (!(Regex.Match(textBoxTelefono.Text, "^(11|15)\\d+$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 011 o 15\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 11 o 15\n");
                     }
                     if (textBoxTelefono.Text.Length.CompareTo(10)!=0)
                     {
@@ -385,13 +385,216 @@ namespace visibilidad.ABM_Usuario
                 return;
             }
 
+            //GUARDAR UNA EMPRESA
+
             if (comboBoxRol.Text.Equals("Empresa"))
             {
-                if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals(""))
+                // VALIDACION DE CAMPOS OBLIGATORIOS
+                String mensajeDeError = "Se produjeron los siguientes errores:\n";
+                bool hayError = false;
+                if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals("")
+                    || textBoxRazonSocial.Text.Equals("") || textBoxCUITTipo.Text.Equals("") || textBoxMailEmp.Text.Equals("")
+                    || textBoxTelefonoEmp.Text.Equals("") || textBoxNombreContacto.Text.Equals("") || comboBoxRubro.Text.Equals("")
+                    || textBoxCalleEmp.Text.Equals("") || textboxNroEmpr.Text.Equals("") || textboxPisoEmpr.Text.Equals("")
+                    || textboxcodpostEmpr.Text.Equals("") || comboBoxLocalidadEmpr.Text.Equals("") || textBoxCUITNro.Text.Equals("")
+                    || textBoxCUITVerif.Text.Equals("")
+                    )
                 {
-                    MessageBox.Show("Campos obligatorios vacios", "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } 
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tHay campos obligatorios vacios\n");
+                }
+                
+                //VALIDACION DE CONFIRMAR PASSWORD
+                if (!(textBoxPass.Text.Equals(textBoxConfirmarPass.Text)))
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tLos campos Password y Confirmar Password no coinciden\n");
+                }
+
+                //VALIDACION TIPO DE DATOS
+                //USERNAME
+                if (textBoxUser.Text.Length.CompareTo(45) == 1)
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tUsername demasiado largo\n");
+                }
+
+                //CUIT
+                if (!(textBoxCUITTipo.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxCUITTipo.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por números\n");
+                    }
+                    if (textBoxCUITTipo.Text.Length.CompareTo(2) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por 11 dígitos: 2 - 8 - 1\n");
+                    }
+                }
+                if (!(textBoxCUITNro.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxCUITNro.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por números\n");
+                    }
+                    if (textBoxCUITNro.Text.Length.CompareTo(8) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por 11 dígitos: 2 - 8 - 1\n");
+                    }
+                }
+                if (!(textBoxCUITVerif.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxCUITVerif.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por números\n");
+                    }
+                    if (textBoxCUITVerif.Text.Length.CompareTo(1) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl CUIT debe estar compuesto por 11 dígitos: 2 - 8 - 1\n");
+                    }
+                }
+
+                //MAIL
+
+                if (!(textBoxMailEmp.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxMailEmp.Text, "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,3})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl mail ingresado no es válido\n");
+                    }
+                }
+
+                //TELEFONO
+                if (!(textBoxTelefonoEmp.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxTelefonoEmp.Text, "^(11|15)\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número telefónico debe ser solo numérico y debe comenzar con 11 o 15\n");
+                    }
+                    if (textBoxTelefonoEmp.Text.Length.CompareTo(10) != 0)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de teléfono debe ser de 10 dígitos\n");
+                    }
+                }
+
+                //NOMBRE CONTACTO
+                if (!(textBoxNombreContacto.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textBoxNombreContacto.Text, "^\\D+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tSolo puede haber letras en el nombre de contacto\n");
+                    }
+                }
+
+                //NUMERO DE CALLE
+
+                if (!(textboxNroEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxNroEmpr.Text, "^\\d+$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tIngrese el número de la dirección solo con números\n");
+                    }
+                    if (textboxNroEmpr.Text.Length.CompareTo(5) == 1)
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl número de la dirección debe ser como máximo de 5 dígitos\n");
+                    }
+                }
+
+                //PISO 
+
+                if (!(textboxPisoEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxPisoEmpr.Text, "^\\d\\d?$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                    }
+                }
+
+                //DPTO
+
+                if (!(textboxDptoEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxDptoEmpr.Text, "^([A-Z]|[0-9]{1,2})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl dpto debe ser una letra de A a Z, o bien numérico, hasta dos dígitos\n");
+                    }
+                }
+
+                //CODIGO POSTAL
+
+                if (!(textboxcodpostEmpr.Text.Equals("")))
+                {
+                    if (!(Regex.Match(textboxcodpostEmpr.Text, "^([0-9]{4}|[0-9A-Z]{8})$").Success))
+                    {
+                        hayError = true;
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl código postal debe ser numérico de 4 caractéres o alfanumérico de 8 caractéres\n");
+                    }
+                }
+
+                //ROLES
+                if (CheckedListBoxEmp.CheckedItems.Count == 0)
+                {
+                    hayError = true;
+                    mensajeDeError = String.Concat(mensajeDeError, "\tNo selecciono ningún rol\n");
+                }
+
+                //VALIDACION CUIT ÚNICO
+
+                if (!(textBoxCUITTipo.Text.Equals("") || textBoxCUITNro.Text.Equals("") || textBoxCUITVerif.Text.Equals("")))
+                {
+                    Conexion conCUIT = new Conexion();
+                    string queryCUIT = "Select * from LPB.Empresas where cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'";
+                    conCUIT.cnn.Open();
+                    SqlCommand commandCUIT = new SqlCommand(queryCUIT, conCUIT.cnn);
+                    SqlDataReader lectorCUIT = commandCUIT.ExecuteReader();
+                    if (lectorCUIT.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese número de CUIT\n");
+                    }
+                    conCUIT.cnn.Close();
+                }
+
+                //VALIDACION USERNAME ÚNICO
+
+                if (!(textBoxUser.Text.Equals("")))
+                {
+                    Conexion conUser = new Conexion();
+                    string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
+                    conUser.cnn.Open();
+                    SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
+                    SqlDataReader lectorUser = commandUser.ExecuteReader();
+                    if (lectorUser.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                    }
+                    conUser.cnn.Close();
+                }
+
+                //SI HAY ERRORES LOS MUESTRO A TODOS
+                if (hayError)
+                {
+                    MessageBox.Show(mensajeDeError, "Error al guardar el usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 return;
+                
             }
 
 
@@ -406,13 +609,13 @@ namespace visibilidad.ABM_Usuario
             textBoxCodPostCl.Text = "";
             textboxcodpostEmpr.Text = "";
             textBoxConfirmarPass.Text = "";
-            textBoxCUIT.Text = "";
+            textBoxCUITTipo.Text = "";
+            textBoxCUITNro.Text = "";
+            textBoxCUITVerif.Text = "";
             textBoxDptoCl.Text = "";
             textboxDptoEmpr.Text = "";
             textBoxFechaNac.Text = "";
-            textBoxLocalidadCl.Text = "";
-            textboxLocalidadEmp.Text = "";
-            textboxLocalidadEmpr.Text = "";
+            textBoxCalleEmp.Text = "";
             textBoxMail.Text = "";
             textBoxMailEmp.Text = "";
             textBoxNombre.Text = "";
@@ -446,7 +649,7 @@ namespace visibilidad.ABM_Usuario
             }
         }
 
-
+ 
  
     }
 }
