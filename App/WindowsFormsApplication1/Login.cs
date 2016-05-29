@@ -151,18 +151,19 @@ namespace visibilidad
             con.cnn.Close();
             text_usuario.Text = "";
             text_password.Text = "";
+            cmb_roles.SelectedIndex = 0;
             if (cont == 1)
             {
                 Menu mp = new Menu();
                 this.Hide();
-                mp.Show();
-                cmb_roles.SelectedIndex = 0;
+                mp.Show();                
                 mp.cargarRoles(id_usuario, cmb_roles.Text, this);
                 grp_rol.Visible = false;
                 grp_login.Visible = true;
                 cmb_roles.SelectedIndex = -1;
 
             }
+            
         }
 
         private void text_password_KeyPress(object sender, KeyPressEventArgs e)

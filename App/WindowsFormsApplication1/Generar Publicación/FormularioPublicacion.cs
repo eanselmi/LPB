@@ -35,6 +35,8 @@ namespace visibilidad.Generar_Publicación
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            radio_compra.Checked = true;
+            radio_borrador.Checked = true;
 
             date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
@@ -58,7 +60,7 @@ namespace visibilidad.Generar_Publicación
             while (lector.Read())
                 checklist_rubros.Items.Add(lector.GetString(0));
             con.cnn.Close();
-
+            cmb_visibilidad.SelectedIndex = 0;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -145,14 +147,14 @@ namespace visibilidad.Generar_Publicación
             text_stock.Text = "";
             text_visibilidad_id.Text = "";
             radio_activa.Checked = false;
-            radio_borrador.Checked = false;
-            radio_compra.Checked = false;
+            radio_borrador.Checked = true;
+            radio_compra.Checked = true;
             radio_pausada.Checked = false;
             radio_subasta.Checked = false;
             radio_finalizada.Checked = false;
             check_envio.Checked = false;
             check_pregunta.Checked = false;
-            cmb_visibilidad.SelectedIndex = -1;
+            cmb_visibilidad.SelectedIndex = 0;
             foreach (int i in checklist_rubros.CheckedIndices)
             {
                 checklist_rubros.SetItemCheckState(i, CheckState.Unchecked);

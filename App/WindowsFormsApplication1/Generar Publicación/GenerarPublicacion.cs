@@ -30,27 +30,28 @@ namespace visibilidad.Generar_Publicación
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            Conexion con = new Conexion();
-            string query;
-            
-            query = "SELECT p.codigo as Codigo, e.descripcion as Estado, t.descripcion as Tipo, p.descripcion as Descripcion " +
+            Conexion con = new Conexion();                        
+            string query_publicaciones = "SELECT p.codigo as Codigo, e.descripcion as Estado, t.descripcion as Tipo, p.descripcion as Descripcion " +
                     "FROM lpb.Publicaciones p, lpb.EstadosDePublicacion e, lpb.TiposDePublicacion t " +
                     "where p.EstadoDePublicacion_id=e.id and p.TipoDePublicacion_id=t.id and p.Usuario_id= " + id_usuario;            
             con.cnn.Open();
             DataTable dtDatos = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
-            da.Fill(dtDatos);
-            //dt = dtDatos;
+            SqlDataAdapter da = new SqlDataAdapter(query_publicaciones, con.cnn);
+            da.Fill(dtDatos);            
             datagrid_listado.DataSource = dtDatos;
             con.cnn.Close();
-            datagrid_listado.ReadOnly = true;
-            //c.AutoResizeColumn(0);
-            //dataGridView1.AutoResizeColumn(1);
-            //dataGridView1.AutoResizeColumn(2);
-            //dataGridView1.AutoResizeColumn(3);
-            //dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            //dataGridView1.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            datagrid_listado.ReadOnly = true;            
             datagrid_listado.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            string query_usuario = "select u.username from lpb.usuarios u where u.id='" + id_usuario + "'";
+            con = new Conexion();
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query_usuario, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            string usuario = lector.GetString(0);
+            con.cnn.Close();
+            groupBox1.Text = "Listado de publicaciones del usuario " + usuario;
             
         }
 

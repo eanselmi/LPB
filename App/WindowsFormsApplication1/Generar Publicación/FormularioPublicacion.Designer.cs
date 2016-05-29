@@ -135,7 +135,7 @@
             this.btn_limpiar.Name = "btn_limpiar";
             this.btn_limpiar.Size = new System.Drawing.Size(165, 35);
             this.btn_limpiar.TabIndex = 18;
-            this.btn_limpiar.Text = "Limpiar";
+            this.btn_limpiar.Text = "Reestablecer";
             this.btn_limpiar.UseVisualStyleBackColor = true;
             this.btn_limpiar.Click += new System.EventHandler(this.btn_limpiar_Click);
             // 
