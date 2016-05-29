@@ -53,12 +53,11 @@ namespace common
                         " from LPB.Publicaciones p , LPB.TiposDePublicacion t, LPB.Visibilidades v " +
                         " where  t.id = p.TipoDePublicacion_id and v.codigo = p.Visibilidad_codigo " +
                         " and t.descripcion = '" + tipo + "' ";
+
                   query += applyFilterDescr(filter_desc);
             }
 
             query += " order by v.precio desc" ;
-
-            MessageBox.Show(query, "Query", MessageBoxButtons.OK);
 
             Conexion con = new Conexion();
             con.cnn.Open();

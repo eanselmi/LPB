@@ -286,7 +286,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Búsqueda de Publicaciones";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
             // tbox_cant
             // 
             this.tbox_cant.Location = new System.Drawing.Point(794, 78);
