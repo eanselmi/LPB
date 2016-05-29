@@ -32,24 +32,35 @@ namespace common
 
         public DataGridView cargarPublicaciones(DataGridView publis, String tipo, String filter_desc, CheckedListBox.CheckedItemCollection rubros)
         {
-            Conexion con = new Conexion();
-            String query = "select p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, " +
-            "p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo " +
-            " from LPB.Publicaciones p inner join LPB.TiposDePublicacion t on t.id = p.TipoDePublicacion_id " +
-            " inner join LPB.Visibilidades v on v.codigo = p.Visibilidad_codigo " +
-            " where t.descripcion = '" + tipo + "' ";
-            if (rubros != null)
+            String query = "";
+
+            if (rubros != null && rubros.Count > 0)
             {
-                foreach (string rubro in rubros)
-                {
-                    MessageBox.Show(rubro, "Rubro seleccionado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                query += "select p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo " +
+                        " from  LPB.Publicaciones p, LPB.Rubros r, LPB.PublicacionesPorRubro pr, LPB.TiposDePublicacion t , LPB.Visibilidades v " +
+                        " where p.codigo = pr.Publicacion_id and r.id = pr.Rubro_id and t.id = p.TipoDePublicacion_id and  v.codigo = p.Visibilidad_codigo " +
+                        " and t.descripcion = '" + tipo + "' ";
+           
+                query += applyFilterDescr(filter_desc);
+                query += " and (";
+                query += applyFilterRubros(rubros);
+                query += ") ";   
             }
-            query += applyFilterDescr(filter_desc);
-           // query += applyFilterRubros(rubros);
+            else
+            {
+                query += "select p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, " +
+                        "p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo " +
+                        " from LPB.Publicaciones p , LPB.TiposDePublicacion t, LPB.Visibilidades v " +
+                        " where  t.id = p.TipoDePublicacion_id and v.codigo = p.Visibilidad_codigo " +
+                        " and t.descripcion = '" + tipo + "' ";
+                  query += applyFilterDescr(filter_desc);
+            }
 
             query += " order by v.precio desc" ;
 
+            MessageBox.Show(query, "Query", MessageBoxButtons.OK);
+
+            Conexion con = new Conexion();
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
@@ -76,6 +87,22 @@ namespace common
            return publis;
         }
 
+        private String applyFilterRubros(CheckedListBox.CheckedItemCollection rubros)
+        {
+            String query = "";
+            int index = 0;
+            foreach (String rubro_desc in rubros)
+            {
+                index++;
+                query += " r.descripcion = '" + rubro_desc +"'" ;
+                if(!index.Equals(rubros.Count)){
+                   query += " or ";
+                }
+            }
+
+            return query;
+        }
+
         private String applyFilterDescr(String desc)
         {
             if (desc != null && !desc.Equals(""))
@@ -86,11 +113,6 @@ namespace common
             {
                 return "";
             }
-        }
-
-        private String applyFilterRubros(List<String> rubros)
-        {
-            return "";
         }
 
         private void crearColumnas(DataGridView publis, int columna, String nombre, String header, Boolean visible)
