@@ -185,5 +185,28 @@ namespace visibilidad.Generar_Publicación
         {
             if (radio_finalizada.Checked == true) publicacion_estado = 4;
         }
+
+        private void btn_guardar_Click(object sender, EventArgs e)
+        {
+            //Guardar publicacion
+            
+            
+            
+            
+            //Control de Errores
+            string error = "Se encontraron los siguientes errores\n";
+            if (text_descripcion.Text == "")
+                error = error + "El campo Descripcion no puede estar vacio\n";
+            if (text_precio.Text == "")
+                error = error + "El campo Precio no puede estar vacio\n";
+            if (text_stock.Text == "")
+                error = error + "El campo Stock no puede estar vacio\n";
+            int rubros_seleccionados = 0;
+            for (int i = 0; i < checklist_rubros.Items.Count; i++)
+                if (checklist_rubros.GetItemChecked(i)) rubros_seleccionados++;
+            if (rubros_seleccionados==0)
+                error=error+"Debe seleccionar almenos 1 Rubro para la publicacion\n";
+            MessageBox.Show(error,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }
