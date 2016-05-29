@@ -414,7 +414,7 @@ GO
 
 CREATE PROCEDURE lpb.SP_Alta_Cliente (@username varchar(45),@pass varchar(100),@tipoDoc varchar(10),@numeroDoc numeric(18,0),@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,
 @mail nvarchar(255),@telefono numeric(12,0), @calle nvarchar(255),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),
-@codPostal nvarchar(50),@descrpLocalidad varchar(45), @user varchar(45))
+@codPostal nvarchar(50),@descrpLocalidad varchar(45))
 AS
 BEGIN
 BEGIN TRANSACTION
@@ -426,7 +426,7 @@ INSERT INTO lpb.Clientes
 (documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
 select @tipoDoc,@numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,@piso,@dpto,@codPostal,
 (select id from lpb.Localidades where descripcion=@descrpLocalidad),
-(select id from lpb.Usuarios where username=@user)
+(select id from lpb.Usuarios where username=@username)
 COMMIT TRANSACTION
 END
 GO
