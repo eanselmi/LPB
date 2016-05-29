@@ -253,6 +253,7 @@
             this.ofertarToolStripMenuItem.Name = "ofertarToolStripMenuItem";
             this.ofertarToolStripMenuItem.Size = new System.Drawing.Size(68, 24);
             this.ofertarToolStripMenuItem.Text = "Ofertar";
+            this.ofertarToolStripMenuItem.Click += new System.EventHandler(this.ofertarToolStripMenuItem_Click);
             // 
             // historialToolStripMenuItem
             // 

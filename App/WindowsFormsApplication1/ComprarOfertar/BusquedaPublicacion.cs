@@ -13,13 +13,32 @@ namespace visibilidad.ComprarOfertar
 {
     public partial class BusquedaPublicacion : Form
     {
-        public BusquedaPublicacion()
+        String tipoPublicacionABuscar;
+
+        public BusquedaPublicacion(String tipoPublicacion)
         {
             InitializeComponent();
+            tipoPublicacionABuscar = tipoPublicacion;
+            if (tipoPublicacionABuscar.Equals("Compra Inmediata"))
+            {
+                btn_ofertar.Visible = false;
+                btn_ofertar.Enabled = false;
+
+                btn_comprar.Visible = true;
+            }
+            else
+            {
+                btn_comprar.Visible = false;
+                btn_comprar.Enabled = false;
+
+                btn_ofertar.Visible = true;
+            }
+
             Common busqueda = new Common();
             checklist_rubros = busqueda.cargarRubros(checklist_rubros);
             limpiar();
-
+            grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacion , null, null);
+            btn_todas.Enabled = false;
         }
 
         private void limpiar()
@@ -73,5 +92,21 @@ namespace visibilidad.ComprarOfertar
             habilitarBusqueda(checklist_rubros.CheckedItems.Count != 0 
                 && (tbox_descr.Text.Equals("") || tbox_descr.Text.Length >= 3) );
         }
+
+        private void btn_buscar_Click(object sender, EventArgs e)
+        {
+            btn_todas.Enabled = true;
+            Common busqueda = new Common();
+            grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacionABuscar, tbox_descr.Text, checklist_rubros.CheckedItems);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Common busqueda = new Common();
+            grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacionABuscar, null, null);
+            limpiar();
+        }
+
+     
     }
 }

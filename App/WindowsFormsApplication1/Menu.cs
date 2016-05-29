@@ -174,8 +174,15 @@ namespace visibilidad
 
         private void comprarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ComprarOfertar.BusquedaPublicacion busquedaPublicacion = new ComprarOfertar.BusquedaPublicacion();
+            ComprarOfertar.BusquedaPublicacion busquedaPublicacion = new ComprarOfertar.BusquedaPublicacion("Compra Inmediata");
             busquedaPublicacion.Show();
+        }
+
+        private void ofertarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ComprarOfertar.BusquedaPublicacion busquedaPublicacion = new ComprarOfertar.BusquedaPublicacion("Subasta");
+            busquedaPublicacion.Show();
+
         }
 
     }
