@@ -49,11 +49,11 @@
             this.aceptaPreguntas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Visibilidad_codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btn_ofertar = new System.Windows.Forms.Button();
             this.tbox_cant = new System.Windows.Forms.TextBox();
             this.label_cantidad = new System.Windows.Forms.Label();
             this.btn_pregunta = new System.Windows.Forms.Button();
             this.btn_comprar = new System.Windows.Forms.Button();
+            this.checkbox_envio = new System.Windows.Forms.CheckBox();
             this.group_buscar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid_publis)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -192,8 +192,10 @@
             this.grid_publis.Name = "grid_publis";
             this.grid_publis.ReadOnly = true;
             this.grid_publis.RowTemplate.Height = 24;
+            this.grid_publis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.grid_publis.Size = new System.Drawing.Size(688, 511);
             this.grid_publis.TabIndex = 5;
+            this.grid_publis.Click += new System.EventHandler(this.grid_publis_Click);
             // 
             // Codigo
             // 
@@ -267,7 +269,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Transparent;
-            this.groupBox1.Controls.Add(this.btn_ofertar);
+            this.groupBox1.Controls.Add(this.checkbox_envio);
             this.groupBox1.Controls.Add(this.tbox_cant);
             this.groupBox1.Controls.Add(this.label_cantidad);
             this.groupBox1.Controls.Add(this.btn_pregunta);
@@ -284,18 +286,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Búsqueda de Publicaciones";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // btn_ofertar
-            // 
-            this.btn_ofertar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_ofertar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_ofertar.Location = new System.Drawing.Point(714, 120);
-            this.btn_ofertar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.btn_ofertar.Name = "btn_ofertar";
-            this.btn_ofertar.Size = new System.Drawing.Size(150, 30);
-            this.btn_ofertar.TabIndex = 13;
-            this.btn_ofertar.Text = "Ofertar";
-            this.btn_ofertar.UseVisualStyleBackColor = true;
             // 
             // tbox_cant
             // 
@@ -316,18 +306,21 @@
             // 
             // btn_pregunta
             // 
+            this.btn_pregunta.Enabled = false;
             this.btn_pregunta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_pregunta.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_pregunta.Location = new System.Drawing.Point(717, 168);
             this.btn_pregunta.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_pregunta.Name = "btn_pregunta";
-            this.btn_pregunta.Size = new System.Drawing.Size(150, 30);
+            this.btn_pregunta.Size = new System.Drawing.Size(150, 74);
             this.btn_pregunta.TabIndex = 9;
             this.btn_pregunta.Text = "Realizar Pregunta";
             this.btn_pregunta.UseVisualStyleBackColor = true;
+            this.btn_pregunta.Click += new System.EventHandler(this.btn_pregunta_Click);
             // 
             // btn_comprar
             // 
+            this.btn_comprar.Enabled = false;
             this.btn_comprar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_comprar.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_comprar.Location = new System.Drawing.Point(717, 120);
@@ -337,6 +330,17 @@
             this.btn_comprar.TabIndex = 8;
             this.btn_comprar.Text = "Comprar";
             this.btn_comprar.UseVisualStyleBackColor = true;
+            // 
+            // checkbox_envio
+            // 
+            this.checkbox_envio.AutoSize = true;
+            this.checkbox_envio.Enabled = false;
+            this.checkbox_envio.Location = new System.Drawing.Point(717, 259);
+            this.checkbox_envio.Name = "checkbox_envio";
+            this.checkbox_envio.Size = new System.Drawing.Size(136, 24);
+            this.checkbox_envio.TabIndex = 14;
+            this.checkbox_envio.Text = "Solicitar envío";
+            this.checkbox_envio.UseVisualStyleBackColor = true;
             // 
             // BusquedaPublicacion
             // 
@@ -383,8 +387,8 @@
          private System.Windows.Forms.DataGridViewTextBoxColumn aceptaPreguntas;
          private System.Windows.Forms.DataGridViewTextBoxColumn Visibilidad_codigo;
          private System.Windows.Forms.Button btn_todas;
-         private System.Windows.Forms.Button btn_ofertar;
          private System.Windows.Forms.TextBox tbox_cant;
          private System.Windows.Forms.Label label_cantidad;
+         private System.Windows.Forms.CheckBox checkbox_envio;
      }
  }

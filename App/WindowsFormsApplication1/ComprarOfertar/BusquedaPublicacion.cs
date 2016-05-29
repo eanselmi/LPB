@@ -21,23 +21,19 @@ namespace visibilidad.ComprarOfertar
             tipoPublicacionABuscar = tipoPublicacion;
             if (tipoPublicacionABuscar.Equals("Compra Inmediata"))
             {
-                btn_ofertar.Visible = false;
-                btn_ofertar.Enabled = false;
-
-                btn_comprar.Visible = true;
+                btn_comprar.Text = "Comprar";
             }
             else
             {
-                btn_comprar.Visible = false;
-                btn_comprar.Enabled = false;
-
-                btn_ofertar.Visible = true;
+                btn_comprar.Text = "Ofertar";
             }
+            btn_comprar.Enabled = false;
 
             Common busqueda = new Common();
             checklist_rubros = busqueda.cargarRubros(checklist_rubros);
             limpiar();
             grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacion , null, null);
+
             btn_todas.Enabled = false;
         }
 
@@ -105,6 +101,34 @@ namespace visibilidad.ComprarOfertar
             Common busqueda = new Common();
             grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacionABuscar, null, null);
             limpiar();
+        }
+
+        private void grid_publis_Click(object sender, EventArgs e)
+        {
+            DataGridViewRow row = grid_publis.SelectedRows[0];
+
+            btn_comprar.Enabled = true;
+            btn_pregunta.Enabled = obtenerEnabledSegunValor(row,"aceptaPreguntas");
+            checkbox_envio.Enabled = obtenerEnabledSegunValor(row, "aceptaEnvio");
+          
+        }
+
+        private bool obtenerEnabledSegunValor(DataGridViewRow row, String columna)
+        {
+            if (row.Cells[columna].Value.ToString().Equals("True") ||
+                row.Cells[columna].Value.ToString().Equals("False"))
+            {
+                return bool.Parse(row.Cells[columna].Value.ToString());
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private void btn_pregunta_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Esta funcionalidad aún no está disponible", "Realizar pregunta", MessageBoxButtons.OK, MessageBoxIcon.Hand);
         }
 
      
