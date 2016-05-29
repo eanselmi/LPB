@@ -360,7 +360,7 @@
             // 
             // text_visibilidad_id
             // 
-            this.text_visibilidad_id.Location = new System.Drawing.Point(814, 110);
+            this.text_visibilidad_id.Location = new System.Drawing.Point(795, 110);
             this.text_visibilidad_id.Name = "text_visibilidad_id";
             this.text_visibilidad_id.Size = new System.Drawing.Size(100, 26);
             this.text_visibilidad_id.TabIndex = 1;
@@ -369,7 +369,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(776, 602);
+            this.ClientSize = new System.Drawing.Size(774, 602);
             this.Controls.Add(this.text_visibilidad_id);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

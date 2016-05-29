@@ -35,6 +35,12 @@ namespace visibilidad.Generar_Publicación
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+            date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            date_fin.Value = date_fin.Value.AddDays(30);
+            date_fin.Enabled = false;
+            date_inicio.Enabled = false;
             cmb_visibilidad.Items.Clear();
             string query_visibilidad = "select v.descripcion from lpb.visibilidades v";
             Conexion con = new Conexion();
