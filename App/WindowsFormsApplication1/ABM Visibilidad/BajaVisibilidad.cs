@@ -43,6 +43,13 @@ namespace visibilidad.ABM_Visibilidad
         private void btn_guardar_Click(object sender, EventArgs e)
         {
             ValidacionesVisibilidad vv = new ValidacionesVisibilidad();
+            Boolean chequeoFKs = vv.hayFKs(codigoVisibilidad);
+            if (chequeoFKs)
+            {
+                MessageBox.Show("Existes publicaciones con esta visiblidad, no se puede eliminar", "Error al eliminar visibilidad", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
             Boolean resultadoBaja = vv.impactarDBBajaVisibilidad(codigoVisibilidad);
             String msg_final = "";
 

@@ -118,5 +118,22 @@ namespace visibilidad
             conexion.cnn.Close();
             return resultadoAlta;
         }
+
+        public Boolean hayFKs(decimal codigoVisibilidad)
+        {
+            String query = "select count(*) from LPB.Publicaciones p, LPB.Visibilidades v " +
+                            " where p.Visibilidad_codigo = v.codigo and v.codigo = " + codigoVisibilidad;
+            int resultado = 0;
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            while (lector.Read())
+            {
+                resultado = lector.GetInt32(0);
+            }
+            con.cnn.Close();
+            return resultado > 0;
+        }
     }
 }
