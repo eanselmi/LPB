@@ -98,64 +98,41 @@ namespace visibilidad.Listado_Estadistico
         private void buttonConsultar_Click(object sender, EventArgs e)
         {
 
-            //DataTable dt = new DataTable();
-            //Int32 mesInicio = 0;
-            //Int32 mesFin = 0;
-            //if(comboBoxTrimestre.SelectedIndex == 0){
-            //    mesInicio = 1;
-            //    mesFin = 3;
-            //}
-            //if (comboBoxTrimestre.SelectedIndex == 1)      
-            //{
-            //    mesInicio = 4;
-            //    mesFin = 6;
-              
-            //}
-            //if (comboBoxTrimestre.SelectedIndex == 2)
-            //{
-            //    mesInicio = 7;
-            //    mesFin = 9;
+            DataTable dt = new DataTable();
 
-            //}
-            //if (comboBoxTrimestre.SelectedIndex == 3)
-            //{
-            //    mesInicio = 10;
-            //    mesFin = 12;
-
-            //}
-
-            ////Creo las fechas de Inicio y Fin dependiendo del año y trimestre elegido
-            //DateTime fechaInicio = new DateTime(Int32.Parse(dateTimePickerListados.Text), mesInicio, 1);
-            //DateTime fechaFin = new DateTime(Int32.Parse(dateTimePickerListados.Text), mesFin, 1);
-            //List<string> lista = Helper.Help.generarListaParaProcedure("@FechaDesde", "@FechaHasta");
-            //switch ((String)this.comboBoxListados.SelectedItem)
-            //{
-            //    case "Vendedores con mayor cantidad de productos no vendidos":
-            //        listado.cnn.Open();
-            //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Productos_No_Vendidos",
-            //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-            //        listado.cnn.Close();
-            //        break;
-            //    case "Clientes con mayor cantidad de productos comprados":
-            //        listado.cnn.Open();
-            //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Clientes_Mayor_Productos_Comprados",
-            //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-            //        listado.cnn.Close();
-            //        break;
-            //    case "Vendedores con mayor cantidad de facturas":
-            //        listado.cnn.Open();
-            //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturas",
-            //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-            //        listado.cnn.Close();
-            //        break;
-            //    case "Vendedores con mayor monto facturado":
-            //        listado.cnn.Open();
-            //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturacion",
-            //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-            //        listado.cnn.Close();
-            //        break;
-            //}
-            //this.dataGridViewListados.DataSource = dt;
+            int anio = Convert.ToInt32(dateTimePickerListados.Value.Year.ToString());
+            int trimestre =  int.Parse(comboBoxTrimestre.SelectedItem.ToString());
+            decimal visibilidad = Decimal.Parse(comboBoxVisibilidad.SelectedValue.ToString());
+            List<string> lista = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@visibilidad");
+            switch ((String)this.comboBoxListados.SelectedItem)
+            {
+                case "Vendedores con mayor cantidad de productos no vendidos":
+                    listado.cnn.Open();
+                    dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Productos_No_Vendidos",
+                        lista, anio, trimestre, visibilidad);
+                    listado.cnn.Close();
+                    break;
+                    //    case "Clientes con mayor cantidad de productos comprados":
+                    //        listado.cnn.Open();
+                    //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Clientes_Mayor_Productos_Comprados",
+                    //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
+                    //        listado.cnn.Close();
+                    //        break;
+                    //    case "Vendedores con mayor cantidad de facturas":
+                    //        listado.cnn.Open();
+                    //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturas",
+                    //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
+                    //        listado.cnn.Close();
+                    //        break;
+                    //    case "Vendedores con mayor monto facturado":
+                    //        listado.cnn.Open();
+                    //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturacion",
+                    //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
+                    //        listado.cnn.Close();
+                    //        break;
+            }
+                    this.dataGridViewListados.DataSource = dt;
+            
 
         }
 
