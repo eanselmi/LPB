@@ -358,6 +358,27 @@ ALTER TABLE LPB.Ofertas ADD
 		FOREIGN KEY (Calificacion_cod) references LPB.Calificaciones;
 GO
 
+/*-------------- Limpieza de Funciones ----------------------- */
+
+IF OBJECT_ID('LPB.fn_trimestre') IS NOT NULL
+    DROP FUNCTION LPB.fn_trimestre
+GO
+
+/*-------------- Definiciones de Funciones ------------------------*/
+
+/* Funcion para obtener el trimestre de una fecha 
+El "-1" es para que los meses "empiecen" a contarse desde 0 (enero = 0).
+Luego divides entre 4 y eso te saldria 0 si estuvieras en el primer trimestre y 1 en el segundo trimestre.
+Por último sumas 1 para conseguir que el primer trimestre sea 1 y el segundo 2.
+*/
+CREATE FUNCTION LPB.[fn_trimestre] (@fecha DATE)
+	RETURNS INT
+BEGIN
+	RETURN ((MONTH(@fecha)-1)/4)+1
+END
+GO
+
+
 /*---------- Limpieza de Procedures ------------*/
 
 IF OBJECT_ID('LPB.SP_Baja_Rol') IS NOT NULL
@@ -399,6 +420,12 @@ GO
 IF OBJECT_ID('LPB.SP_Baja_Visibilidad') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Baja_Visibilidad
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Vendedores_Mayor_Productos_No_Vendidos') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Vendedores_Mayor_Productos_No_Vendidos
 END;
 GO
 
@@ -511,6 +538,54 @@ CREATE PROCEDURE LPB.SP_Baja_Visibilidad (@codigo decimal)
 AS BEGIN
 DELETE FROM LPB.Visibilidades
 WHERE codigo = @codigo
+END
+GO
+
+
+CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Productos_No_Vendidos]
+	@anio INT,
+	@trimestre INT,
+	@visibilidad NUMERIC(18,0)
+AS
+BEGIN
+	SELECT TOP 5
+		id,
+		username,
+		CAST(SinVender AS INT) AS Cantidad
+	FROM LPB.Usuarios
+	INNER JOIN
+	(
+		SELECT
+			Usuario_id,
+			SUM(Stock - Ventas) AS SinVender
+		FROM
+		(
+			SELECT
+				Usuario_id,
+				CASE WHEN TipoDePublicacion_id = 1 THEN Stock ELSE 1 END AS Stock,
+				ISNULL(Ventas, 0) AS Ventas,
+				fechaCreacion
+			FROM LPB.Publicaciones
+			LEFT JOIN
+			(
+				SELECT Publicacion_cod, SUM(cantidad) AS Ventas
+				FROM LPB.Compras
+				GROUP BY Publicacion_cod
+				UNION ALL
+				SELECT Publicacion_cod, 1 AS Ventas
+				FROM LPB.Ofertas
+				WHERE ganadora = 1
+				GROUP BY Publicacion_cod
+			) AS Operaciones
+				ON Publicaciones.codigo = Operaciones.Publicacion_cod
+			WHERE Visibilidad_Codigo = @visibilidad
+		) AS aux
+		WHERE YEAR(fechaCreacion) = @anio
+		AND LPB.fn_trimestre(fechaCreacion) = @trimestre
+		GROUP BY Usuario_id
+	) AS tmp
+	ON Usuarios.id = tmp.Usuario_id
+	ORDER BY SinVender DESC
 END
 GO
 
