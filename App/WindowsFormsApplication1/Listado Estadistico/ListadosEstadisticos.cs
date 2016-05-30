@@ -102,14 +102,15 @@ namespace visibilidad.Listado_Estadistico
 
             int anio = Convert.ToInt32(dateTimePickerListados.Value.Year.ToString());
             int trimestre =  int.Parse(comboBoxTrimestre.SelectedItem.ToString());
-            decimal visibilidad = Decimal.Parse(comboBoxVisibilidad.SelectedValue.ToString());
-            List<string> lista = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@visibilidad");
+            List<string> lista1 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@visibilidad");
+            List<string> lista4 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre");
             switch ((String)this.comboBoxListados.SelectedItem)
             {
                 case "Vendedores con mayor cantidad de productos no vendidos":
+                    decimal visibilidad = Decimal.Parse(comboBoxVisibilidad.SelectedValue.ToString());
                     listado.cnn.Open();
                     dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Productos_No_Vendidos",
-                        lista, anio, trimestre, visibilidad);
+                        lista1, anio, trimestre, visibilidad);
                     listado.cnn.Close();
                     break;
                     //    case "Clientes con mayor cantidad de productos comprados":
@@ -124,12 +125,12 @@ namespace visibilidad.Listado_Estadistico
                     //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
                     //        listado.cnn.Close();
                     //        break;
-                    //    case "Vendedores con mayor monto facturado":
-                    //        listado.cnn.Open();
-                    //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturacion",
-                    //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-                    //        listado.cnn.Close();
-                    //        break;
+                case "Vendedores con mayor monto facturado":
+                    listado.cnn.Open();
+                    dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturacion",
+                        lista4, anio, trimestre);
+                    listado.cnn.Close();
+                    break;
             }
                     this.dataGridViewListados.DataSource = dt;
             
