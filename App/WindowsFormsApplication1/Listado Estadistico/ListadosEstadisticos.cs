@@ -38,7 +38,6 @@ namespace visibilidad.Listado_Estadistico
             //Propiedades del combo Box Trimestre
             comboBoxListados.DropDownStyle = ComboBoxStyle.DropDownList;
             //Carga del combo Box Listado
-       
             comboBoxListados.Items.Add("Vendedores con mayor cantidad de productos no vendidos");
             comboBoxListados.Items.Add("Clientes con mayor cantidad de productos comprados");
             comboBoxListados.Items.Add("Vendedores con mayor cantidad de facturas");
@@ -53,7 +52,14 @@ namespace visibilidad.Listado_Estadistico
             comboBoxVisibilidad.ValueMember = "codigo";
             comboBoxVisibilidad.DisplayMember = "descripcion";
             comboBoxVisibilidad.SelectedIndex = -1;
-
+            //Carga del combo Box Rubro
+            DataTable dt1 = new DataTable();
+            dt1 = listado.obtenerTablaSegunConsultaString("SELECT id, descripcion from " + listado.getSchema() + ".Rubros");
+            comboBoxRubro.Items.Clear();
+            comboBoxRubro.DataSource = dt1;
+            comboBoxRubro.ValueMember = "id";
+            comboBoxRubro.DisplayMember = "descripcion";
+            comboBoxRubro.SelectedIndex = -1;
         }
 
         private void comboBoxTrimestre_SelectedIndexChanged(object sender, EventArgs e)
@@ -69,17 +75,32 @@ namespace visibilidad.Listado_Estadistico
         {
             if ((string)comboBoxListados.SelectedItem == "Vendedores con mayor cantidad de productos no vendidos")
             {
-                labelVisibilidad.Visible = true;
-                comboBoxVisibilidad.Visible = true;
+                labelVisibilidad.Enabled = true;
+                comboBoxVisibilidad.Enabled = true;
+                labelRubro.Enabled = false;
+                comboBoxRubro.Enabled = false;
                 buttonConsultar.Enabled = false;
  
-            }
-            else
+            }else
             {
-                labelVisibilidad.Visible = false;
-                comboBoxVisibilidad.Visible = false;
-                buttonConsultar.Enabled = true;
- 
+
+                 if ((string)comboBoxListados.SelectedItem == "Clientes con mayor cantidad de productos comprados")
+                 {
+                    labelRubro.Enabled = true;
+                    comboBoxRubro.Enabled = true;
+                    labelVisibilidad.Enabled = false;
+                    comboBoxVisibilidad.Enabled = false;
+                    buttonConsultar.Enabled = false;
+                 }
+                    else
+                    {
+                        labelVisibilidad.Enabled = false;
+                        comboBoxVisibilidad.Enabled = false;
+                        labelRubro.Enabled = false;
+                        comboBoxRubro.Enabled = false;
+                        buttonConsultar.Enabled = true;
+
+                    }
             }
 
         }
@@ -103,7 +124,9 @@ namespace visibilidad.Listado_Estadistico
             int anio = Convert.ToInt32(dateTimePickerListados.Value.Year.ToString());
             int trimestre =  int.Parse(comboBoxTrimestre.SelectedItem.ToString());
             List<string> lista1 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@visibilidad");
-            List<string> lista4 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre");
+            //List<string> lista2 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@rubro");
+            List<string> lista3y4 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre");
+            
             switch ((String)this.comboBoxListados.SelectedItem)
             {
                 case "Vendedores con mayor cantidad de productos no vendidos":
@@ -119,16 +142,16 @@ namespace visibilidad.Listado_Estadistico
                     //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
                     //        listado.cnn.Close();
                     //        break;
-                    //    case "Vendedores con mayor cantidad de facturas":
-                    //        listado.cnn.Open();
-                    //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturas",
-                    //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-                    //        listado.cnn.Close();
-                    //        break;
+                case "Vendedores con mayor cantidad de facturas":
+                    listado.cnn.Open();
+                    dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturas",
+                        lista3y4, anio, trimestre);
+                    listado.cnn.Close();
+                    break;
                 case "Vendedores con mayor monto facturado":
                     listado.cnn.Open();
                     dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturacion",
-                        lista4, anio, trimestre);
+                        lista3y4, anio, trimestre);
                     listado.cnn.Close();
                     break;
             }

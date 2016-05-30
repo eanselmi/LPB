@@ -41,12 +41,16 @@
             this.labelAnio = new System.Windows.Forms.Label();
             this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonConsultar = new System.Windows.Forms.Button();
+            this.labelRubro = new System.Windows.Forms.Label();
+            this.comboBoxRubro = new System.Windows.Forms.ComboBox();
             this.groupBoxListados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewListados)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxListados
             // 
+            this.groupBoxListados.Controls.Add(this.comboBoxRubro);
+            this.groupBoxListados.Controls.Add(this.labelRubro);
             this.groupBoxListados.Controls.Add(this.comboBoxVisibilidad);
             this.groupBoxListados.Controls.Add(this.labelVisibilidad);
             this.groupBoxListados.Controls.Add(this.dataGridViewListados);
@@ -66,35 +70,35 @@
             // comboBoxVisibilidad
             // 
             this.comboBoxVisibilidad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxVisibilidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxVisibilidad.Enabled = false;
+            this.comboBoxVisibilidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBoxVisibilidad.FormattingEnabled = true;
             this.comboBoxVisibilidad.Location = new System.Drawing.Point(131, 152);
             this.comboBoxVisibilidad.Name = "comboBoxVisibilidad";
-            this.comboBoxVisibilidad.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxVisibilidad.Size = new System.Drawing.Size(121, 21);
             this.comboBoxVisibilidad.TabIndex = 8;
-            this.comboBoxVisibilidad.Visible = false;
             this.comboBoxVisibilidad.SelectedIndexChanged += new System.EventHandler(this.comboBoxVisibilidad_SelectedIndexChanged);
             // 
             // labelVisibilidad
             // 
             this.labelVisibilidad.AutoSize = true;
-            this.labelVisibilidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelVisibilidad.Enabled = false;
+            this.labelVisibilidad.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelVisibilidad.Location = new System.Drawing.Point(36, 155);
             this.labelVisibilidad.Name = "labelVisibilidad";
-            this.labelVisibilidad.Size = new System.Drawing.Size(72, 18);
+            this.labelVisibilidad.Size = new System.Drawing.Size(63, 15);
             this.labelVisibilidad.TabIndex = 7;
             this.labelVisibilidad.Text = "Visibilidad";
-            this.labelVisibilidad.Visible = false;
             // 
             // dataGridViewListados
             // 
             this.dataGridViewListados.AllowUserToAddRows = false;
             this.dataGridViewListados.AllowUserToDeleteRows = false;
             this.dataGridViewListados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewListados.Location = new System.Drawing.Point(6, 196);
+            this.dataGridViewListados.Location = new System.Drawing.Point(6, 223);
             this.dataGridViewListados.Name = "dataGridViewListados";
             this.dataGridViewListados.ReadOnly = true;
-            this.dataGridViewListados.Size = new System.Drawing.Size(540, 230);
+            this.dataGridViewListados.Size = new System.Drawing.Size(540, 203);
             this.dataGridViewListados.TabIndex = 6;
             // 
             // comboBoxListados
@@ -186,6 +190,28 @@
             this.buttonConsultar.UseVisualStyleBackColor = true;
             this.buttonConsultar.Click += new System.EventHandler(this.buttonConsultar_Click);
             // 
+            // labelRubro
+            // 
+            this.labelRubro.AutoSize = true;
+            this.labelRubro.Enabled = false;
+            this.labelRubro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRubro.Location = new System.Drawing.Point(36, 190);
+            this.labelRubro.Name = "labelRubro";
+            this.labelRubro.Size = new System.Drawing.Size(41, 15);
+            this.labelRubro.TabIndex = 9;
+            this.labelRubro.Text = "Rubro";
+            // 
+            // comboBoxRubro
+            // 
+            this.comboBoxRubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRubro.Enabled = false;
+            this.comboBoxRubro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxRubro.FormattingEnabled = true;
+            this.comboBoxRubro.Location = new System.Drawing.Point(131, 189);
+            this.comboBoxRubro.Name = "comboBoxRubro";
+            this.comboBoxRubro.Size = new System.Drawing.Size(169, 21);
+            this.comboBoxRubro.TabIndex = 10;
+            // 
             // ListadoEstadistico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -218,5 +244,7 @@
         private System.Windows.Forms.Button buttonConsultar;
         private System.Windows.Forms.Label labelVisibilidad;
         private System.Windows.Forms.ComboBox comboBoxVisibilidad;
+        private System.Windows.Forms.ComboBox comboBoxRubro;
+        private System.Windows.Forms.Label labelRubro;
     }
 }

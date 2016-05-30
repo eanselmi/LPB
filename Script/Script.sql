@@ -435,6 +435,13 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Vendedores_Mayor_Facturas') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Vendedores_Mayor_Facturas
+END;
+GO
+
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -595,7 +602,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE LPB.SP_Vendedores_Mayor_Facturacion
+CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Facturacion]
 	@anio INT,
 	@trimestre INT
 AS
@@ -621,6 +628,33 @@ BEGIN
 	ORDER BY Facturacion DESC
 END
 GO
+
+CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Facturas]
+	@anio INT,
+	@trimestre INT
+AS
+BEGIN
+	SELECT TOP 5
+		id,
+		username,
+		Cantidad
+	FROM LPB.Usuarios 
+	INNER JOIN 
+	(
+	SELECT 
+		p.Usuario_id AS Usuario_Id , 
+		COUNT (DISTINCT i.Factura_nro) as Cantidad
+	FROM LPB.Items i
+	INNER JOIN LPB.Publicaciones AS p
+		ON i.Publicacion_cod = p.codigo
+	WHERE YEAR(p.fechaCreacion) = @anio
+		AND LPB.[fn_trimestre](p.fechaCreacion) = @trimestre
+	GROUP BY p.Usuario_id 
+	) AS tmp
+	ON Usuarios.id = tmp.Usuario_Id
+	ORDER BY Cantidad DESC
+END 
+GO 
 
 /* Declaración de variables */
 
