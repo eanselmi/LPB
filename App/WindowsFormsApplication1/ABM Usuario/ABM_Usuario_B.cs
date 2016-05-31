@@ -15,11 +15,13 @@ namespace visibilidad.ABM_Usuario
 {
     public partial class ABM_Usuario_B : Form
     {
-        DataTable tabla = new DataTable();
+        private DataTable tabla = new DataTable();
+        private string modalidad;
 
-        public ABM_Usuario_B()
+        public ABM_Usuario_B(string modo)
         {
             InitializeComponent();
+            this.modalidad = modo;
         }
 
         private void ABM_Usuario_B_Load(object sender, EventArgs e)
@@ -143,64 +145,112 @@ namespace visibilidad.ABM_Usuario
 
         private void buttonProceder_Click(object sender, EventArgs e)
         {
-            switch(MessageBox.Show("¿Desea proceder con la baja del usuario seleccionado?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+            if (modalidad.Equals("Baja"))
             {
-                case DialogResult.Yes:
-                    {
-                        string username="";
-
-                        //Si es cliente busco el username desde el cliente
-                        if (comboBoxTipoU.Text.Equals("Cliente"))
+                switch (MessageBox.Show("¿Desea proceder con la baja del usuario seleccionado?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+                {
+                    case DialogResult.Yes:
                         {
-                            string tipoDoc = dataGridViewCliente.SelectedCells[0].Value.ToString();
-                            string numDoc = dataGridViewCliente.SelectedCells[1].Value.ToString();
-                            //OBTENGO EL USERNAME
-                            string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Clientes where documento_tipo='" + tipoDoc + "' and documento_numero='" + numDoc + "')";
-                            Conexion connObtener = new Conexion();
-                            connObtener.cnn.Open();
-                            SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
-                            SqlDataReader lector = command.ExecuteReader();
-                            lector.Read();
-                            username = lector.GetString(0);
-                            connObtener.cnn.Close();
+                            string username = "";
+
+                            //Si es cliente busco el username desde el cliente
+                            if (comboBoxTipoU.Text.Equals("Cliente"))
+                            {
+                                string tipoDoc = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                                string numDoc = dataGridViewCliente.SelectedCells[1].Value.ToString();
+                                //OBTENGO EL USERNAME
+                                string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Clientes where documento_tipo='" + tipoDoc + "' and documento_numero='" + numDoc + "')";
+                                Conexion connObtener = new Conexion();
+                                connObtener.cnn.Open();
+                                SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                                SqlDataReader lector = command.ExecuteReader();
+                                lector.Read();
+                                username = lector.GetString(0);
+                                connObtener.cnn.Close();
+                            }
+
+                            //Si es Empresa busco el username desde la empresa
+                            if (comboBoxTipoU.Text.Equals("Empresa"))
+                            {
+                                string cuit = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                                //OBTENGO EL USERNAME
+                                string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Empresas where cuit='" + cuit + "')";
+                                Conexion connObtener = new Conexion();
+                                connObtener.cnn.Open();
+                                SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                                SqlDataReader lector = command.ExecuteReader();
+                                lector.Read();
+                                username = lector.GetString(0);
+                                connObtener.cnn.Close();
+                            }
+
+                            Conexion bajaUsuario = new Conexion();
+                            bajaUsuario.cnn.Open();
+
+                            //BAJA USUARIO
+                            bool resultadoBaja = bajaUsuario.executeProcedure(bajaUsuario.getSchema() + @".SP_Baja_Usuario",
+                                Helper.Help.generarListaParaProcedure("@username"), username);
+
+                            bajaUsuario.cnn.Close();
+
+                            if (resultadoBaja)
+                            {
+                                MessageBox.Show("Baja del usuario exitosa!", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.Close();
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se pudo realizar la baja del usuario", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                this.Close();
+                            }
+                            break;
                         }
-
-                        //Si es Empresa busco el username desde la empresa
-                        if (comboBoxTipoU.Text.Equals("Empresa"))
+                }
+            }
+            if (modalidad.Equals("Modificacion"))
+            {
+                switch (MessageBox.Show("¿Desea modificar el usuario seleccionado?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+                {
+                    case DialogResult.Yes:
                         {
-                            string cuit = dataGridViewCliente.SelectedCells[0].Value.ToString();
-                            //OBTENGO EL USERNAME
-                            string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Empresas where cuit='" + cuit + "')";
-                            Conexion connObtener = new Conexion();
-                            connObtener.cnn.Open();
-                            SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
-                            SqlDataReader lector = command.ExecuteReader();
-                            lector.Read();
-                            username = lector.GetString(0);
-                            connObtener.cnn.Close();
-                        }
+                            string username = "";
 
-                        Conexion bajaUsuario = new Conexion();
-                        bajaUsuario.cnn.Open();
+                            //Si es cliente busco el username desde el cliente
+                            if (comboBoxTipoU.Text.Equals("Cliente"))
+                            {
+                                string tipoDoc = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                                string numDoc = dataGridViewCliente.SelectedCells[1].Value.ToString();
+                                //OBTENGO EL USERNAME
+                                string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Clientes where documento_tipo='" + tipoDoc + "' and documento_numero='" + numDoc + "')";
+                                Conexion connObtener = new Conexion();
+                                connObtener.cnn.Open();
+                                SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                                SqlDataReader lector = command.ExecuteReader();
+                                lector.Read();
+                                username = lector.GetString(0);
+                                connObtener.cnn.Close();
+                            }
 
-                        //BAJA USUARIO
-                        bool resultadoBaja = bajaUsuario.executeProcedure(bajaUsuario.getSchema() + @".SP_Baja_Usuario",
-                            Helper.Help.generarListaParaProcedure("@username"),username);
-
-                        bajaUsuario.cnn.Close();
-
-                        if (resultadoBaja)
-                        {
-                            MessageBox.Show("Baja del usuario exitosa!", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //Si es Empresa busco el username desde la empresa
+                            if (comboBoxTipoU.Text.Equals("Empresa"))
+                            {
+                                string cuit = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                                //OBTENGO EL USERNAME
+                                string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Empresas where cuit='" + cuit + "')";
+                                Conexion connObtener = new Conexion();
+                                connObtener.cnn.Open();
+                                SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                                SqlDataReader lector = command.ExecuteReader();
+                                lector.Read();
+                                username = lector.GetString(0);
+                                connObtener.cnn.Close();
+                            }
+                            ABM_Usuario_A modificaU = new ABM_Usuario_A();
+                            modificaU.Show();
                             this.Close();
+                            break;
                         }
-                        else
-                        {
-                            MessageBox.Show("No se pudo realizar la baja del usuario", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            this.Close();
-                        }
-                        break;
-                    }
+                }
             }
         }
             
