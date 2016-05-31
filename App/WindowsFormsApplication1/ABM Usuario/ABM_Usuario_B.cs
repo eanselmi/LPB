@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -40,10 +40,12 @@ namespace visibilidad.ABM_Usuario
             if (this.comboBoxTipoU.Text.Equals("Cliente"))
             {
                 groupBoxCliente.Visible = true;
+                groupBoxEmpresa.Visible = false;
             }
             if (this.comboBoxTipoU.Text.Equals("Empresa"))
             {
                 groupBoxCliente.Visible = false;
+                groupBoxEmpresa.Visible = true;
             }
         }
 
@@ -99,6 +101,11 @@ namespace visibilidad.ABM_Usuario
             textBoxNombe.Text = "";
             textBoxApellido.Text = "";
             comboBoxTipoDoc.SelectedIndex = -1;
+            textBoxCUITNro.Text = "";
+            textBoxCUITTipo.Text = "";
+            textBoxCUITVerif.Text = "";
+            textBoxEmailEmp.Text = "";
+            textBoxRazonSoc.Text = "";
             buttonProceder.Enabled = false;
         }
 

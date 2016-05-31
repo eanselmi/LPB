@@ -1,4 +1,4 @@
-﻿namespace visibilidad.ABM_Usuario
+namespace visibilidad.ABM_Usuario
 {
     partial class ABM_Usuario_B
     {
@@ -32,12 +32,21 @@
             this.comboBoxTipoU = new System.Windows.Forms.ComboBox();
             this.labelTipoU = new System.Windows.Forms.Label();
             this.groupBoxCliente = new System.Windows.Forms.GroupBox();
+            this.groupBoxEmpresa = new System.Windows.Forms.GroupBox();
+            this.labelGuion2 = new System.Windows.Forms.Label();
+            this.textBoxCUITVerif = new System.Windows.Forms.TextBox();
+            this.textBoxCUITNro = new System.Windows.Forms.TextBox();
+            this.textBoxEmailEmp = new System.Windows.Forms.TextBox();
+            this.textBoxCUITTipo = new System.Windows.Forms.TextBox();
+            this.textBoxRazonSoc = new System.Windows.Forms.TextBox();
+            this.labelEmailEmpresa = new System.Windows.Forms.Label();
+            this.labelCUIT = new System.Windows.Forms.Label();
+            this.labelRazonSoc = new System.Windows.Forms.Label();
+            this.labelGuion1 = new System.Windows.Forms.Label();
             this.comboBoxTipoDoc = new System.Windows.Forms.ComboBox();
             this.textBoxDNI = new System.Windows.Forms.TextBox();
             this.labelTipoDoc = new System.Windows.Forms.Label();
             this.labelNumeroDoc = new System.Windows.Forms.Label();
-            this.buttonLimpiar = new System.Windows.Forms.Button();
-            this.buttonBuscar = new System.Windows.Forms.Button();
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.textBoxApellido = new System.Windows.Forms.TextBox();
             this.textBoxNombe = new System.Windows.Forms.TextBox();
@@ -45,10 +54,13 @@
             this.labelDocumento = new System.Windows.Forms.Label();
             this.labelApellido = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
+            this.buttonLimpiar = new System.Windows.Forms.Button();
+            this.buttonBuscar = new System.Windows.Forms.Button();
             this.dataGridViewCliente = new System.Windows.Forms.DataGridView();
             this.buttonSalir = new System.Windows.Forms.Button();
             this.buttonProceder = new System.Windows.Forms.Button();
             this.groupBoxCliente.SuspendLayout();
+            this.groupBoxEmpresa.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCliente)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,12 +88,11 @@
             // 
             // groupBoxCliente
             // 
+            this.groupBoxCliente.Controls.Add(this.groupBoxEmpresa);
             this.groupBoxCliente.Controls.Add(this.comboBoxTipoDoc);
             this.groupBoxCliente.Controls.Add(this.textBoxDNI);
             this.groupBoxCliente.Controls.Add(this.labelTipoDoc);
             this.groupBoxCliente.Controls.Add(this.labelNumeroDoc);
-            this.groupBoxCliente.Controls.Add(this.buttonLimpiar);
-            this.groupBoxCliente.Controls.Add(this.buttonBuscar);
             this.groupBoxCliente.Controls.Add(this.textBoxEmail);
             this.groupBoxCliente.Controls.Add(this.textBoxApellido);
             this.groupBoxCliente.Controls.Add(this.textBoxNombe);
@@ -89,14 +100,116 @@
             this.groupBoxCliente.Controls.Add(this.labelDocumento);
             this.groupBoxCliente.Controls.Add(this.labelApellido);
             this.groupBoxCliente.Controls.Add(this.labelNombre);
-            this.groupBoxCliente.Controls.Add(this.dataGridViewCliente);
             this.groupBoxCliente.Location = new System.Drawing.Point(0, 39);
             this.groupBoxCliente.Name = "groupBoxCliente";
-            this.groupBoxCliente.Size = new System.Drawing.Size(484, 383);
+            this.groupBoxCliente.Size = new System.Drawing.Size(484, 99);
             this.groupBoxCliente.TabIndex = 2;
             this.groupBoxCliente.TabStop = false;
             this.groupBoxCliente.Text = "Buscar un cliente";
             this.groupBoxCliente.Visible = false;
+            // 
+            // groupBoxEmpresa
+            // 
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCUITVerif);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCUITNro);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxEmailEmp);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxCUITTipo);
+            this.groupBoxEmpresa.Controls.Add(this.textBoxRazonSoc);
+            this.groupBoxEmpresa.Controls.Add(this.labelEmailEmpresa);
+            this.groupBoxEmpresa.Controls.Add(this.labelCUIT);
+            this.groupBoxEmpresa.Controls.Add(this.labelRazonSoc);
+            this.groupBoxEmpresa.Controls.Add(this.labelGuion1);
+            this.groupBoxEmpresa.Controls.Add(this.labelGuion2);
+            this.groupBoxEmpresa.Location = new System.Drawing.Point(1, 0);
+            this.groupBoxEmpresa.Name = "groupBoxEmpresa";
+            this.groupBoxEmpresa.Size = new System.Drawing.Size(484, 99);
+            this.groupBoxEmpresa.TabIndex = 15;
+            this.groupBoxEmpresa.TabStop = false;
+            this.groupBoxEmpresa.Text = "Buscar una empresa";
+            this.groupBoxEmpresa.Visible = false;
+            // 
+            // labelGuion2
+            // 
+            this.labelGuion2.AutoSize = true;
+            this.labelGuion2.Location = new System.Drawing.Point(203, 66);
+            this.labelGuion2.Name = "labelGuion2";
+            this.labelGuion2.Size = new System.Drawing.Size(10, 13);
+            this.labelGuion2.TabIndex = 14;
+            this.labelGuion2.Text = "-";
+            // 
+            // textBoxCUITVerif
+            // 
+            this.textBoxCUITVerif.Location = new System.Drawing.Point(211, 63);
+            this.textBoxCUITVerif.Name = "textBoxCUITVerif";
+            this.textBoxCUITVerif.Size = new System.Drawing.Size(11, 20);
+            this.textBoxCUITVerif.TabIndex = 8;
+            this.textBoxCUITVerif.MaxLength = 1;
+            // 
+            // textBoxCUITNro
+            // 
+            this.textBoxCUITNro.Location = new System.Drawing.Point(137, 63);
+            this.textBoxCUITNro.Name = "textBoxCUITNro";
+            this.textBoxCUITNro.Size = new System.Drawing.Size(68, 20);
+            this.textBoxCUITNro.TabIndex = 7;
+            this.textBoxCUITNro.MaxLength = 8;
+            // 
+            // textBoxEmailEmp
+            // 
+            this.textBoxEmailEmp.Location = new System.Drawing.Point(314, 47);
+            this.textBoxEmailEmp.Name = "textBoxEmailEmp";
+            this.textBoxEmailEmp.Size = new System.Drawing.Size(112, 20);
+            this.textBoxEmailEmp.TabIndex = 6;
+            // 
+            // textBoxCUITTipo
+            // 
+            this.textBoxCUITTipo.Location = new System.Drawing.Point(110, 63);
+            this.textBoxCUITTipo.Name = "textBoxCUITTipo";
+            this.textBoxCUITTipo.Size = new System.Drawing.Size(21, 20);
+            this.textBoxCUITTipo.TabIndex = 5;
+            this.textBoxCUITTipo.MaxLength = 2;
+            // 
+            // textBoxRazonSoc
+            // 
+            this.textBoxRazonSoc.Location = new System.Drawing.Point(110, 29);
+            this.textBoxRazonSoc.Name = "textBoxRazonSoc";
+            this.textBoxRazonSoc.Size = new System.Drawing.Size(112, 20);
+            this.textBoxRazonSoc.TabIndex = 4;
+            // 
+            // labelEmailEmpresa
+            // 
+            this.labelEmailEmpresa.AutoSize = true;
+            this.labelEmailEmpresa.Location = new System.Drawing.Point(270, 50);
+            this.labelEmailEmpresa.Name = "labelEmailEmpresa";
+            this.labelEmailEmpresa.Size = new System.Drawing.Size(38, 13);
+            this.labelEmailEmpresa.TabIndex = 3;
+            this.labelEmailEmpresa.Text = "Email: ";
+            // 
+            // labelCUIT
+            // 
+            this.labelCUIT.AutoSize = true;
+            this.labelCUIT.Location = new System.Drawing.Point(28, 66);
+            this.labelCUIT.Name = "labelCUIT";
+            this.labelCUIT.Size = new System.Drawing.Size(38, 13);
+            this.labelCUIT.TabIndex = 1;
+            this.labelCUIT.Text = "CUIT: ";
+            // 
+            // labelRazonSoc
+            // 
+            this.labelRazonSoc.AutoSize = true;
+            this.labelRazonSoc.Location = new System.Drawing.Point(28, 32);
+            this.labelRazonSoc.Name = "labelRazonSoc";
+            this.labelRazonSoc.Size = new System.Drawing.Size(76, 13);
+            this.labelRazonSoc.TabIndex = 0;
+            this.labelRazonSoc.Text = "Razon Social: ";
+            // 
+            // labelGuion1
+            // 
+            this.labelGuion1.AutoSize = true;
+            this.labelGuion1.Location = new System.Drawing.Point(129, 66);
+            this.labelGuion1.Name = "labelGuion1";
+            this.labelGuion1.Size = new System.Drawing.Size(10, 13);
+            this.labelGuion1.TabIndex = 13;
+            this.labelGuion1.Text = "-";
             // 
             // comboBoxTipoDoc
             // 
@@ -134,26 +247,6 @@
             this.labelNumeroDoc.Size = new System.Drawing.Size(50, 13);
             this.labelNumeroDoc.TabIndex = 13;
             this.labelNumeroDoc.Text = "Número: ";
-            // 
-            // buttonLimpiar
-            // 
-            this.buttonLimpiar.Location = new System.Drawing.Point(290, 100);
-            this.buttonLimpiar.Name = "buttonLimpiar";
-            this.buttonLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.buttonLimpiar.TabIndex = 12;
-            this.buttonLimpiar.Text = "Limpiar";
-            this.buttonLimpiar.UseVisualStyleBackColor = true;
-            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
-            // 
-            // buttonBuscar
-            // 
-            this.buttonBuscar.Location = new System.Drawing.Point(109, 100);
-            this.buttonBuscar.Name = "buttonBuscar";
-            this.buttonBuscar.Size = new System.Drawing.Size(75, 23);
-            this.buttonBuscar.TabIndex = 8;
-            this.buttonBuscar.Text = "Buscar";
-            this.buttonBuscar.UseVisualStyleBackColor = true;
-            this.buttonBuscar.Click += new System.EventHandler(this.buttonBuscar_Click);
             // 
             // textBoxEmail
             // 
@@ -212,15 +305,35 @@
             this.labelNombre.TabIndex = 0;
             this.labelNombre.Text = "Nombre: ";
             // 
+            // buttonLimpiar
+            // 
+            this.buttonLimpiar.Location = new System.Drawing.Point(294, 144);
+            this.buttonLimpiar.Name = "buttonLimpiar";
+            this.buttonLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.buttonLimpiar.TabIndex = 12;
+            this.buttonLimpiar.Text = "Limpiar";
+            this.buttonLimpiar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
+            // 
+            // buttonBuscar
+            // 
+            this.buttonBuscar.Location = new System.Drawing.Point(109, 144);
+            this.buttonBuscar.Name = "buttonBuscar";
+            this.buttonBuscar.Size = new System.Drawing.Size(75, 23);
+            this.buttonBuscar.TabIndex = 8;
+            this.buttonBuscar.Text = "Buscar";
+            this.buttonBuscar.UseVisualStyleBackColor = true;
+            this.buttonBuscar.Click += new System.EventHandler(this.buttonBuscar_Click);
+            // 
             // dataGridViewCliente
             // 
             this.dataGridViewCliente.AllowUserToOrderColumns = true;
             this.dataGridViewCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCliente.Location = new System.Drawing.Point(6, 129);
+            this.dataGridViewCliente.Location = new System.Drawing.Point(1, 172);
             this.dataGridViewCliente.Name = "dataGridViewCliente";
             this.dataGridViewCliente.ReadOnly = true;
             this.dataGridViewCliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewCliente.Size = new System.Drawing.Size(472, 250);
+            this.dataGridViewCliente.Size = new System.Drawing.Size(483, 250);
             this.dataGridViewCliente.TabIndex = 9;
             this.dataGridViewCliente.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCliente_CellContentClick);
             // 
@@ -254,7 +367,10 @@
             this.Controls.Add(this.buttonSalir);
             this.Controls.Add(this.labelTipoU);
             this.Controls.Add(this.buttonProceder);
+            this.Controls.Add(this.buttonLimpiar);
             this.Controls.Add(this.comboBoxTipoU);
+            this.Controls.Add(this.buttonBuscar);
+            this.Controls.Add(this.dataGridViewCliente);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ABM_Usuario_B";
@@ -262,6 +378,8 @@
             this.Text = "Busqueda de usuario";
             this.groupBoxCliente.ResumeLayout(false);
             this.groupBoxCliente.PerformLayout();
+            this.groupBoxEmpresa.ResumeLayout(false);
+            this.groupBoxEmpresa.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCliente)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -289,5 +407,16 @@
         private System.Windows.Forms.Label labelTipoDoc;
         private System.Windows.Forms.Label labelNumeroDoc;
         private System.Windows.Forms.ComboBox comboBoxTipoDoc;
+        private System.Windows.Forms.GroupBox groupBoxEmpresa;
+        private System.Windows.Forms.Label labelEmailEmpresa;
+        private System.Windows.Forms.Label labelCUIT;
+        private System.Windows.Forms.Label labelRazonSoc;
+        private System.Windows.Forms.TextBox textBoxEmailEmp;
+        private System.Windows.Forms.TextBox textBoxCUITTipo;
+        private System.Windows.Forms.TextBox textBoxRazonSoc;
+        private System.Windows.Forms.Label labelGuion2;
+        private System.Windows.Forms.Label labelGuion1;
+        private System.Windows.Forms.TextBox textBoxCUITVerif;
+        private System.Windows.Forms.TextBox textBoxCUITNro;
     }
 }
