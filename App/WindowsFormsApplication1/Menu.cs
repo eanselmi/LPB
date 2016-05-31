@@ -188,7 +188,7 @@ namespace visibilidad
 
         private void bajaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ABM_Usuario.ABM_Usuario_B abmUsuariosBaja = new ABM_Usuario.ABM_Usuario_B();
+            ABM_Usuario.ABM_Usuario_B abmUsuariosBaja = new ABM_Usuario.ABM_Usuario_B("Baja");
             abmUsuariosBaja.Show();
         }
 
