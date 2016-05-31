@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListadoEstadistico));
             this.groupBoxListados = new System.Windows.Forms.GroupBox();
+            this.comboBoxRubro = new System.Windows.Forms.ComboBox();
+            this.labelRubro = new System.Windows.Forms.Label();
             this.comboBoxVisibilidad = new System.Windows.Forms.ComboBox();
             this.labelVisibilidad = new System.Windows.Forms.Label();
             this.dataGridViewListados = new System.Windows.Forms.DataGridView();
@@ -41,8 +43,6 @@
             this.labelAnio = new System.Windows.Forms.Label();
             this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonConsultar = new System.Windows.Forms.Button();
-            this.labelRubro = new System.Windows.Forms.Label();
-            this.comboBoxRubro = new System.Windows.Forms.ComboBox();
             this.groupBoxListados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewListados)).BeginInit();
             this.SuspendLayout();
@@ -66,6 +66,29 @@
             this.groupBoxListados.TabIndex = 0;
             this.groupBoxListados.TabStop = false;
             this.groupBoxListados.Text = "Listados";
+            // 
+            // comboBoxRubro
+            // 
+            this.comboBoxRubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxRubro.Enabled = false;
+            this.comboBoxRubro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBoxRubro.FormattingEnabled = true;
+            this.comboBoxRubro.Location = new System.Drawing.Point(131, 189);
+            this.comboBoxRubro.Name = "comboBoxRubro";
+            this.comboBoxRubro.Size = new System.Drawing.Size(169, 21);
+            this.comboBoxRubro.TabIndex = 10;
+            this.comboBoxRubro.SelectedIndexChanged += new System.EventHandler(this.comboBoxRubro_SelectedIndexChanged);
+            // 
+            // labelRubro
+            // 
+            this.labelRubro.AutoSize = true;
+            this.labelRubro.Enabled = false;
+            this.labelRubro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelRubro.Location = new System.Drawing.Point(36, 190);
+            this.labelRubro.Name = "labelRubro";
+            this.labelRubro.Size = new System.Drawing.Size(41, 15);
+            this.labelRubro.TabIndex = 9;
+            this.labelRubro.Text = "Rubro";
             // 
             // comboBoxVisibilidad
             // 
@@ -189,28 +212,6 @@
             this.buttonConsultar.Text = "Consultar";
             this.buttonConsultar.UseVisualStyleBackColor = true;
             this.buttonConsultar.Click += new System.EventHandler(this.buttonConsultar_Click);
-            // 
-            // labelRubro
-            // 
-            this.labelRubro.AutoSize = true;
-            this.labelRubro.Enabled = false;
-            this.labelRubro.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelRubro.Location = new System.Drawing.Point(36, 190);
-            this.labelRubro.Name = "labelRubro";
-            this.labelRubro.Size = new System.Drawing.Size(41, 15);
-            this.labelRubro.TabIndex = 9;
-            this.labelRubro.Text = "Rubro";
-            // 
-            // comboBoxRubro
-            // 
-            this.comboBoxRubro.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxRubro.Enabled = false;
-            this.comboBoxRubro.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBoxRubro.FormattingEnabled = true;
-            this.comboBoxRubro.Location = new System.Drawing.Point(131, 189);
-            this.comboBoxRubro.Name = "comboBoxRubro";
-            this.comboBoxRubro.Size = new System.Drawing.Size(169, 21);
-            this.comboBoxRubro.TabIndex = 10;
             // 
             // ListadoEstadistico
             // 

@@ -429,15 +429,21 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.SP_Vendedores_Mayor_Facturacion') IS NOT NULL
+IF OBJECT_ID('LPB.SP_Clientes_Mayor_Productos_Comprados') IS NOT NULL
 BEGIN
-	DROP PROCEDURE LPB.SP_Vendedores_Mayor_Facturacion
+	DROP PROCEDURE LPB.SP_Clientes_Mayor_Productos_Comprados
 END;
 GO
 
 IF OBJECT_ID('LPB.SP_Vendedores_Mayor_Facturas') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Vendedores_Mayor_Facturas
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Vendedores_Mayor_Facturacion') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Vendedores_Mayor_Facturacion
 END;
 GO
 
@@ -616,31 +622,47 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Facturacion]
+CREATE PROCEDURE LPB.[SP_Clientes_Mayor_Productos_Comprados]
 	@anio INT,
-	@trimestre INT
+	@trimestre INT,
+	@rubro INT
 AS
 BEGIN
-	SELECT TOP 5
+
+SELECT TOP 5
 		id,
 		username,
-		Facturacion
+		CAST(Compras AS INT) AS Cantidad
 	FROM LPB.Usuarios
 	INNER JOIN
 	(
 		SELECT
-			p.Usuario_Id AS Usuario_Id,
-			SUM(fi.monto) AS Facturacion
-		FROM LPB.Items AS fi
-		INNER JOIN LPB.Publicaciones AS p
-			ON fi.Publicacion_cod = p.codigo
-		WHERE YEAR(p.fechaCreacion) = @anio
-			AND LPB.[fn_trimestre](p.fechaCreacion) = @trimestre
-		GROUP BY p.Usuario_Id
-	) AS tmp
-	ON Usuarios.Id = tmp.Usuario_Id
-	ORDER BY Facturacion DESC
-END
+				Usuario_id,
+				ISNULL(Compras, 0) AS Compras
+			FROM LPB.Publicaciones 
+			LEFT JOIN
+			(
+				SELECT Publicacion_cod, SUM(cantidad) AS Compras
+				FROM LPB.Compras
+				GROUP BY Publicacion_cod
+				UNION ALL
+				SELECT Publicacion_cod, 1 AS Compras
+				FROM LPB.Ofertas
+				WHERE ganadora = 1
+				GROUP BY Publicacion_cod
+			) AS Operaciones
+			ON Publicaciones.codigo = Operaciones.Publicacion_cod
+			INNER JOIN 
+			LPB.PublicacionesPorRubro pr
+			ON pr.Publicacion_id = Publicacion_cod
+		where YEAR(fechaCreacion) = @anio
+		AND LPB.fn_trimestre(fechaCreacion) = @trimestre
+		AND pr.Rubro_id = @rubro
+		GROUP BY Usuario_id, Compras
+	)AS tmp
+	ON Usuarios.id = tmp.Usuario_id
+	ORDER BY Cantidad DESC
+END 
 GO
 
 CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Facturas]
@@ -669,6 +691,37 @@ BEGIN
 	ORDER BY Cantidad DESC
 END 
 GO 
+
+CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Facturacion]
+	@anio INT,
+	@trimestre INT
+AS
+BEGIN
+	SELECT TOP 5
+		id,
+		username,
+		Facturacion
+	FROM LPB.Usuarios
+	INNER JOIN
+	(
+		SELECT
+			p.Usuario_Id AS Usuario_Id,
+			SUM(fi.monto) AS Facturacion
+		FROM LPB.Items AS fi
+		INNER JOIN LPB.Publicaciones AS p
+			ON fi.Publicacion_cod = p.codigo
+		WHERE YEAR(p.fechaCreacion) = @anio
+			AND LPB.[fn_trimestre](p.fechaCreacion) = @trimestre
+		GROUP BY p.Usuario_Id
+	) AS tmp
+	ON Usuarios.Id = tmp.Usuario_Id
+	ORDER BY Facturacion DESC
+END
+GO
+
+
+
+
 
 /* Declaración de variables */
 

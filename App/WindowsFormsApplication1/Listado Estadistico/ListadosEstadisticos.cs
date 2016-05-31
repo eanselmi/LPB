@@ -115,6 +115,15 @@ namespace visibilidad.Listado_Estadistico
 
         }
 
+        private void comboBoxRubro_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxRubro.SelectedValue != null)
+            {
+                buttonConsultar.Enabled = true;
+            }
+        }
+
+
 
         private void buttonConsultar_Click(object sender, EventArgs e)
         {
@@ -124,7 +133,7 @@ namespace visibilidad.Listado_Estadistico
             int anio = Convert.ToInt32(dateTimePickerListados.Value.Year.ToString());
             int trimestre =  int.Parse(comboBoxTrimestre.SelectedItem.ToString());
             List<string> lista1 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@visibilidad");
-            //List<string> lista2 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@rubro");
+            List<string> lista2 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre", "@rubro");
             List<string> lista3y4 = Helper.Help.generarListaParaProcedure("@anio", "@trimestre");
             
             switch ((String)this.comboBoxListados.SelectedItem)
@@ -136,12 +145,13 @@ namespace visibilidad.Listado_Estadistico
                         lista1, anio, trimestre, visibilidad);
                     listado.cnn.Close();
                     break;
-                    //    case "Clientes con mayor cantidad de productos comprados":
-                    //        listado.cnn.Open();
-                    //        dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Clientes_Mayor_Productos_Comprados",
-                    //            lista, String.Format("{0:yyyyMMdd HH:mm:ss}", fechaInicio), String.Format("{0:yyyyMMdd HH:mm:ss}", fechaFin));
-                    //        listado.cnn.Close();
-                    //        break;
+                case "Clientes con mayor cantidad de productos comprados":
+                    int rubro = int.Parse(comboBoxRubro.SelectedValue.ToString());
+                    listado.cnn.Open();
+                    dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Clientes_Mayor_Productos_Comprados",
+                        lista2, anio, trimestre, rubro);
+                    listado.cnn.Close();
+                    break;
                 case "Vendedores con mayor cantidad de facturas":
                     listado.cnn.Open();
                     dt = listado.obtenerTablaSegunProcedure(listado.getSchema() + @".SP_Vendedores_Mayor_Facturas",
@@ -164,6 +174,7 @@ namespace visibilidad.Listado_Estadistico
         {
             this.Close();
         }
+
 
 
 
