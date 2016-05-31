@@ -41,11 +41,13 @@ namespace visibilidad.ABM_Usuario
             {
                 groupBoxCliente.Visible = true;
                 groupBoxEmpresa.Visible = false;
+                this.buttonBuscar.Enabled = true;
             }
             if (this.comboBoxTipoU.Text.Equals("Empresa"))
             {
-                groupBoxCliente.Visible = false;
                 groupBoxEmpresa.Visible = true;
+                groupBoxCliente.Visible = false;
+                this.buttonBuscar.Enabled = true;
             }
         }
 
@@ -53,34 +55,59 @@ namespace visibilidad.ABM_Usuario
         {
             tabla.Rows.Clear();
             tabla.Columns.Clear();
+            String queryABuscar = "";
 
-            //CREO LA QUERY PRINCIPAL
-            String queryABuscar = "select documento_tipo as 'TIPO DOCUMENTO',documento_numero as 'NUMERO DOCUMENTO',nombre as 'NOMBRE',apellido as 'APELLIDO',mail as 'EMAIL' from LPB.Clientes where 1=1";
-            
-            //AGREGO LOS FILTROS SI LOS HAY
-            if (!(textBoxNombe.Text.Equals("")))
+            //Creo la query para buscar distinguiendo si seleccione un Cliente o una Empresa
+            //Si es CLIENTE
+            if (this.comboBoxTipoU.Text.Equals("Cliente"))
             {
-                queryABuscar=String.Concat(queryABuscar, " AND nombre like '%" + textBoxNombe.Text + "%'");
-            }
-            if (!(textBoxApellido.Text.Equals("")))
-            {
-                queryABuscar=String.Concat(queryABuscar, " AND apellido like '%" + textBoxApellido.Text + "%'");
-            }
-            if (!(textBoxEmail.Text.Equals("")))
-            {
-                queryABuscar=String.Concat(queryABuscar, " AND mail like '%" + textBoxEmail.Text + "%'");
-            }
-            if ((!(comboBoxTipoDoc.Text.Equals(""))) && (!(textBoxDNI.Text.Equals(""))))
-            {
-                if (comboBoxTipoDoc.Text.Equals("DNI"))
+                //CREO LA QUERY PRINCIPAL
+                queryABuscar = string.Concat(queryABuscar,"select documento_tipo as 'TIPO DOCUMENTO',documento_numero as 'NUMERO DOCUMENTO',nombre as 'NOMBRE',apellido as 'APELLIDO',mail as 'EMAIL' from LPB.Clientes where 1=1");
+
+                //AGREGO LOS FILTROS SI LOS HAY
+                if (!(textBoxNombe.Text.Equals("")))
                 {
-                    queryABuscar=String.Concat(queryABuscar, " AND documento_tipo='DNI' AND documento_numero='" + textBoxDNI.Text + "'");
+                    queryABuscar = String.Concat(queryABuscar, " AND nombre like '%" + textBoxNombe.Text + "%'");
                 }
-                if (comboBoxTipoDoc.Text.Equals("CUIL"))
+                if (!(textBoxApellido.Text.Equals("")))
                 {
-                    queryABuscar=String.Concat(queryABuscar, " AND documento_tipo='CUIL' AND documento_numero='" + textBoxDNI.Text + "'");
+                    queryABuscar = String.Concat(queryABuscar, " AND apellido like '%" + textBoxApellido.Text + "%'");
+                }
+                if (!(textBoxEmail.Text.Equals("")))
+                {
+                    queryABuscar = String.Concat(queryABuscar, " AND mail like '%" + textBoxEmail.Text + "%'");
+                }
+                if ((!(comboBoxTipoDoc.Text.Equals(""))) && (!(textBoxDNI.Text.Equals(""))))
+                {
+                    if (comboBoxTipoDoc.Text.Equals("DNI"))
+                    {
+                        queryABuscar = String.Concat(queryABuscar, " AND documento_tipo='DNI' AND documento_numero='" + textBoxDNI.Text + "'");
+                    }
+                    if (comboBoxTipoDoc.Text.Equals("CUIL"))
+                    {
+                        queryABuscar = String.Concat(queryABuscar, " AND documento_tipo='CUIL' AND documento_numero='" + textBoxDNI.Text + "'");
+                    }
                 }
             }
+
+            //Si es EMPRESA
+            if(this.comboBoxTipoU.Text.Equals("Empresa")){
+                //CREO LA QUERY PRINCIPAL
+                queryABuscar=string.Concat(queryABuscar,"select razonSocial as RAZON SOCIAL, cuit as CUIT, mail as EMAIL from LPB.Empresas where 1=1");
+
+                //AGREGO LOS FILTROS SI ES QUE HAY
+                if(!(textBoxRazonSoc.Text.Equals(""))){
+                    queryABuscar=string.Concat(queryABuscar," AND razonSocial like '%"+textBoxRazonSoc.Text+"%'");
+                }
+                if((!(textBoxCUITTipo.Text.Equals("")))||(!(textBoxCUITNro.Text.Equals("")))||(!(textBoxCUITVerif.Text.Equals("")))){
+                    queryABuscar=string.Concat(queryABuscar," AND cuit = '"+textBoxCUITTipo.Text+"-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'");
+                }
+                if(!(textBoxEmailEmp.Text.Equals(""))){
+                    queryABuscar=string.Concat(queryABuscar," AND mail like '%"+textBoxEmailEmp.Text+"%'");
+                }
+            }
+
+
 
             Conexion connQuery = new Conexion();
             connQuery.cnn.Open();
@@ -120,18 +147,38 @@ namespace visibilidad.ABM_Usuario
             {
                 case DialogResult.Yes:
                     {
-                        string tipoDoc = dataGridViewCliente.SelectedCells[0].Value.ToString();
-                        string numDoc = dataGridViewCliente.SelectedCells[1].Value.ToString();
-                        string username;
-                        //OBTENGO EL USERNAME
-                        string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Clientes where documento_tipo='"+tipoDoc+"' and documento_numero='"+numDoc+"')";
-                        Conexion connObtener = new Conexion();
-                        connObtener.cnn.Open();
-                        SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
-                        SqlDataReader lector = command.ExecuteReader();
-                        lector.Read();
-                        username = lector.GetString(0);
-                        connObtener.cnn.Close();
+                        string username="";
+
+                        //Si es cliente busco el username desde el cliente
+                        if (comboBoxTipoU.Text.Equals("Cliente"))
+                        {
+                            string tipoDoc = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                            string numDoc = dataGridViewCliente.SelectedCells[1].Value.ToString();
+                            //OBTENGO EL USERNAME
+                            string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Clientes where documento_tipo='" + tipoDoc + "' and documento_numero='" + numDoc + "')";
+                            Conexion connObtener = new Conexion();
+                            connObtener.cnn.Open();
+                            SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                            SqlDataReader lector = command.ExecuteReader();
+                            lector.Read();
+                            username = lector.GetString(0);
+                            connObtener.cnn.Close();
+                        }
+
+                        //Si es Empresa busco el username desde la empresa
+                        if (comboBoxTipoU.Text.Equals("Empresa"))
+                        {
+                            string cuit = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                            //OBTENGO EL USERNAME
+                            string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Empresas where cuit='" + cuit + "')";
+                            Conexion connObtener = new Conexion();
+                            connObtener.cnn.Open();
+                            SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                            SqlDataReader lector = command.ExecuteReader();
+                            lector.Read();
+                            username = lector.GetString(0);
+                            connObtener.cnn.Close();
+                        }
 
                         Conexion bajaUsuario = new Conexion();
                         bajaUsuario.cnn.Open();
