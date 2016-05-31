@@ -441,6 +441,11 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Baja_Usuario') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Baja_Usuario
+END;
+GO
 
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
@@ -501,6 +506,15 @@ values(
 (select id from lpb.Roles where nombre=@nombreRol),
 (select id from lpb.Usuarios where username=@username)
 )
+COMMIT TRANSACTION
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Baja_Usuario (@username varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+update lpb.Usuarios set habilitado=0 where username=@username
 COMMIT TRANSACTION
 END
 GO
