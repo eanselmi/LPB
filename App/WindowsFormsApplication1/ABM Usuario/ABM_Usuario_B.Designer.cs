@@ -218,8 +218,11 @@
             this.dataGridViewCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCliente.Location = new System.Drawing.Point(6, 129);
             this.dataGridViewCliente.Name = "dataGridViewCliente";
+            this.dataGridViewCliente.ReadOnly = true;
+            this.dataGridViewCliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCliente.Size = new System.Drawing.Size(472, 250);
             this.dataGridViewCliente.TabIndex = 9;
+            this.dataGridViewCliente.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCliente_CellContentClick);
             // 
             // buttonSalir
             // 
@@ -240,6 +243,7 @@
             this.buttonProceder.TabIndex = 10;
             this.buttonProceder.Text = "Proceder";
             this.buttonProceder.UseVisualStyleBackColor = true;
+            this.buttonProceder.Click += new System.EventHandler(this.buttonProceder_Click);
             // 
             // ABM_Usuario_B
             // 
@@ -254,6 +258,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ABM_Usuario_B";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Busqueda de usuario";
             this.groupBoxCliente.ResumeLayout(false);
             this.groupBoxCliente.PerformLayout();

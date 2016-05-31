@@ -94,6 +94,60 @@ namespace visibilidad.ABM_Usuario
         {
             tabla.Rows.Clear();
             tabla.Columns.Clear();
+            textBoxDNI.Text = "";
+            textBoxEmail.Text = "";
+            textBoxNombe.Text = "";
+            textBoxApellido.Text = "";
+            comboBoxTipoDoc.SelectedIndex = -1;
+            buttonProceder.Enabled = false;
+        }
+
+        private void dataGridViewCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            buttonProceder.Enabled = true;
+        }
+
+        private void buttonProceder_Click(object sender, EventArgs e)
+        {
+            switch(MessageBox.Show("¿Desea proceder con la baja del usuario seleccionado?", "Atención", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+            {
+                case DialogResult.Yes:
+                    {
+                        string tipoDoc = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                        string numDoc = dataGridViewCliente.SelectedCells[1].Value.ToString();
+                        string username;
+                        //OBTENGO EL USERNAME
+                        string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Clientes where documento_tipo='"+tipoDoc+"' and documento_numero='"+numDoc+"')";
+                        Conexion connObtener = new Conexion();
+                        connObtener.cnn.Open();
+                        SqlCommand command = new SqlCommand(queryObtenerUsername, connObtener.cnn);
+                        SqlDataReader lector = command.ExecuteReader();
+                        lector.Read();
+                        username = lector.GetString(0);
+                        connObtener.cnn.Close();
+
+                        Conexion bajaUsuario = new Conexion();
+                        bajaUsuario.cnn.Open();
+
+                        //BAJA USUARIO
+                        bool resultadoBaja = bajaUsuario.executeProcedure(bajaUsuario.getSchema() + @".SP_Baja_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username"),username);
+
+                        bajaUsuario.cnn.Close();
+
+                        if (resultadoBaja)
+                        {
+                            MessageBox.Show("Baja del usuario exitosa!", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("No se pudo realizar la baja del usuario", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.Close();
+                        }
+                        break;
+                    }
+            }
         }
             
         
