@@ -161,6 +161,7 @@ monto numeric(18,2) NOT NULL,
 cantidad numeric(18,0) NOT NULL,
 Factura_nro	numeric(18,0) NOT NULL,
 Publicacion_cod numeric(18,0) NOT NULL,
+descripcion varchar(255) NOT NULL,
 PRIMARY KEY(id));
 GO
 
@@ -1059,12 +1060,26 @@ COMMIT;
 /*Migracion Items*/
 
 BEGIN TRANSACTION
-INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad)
-	select Publicacion_cod, Factura_Nro, Item_Factura_Monto, Item_Factura_Cantidad 
+INSERT INTO LPB.Items(Publicacion_cod,Factura_nro,monto,cantidad,descripcion)
+	select Publicacion_cod, Factura_Nro, Item_Factura_Monto, Item_Factura_Cantidad,'Comision por venta'
 	from gd_esquema.Maestra 
-	where Publicacion_Cod IS NOT NULL and Factura_Nro IS NOT NULL
-	ORDER BY PUBLICACION_COD 
+	where Item_Factura_Monto is not null
+	ORDER BY Factura_Nro
 COMMIT;
+
+/* Actualizo los items que son costos de publicacion */
+UPDATE lpb.Items
+	SET descripcion = 'Costo por publicar'
+WHERE Id IN
+(
+	SELECT MIN(i.Id)
+	FROM lpb.Items i
+	INNER JOIN lpb.Publicaciones AS p ON i.Publicacion_cod = p.codigo
+	INNER JOIN lpb.Visibilidades AS v ON p.Visibilidad_codigo = v.codigo
+	WHERE i.Cantidad = 1
+	AND i.Monto = v.Precio
+	GROUP BY i.Publicacion_cod
+)
 
 /*Migracion Ofertas*/
 
