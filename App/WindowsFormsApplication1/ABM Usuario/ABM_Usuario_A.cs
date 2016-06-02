@@ -16,10 +16,14 @@ namespace visibilidad.ABM_Usuario
 {
     public partial class ABM_Usuario_A : Form
     {
+        private string modalidad = "";
+        private string userAModificar = "";
 
-        public ABM_Usuario_A()
+        public ABM_Usuario_A(string modo, string username)
         {
             InitializeComponent();
+            modalidad = modo;
+            userAModificar = username;
 
             /*CARGA LAS LOCALIDADES EN EL COMBOBOX*/
 
@@ -71,6 +75,24 @@ namespace visibilidad.ABM_Usuario
                 CheckedListBoxEmp.Items.Add(lectorRolesE.GetString(0));
             }
             conRolesE.cnn.Close();
+
+            //SI SE LEVANTA EN MODO MODIFICACION, CARGO LOS DATOS DEL USUARIO 
+            if(modalidad.Equals("Modificacion")){
+                //Busco el usuario
+                Conexion buscarUsuario = new Conexion();
+                buscarUsuario.cnn.Open();
+                string queryBuscarUsuario="select id,TipoUsuario,username,pass,habilitado from LPB.Usuarios where username='"+username+"'";
+                SqlCommand commandBuscarUsuario=new SqlCommand(queryBuscarUsuario,buscarUsuario.cnn);
+                SqlDataReader lectorBuscarUsuario = commandBuscarUsuario.ExecuteReader();
+                lectorBuscarUsuario.Read();
+                textBoxUser.Text=lectorBuscarUsuario.GetString(2);
+                textBoxPass.Text="12345678"; //Muestro 8 caracteres cualquiera con *, luego si la quiere modificar comparo con la de verdad
+                textBoxUser.Enabled=false;
+                textBoxPass.Enabled=false;
+                comboBoxRol.Enabled=false;
+                comboBoxRol.Text=lectorBuscarUsuario.GetString(1);
+
+            }
 
         }
 

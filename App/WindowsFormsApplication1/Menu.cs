@@ -127,7 +127,7 @@ namespace visibilidad
 
         private void altaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            ABM_Usuario.ABM_Usuario_A abmUsuariosAlta = new ABM_Usuario.ABM_Usuario_A();
+            ABM_Usuario.ABM_Usuario_A abmUsuariosAlta = new ABM_Usuario.ABM_Usuario_A("Alta","NADIE");
             abmUsuariosAlta.Show();
         }
 
@@ -190,6 +190,12 @@ namespace visibilidad
         {
             ABM_Usuario.ABM_Usuario_B abmUsuariosBaja = new ABM_Usuario.ABM_Usuario_B("Baja");
             abmUsuariosBaja.Show();
+        }
+
+        private void modificarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ABM_Usuario.ABM_Usuario_B abmUsuariosMod = new ABM_Usuario.ABM_Usuario_B("Modificacion");
+            abmUsuariosMod.Show();
         }
 
     }

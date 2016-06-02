@@ -243,7 +243,7 @@ namespace visibilidad.ABM_Usuario
                             //Si es Empresa busco el username desde la empresa
                             if (comboBoxTipoU.Text.Equals("Empresa"))
                             {
-                                string cuit = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                                string cuit = dataGridViewCliente.SelectedCells[1].Value.ToString();
                                 //OBTENGO EL USERNAME
                                 string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Empresas where cuit='" + cuit + "')";
                                 Conexion connObtener = new Conexion();
@@ -254,7 +254,7 @@ namespace visibilidad.ABM_Usuario
                                 username = lector.GetString(0);
                                 connObtener.cnn.Close();
                             }
-                            ABM_Usuario_A modificaU = new ABM_Usuario_A();
+                            ABM_Usuario_A modificaU = new ABM_Usuario_A("Modificacion",username);
                             modificaU.Show();
                             this.Close();
                             break;
