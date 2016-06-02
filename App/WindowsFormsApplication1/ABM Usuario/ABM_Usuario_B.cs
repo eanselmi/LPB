@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -63,6 +63,15 @@ namespace visibilidad.ABM_Usuario
             //Si es CLIENTE
             if (this.comboBoxTipoU.Text.Equals("Cliente"))
             {
+                if ((!(textBoxDNI.Text.Equals("")))&&(comboBoxTipoDoc.Text.Equals("")))
+                {
+                    MessageBox.Show("No especificó el tipo de documento", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if((!(comboBoxTipoDoc.Text.Equals("")))&&(textBoxDNI.Text.Equals(""))){
+                    MessageBox.Show("No especificó el número de documento", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
                 //CREO LA QUERY PRINCIPAL
                 queryABuscar = string.Concat(queryABuscar,"select documento_tipo as 'TIPO DOCUMENTO',documento_numero as 'NUMERO DOCUMENTO',nombre as 'NOMBRE',apellido as 'APELLIDO',mail as 'EMAIL' from LPB.Clientes where 1=1");
 
@@ -95,7 +104,7 @@ namespace visibilidad.ABM_Usuario
             //Si es EMPRESA
             if(this.comboBoxTipoU.Text.Equals("Empresa")){
                 //CREO LA QUERY PRINCIPAL
-                queryABuscar=string.Concat(queryABuscar,"select razonSocial as RAZON SOCIAL, cuit as CUIT, mail as EMAIL from LPB.Empresas where 1=1");
+                queryABuscar=string.Concat(queryABuscar,"select razonSocial as 'RAZON SOCIAL', cuit as 'CUIT', mail as 'EMAIL' from LPB.Empresas where 1=1");
 
                 //AGREGO LOS FILTROS SI ES QUE HAY
                 if(!(textBoxRazonSoc.Text.Equals(""))){
@@ -172,7 +181,7 @@ namespace visibilidad.ABM_Usuario
                             //Si es Empresa busco el username desde la empresa
                             if (comboBoxTipoU.Text.Equals("Empresa"))
                             {
-                                string cuit = dataGridViewCliente.SelectedCells[0].Value.ToString();
+                                string cuit = dataGridViewCliente.SelectedCells[1].Value.ToString();
                                 //OBTENGO EL USERNAME
                                 string queryObtenerUsername = "select username from lpb.Usuarios where id in (select Usuario_id from LPB.Empresas where cuit='" + cuit + "')";
                                 Conexion connObtener = new Conexion();

@@ -99,7 +99,7 @@
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(119, 20);
             this.label6.TabIndex = 5;
-            this.label6.Text = "Leg. 1180095";
+            this.label6.Text = "Leg. 1464954";
             // 
             // label5
             // 
@@ -110,7 +110,7 @@
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(140, 20);
             this.label5.TabIndex = 4;
-            this.label5.Text = "Bruno Distefano";
+            this.label5.Text = "Bruno Di Stefano";
             // 
             // label4
             // 
