@@ -23,7 +23,7 @@ namespace visibilidad.Generar_Publicación
         public int publicacion_estado;
         public int publicacion_acepta_envio;
         public int publicacion_acepta_preguntas;
-        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form,int usuario_id)
+        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int usuario_id)
         {
             generar = form;
             id_usuario = usuario_id;
@@ -104,13 +104,13 @@ namespace visibilidad.Generar_Publicación
 
         private void radio_subasta_CheckedChanged(object sender, EventArgs e)
         {
-            if (radio_subasta.Checked == true) 
+            if (radio_subasta.Checked == true)
             {
                 text_stock.Enabled = false;
                 publicacion_tipo = 2;
-            }    
+            }
             else text_stock.Enabled = true;
-            
+
         }
 
         private void cmb_visibilidad_SelectedIndexChanged(object sender, EventArgs e)
@@ -188,11 +188,6 @@ namespace visibilidad.Generar_Publicación
 
         private void btn_guardar_Click(object sender, EventArgs e)
         {
-            //Guardar publicacion
-            
-            
-            
-            
             //Control de Errores
             string error = "Se encontraron los siguientes errores\n";
             if (text_descripcion.Text == "")
@@ -204,9 +199,58 @@ namespace visibilidad.Generar_Publicación
             int rubros_seleccionados = 0;
             for (int i = 0; i < checklist_rubros.Items.Count; i++)
                 if (checklist_rubros.GetItemChecked(i)) rubros_seleccionados++;
-            if (rubros_seleccionados==0)
-                error=error+"Debe seleccionar almenos 1 Rubro para la publicacion\n";
-            MessageBox.Show(error,"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (rubros_seleccionados == 0)
+                error = error + "Debe seleccionar almenos 1 Rubro para la publicacion\n";
+            if (error != "Se encontraron los siguientes errores\n")
+            {
+                MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //Guardar publicacion            
+            Conexion cn = new Conexion();
+            using (SqlCommand cmd = new SqlCommand("lpb.SP_Guardar_Publicacion", cn.cnn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Seteo los parametros del SP
+                cmd.Parameters.Add("@usuarioid", SqlDbType.Int);
+                cmd.Parameters.Add("@publicacion_estado", SqlDbType.Int);
+                cmd.Parameters.Add("@publicacion_tipo", SqlDbType.Int);
+                cmd.Parameters.Add("@descripcion", SqlDbType.VarChar, 255);
+                cmd.Parameters.Add("@stock", SqlDbType.Int);
+                cmd.Parameters.Add("@fecha_creacion", SqlDbType.DateTime);
+                cmd.Parameters.Add("@fecha_vencimiento", SqlDbType.DateTime);
+                cmd.Parameters.Add("@precio", SqlDbType.Int);
+                cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
+                cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
+                cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
+                cmd.Parameters.Add("@nuevo_codigo_publicacion", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                // Lleno los parametros
+                cmd.Parameters["@usuarioid"].Value = id_usuario;
+                cmd.Parameters["@publicacion_estado"].Value = publicacion_estado;
+                cmd.Parameters["@publicacion_tipo"].Value = publicacion_tipo;
+                cmd.Parameters["@descripcion"].Value = text_descripcion.Text;
+                cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
+                cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
+                cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
+                cmd.Parameters["@precio"].Value = Convert.ToDecimal(text_precio.Text);
+                cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
+                cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
+                cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
+                cn.cnn.Open();
+                cmd.ExecuteNonQuery();
+
+                // Leer la devolucion del SP
+                int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);
+                MessageBox.Show(codigo_nuevo.ToString());
+                cn.cnn.Close();
+            }
+
+
+
+
         }
     }
 }

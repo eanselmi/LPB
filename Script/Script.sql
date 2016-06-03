@@ -454,17 +454,14 @@ BEGIN
 END;
 GO
 
-IF OBJECT_ID('LPB.SP_Eliminacion_RolesxUsuario') IS NOT NULL
+IF OBJECT_ID('lpb.SP_Guardar_Publicacion') IS NOT NULL
 BEGIN
-	DROP PROCEDURE LPB.SP_Eliminacion_RolesxUsuario
+	DROP PROCEDURE lpb.SP_Guardar_Publicacion
 END;
 GO
 
-IF OBJECT_ID('LPB.SP_Modificacion_Cliente') IS NOT NULL
-BEGIN
-	DROP PROCEDURE LPB.SP_Modificacion_Cliente
-END;
-GO
+
+
 
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
@@ -495,24 +492,6 @@ COMMIT TRANSACTION
 END
 GO
 
-CREATE PROCEDURE LPB.SP_Modificacion_Cliente (@username varchar(45),@pass varchar(100),@habilitado bit,@tipoDoc varchar(10),@numeroDoc numeric(18,0),
-@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,@mail nvarchar(255),@telefono numeric(12,0),@calle nvarchar(255),
-@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@descrpLocalidad varchar(45))
-AS
-BEGIN
-BEGIN TRANSACTION
-Update LPB.Usuarios set 
-pass=@pass,habilitado=@habilitado
-where username=@username
-update LPB.Clientes set
-documento_tipo=@tipoDoc,documento_numero=@numeroDoc,apellido=@apellido,nombre=@nombre,fechaNacimiento=@fechaNac,mail=@mail,
-telefono=@telefono,domicilioCalle=@calle,nroCalle=@nroCalle,piso=@piso,dpto=@dpto,codPostal=@codPostal,
-Localidad_id=(select id from LPB.Localidades where descripcion=@descrpLocalidad)
-where Usuario_id=(select id from LPB.Usuarios where username=@username)
-COMMIT TRANSACTION
-END
-GO
-
 CREATE PROCEDURE LPB.SP_Alta_Empresa (@username varchar(45),@pass varchar(100),@razonSoc nvarchar(255),@cuit nvarchar(50),@mail nvarchar(50),
 @telefono numeric(12,0),@calle nvarchar(100),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@rubroDesc varchar(45),
 @nombreContacto nvarchar(100),@descLocalidad varchar(45))
@@ -534,6 +513,20 @@ COMMIT TRANSACTION
 END
 GO
 
+CREATE PROCEDURE lpb.SP_Guardar_Publicacion (@usuarioid int, @publicacion_estado int, @publicacion_tipo int,  
+                                             @descripcion varchar(255), @stock numeric(18,0), @fecha_creacion datetime,
+											 @fecha_vencimiento datetime, @precio numeric(18,0), @acepta_envio bit,
+											 @acepta_pregunta bit, @visibilidad_codigo numeric(18,0),@nuevo_codigo_publicacion numeric(18,2) OUTPUT)
+AS
+BEGIN
+	set @nuevo_codigo_publicacion = (select max(codigo) from lpb.Publicaciones) +1;
+	insert into lpb.Publicaciones(codigo, Usuario_id, EstadoDePublicacion_id, TipoDePublicacion_id,descripcion,stock,
+                                  fechaCreacion,fechaVencimiento,precio,aceptaEnvio,aceptaPreguntas,Visibilidad_codigo)
+	values(@nuevo_codigo_publicacion,@usuarioid,@publicacion_estado,@publicacion_tipo,@descripcion,@stock,@fecha_creacion,
+	       @fecha_vencimiento,@precio,@acepta_envio,@acepta_pregunta,@visibilidad_codigo)
+END
+GO
+
 CREATE PROCEDURE lpb.SP_Asignacion_Rol_Usuario (@username varchar(45),@nombreRol varchar(45))
 AS
 BEGIN
@@ -543,15 +536,6 @@ values(
 (select id from lpb.Roles where nombre=@nombreRol),
 (select id from lpb.Usuarios where username=@username)
 )
-COMMIT TRANSACTION
-END
-GO
-
-CREATE PROCEDURE LPB.SP_Eliminacion_RolesxUsuario (@username varchar(45))
-AS
-BEGIN
-BEGIN TRANSACTION
-delete lpb.RolesPorUsuario where Usuario_id=(select id from lpb.Usuarios where username=@username)
 COMMIT TRANSACTION
 END
 GO
