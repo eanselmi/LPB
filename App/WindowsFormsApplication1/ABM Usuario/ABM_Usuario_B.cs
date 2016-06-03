@@ -146,11 +146,7 @@ namespace visibilidad.ABM_Usuario
             textBoxRazonSoc.Text = "";
             buttonProceder.Enabled = false;
         }
-
-        private void dataGridViewCliente_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            buttonProceder.Enabled = true;
-        }
+       
 
         private void buttonProceder_Click(object sender, EventArgs e)
         {
@@ -261,6 +257,11 @@ namespace visibilidad.ABM_Usuario
                         }
                 }
             }
+        }
+
+        private void dataGridViewCliente_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            buttonProceder.Enabled = true;
         }
             
         

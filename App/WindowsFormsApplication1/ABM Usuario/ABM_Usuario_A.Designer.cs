@@ -70,8 +70,6 @@
             this.labelApellido = new System.Windows.Forms.Label();
             this.labelNombre = new System.Windows.Forms.Label();
             this.groupBoxEmpresa = new System.Windows.Forms.GroupBox();
-            this.labelGuionCUIT2 = new System.Windows.Forms.Label();
-            this.labelGuionCUIT1 = new System.Windows.Forms.Label();
             this.textBoxCUITVerif = new System.Windows.Forms.TextBox();
             this.textBoxCUITNro = new System.Windows.Forms.TextBox();
             this.CheckedListBoxEmp = new System.Windows.Forms.CheckedListBox();
@@ -101,10 +99,16 @@
             this.labelTelEmpr = new System.Windows.Forms.Label();
             this.labelMailEmp = new System.Windows.Forms.Label();
             this.labelRazonSoc = new System.Windows.Forms.Label();
+            this.labelGuionCUIT2 = new System.Windows.Forms.Label();
+            this.labelGuionCUIT1 = new System.Windows.Forms.Label();
             this.textBoxConfirmarPass = new System.Windows.Forms.TextBox();
             this.labelConfirmarPass = new System.Windows.Forms.Label();
             this.labelCamposObligatorios = new System.Windows.Forms.Label();
             this.buttonLimpiar = new System.Windows.Forms.Button();
+            this.checkBoxHabilitado = new System.Windows.Forms.CheckBox();
+            this.buttonCambiarPass = new System.Windows.Forms.Button();
+            this.labelViejaPass = new System.Windows.Forms.Label();
+            this.textBoxViejaPass = new System.Windows.Forms.TextBox();
             this.groupBoxCliente.SuspendLayout();
             this.groupBoxEmpresa.SuspendLayout();
             this.SuspendLayout();
@@ -527,39 +531,21 @@
             this.groupBoxEmpresa.Text = "Datos de la empresa";
             this.groupBoxEmpresa.Visible = false;
             // 
-            // labelGuionCUIT2
-            // 
-            this.labelGuionCUIT2.AutoSize = true;
-            this.labelGuionCUIT2.Location = new System.Drawing.Point(330, 25);
-            this.labelGuionCUIT2.Name = "labelGuionCUIT2";
-            this.labelGuionCUIT2.Size = new System.Drawing.Size(10, 13);
-            this.labelGuionCUIT2.TabIndex = 73;
-            this.labelGuionCUIT2.Text = "-";
-            // 
-            // labelGuionCUIT1
-            // 
-            this.labelGuionCUIT1.AutoSize = true;
-            this.labelGuionCUIT1.Location = new System.Drawing.Point(258, 25);
-            this.labelGuionCUIT1.Name = "labelGuionCUIT1";
-            this.labelGuionCUIT1.Size = new System.Drawing.Size(10, 13);
-            this.labelGuionCUIT1.TabIndex = 72;
-            this.labelGuionCUIT1.Text = "-";
-            // 
             // textBoxCUITVerif
             // 
             this.textBoxCUITVerif.Location = new System.Drawing.Point(337, 22);
+            this.textBoxCUITVerif.MaxLength = 1;
             this.textBoxCUITVerif.Name = "textBoxCUITVerif";
             this.textBoxCUITVerif.Size = new System.Drawing.Size(19, 20);
             this.textBoxCUITVerif.TabIndex = 71;
-            this.textBoxCUITVerif.MaxLength = 1;
             // 
             // textBoxCUITNro
             // 
             this.textBoxCUITNro.Location = new System.Drawing.Point(265, 22);
+            this.textBoxCUITNro.MaxLength = 8;
             this.textBoxCUITNro.Name = "textBoxCUITNro";
             this.textBoxCUITNro.Size = new System.Drawing.Size(66, 20);
             this.textBoxCUITNro.TabIndex = 70;
-            this.textBoxCUITNro.MaxLength = 8;
             // 
             // CheckedListBoxEmp
             // 
@@ -606,10 +592,10 @@
             // textBoxCUITTipo
             // 
             this.textBoxCUITTipo.Location = new System.Drawing.Point(235, 22);
+            this.textBoxCUITTipo.MaxLength = 2;
             this.textBoxCUITTipo.Name = "textBoxCUITTipo";
             this.textBoxCUITTipo.Size = new System.Drawing.Size(24, 20);
             this.textBoxCUITTipo.TabIndex = 64;
-            this.textBoxCUITTipo.MaxLength = 2;
             // 
             // labelNombreContacto
             // 
@@ -784,12 +770,30 @@
             this.labelRazonSoc.TabIndex = 0;
             this.labelRazonSoc.Text = "*Razón social: ";
             // 
+            // labelGuionCUIT2
+            // 
+            this.labelGuionCUIT2.AutoSize = true;
+            this.labelGuionCUIT2.Location = new System.Drawing.Point(330, 25);
+            this.labelGuionCUIT2.Name = "labelGuionCUIT2";
+            this.labelGuionCUIT2.Size = new System.Drawing.Size(10, 13);
+            this.labelGuionCUIT2.TabIndex = 73;
+            this.labelGuionCUIT2.Text = "-";
+            // 
+            // labelGuionCUIT1
+            // 
+            this.labelGuionCUIT1.AutoSize = true;
+            this.labelGuionCUIT1.Location = new System.Drawing.Point(258, 25);
+            this.labelGuionCUIT1.Name = "labelGuionCUIT1";
+            this.labelGuionCUIT1.Size = new System.Drawing.Size(10, 13);
+            this.labelGuionCUIT1.TabIndex = 72;
+            this.labelGuionCUIT1.Text = "-";
+            // 
             // textBoxConfirmarPass
             // 
             this.textBoxConfirmarPass.Location = new System.Drawing.Point(387, 38);
             this.textBoxConfirmarPass.Name = "textBoxConfirmarPass";
             this.textBoxConfirmarPass.PasswordChar = '*';
-            this.textBoxConfirmarPass.Size = new System.Drawing.Size(79, 20);
+            this.textBoxConfirmarPass.Size = new System.Drawing.Size(88, 20);
             this.textBoxConfirmarPass.TabIndex = 10;
             // 
             // labelConfirmarPass
@@ -820,11 +824,55 @@
             this.buttonLimpiar.UseVisualStyleBackColor = true;
             this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
+            // checkBoxHabilitado
+            // 
+            this.checkBoxHabilitado.AutoSize = true;
+            this.checkBoxHabilitado.Location = new System.Drawing.Point(425, 74);
+            this.checkBoxHabilitado.Name = "checkBoxHabilitado";
+            this.checkBoxHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.checkBoxHabilitado.TabIndex = 33;
+            this.checkBoxHabilitado.Text = "Habilitado";
+            this.checkBoxHabilitado.UseVisualStyleBackColor = true;
+            this.checkBoxHabilitado.Visible = false;
+            // 
+            // buttonCambiarPass
+            // 
+            this.buttonCambiarPass.Location = new System.Drawing.Point(248, 8);
+            this.buttonCambiarPass.Name = "buttonCambiarPass";
+            this.buttonCambiarPass.Size = new System.Drawing.Size(111, 23);
+            this.buttonCambiarPass.TabIndex = 34;
+            this.buttonCambiarPass.Text = "Cambiar password";
+            this.buttonCambiarPass.UseVisualStyleBackColor = true;
+            this.buttonCambiarPass.Visible = false;
+            this.buttonCambiarPass.Click += new System.EventHandler(this.buttonCambiarPass_Click);
+            // 
+            // labelViejaPass
+            // 
+            this.labelViejaPass.AutoSize = true;
+            this.labelViejaPass.Location = new System.Drawing.Point(362, 12);
+            this.labelViejaPass.Name = "labelViejaPass";
+            this.labelViejaPass.Size = new System.Drawing.Size(88, 13);
+            this.labelViejaPass.TabIndex = 35;
+            this.labelViejaPass.Text = "*Vieja password: ";
+            this.labelViejaPass.Visible = false;
+            // 
+            // textBoxViejaPass
+            // 
+            this.textBoxViejaPass.Location = new System.Drawing.Point(447, 10);
+            this.textBoxViejaPass.Name = "textBoxViejaPass";
+            this.textBoxViejaPass.Size = new System.Drawing.Size(98, 20);
+            this.textBoxViejaPass.TabIndex = 36;
+            this.textBoxViejaPass.Visible = false;
+            this.textBoxViejaPass.PasswordChar = '*';
+            // 
             // ABM_Usuario_A
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(557, 500);
+            this.Controls.Add(this.textBoxViejaPass);
+            this.Controls.Add(this.buttonCambiarPass);
+            this.Controls.Add(this.checkBoxHabilitado);
             this.Controls.Add(this.buttonLimpiar);
             this.Controls.Add(this.labelCamposObligatorios);
             this.Controls.Add(this.textBoxConfirmarPass);
@@ -839,6 +887,7 @@
             this.Controls.Add(this.labelUser);
             this.Controls.Add(this.groupBoxEmpresa);
             this.Controls.Add(this.groupBoxCliente);
+            this.Controls.Add(this.labelViejaPass);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ABM_Usuario_A";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -931,5 +980,9 @@
         private System.Windows.Forms.Label labelGuionCUIT1;
         private System.Windows.Forms.TextBox textBoxCUITVerif;
         private System.Windows.Forms.TextBox textBoxCUITNro;
+        private System.Windows.Forms.CheckBox checkBoxHabilitado;
+        private System.Windows.Forms.Button buttonCambiarPass;
+        private System.Windows.Forms.Label labelViejaPass;
+        private System.Windows.Forms.TextBox textBoxViejaPass;
     }
 }

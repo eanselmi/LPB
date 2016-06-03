@@ -18,6 +18,7 @@ namespace visibilidad.ABM_Usuario
     {
         private string modalidad = "";
         private string userAModificar = "";
+        private string passwordVieja = ""; //En caso de que haya que modificar la password
 
         public ABM_Usuario_A(string modo, string username)
         {
@@ -85,13 +86,114 @@ namespace visibilidad.ABM_Usuario
                 SqlCommand commandBuscarUsuario=new SqlCommand(queryBuscarUsuario,buscarUsuario.cnn);
                 SqlDataReader lectorBuscarUsuario = commandBuscarUsuario.ExecuteReader();
                 lectorBuscarUsuario.Read();
+                int idUser= lectorBuscarUsuario.GetInt32(0);
+                comboBoxRol.Text=lectorBuscarUsuario.GetString(1);
                 textBoxUser.Text=lectorBuscarUsuario.GetString(2);
+                passwordVieja=lectorBuscarUsuario.GetString(3);
+                bool userHabilitado = lectorBuscarUsuario.GetBoolean(4);
+                buscarUsuario.cnn.Close();
+
                 textBoxPass.Text="12345678"; //Muestro 8 caracteres cualquiera con *, luego si la quiere modificar comparo con la de verdad
+                textBoxConfirmarPass.Text = "12345678";
                 textBoxUser.Enabled=false;
                 textBoxPass.Enabled=false;
+                textBoxConfirmarPass.Enabled = false;
+                buttonCambiarPass.Visible = true;
                 comboBoxRol.Enabled=false;
-                comboBoxRol.Text=lectorBuscarUsuario.GetString(1);
+                checkBoxHabilitado.Visible = true;
+                if (userHabilitado)
+                {
+                    checkBoxHabilitado.Checked = true;
+                }
+                else
+                {
+                    checkBoxHabilitado.Checked = false;
+                }
 
+                //Cargo los datos de CLIENTE
+                if (comboBoxRol.Text.Equals("Cliente"))
+                {   
+                    //BUSCO LOS CAMPOS
+                    Conexion buscarCliente = new Conexion();
+                    buscarCliente.cnn.Open();
+                    string queryBuscarCliente = "select documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id from LPB.Clientes where Usuario_id='" + idUser + "'";
+                    SqlCommand commandBuscarCliente = new SqlCommand(queryBuscarCliente, buscarCliente.cnn);
+                    SqlDataReader lectorBuscarCliente = commandBuscarCliente.ExecuteReader();
+                    lectorBuscarCliente.Read();
+                    string tipoDocu = lectorBuscarCliente.GetString(0);
+                    decimal nroDocu = lectorBuscarCliente.GetDecimal(1);
+                    string apellido = lectorBuscarCliente.GetString(2);
+                    string nombre = lectorBuscarCliente.GetString(3);
+                    DateTime fechaNac = lectorBuscarCliente.GetDateTime(4);
+                    string mail = lectorBuscarCliente.GetString(5);
+                    decimal telefono=0;
+                    if (!(lectorBuscarCliente.IsDBNull(6)))
+                    {
+                        telefono = lectorBuscarCliente.GetDecimal(6);
+                    }
+                    string domicilioCal = lectorBuscarCliente.GetString(7);
+                    decimal nroCalle=lectorBuscarCliente.GetDecimal(8);
+                    decimal piso = lectorBuscarCliente.GetDecimal(9);
+                    string dpto = "";
+                    if(!(lectorBuscarCliente.IsDBNull(10)))
+                    {
+                        dpto=lectorBuscarCliente.GetString(10);
+                    }
+                    string codPostal=lectorBuscarCliente.GetString(11);
+                    int localidadId=0;
+                    if (!(lectorBuscarCliente.IsDBNull(12)))
+                    {
+                        localidadId = lectorBuscarCliente.GetInt32(12);
+                    }
+                    buscarCliente.cnn.Close();
+
+                    string descLocalidad="";
+                    if (localidadId != 0)
+                    {
+                        Conexion buscarLocalidadCli = new Conexion();
+                        string queryBuscarLocalidadCli = "select descripcion from LPB.Localidades where id='" + localidadId + "'";
+                        buscarLocalidadCli.cnn.Open();
+                        SqlCommand commandBuscarLocalidadCli = new SqlCommand(queryBuscarLocalidadCli, buscarLocalidadCli.cnn);
+                        SqlDataReader lectorLocalidadCli = commandBuscarLocalidadCli.ExecuteReader();
+                        lectorLocalidadCli.Read();
+                        descLocalidad = lectorLocalidadCli.GetString(0);
+                        buscarLocalidadCli.cnn.Close();
+                    }
+
+                    //RELLENO LOS TEXTBOX
+                    textBoxNombre.Text = nombre;
+                    textBoxApellido.Text = apellido;
+                    comboBoxTipoDoc.Text = tipoDocu;
+                    textBoxNumeroDoc.Text = nroDocu.ToString();
+                    textBoxFechaNac.Text = fechaNac.ToString();
+                    textBoxMail.Text = mail;
+                    if (telefono == 0)
+                    {
+                        textBoxTelefono.Text = "";
+                    }
+                    else
+                    {
+                        textBoxTelefono.Text = telefono.ToString();
+                    }
+                    textBoxCalleCl.Text = domicilioCal;
+                    textBoxNroCl.Text = nroCalle.ToString();
+                    textBoxPisoCl.Text = piso.ToString();
+                    textBoxDptoCl.Text = dpto;
+                    textBoxCodPostCl.Text = codPostal;
+                    comboBoxLocalidades.Text = descLocalidad;
+
+                }
+
+                //Cargo los datos de EMPRESA
+                if (comboBoxRol.Text.Equals("Empresa"))
+                {
+                    Conexion buscarEmpresa = new Conexion();
+                    buscarEmpresa.cnn.Open();
+                    string queryBuscarEmpresa = "select id,TipoEmpresa,username,pass,habilitado from LPB.Empresas where username='" + username + "'";
+                    SqlCommand commandBuscarEmpresa = new SqlCommand(queryBuscarEmpresa, buscarEmpresa.cnn);
+                    SqlDataReader lectorBuscarEmpresa = commandBuscarEmpresa.ExecuteReader();
+                    lectorBuscarEmpresa.Read();
+                }
             }
 
         }
@@ -659,11 +761,24 @@ namespace visibilidad.ABM_Usuario
 
         private void buttonLimpiar_Click(object sender, EventArgs e)
         {
+            if (modalidad.Equals("Alta"))
+            {
+                textBoxUser.Text = "";
+                textBoxConfirmarPass.Text = "";
+                textBoxPass.Text = "";
+            }
+
+            if (textBoxViejaPass.Visible)
+            {
+                textBoxConfirmarPass.Text = "";
+                textBoxPass.Text = "";
+                textBoxViejaPass.Text = "";
+            }
+
             textBoxApellido.Text = "";
             textBoxCalleCl.Text = "";
             textBoxCodPostCl.Text = "";
-            textboxcodpostEmpr.Text = "";
-            textBoxConfirmarPass.Text = "";
+            textboxcodpostEmpr.Text = "";            
             textBoxCUITTipo.Text = "";
             textBoxCUITNro.Text = "";
             textBoxCUITVerif.Text = "";
@@ -678,13 +793,12 @@ namespace visibilidad.ABM_Usuario
             textBoxNroCl.Text = "";
             textboxNroEmpr.Text = "";
             textBoxNumeroDoc.Text = "";
-            textBoxPass.Text = "";
             textBoxPisoCl.Text = "";
             textboxPisoEmpr.Text = "";
             textBoxRazonSocial.Text = "";
             textBoxTelefono.Text = "";
             textBoxTelefonoEmp.Text = "";
-            textBoxUser.Text = "";
+            
             comboBoxLocalidades.SelectedIndex = -1;
             comboBoxLocalidadEmpr.SelectedIndex = -1;
             comboBoxTipoDoc.SelectedIndex = -1;
@@ -702,6 +816,16 @@ namespace visibilidad.ABM_Usuario
                 CheckedListBoxEmp.SetItemChecked(iEmp, false);
                 iEmp--;
             }
+        }
+
+        private void buttonCambiarPass_Click(object sender, EventArgs e)
+        {
+            labelViejaPass.Visible = true;
+            textBoxViejaPass.Visible = true;
+            textBoxPass.Enabled = true;
+            textBoxConfirmarPass.Enabled = true;
+            textBoxPass.Text = "";
+            textBoxConfirmarPass.Text = "";
         }
 
  

@@ -316,6 +316,7 @@ namespace visibilidad.ABM_Usuario
             // 
             // buttonBuscar
             // 
+            this.buttonBuscar.Enabled = false;
             this.buttonBuscar.Location = new System.Drawing.Point(109, 144);
             this.buttonBuscar.Name = "buttonBuscar";
             this.buttonBuscar.Size = new System.Drawing.Size(75, 23);
@@ -323,11 +324,12 @@ namespace visibilidad.ABM_Usuario
             this.buttonBuscar.Text = "Buscar";
             this.buttonBuscar.UseVisualStyleBackColor = true;
             this.buttonBuscar.Click += new System.EventHandler(this.buttonBuscar_Click);
-            this.buttonBuscar.Enabled = false;
             // 
             // dataGridViewCliente
             // 
             this.dataGridViewCliente.AllowUserToOrderColumns = true;
+            this.dataGridViewCliente.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.dataGridViewCliente.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
             this.dataGridViewCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCliente.Location = new System.Drawing.Point(1, 172);
             this.dataGridViewCliente.Name = "dataGridViewCliente";
@@ -335,7 +337,7 @@ namespace visibilidad.ABM_Usuario
             this.dataGridViewCliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCliente.Size = new System.Drawing.Size(483, 250);
             this.dataGridViewCliente.TabIndex = 9;
-            this.dataGridViewCliente.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCliente_CellContentClick);
+            this.dataGridViewCliente.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCliente_CellClick);
             // 
             // buttonSalir
             // 
