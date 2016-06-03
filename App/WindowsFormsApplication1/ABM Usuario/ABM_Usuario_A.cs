@@ -18,6 +18,8 @@ namespace visibilidad.ABM_Usuario
     {
         private string modalidad = "";
         private string userAModificar = "";
+        
+        //DATOS PARA MODIFICAR USUARIO
         private string passwordVieja = ""; //En caso de que haya que modificar la password
 
         public ABM_Usuario_A(string modo, string username)
@@ -82,7 +84,7 @@ namespace visibilidad.ABM_Usuario
                 //Busco el usuario
                 Conexion buscarUsuario = new Conexion();
                 buscarUsuario.cnn.Open();
-                string queryBuscarUsuario="select id,TipoUsuario,username,pass,habilitado from LPB.Usuarios where username='"+username+"'";
+                string queryBuscarUsuario="select id,TipoUsuario,username,pass,habilitado from LPB.Usuarios where username='"+userAModificar+"'";
                 SqlCommand commandBuscarUsuario=new SqlCommand(queryBuscarUsuario,buscarUsuario.cnn);
                 SqlDataReader lectorBuscarUsuario = commandBuscarUsuario.ExecuteReader();
                 lectorBuscarUsuario.Read();
@@ -165,7 +167,8 @@ namespace visibilidad.ABM_Usuario
                     textBoxApellido.Text = apellido;
                     comboBoxTipoDoc.Text = tipoDocu;
                     textBoxNumeroDoc.Text = nroDocu.ToString();
-                    textBoxFechaNac.Text = fechaNac.ToString();
+                    monthCalendar1.SetDate(fechaNac);
+                    textBoxFechaNac.Text = monthCalendar1.SelectionStart.Date.ToShortDateString();
                     textBoxMail.Text = mail;
                     if (telefono == 0)
                     {
@@ -193,7 +196,6 @@ namespace visibilidad.ABM_Usuario
                     {
                         int posicionaChequear=CheckedListBoxCli.FindStringExact(lectorBuscarRoles.GetString(0), 0);        
                         CheckedListBoxCli.SetItemChecked(posicionaChequear, true);
-                        lectorBuscarRoles.Read();
                     }
                     buscarRoles.cnn.Close();
                 }
@@ -267,6 +269,7 @@ namespace visibilidad.ABM_Usuario
                     || textBoxTelefono.Text.Equals("") || textBoxCalleCl.Text.Equals("") || textBoxCodPostCl.Text.Equals("")
                     || textBoxNumeroDoc.Text.Equals("") || comboBoxTipoDoc.Text.Equals("") || textBoxNroCl.Text.Equals("")
                     || comboBoxLocalidades.Text.Equals("") || textBoxPisoCl.Text.Equals("") || textBoxFechaNac.Text.Equals("")
+                    || ((textBoxViejaPass.Visible)&&(textBoxViejaPass.Text.Equals("")))
                     )
                 {
                     hayError = true;
@@ -416,7 +419,7 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textBoxFechaNac.Text.Equals("")))
                 {
-                    int age = DateTime.Today.Year - monthCalendar1.SelectionStart.Date.Year;
+                    int age = DateTime.Today.Year - monthCalendar1.SelectionStart.Date.Year; 
                     if (age < 18)
                     {
                         hayError = true;
@@ -436,7 +439,15 @@ namespace visibilidad.ABM_Usuario
                 if (!(textBoxNumeroDoc.Text.Equals("")) && comboBoxTipoDoc.Text.Equals("DNI"))
                 {
                     Conexion conDNI = new Conexion();
-                    string queryDNI = "Select * from LPB.Clientes where documento_tipo='DNI' and documento_numero = '" + textBoxNumeroDoc.Text + "'";
+                    string queryDNI = "";
+                    if (modalidad.Equals("Alta"))
+                    {
+                        queryDNI = "Select * from LPB.Clientes where documento_tipo='DNI' and documento_numero = '" + textBoxNumeroDoc.Text + "'";
+                    }
+                    else
+                    {
+                        queryDNI = "Select cl.Usuario_id from LPB.Clientes cl where cl.documento_tipo='DNI' and cl.documento_numero = '" + textBoxNumeroDoc.Text + "' and exists(select * from LPB.Usuarios where id=cl.Usuario_id and username<>'"+userAModificar+"')";
+                    }
                     conDNI.cnn.Open();
                     SqlCommand commandDNI = new SqlCommand(queryDNI, conDNI.cnn);
                     SqlDataReader lectorDNI = commandDNI.ExecuteReader();
@@ -453,7 +464,15 @@ namespace visibilidad.ABM_Usuario
                 if (!(textBoxNumeroDoc.Text.Equals("")) && comboBoxTipoDoc.Text.Equals("CUIL"))
                 {
                     Conexion conDNI = new Conexion();
-                    string queryDNI = "Select * from LPB.Clientes where documento_tipo='CUIL' and documento_numero = '" + textBoxNumeroDoc.Text + "'";
+                    string queryDNI = "";
+                    if (modalidad.Equals("Alta"))
+                    {
+                        queryDNI = "Select * from LPB.Clientes where documento_tipo='CUIL' and documento_numero = '" + textBoxNumeroDoc.Text + "'";
+                    }
+                    else
+                    {
+                        queryDNI = "Select cl.Usuario_id from LPB.Clientes cl where cl.documento_tipo='CUIL' and cl.documento_numero = '" + textBoxNumeroDoc.Text + "' and exists(select * from LPB.Usuarios where id=cl.Usuario_id and username<>'" + userAModificar + "')";
+                    }
                     conDNI.cnn.Open();
                     SqlCommand commandDNI = new SqlCommand(queryDNI, conDNI.cnn);
                     SqlDataReader lectorDNI = commandDNI.ExecuteReader();
@@ -466,20 +485,31 @@ namespace visibilidad.ABM_Usuario
                 }
 
                 //VALIDACION USERNAME ÚNICO
-
-                if (!(textBoxUser.Text.Equals("")))
+                if (modalidad.Equals("Alta"))
                 {
-                    Conexion conUser = new Conexion();
-                    string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
-                    conUser.cnn.Open();
-                    SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
-                    SqlDataReader lectorUser = commandUser.ExecuteReader();
-                    if (lectorUser.Read())
+                    if (!(textBoxUser.Text.Equals("")))
+                    {
+                        Conexion conUser = new Conexion();
+                        string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
+                        conUser.cnn.Open();
+                        SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
+                        SqlDataReader lectorUser = commandUser.ExecuteReader();
+                        if (lectorUser.Read())
+                        {
+                            hayError = true;
+                            mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                        }
+                        conUser.cnn.Close();
+                    }
+                }
+                //VALIDACION VIEJA CONTRASEÑA ( SI SE TRATA DE UNA MODIFICACION EN DONDE CAMBIA LA CONTRASEÑA )
+                if ((!(textBoxViejaPass.Text.Equals("")))&&(textBoxViejaPass.Visible))
+                {
+                    if (!(passwordVieja.Equals(Helper.Help.Sha256(textBoxViejaPass.Text))))
                     {
                         hayError = true;
-                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                        mensajeDeError = string.Concat(mensajeDeError, "\tLa password vieja no es correcta\n");
                     }
-                    conUser.cnn.Close();
                 }
 
                 //SI HAY ERRORES LOS MUESTRO A TODOS
@@ -494,34 +524,76 @@ namespace visibilidad.ABM_Usuario
                 cargaUsuario.cnn.Open();
 
                 //CARGA CLIENTE
-
-                bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
-                    Helper.Help.generarListaParaProcedure("@username","@pass","@tipoDoc","@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
-                    "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
-                    ,this.textBoxUser.Text,Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
-                    this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
-                    this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text);
-                // Hay que ver que pasa cuando dpto va null//
-
-                //Asignacion Roles
-                foreach (object itemChecked in CheckedListBoxCli.CheckedItems)
+                if (modalidad.Equals("Alta"))
                 {
-                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
-                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
-                    if (!resultadoRoles)
-                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
+                        Helper.Help.generarListaParaProcedure("@username", "@pass", "@tipoDoc", "@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
+                        "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
+                        , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
+                        this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
+                        this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text);
+                    // Hay que ver que pasa cuando dpto va null//
+
+                    //Asignacion Roles
+                    foreach (object itemChecked in CheckedListBoxCli.CheckedItems)
+                    {
+                        bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                        if (!resultadoRoles)
+                            MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //VERIFICACION ÉXITO POSITIVO
+                    if (resultadoCliente)
+                        MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
-
-                //VERIFICACION ÉXITO POSITIVO
-                if (resultadoCliente)
-                    MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MODIFICACION CLIENTE
                 else
-                    MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                    string passwordFinal="";
+                    if(textBoxViejaPass.Visible){
+                        passwordFinal=Helper.Help.Sha256(textBoxPass.Text);
+                    }
+                    else{
+                        passwordFinal=passwordVieja;
+                    }
+                    bool modificarCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema()+@".SP_Modificacion_Cliente",
+                        Helper.Help.generarListaParaProcedure("@username","@pass","@habilitado","@tipoDoc","@numeroDoc",
+                        "@apellido","@nombre","@fechaNac","@mail","@telefono","@calle","@nroCalle","@piso","@dpto","@codPostal","@descrpLocalidad"),
+                        userAModificar,passwordFinal,checkBoxHabilitado.Checked,comboBoxTipoDoc.Text,textBoxNumeroDoc.Text,textBoxApellido.Text,
+                        textBoxNombre.Text,monthCalendar1.SelectionStart.Date,textBoxMail.Text,textBoxTelefono.Text,textBoxCalleCl.Text,
+                        textBoxNroCl.Text,textBoxPisoCl.Text,textBoxDptoCl.Text,textBoxCodPostCl.Text,comboBoxLocalidades.Text);
 
+                    //Elimino Roles
+                    bool eliminarRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Eliminacion_RolesxUsuario",
+                        Helper.Help.generarListaParaProcedure("@username"), userAModificar);
+                    if (!eliminarRoles)
+                    {
+                        MessageBox.Show("Problema al reasignar roles, consultar ayuda", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //Asignacion Roles
+                    foreach (object itemChecked in CheckedListBoxCli.CheckedItems)
+                    {
+                        bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), userAModificar, itemChecked.ToString());
+                        if (!resultadoRoles)
+                            MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //VERIFICACION ÉXITO POSITIVO
+                    if (modificarCliente)
+                        MessageBox.Show("Usuario modificado con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El Usuario no pudo ser modificado", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
                 cargaUsuario.cnn.Close();
                 this.Close();
                 return;
-                
             }
 
             //GUARDAR UNA EMPRESA
