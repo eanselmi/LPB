@@ -454,6 +454,18 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Eliminacion_RolesxUsuario') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Eliminacion_RolesxUsuario
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Modificacion_Cliente') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Modificacion_Cliente
+END;
+GO
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -482,6 +494,23 @@ select @tipoDoc,@numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@n
 COMMIT TRANSACTION
 END
 GO
+
+CREATE PROCEDURE LPB.SP_Modificacion_Cliente (@username varchar(45),@pass varchar(100),@habilitado bit,@tipoDoc varchar(10),@numeroDoc numeric(18,0),
+@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,@mail nvarchar(255),@telefono numeric(12,0),@calle nvarchar(255),
+@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@descrpLocalidad varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+Update LPB.Usuarios set 
+pass=@pass,habilitado=@habilitado
+where username=@username
+update LPB.Clientes set
+documento_tipo=@tipoDoc,documento_numero=@numeroDoc,apellido=@apellido,nombre=@nombre,fechaNacimiento=@fechaNac,mail=@mail,
+telefono=@telefono,domicilioCalle=@calle,nroCalle=@nroCalle,piso=@piso,dpto=@dpto,codPostal=@codPostal,
+Localidad_id=(select id from LPB.Localidades where descripcion=@descrpLocalidad)
+where Usuario_id=(select id from LPB.Usuarios where username=@username)
+COMMIT TRANSACTION
+END
 
 CREATE PROCEDURE LPB.SP_Alta_Empresa (@username varchar(45),@pass varchar(100),@razonSoc nvarchar(255),@cuit nvarchar(50),@mail nvarchar(50),
 @telefono numeric(12,0),@calle nvarchar(100),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@rubroDesc varchar(45),
@@ -513,6 +542,15 @@ values(
 (select id from lpb.Roles where nombre=@nombreRol),
 (select id from lpb.Usuarios where username=@username)
 )
+COMMIT TRANSACTION
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Eliminacion_RolesxUsuario (@username varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+delete lpb.RolesPorUsuario where Usuario_id=(select id from lpb.Usuarios where username=@username)
 COMMIT TRANSACTION
 END
 GO
