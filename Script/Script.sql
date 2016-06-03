@@ -511,6 +511,7 @@ Localidad_id=(select id from LPB.Localidades where descripcion=@descrpLocalidad)
 where Usuario_id=(select id from LPB.Usuarios where username=@username)
 COMMIT TRANSACTION
 END
+GO
 
 CREATE PROCEDURE LPB.SP_Alta_Empresa (@username varchar(45),@pass varchar(100),@razonSoc nvarchar(255),@cuit nvarchar(50),@mail nvarchar(50),
 @telefono numeric(12,0),@calle nvarchar(100),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@rubroDesc varchar(45),
