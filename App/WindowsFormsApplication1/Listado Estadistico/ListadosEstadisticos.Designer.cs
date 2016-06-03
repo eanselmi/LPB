@@ -62,7 +62,7 @@
             this.groupBoxListados.Controls.Add(this.labelAnio);
             this.groupBoxListados.Location = new System.Drawing.Point(12, 12);
             this.groupBoxListados.Name = "groupBoxListados";
-            this.groupBoxListados.Size = new System.Drawing.Size(552, 444);
+            this.groupBoxListados.Size = new System.Drawing.Size(661, 444);
             this.groupBoxListados.TabIndex = 0;
             this.groupBoxListados.TabStop = false;
             this.groupBoxListados.Text = "Listados";
@@ -121,7 +121,7 @@
             this.dataGridViewListados.Location = new System.Drawing.Point(6, 223);
             this.dataGridViewListados.Name = "dataGridViewListados";
             this.dataGridViewListados.ReadOnly = true;
-            this.dataGridViewListados.Size = new System.Drawing.Size(540, 203);
+            this.dataGridViewListados.Size = new System.Drawing.Size(650, 203);
             this.dataGridViewListados.TabIndex = 6;
             // 
             // comboBoxListados
@@ -205,7 +205,7 @@
             // 
             this.buttonConsultar.Enabled = false;
             this.buttonConsultar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonConsultar.Location = new System.Drawing.Point(462, 477);
+            this.buttonConsultar.Location = new System.Drawing.Point(571, 480);
             this.buttonConsultar.Name = "buttonConsultar";
             this.buttonConsultar.Size = new System.Drawing.Size(102, 22);
             this.buttonConsultar.TabIndex = 2;
@@ -217,7 +217,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(576, 514);
+            this.ClientSize = new System.Drawing.Size(684, 514);
             this.Controls.Add(this.buttonConsultar);
             this.Controls.Add(this.buttonVolver);
             this.Controls.Add(this.groupBoxListados);
