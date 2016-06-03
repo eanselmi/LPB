@@ -182,6 +182,20 @@ namespace visibilidad.ABM_Usuario
                     textBoxCodPostCl.Text = codPostal;
                     comboBoxLocalidades.Text = descLocalidad;
 
+
+                    //Cargo los Roles
+                    Conexion buscarRoles = new Conexion();
+                    buscarRoles.cnn.Open();
+                    string queryBuscarRoles = "select nombre from LPB.Roles where id in (select Rol_id from LPB.RolesPorUsuario where Usuario_id='" + idUser + "')";
+                    SqlCommand commandBuscarRoles = new SqlCommand(queryBuscarRoles, buscarRoles.cnn);
+                    SqlDataReader lectorBuscarRoles = commandBuscarRoles.ExecuteReader();
+                    while (lectorBuscarRoles.Read())
+                    {
+                        int posicionaChequear=CheckedListBoxCli.FindStringExact(lectorBuscarRoles.GetString(0), 0);        
+                        CheckedListBoxCli.SetItemChecked(posicionaChequear, true);
+                        lectorBuscarRoles.Read();
+                    }
+                    buscarRoles.cnn.Close();
                 }
 
                 //Cargo los datos de EMPRESA
