@@ -194,7 +194,7 @@ mail NVARCHAR(255) NOT NULL,
 telefono NUMERIC(12,0),
 domicilioCalle nvarchar(255) NOT NULL,
 nroCalle NUMERIC(18,0) NOT NULL,
-piso NUMERIC(18,0) NOT NULL,
+piso NUMERIC(18,0),
 dpto NVARCHAR(50),
 codPostal NVARCHAR(50) NOT NULL,
 Localidad_id INT, 
@@ -485,7 +485,10 @@ values
 ('Cliente',@username,@pass,1,0,1)
 INSERT INTO lpb.Clientes 
 (documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
-select @tipoDoc,@numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,@piso,@dpto,@codPostal,
+select @tipoDoc,@numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,
+case when @piso='' then NULL else @piso END,
+case when @dpto='' then NULL else @dpto END,
+@codPostal,
 (select id from lpb.Localidades where descripcion=@descrpLocalidad),
 (select id from lpb.Usuarios where username=@username)
 COMMIT TRANSACTION
@@ -504,7 +507,10 @@ values
 ('Empresa',@username,@pass,1,0,1)
 INSERT INTO LPB.Empresas
 (razonSocial,cuit,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Rubro_id,nombreContacto,Localidad_id,Usuario_id)
-select @razonSoc,@cuit,@mail,@telefono,@calle,@nroCalle,@piso,@dpto,@codPostal,
+select @razonSoc,@cuit,@mail,@telefono,@calle,@nroCalle,
+case when @piso='' then NULL else @piso END,
+case when @dpto='' then NULL else @dpto END,
+@codPostal,
 (select id from LPB.RubrosEmpresa where descripcion=@rubroDesc),
 @nombreContacto,
 (select id from lpb.Localidades where descripcion=@descLocalidad),
