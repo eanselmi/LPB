@@ -8,12 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using common;
+using conectar;
+using System.Data.SqlClient;
 
 namespace visibilidad.ComprarOfertar
 {
     public partial class BusquedaPublicacion : Form
     {
         String tipoPublicacionABuscar;
+        String publicacionSeleccionada;
 
         public BusquedaPublicacion(String tipoPublicacion)
         {
@@ -110,7 +113,7 @@ namespace visibilidad.ComprarOfertar
             btn_comprar.Enabled = true;
             btn_pregunta.Enabled = obtenerEnabledSegunValor(row,"aceptaPreguntas");
             checkbox_envio.Enabled = obtenerEnabledSegunValor(row, "aceptaEnvio");
-          
+            publicacionSeleccionada = row.Cells["codigo"].Value.ToString();
         }
 
         private bool obtenerEnabledSegunValor(DataGridViewRow row, String columna)
@@ -129,6 +132,39 @@ namespace visibilidad.ComprarOfertar
         private void btn_pregunta_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Esta funcionalidad aún no está disponible", "Realizar pregunta", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+        }
+
+        private void btn_comprar_Click(object sender, EventArgs e)
+        {
+            /* Chequeo que alcance el stock */
+            Conexion con = new Conexion();
+            String query = "select COUNT(*) from LPB.Publicaciones where stock>=" + tbox_cant.Text + " and codigo = " +
+                publicacionSeleccionada;
+            int stock = 0;
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+
+            while (lector.Read())
+            {
+                stock = lector.GetInt32(0);
+            }
+            con.cnn.Close();
+
+            if (stock <= 0)
+            {
+                MessageBox.Show("No hay suficiente stock para realizar esta acción", btn_comprar.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            /* Evaluo cantidad a ofertar */
+            if(btn_comprar.Text.Equals("Ofertar")){
+                DataGridViewRow row = grid_publis.SelectedRows[0];
+                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString());
+                ofertar.Show();
+            }
+
+
         }
 
      

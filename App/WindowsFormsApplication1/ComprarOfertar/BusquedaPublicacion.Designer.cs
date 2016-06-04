@@ -49,11 +49,11 @@
             this.aceptaPreguntas = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Visibilidad_codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkbox_envio = new System.Windows.Forms.CheckBox();
             this.tbox_cant = new System.Windows.Forms.TextBox();
             this.label_cantidad = new System.Windows.Forms.Label();
             this.btn_pregunta = new System.Windows.Forms.Button();
             this.btn_comprar = new System.Windows.Forms.Button();
-            this.checkbox_envio = new System.Windows.Forms.CheckBox();
             this.group_buscar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grid_publis)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -286,9 +286,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Búsqueda de Publicaciones";
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // checkbox_envio
+            // 
+            this.checkbox_envio.AutoSize = true;
+            this.checkbox_envio.Enabled = false;
+            this.checkbox_envio.Location = new System.Drawing.Point(714, 235);
+            this.checkbox_envio.Name = "checkbox_envio";
+            this.checkbox_envio.Size = new System.Drawing.Size(136, 24);
+            this.checkbox_envio.TabIndex = 14;
+            this.checkbox_envio.Text = "Solicitar envío";
+            this.checkbox_envio.UseVisualStyleBackColor = true;
+            // 
             // tbox_cant
             // 
-            this.tbox_cant.Location = new System.Drawing.Point(794, 78);
+            this.tbox_cant.Location = new System.Drawing.Point(794, 148);
             this.tbox_cant.Name = "tbox_cant";
             this.tbox_cant.Size = new System.Drawing.Size(70, 27);
             this.tbox_cant.TabIndex = 12;
@@ -297,7 +309,7 @@
             // label_cantidad
             // 
             this.label_cantidad.AutoSize = true;
-            this.label_cantidad.Location = new System.Drawing.Point(713, 81);
+            this.label_cantidad.Location = new System.Drawing.Point(710, 151);
             this.label_cantidad.Name = "label_cantidad";
             this.label_cantidad.Size = new System.Drawing.Size(75, 20);
             this.label_cantidad.TabIndex = 11;
@@ -308,7 +320,7 @@
             this.btn_pregunta.Enabled = false;
             this.btn_pregunta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_pregunta.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_pregunta.Location = new System.Drawing.Point(717, 168);
+            this.btn_pregunta.Location = new System.Drawing.Point(714, 59);
             this.btn_pregunta.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_pregunta.Name = "btn_pregunta";
             this.btn_pregunta.Size = new System.Drawing.Size(150, 74);
@@ -322,24 +334,14 @@
             this.btn_comprar.Enabled = false;
             this.btn_comprar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_comprar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_comprar.Location = new System.Drawing.Point(717, 120);
+            this.btn_comprar.Location = new System.Drawing.Point(714, 190);
             this.btn_comprar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_comprar.Name = "btn_comprar";
             this.btn_comprar.Size = new System.Drawing.Size(150, 30);
             this.btn_comprar.TabIndex = 8;
             this.btn_comprar.Text = "Comprar";
             this.btn_comprar.UseVisualStyleBackColor = true;
-            // 
-            // checkbox_envio
-            // 
-            this.checkbox_envio.AutoSize = true;
-            this.checkbox_envio.Enabled = false;
-            this.checkbox_envio.Location = new System.Drawing.Point(717, 259);
-            this.checkbox_envio.Name = "checkbox_envio";
-            this.checkbox_envio.Size = new System.Drawing.Size(136, 24);
-            this.checkbox_envio.TabIndex = 14;
-            this.checkbox_envio.Text = "Solicitar envío";
-            this.checkbox_envio.UseVisualStyleBackColor = true;
+            this.btn_comprar.Click += new System.EventHandler(this.btn_comprar_Click);
             // 
             // BusquedaPublicacion
             // 
