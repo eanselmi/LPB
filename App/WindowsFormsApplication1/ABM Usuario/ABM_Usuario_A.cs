@@ -197,7 +197,14 @@ namespace visibilidad.ABM_Usuario
                     textBoxRazonSocial.Text = lectorBuscarEmpresa.GetString(0);
                     textBoxCUITTipo.Text = lectorBuscarEmpresa.GetString(1).Substring(0, 2);
                     textBoxCUITNro.Text = lectorBuscarEmpresa.GetString(1).Substring(3, 8);
-                    textBoxCUITVerif.Text = lectorBuscarEmpresa.GetString(1).Substring(12, 2);
+                    if (lectorBuscarEmpresa.IsDBNull(9))
+                    {
+                        textBoxCUITVerif.Text = lectorBuscarEmpresa.GetString(1).Substring(12, 2);
+                    }
+                    else
+                    {
+                        textBoxCUITVerif.Text = lectorBuscarEmpresa.GetString(1).Substring(12, 1);
+                    }
                     textBoxMailEmp.Text = lectorBuscarEmpresa.GetString(2);
 
                     if (!(lectorBuscarEmpresa.IsDBNull(3)))
@@ -254,7 +261,7 @@ namespace visibilidad.ABM_Usuario
                     if (rubroID != 0)
                     {
                         Conexion buscarRubroEmp = new Conexion();
-                        string queryBuscarRubroEmp = "select descripcion from LPB.Rubros where id='" + rubroID + "'";
+                        string queryBuscarRubroEmp = "select descripcion from LPB.RubrosEmpresa where id='" + rubroID + "'";
                         buscarRubroEmp.cnn.Open();
                         SqlCommand commandBuscarRubroEmp = new SqlCommand(queryBuscarRubroEmp, buscarRubroEmp.cnn);
                         SqlDataReader lectorRubroEmp = commandBuscarRubroEmp.ExecuteReader();
@@ -570,6 +577,7 @@ namespace visibilidad.ABM_Usuario
                         conUser.cnn.Close();
                     }
                 }
+
                 //VALIDACION VIEJA CONTRASEÑA ( SI SE TRATA DE UNA MODIFICACION EN DONDE CAMBIA LA CONTRASEÑA )
                 if ((!(textBoxViejaPass.Text.Equals("")))&&(textBoxViejaPass.Visible))
                 {
@@ -591,21 +599,24 @@ namespace visibilidad.ABM_Usuario
                 Conexion cargaUsuario = new Conexion();
                 cargaUsuario.cnn.Open();
 
+
                 //CARGA CLIENTE
+                //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
+                string pisoACargar = textBoxPisoCl.Text;
+
+                if (textBoxPisoCl.Text.Equals("PB"))
+                {
+                    pisoACargar = "0";
+                }
+                if (textBoxPisoCl.Text.Equals(""))
+                {
+                    pisoACargar = "999";
+                }
+
                 if (modalidad.Equals("Alta"))
                 {
-                    //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
-                    string pisoACargar=textBoxPisoCl.Text;
-                    
-                    if (textBoxPisoCl.Text.Equals("PB"))
-                    {
-                        pisoACargar = "0";
-                    }
-                    if (textBoxPisoCl.Text.Equals(""))
-                    {
-                        pisoACargar = "999";
-                    }
-                    
+                    //ALTA DE CLIENTE
+
                     bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
                         Helper.Help.generarListaParaProcedure("@username", "@pass", "@tipoDoc", "@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
                         "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
@@ -630,20 +641,10 @@ namespace visibilidad.ABM_Usuario
                         MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
+
                 //MODIFICACION CLIENTE
                 else
                 {
-                    string pisoACargar = textBoxPisoCl.Text;
-
-                    if (textBoxPisoCl.Text.Equals("PB"))
-                    {
-                        pisoACargar = "0";
-                    }
-                    if (textBoxPisoCl.Text.Equals(""))
-                    {
-                        pisoACargar = "999";
-                    }
-
                     string passwordFinal="";
                     if(textBoxViejaPass.Visible){
                         passwordFinal=Helper.Help.Sha256(textBoxPass.Text);
@@ -857,8 +858,16 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textBoxCUITTipo.Text.Equals("") || textBoxCUITNro.Text.Equals("") || textBoxCUITVerif.Text.Equals("")))
                 {
+                    string queryCUIT = "";
+                    if (modalidad.Equals("Alta"))
+                    {
+                        queryCUIT = "Select * from LPB.Empresas where cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'";
+                    }
+                    else
+                    {
+                        queryCUIT = "Select emp.Usuario_id from LPB.Empresas emp where emp.cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+ "' and exists(select * from LPB.Usuarios where id=emp.Usuario_id and username<>'" + userAModificar + "')";
+                    }
                     Conexion conCUIT = new Conexion();
-                    string queryCUIT = "Select * from LPB.Empresas where cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'";
                     conCUIT.cnn.Open();
                     SqlCommand commandCUIT = new SqlCommand(queryCUIT, conCUIT.cnn);
                     SqlDataReader lectorCUIT = commandCUIT.ExecuteReader();
@@ -871,21 +880,35 @@ namespace visibilidad.ABM_Usuario
                 }
 
                 //VALIDACION USERNAME ÚNICO
-
-                if (!(textBoxUser.Text.Equals("")))
+                if (modalidad.Equals("Alta"))
                 {
-                    Conexion conUser = new Conexion();
-                    string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
-                    conUser.cnn.Open();
-                    SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
-                    SqlDataReader lectorUser = commandUser.ExecuteReader();
-                    if (lectorUser.Read())
+                    if (!(textBoxUser.Text.Equals("")))
+                    {
+                        Conexion conUser = new Conexion();
+                        string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
+                        conUser.cnn.Open();
+                        SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
+                        SqlDataReader lectorUser = commandUser.ExecuteReader();
+                        if (lectorUser.Read())
+                        {
+                            hayError = true;
+                            mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                        }
+                        conUser.cnn.Close();
+                    }
+                }
+
+
+                //VALIDACION VIEJA CONTRASEÑA ( SI SE TRATA DE UNA MODIFICACION EN DONDE CAMBIA LA CONTRASEÑA )
+                if ((!(textBoxViejaPass.Text.Equals(""))) && (textBoxViejaPass.Visible))
+                {
+                    if (!(passwordVieja.Equals(Helper.Help.Sha256(textBoxViejaPass.Text))))
                     {
                         hayError = true;
-                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                        mensajeDeError = string.Concat(mensajeDeError, "\tLa password vieja no es correcta\n");
                     }
-                    conUser.cnn.Close();
                 }
+
 
                 //SI HAY ERRORES LOS MUESTRO A TODOS
                 if (hayError)
@@ -901,39 +924,49 @@ namespace visibilidad.ABM_Usuario
 
                 //CARGA EMPRESA
                 //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
-                string pisoaCargar=textboxPisoEmpr.Text;
+                string pisoaCargar = textboxPisoEmpr.Text;
                 if (textboxPisoEmpr.Text.Equals("PB"))
                 {
                     pisoaCargar = "0";
                 }
-                if(textboxPisoEmpr.Text.Equals(""))
+                if (textboxPisoEmpr.Text.Equals(""))
                 {
                     pisoaCargar = "999";
                 }
 
-                bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
-                    Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
-                    "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
-                    , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,
-                    this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,
-                    pisoaCargar,this.textboxDptoEmpr.Text,this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,
-                    this.comboBoxLocalidadEmpr.Text);
-                // Hay que ver que pasa cuando dpto va null//
-
-                //Asignacion Roles
-                foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                if (modalidad.Equals("Alta"))
                 {
-                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
-                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
-                    if (!resultadoRoles)
-                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //ALTA DE EMPRESA
+                    bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
+                        Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
+                        "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
+                        , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text + "-" + this.textBoxCUITNro.Text + "-" + this.textBoxCUITVerif.Text,
+                        this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text, this.textBoxCalleEmp.Text, this.textboxNroEmpr.Text,
+                        pisoaCargar, this.textboxDptoEmpr.Text, this.textboxcodpostEmpr.Text, this.comboBoxRubro.Text, this.textBoxNombreContacto.Text,
+                        this.comboBoxLocalidadEmpr.Text);
+                    // Hay que ver que pasa cuando dpto va null//
+
+                    //Asignacion Roles
+                    foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                    {
+                        bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                        if (!resultadoRoles)
+                            MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //VERIFICACION ÉXITO POSITIVO
+                    if (resultadoEmpresa)
+                        MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                //VERIFICACION ÉXITO POSITIVO
-                if (resultadoEmpresa)
-                    MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MODIFICACION EMPRESA
                 else
-                    MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                    MessageBox.Show("Se hubiera hecho la modificacion", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 cargaUsuario.cnn.Close();
                 this.Close();
