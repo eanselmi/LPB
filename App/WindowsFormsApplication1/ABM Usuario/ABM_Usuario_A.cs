@@ -195,8 +195,88 @@ namespace visibilidad.ABM_Usuario
                     SqlDataReader lectorBuscarEmpresa = commandBuscarEmpresa.ExecuteReader();
                     lectorBuscarEmpresa.Read();
                     textBoxRazonSocial.Text = lectorBuscarEmpresa.GetString(0);
+                    textBoxCUITTipo.Text = lectorBuscarEmpresa.GetString(1).Substring(0, 2);
+                    textBoxCUITNro.Text = lectorBuscarEmpresa.GetString(1).Substring(3, 8);
+                    textBoxCUITVerif.Text = lectorBuscarEmpresa.GetString(1).Substring(12, 2);
+                    textBoxMailEmp.Text = lectorBuscarEmpresa.GetString(2);
 
+                    if (!(lectorBuscarEmpresa.IsDBNull(3)))
+                    {
+                        textBoxTelefonoEmp.Text = lectorBuscarEmpresa.GetDecimal(3).ToString();
+                    }
+
+                    textBoxCalleEmp.Text = lectorBuscarEmpresa.GetString(4);
+                    textboxNroEmpr.Text = lectorBuscarEmpresa.GetDecimal(5).ToString();
+                    
+                    if (!(lectorBuscarEmpresa.IsDBNull(6)))
+                    {
+                        decimal pisoEmpresa = lectorBuscarEmpresa.GetDecimal(6);
+                        if (pisoEmpresa == 0) textboxPisoEmpr.Text = "PB";
+                        else textboxPisoEmpr.Text=pisoEmpresa.ToString();
+                    }
+
+                    if(!(lectorBuscarEmpresa.IsDBNull(7)))
+                    {
+                        textboxDptoEmpr.Text =lectorBuscarEmpresa.GetString(7);
+                    }
+
+                    textboxcodpostEmpr.Text = lectorBuscarEmpresa.GetString(8);
+
+                    int rubroID = 0;
+                    if (!(lectorBuscarEmpresa.IsDBNull(9)))
+                    {
+                        rubroID = lectorBuscarEmpresa.GetInt32(9);
+                    }
+
+                    if (!(lectorBuscarEmpresa.IsDBNull(10)))
+                    {
+                        textBoxNombreContacto.Text = lectorBuscarEmpresa.GetString(10);
+                    }
+
+                    int localidadID = 0;
+                    if (!(lectorBuscarEmpresa.IsDBNull(11)))
+                    {
+                        localidadID = lectorBuscarEmpresa.GetInt32(11);
+                    }
                     buscarEmpresa.cnn.Close();
+
+                    if (localidadID != 0)
+                    {
+                        Conexion buscarLocalidadEmp = new Conexion();
+                        string queryBuscarLocalidadEmp = "select descripcion from LPB.Localidades where id='" + localidadID + "'";
+                        buscarLocalidadEmp.cnn.Open();
+                        SqlCommand commandBuscarLocalidadEmp = new SqlCommand(queryBuscarLocalidadEmp, buscarLocalidadEmp.cnn);
+                        SqlDataReader lectorLocalidadEmp = commandBuscarLocalidadEmp.ExecuteReader();
+                        lectorLocalidadEmp.Read();
+                        comboBoxLocalidadEmpr.Text = lectorLocalidadEmp.GetString(0);
+                        buscarLocalidadEmp.cnn.Close();
+                    }
+                    if (rubroID != 0)
+                    {
+                        Conexion buscarRubroEmp = new Conexion();
+                        string queryBuscarRubroEmp = "select descripcion from LPB.Rubros where id='" + rubroID + "'";
+                        buscarRubroEmp.cnn.Open();
+                        SqlCommand commandBuscarRubroEmp = new SqlCommand(queryBuscarRubroEmp, buscarRubroEmp.cnn);
+                        SqlDataReader lectorRubroEmp = commandBuscarRubroEmp.ExecuteReader();
+                        lectorRubroEmp.Read();
+                        comboBoxRubro.Text = lectorRubroEmp.GetString(0);
+                        buscarRubroEmp.cnn.Close();
+                    }
+
+
+                    //Cargo los Roles
+                    Conexion buscarRoles = new Conexion();
+                    buscarRoles.cnn.Open();
+                    string queryBuscarRoles = "select nombre from LPB.Roles where id in (select Rol_id from LPB.RolesPorUsuario where Usuario_id='" + idUser + "')";
+                    SqlCommand commandBuscarRoles = new SqlCommand(queryBuscarRoles, buscarRoles.cnn);
+                    SqlDataReader lectorBuscarRoles = commandBuscarRoles.ExecuteReader();
+                    while (lectorBuscarRoles.Read())
+                    {
+                        int posicionaChequear = CheckedListBoxEmp.FindStringExact(lectorBuscarRoles.GetString(0), 0);
+                        CheckedListBoxEmp.SetItemChecked(posicionaChequear, true);
+                    }
+                    buscarRoles.cnn.Close();
+                    
                 }
             }
 
