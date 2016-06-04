@@ -58,6 +58,7 @@
             this.text_descripcion = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.text_visibilidad_id = new System.Windows.Forms.TextBox();
+            this.text_precio_aux = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -158,6 +159,7 @@
             this.check_envio.TabIndex = 16;
             this.check_envio.Text = "Acepta Envio";
             this.check_envio.UseVisualStyleBackColor = true;
+            this.check_envio.CheckedChanged += new System.EventHandler(this.check_envio_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -366,11 +368,19 @@
             this.text_visibilidad_id.Size = new System.Drawing.Size(100, 26);
             this.text_visibilidad_id.TabIndex = 1;
             // 
+            // text_precio_aux
+            // 
+            this.text_precio_aux.Location = new System.Drawing.Point(795, 241);
+            this.text_precio_aux.Name = "text_precio_aux";
+            this.text_precio_aux.Size = new System.Drawing.Size(100, 26);
+            this.text_precio_aux.TabIndex = 2;
+            // 
             // FormularioPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(774, 602);
+            this.ClientSize = new System.Drawing.Size(993, 602);
+            this.Controls.Add(this.text_precio_aux);
             this.Controls.Add(this.text_visibilidad_id);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -421,5 +431,6 @@
         private System.Windows.Forms.TextBox text_stock;
         private System.Windows.Forms.CheckBox check_pregunta;
         private System.Windows.Forms.TextBox text_visibilidad_id;
+        private System.Windows.Forms.TextBox text_precio_aux;
     }
 }

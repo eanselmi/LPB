@@ -106,6 +106,7 @@ namespace visibilidad.Generar_Publicación
         {
             if (radio_subasta.Checked == true)
             {
+                text_stock.Text = "1";
                 text_stock.Enabled = false;
                 publicacion_tipo = 2;
             }
@@ -188,6 +189,7 @@ namespace visibilidad.Generar_Publicación
 
         private void btn_guardar_Click(object sender, EventArgs e)
         {
+            
             //Control de Errores
             string error = "Se encontraron los siguientes errores\n";
             if (text_descripcion.Text == "")
@@ -206,7 +208,8 @@ namespace visibilidad.Generar_Publicación
                 MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            text_precio_aux.Text = text_precio.Text;
+            text_precio_aux.Text = text_precio_aux.Text.Replace('.', ',');
             //Guardar publicacion            
             Conexion cn = new Conexion();
             using (SqlCommand cmd = new SqlCommand("lpb.SP_Guardar_Publicacion", cn.cnn))
@@ -235,7 +238,7 @@ namespace visibilidad.Generar_Publicación
                 cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
                 cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
                 cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
-                cmd.Parameters["@precio"].Value = Convert.ToDecimal(text_precio.Text);
+                cmd.Parameters["@precio"].Value = Convert.ToDecimal(text_precio_aux.Text);
                 cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
                 cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
                 cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
@@ -247,9 +250,14 @@ namespace visibilidad.Generar_Publicación
                 MessageBox.Show(codigo_nuevo.ToString());
                 cn.cnn.Close();
             }
+           
 
 
 
+        }
+
+        private void check_envio_CheckedChanged(object sender, EventArgs e)
+        {
 
         }
     }
