@@ -486,7 +486,7 @@ values
 INSERT INTO lpb.Clientes 
 (documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,Usuario_id)
 select @tipoDoc,@numeroDoc,@apellido,@nombre,@fechaNac,@mail,@telefono,@calle,@nroCalle,
-case when @piso='' then NULL else @piso END,
+case when @piso='999' then NULL else @piso END,
 case when @dpto='' then NULL else @dpto END,
 @codPostal,
 (select id from lpb.Localidades where descripcion=@descrpLocalidad),
@@ -508,7 +508,7 @@ values
 INSERT INTO LPB.Empresas
 (razonSocial,cuit,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Rubro_id,nombreContacto,Localidad_id,Usuario_id)
 select @razonSoc,@cuit,@mail,@telefono,@calle,@nroCalle,
-case when @piso='' then NULL else @piso END,
+case when @piso='999' then NULL else @piso END,
 case when @dpto='' then NULL else @dpto END,
 @codPostal,
 (select id from LPB.RubrosEmpresa where descripcion=@rubroDesc),
