@@ -122,26 +122,35 @@ namespace visibilidad.ABM_Usuario
                     SqlCommand commandBuscarCliente = new SqlCommand(queryBuscarCliente, buscarCliente.cnn);
                     SqlDataReader lectorBuscarCliente = commandBuscarCliente.ExecuteReader();
                     lectorBuscarCliente.Read();
-                    string tipoDocu = lectorBuscarCliente.GetString(0);
-                    decimal nroDocu = lectorBuscarCliente.GetDecimal(1);
-                    string apellido = lectorBuscarCliente.GetString(2);
-                    string nombre = lectorBuscarCliente.GetString(3);
-                    DateTime fechaNac = lectorBuscarCliente.GetDateTime(4);
-                    string mail = lectorBuscarCliente.GetString(5);
-                    decimal telefono=0;
+                    comboBoxTipoDoc.Text = lectorBuscarCliente.GetString(0);
+                    textBoxNumeroDoc.Text = lectorBuscarCliente.GetDecimal(1).ToString();
+                    textBoxApellido.Text = lectorBuscarCliente.GetString(2);
+                    textBoxNombre.Text = lectorBuscarCliente.GetString(3);
+                    monthCalendar1.SetDate(lectorBuscarCliente.GetDateTime(4));
+                    textBoxFechaNac.Text = monthCalendar1.SelectionStart.Date.ToShortDateString();
+                    textBoxMail.Text = lectorBuscarCliente.GetString(5);
+                    
                     if (!(lectorBuscarCliente.IsDBNull(6)))
                     {
-                        telefono = lectorBuscarCliente.GetDecimal(6);
+                        textBoxTelefono.Text = lectorBuscarCliente.GetDecimal(6).ToString();
                     }
-                    string domicilioCal = lectorBuscarCliente.GetString(7);
-                    decimal nroCalle=lectorBuscarCliente.GetDecimal(8);
-                    decimal piso = lectorBuscarCliente.GetDecimal(9);
-                    string dpto = "";
+                    
+                    textBoxCalleCl.Text = lectorBuscarCliente.GetString(7);
+                    textBoxNroCl.Text = lectorBuscarCliente.GetDecimal(8).ToString();
+
+                    if (!(lectorBuscarCliente.IsDBNull(9)))
+                    {
+                        decimal pisoCliente = lectorBuscarCliente.GetDecimal(9);
+                        if (pisoCliente == 0) textBoxPisoCl.Text="PB";
+                        else textBoxPisoCl.Text=pisoCliente.ToString();
+                    }
+
                     if(!(lectorBuscarCliente.IsDBNull(10)))
                     {
-                        dpto=lectorBuscarCliente.GetString(10);
+                        textBoxDptoCl.Text=lectorBuscarCliente.GetString(10);
                     }
-                    string codPostal=lectorBuscarCliente.GetString(11);
+
+                    textBoxCodPostCl.Text=lectorBuscarCliente.GetString(11);
                     int localidadId=0;
                     if (!(lectorBuscarCliente.IsDBNull(12)))
                     {
@@ -149,7 +158,6 @@ namespace visibilidad.ABM_Usuario
                     }
                     buscarCliente.cnn.Close();
 
-                    string descLocalidad="";
                     if (localidadId != 0)
                     {
                         Conexion buscarLocalidadCli = new Conexion();
@@ -158,34 +166,11 @@ namespace visibilidad.ABM_Usuario
                         SqlCommand commandBuscarLocalidadCli = new SqlCommand(queryBuscarLocalidadCli, buscarLocalidadCli.cnn);
                         SqlDataReader lectorLocalidadCli = commandBuscarLocalidadCli.ExecuteReader();
                         lectorLocalidadCli.Read();
-                        descLocalidad = lectorLocalidadCli.GetString(0);
+                        comboBoxLocalidades.Text = lectorLocalidadCli.GetString(0);
                         buscarLocalidadCli.cnn.Close();
                     }
 
-                    //RELLENO LOS TEXTBOX
-                    textBoxNombre.Text = nombre;
-                    textBoxApellido.Text = apellido;
-                    comboBoxTipoDoc.Text = tipoDocu;
-                    textBoxNumeroDoc.Text = nroDocu.ToString();
-                    monthCalendar1.SetDate(fechaNac);
-                    textBoxFechaNac.Text = monthCalendar1.SelectionStart.Date.ToShortDateString();
-                    textBoxMail.Text = mail;
-                    if (telefono == 0)
-                    {
-                        textBoxTelefono.Text = "";
-                    }
-                    else
-                    {
-                        textBoxTelefono.Text = telefono.ToString();
-                    }
-                    textBoxCalleCl.Text = domicilioCal;
-                    textBoxNroCl.Text = nroCalle.ToString();
-                    textBoxPisoCl.Text = piso.ToString();
-                    textBoxDptoCl.Text = dpto;
-                    textBoxCodPostCl.Text = codPostal;
-                    comboBoxLocalidades.Text = descLocalidad;
-
-
+                    
                     //Cargo los Roles
                     Conexion buscarRoles = new Conexion();
                     buscarRoles.cnn.Open();
@@ -205,10 +190,13 @@ namespace visibilidad.ABM_Usuario
                 {
                     Conexion buscarEmpresa = new Conexion();
                     buscarEmpresa.cnn.Open();
-                    string queryBuscarEmpresa = "select id,TipoEmpresa,username,pass,habilitado from LPB.Empresas where username='" + username + "'";
+                    string queryBuscarEmpresa = "select razonSocial,cuit,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Rubro_id,nombreContacto,Localidad_id from LPB.Empresas where Usuario_id='" + idUser + "'";
                     SqlCommand commandBuscarEmpresa = new SqlCommand(queryBuscarEmpresa, buscarEmpresa.cnn);
                     SqlDataReader lectorBuscarEmpresa = commandBuscarEmpresa.ExecuteReader();
                     lectorBuscarEmpresa.Read();
+                    textBoxRazonSocial.Text = lectorBuscarEmpresa.GetString(0);
+
+                    buscarEmpresa.cnn.Close();
                 }
             }
 
@@ -268,7 +256,7 @@ namespace visibilidad.ABM_Usuario
                     || textBoxNombre.Text.Equals("") || textBoxApellido.Text.Equals("") || textBoxMail.Text.Equals("")
                     || textBoxTelefono.Text.Equals("") || textBoxCalleCl.Text.Equals("") || textBoxCodPostCl.Text.Equals("")
                     || textBoxNumeroDoc.Text.Equals("") || comboBoxTipoDoc.Text.Equals("") || textBoxNroCl.Text.Equals("")
-                    || comboBoxLocalidades.Text.Equals("") || textBoxPisoCl.Text.Equals("") || textBoxFechaNac.Text.Equals("")
+                    || comboBoxLocalidades.Text.Equals("") || textBoxFechaNac.Text.Equals("")
                     || ((textBoxViejaPass.Visible)&&(textBoxViejaPass.Text.Equals("")))
                     )
                 {
@@ -386,10 +374,10 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textBoxPisoCl.Text.Equals("")))
                 {
-                    if (!(Regex.Match(textBoxPisoCl.Text, "^\\d\\d?$").Success))
+                    if (!(Regex.Match(textBoxPisoCl.Text, "^(\\d\\d?|PB)$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico y hasta dos dígitos (o PB)\n");
                     }
                 }
 
@@ -526,11 +514,23 @@ namespace visibilidad.ABM_Usuario
                 //CARGA CLIENTE
                 if (modalidad.Equals("Alta"))
                 {
+                    //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
+                    string pisoACargar=textBoxPisoCl.Text;
+                    
+                    if (textBoxPisoCl.Text.Equals("PB"))
+                    {
+                        pisoACargar = "0";
+                    }
+                    if (textBoxPisoCl.Text.Equals(""))
+                    {
+                        pisoACargar = "999";
+                    }
+                    
                     bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
                         Helper.Help.generarListaParaProcedure("@username", "@pass", "@tipoDoc", "@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
                         "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
                         , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
-                        this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
+                        this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, pisoACargar,
                         this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text);
                     // Hay que ver que pasa cuando dpto va null//
 
@@ -553,6 +553,17 @@ namespace visibilidad.ABM_Usuario
                 //MODIFICACION CLIENTE
                 else
                 {
+                    string pisoACargar = textBoxPisoCl.Text;
+
+                    if (textBoxPisoCl.Text.Equals("PB"))
+                    {
+                        pisoACargar = "0";
+                    }
+                    if (textBoxPisoCl.Text.Equals(""))
+                    {
+                        pisoACargar = "999";
+                    }
+
                     string passwordFinal="";
                     if(textBoxViejaPass.Visible){
                         passwordFinal=Helper.Help.Sha256(textBoxPass.Text);
@@ -565,7 +576,7 @@ namespace visibilidad.ABM_Usuario
                         "@apellido","@nombre","@fechaNac","@mail","@telefono","@calle","@nroCalle","@piso","@dpto","@codPostal","@descrpLocalidad"),
                         userAModificar,passwordFinal,checkBoxHabilitado.Checked,comboBoxTipoDoc.Text,textBoxNumeroDoc.Text,textBoxApellido.Text,
                         textBoxNombre.Text,monthCalendar1.SelectionStart.Date,textBoxMail.Text,textBoxTelefono.Text,textBoxCalleCl.Text,
-                        textBoxNroCl.Text,textBoxPisoCl.Text,textBoxDptoCl.Text,textBoxCodPostCl.Text,comboBoxLocalidades.Text);
+                        textBoxNroCl.Text,pisoACargar,textBoxDptoCl.Text,textBoxCodPostCl.Text,comboBoxLocalidades.Text);
 
                     //Elimino Roles
                     bool eliminarRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Eliminacion_RolesxUsuario",
@@ -606,9 +617,8 @@ namespace visibilidad.ABM_Usuario
                 if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals("")
                     || textBoxRazonSocial.Text.Equals("") || textBoxCUITTipo.Text.Equals("") || textBoxMailEmp.Text.Equals("")
                     || textBoxTelefonoEmp.Text.Equals("") || textBoxNombreContacto.Text.Equals("") || comboBoxRubro.Text.Equals("")
-                    || textBoxCalleEmp.Text.Equals("") || textboxNroEmpr.Text.Equals("") || textboxPisoEmpr.Text.Equals("")
-                    || textboxcodpostEmpr.Text.Equals("") || comboBoxLocalidadEmpr.Text.Equals("") || textBoxCUITNro.Text.Equals("")
-                    || textBoxCUITVerif.Text.Equals("")
+                    || textBoxCalleEmp.Text.Equals("") || textboxNroEmpr.Text.Equals("") || textboxcodpostEmpr.Text.Equals("") 
+                    || comboBoxLocalidadEmpr.Text.Equals("") || textBoxCUITNro.Text.Equals("") || textBoxCUITVerif.Text.Equals("")
                     )
                 {
                     hayError = true;
@@ -727,10 +737,10 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textboxPisoEmpr.Text.Equals("")))
                 {
-                    if (!(Regex.Match(textboxPisoEmpr.Text, "^\\d\\d?$").Success))
+                    if (!(Regex.Match(textboxPisoEmpr.Text, "^(\\d\\d?|PB)$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico y hasta dos dígitos (o PB)\n");
                     }
                 }
 
@@ -810,13 +820,23 @@ namespace visibilidad.ABM_Usuario
                 cargaUsuario.cnn.Open();
 
                 //CARGA EMPRESA
+                //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
+                string pisoaCargar=textboxPisoEmpr.Text;
+                if (textboxPisoEmpr.Text.Equals("PB"))
+                {
+                    pisoaCargar = "0";
+                }
+                if(textboxPisoEmpr.Text.Equals(""))
+                {
+                    pisoaCargar = "999";
+                }
 
                 bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
                     Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
                     "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
                     , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,
                     this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,
-                    this.textboxPisoEmpr.Text,this.textboxDptoEmpr.Text,this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,
+                    pisoaCargar,this.textboxDptoEmpr.Text,this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,
                     this.comboBoxLocalidadEmpr.Text);
                 // Hay que ver que pasa cuando dpto va null//
 
