@@ -23,9 +23,11 @@ namespace visibilidad.Generar_Publicación
         public int publicacion_estado;
         public int publicacion_acepta_envio;
         public int publicacion_acepta_preguntas;
-        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int usuario_id)
+        public string evento;
+        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int usuario_id, string ev)
         {
             generar = form;
+            evento = ev;
             id_usuario = usuario_id;
             InitializeComponent();
         }
@@ -245,8 +247,7 @@ namespace visibilidad.Generar_Publicación
                 cmd.ExecuteNonQuery();
 
                 // Leer la devolucion del SP
-                int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);
-                MessageBox.Show(codigo_nuevo.ToString());
+                int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);                
                 cn.cnn.Close();
 
                 foreach (object itemsCheck in checklist_rubros.CheckedItems) 
@@ -257,6 +258,11 @@ namespace visibilidad.Generar_Publicación
                     insertar_publicacionPorRubro.ExecuteNonQuery();
                     cn.cnn.Close();
                 }
+                MessageBox.Show("Publicacion creada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                generar.Show();
+                generar.reset_publicaciones();              
+
             }
         }
 

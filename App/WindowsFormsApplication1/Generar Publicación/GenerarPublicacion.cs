@@ -62,9 +62,26 @@ namespace visibilidad.Generar_Publicación
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario);
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario,"A");
             formularioPublicacion.Show();
             this.Hide();
+        }
+        public void reset_publicaciones()
+        {
+            this.datagrid_listado.DataSource = null;
+            this.datagrid_listado.Rows.Clear();
+            Conexion con = new Conexion();                        
+            string query_publicaciones = "SELECT p.codigo as Codigo, e.descripcion as Estado, t.descripcion as Tipo, p.descripcion as Descripcion " +
+                    "FROM lpb.Publicaciones p, lpb.EstadosDePublicacion e, lpb.TiposDePublicacion t " +
+                    "where p.EstadoDePublicacion_id=e.id and p.TipoDePublicacion_id=t.id and p.Usuario_id= " + id_usuario;
+            con.cnn.Open();
+            DataTable dtDatos = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(query_publicaciones, con.cnn);
+            da.Fill(dtDatos);
+            datagrid_listado.DataSource = dtDatos;
+            con.cnn.Close();
+            datagrid_listado.ReadOnly = true;
+            datagrid_listado.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
     }
 }
