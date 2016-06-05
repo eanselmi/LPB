@@ -189,7 +189,6 @@ namespace visibilidad.Generar_Publicación
 
         private void btn_guardar_Click(object sender, EventArgs e)
         {
-            
             //Control de Errores
             string error = "Se encontraron los siguientes errores\n";
             if (text_descripcion.Text == "")
@@ -224,7 +223,7 @@ namespace visibilidad.Generar_Publicación
                 cmd.Parameters.Add("@stock", SqlDbType.Int);
                 cmd.Parameters.Add("@fecha_creacion", SqlDbType.DateTime);
                 cmd.Parameters.Add("@fecha_vencimiento", SqlDbType.DateTime);
-                cmd.Parameters.Add("@precio", SqlDbType.Int);
+                cmd.Parameters.Add("@precio", SqlDbType.Decimal);
                 cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
                 cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
                 cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
@@ -238,7 +237,7 @@ namespace visibilidad.Generar_Publicación
                 cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
                 cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
                 cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
-                cmd.Parameters["@precio"].Value = Convert.ToDecimal(text_precio_aux.Text);
+                cmd.Parameters["@precio"].Value = decimal.Parse(text_precio_aux.Text);
                 cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
                 cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
                 cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
@@ -250,7 +249,7 @@ namespace visibilidad.Generar_Publicación
                 MessageBox.Show(codigo_nuevo.ToString());
                 cn.cnn.Close();
             }
-           
+
 
 
 
@@ -258,7 +257,26 @@ namespace visibilidad.Generar_Publicación
 
         private void check_envio_CheckedChanged(object sender, EventArgs e)
         {
+            if (check_envio.Checked == true)
+                publicacion_acepta_envio = 1;
+            else
+                publicacion_acepta_envio = 0;
+        }
 
+        private void check_pregunta_CheckedChanged(object sender, EventArgs e)
+        {
+            if (check_pregunta.Checked == true)
+                publicacion_acepta_preguntas = 1;
+            else
+                publicacion_acepta_preguntas = 0;
+        }
+
+        private void check_pregunta_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (check_pregunta.Checked == true)
+                publicacion_acepta_preguntas = 1;
+            else
+                publicacion_acepta_preguntas = 0;
         }
     }
 }

@@ -103,6 +103,7 @@
             this.check_pregunta.TabIndex = 23;
             this.check_pregunta.Text = "Acepta Preguntas";
             this.check_pregunta.UseVisualStyleBackColor = true;
+            this.check_pregunta.CheckedChanged += new System.EventHandler(this.check_pregunta_CheckedChanged_1);
             // 
             // text_stock
             // 
@@ -379,7 +380,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(993, 602);
+            this.ClientSize = new System.Drawing.Size(771, 602);
             this.Controls.Add(this.text_precio_aux);
             this.Controls.Add(this.text_visibilidad_id);
             this.Controls.Add(this.groupBox1);
