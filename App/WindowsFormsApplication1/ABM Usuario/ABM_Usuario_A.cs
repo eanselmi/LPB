@@ -965,7 +965,44 @@ namespace visibilidad.ABM_Usuario
                 //MODIFICACION EMPRESA
                 else
                 {
-                    MessageBox.Show("Se hubiera hecho la modificacion", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 
+                    string passwordFinal="";
+                    if(textBoxViejaPass.Visible){
+                        passwordFinal=Helper.Help.Sha256(textBoxPass.Text);
+                    }
+                    else{
+                        passwordFinal=passwordVieja;
+                    }
+                    bool modificarEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema()+@".SP_Modificacion_Empresa",
+                        Helper.Help.generarListaParaProcedure("@username","@pass","@habilitado","@razonSoc","@cuit","@mail","@telefono",
+                        "@calle","@nroCalle","@piso","@dpto","@codPostal","@rubroDesc","@nombreContacto","@descLocalidad"),
+                        userAModificar,passwordFinal,checkBoxHabilitado.Checked,this.textBoxRazonSocial.Text,
+                        this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,this.textBoxMailEmp.Text,
+                        this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,pisoaCargar,this.textboxDptoEmpr.Text,
+                        this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,this.comboBoxLocalidadEmpr.Text);
+
+                    //Elimino Roles
+                    bool eliminarRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Eliminacion_RolesxUsuario",
+                        Helper.Help.generarListaParaProcedure("@username"), userAModificar);
+                    if (!eliminarRoles)
+                    {
+                        MessageBox.Show("Problema al reasignar roles, consultar ayuda", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //Asignacion Roles
+                    foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                    {
+                        bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), userAModificar, itemChecked.ToString());
+                        if (!resultadoRoles)
+                            MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //VERIFICACION ÉXITO POSITIVO
+                    if (modificarEmpresa)
+                        MessageBox.Show("Usuario modificado con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El Usuario no pudo ser modificado", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
                 cargaUsuario.cnn.Close();
