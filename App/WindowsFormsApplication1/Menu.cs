@@ -198,5 +198,11 @@ namespace visibilidad
             abmUsuariosMod.Show();
         }
 
+        private void cambiarPasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Modificar_pass modificarPass = new Modificar_pass(id_usuario);
+            modificarPass.Show();
+        }
+
     }
 }
