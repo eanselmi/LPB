@@ -248,11 +248,16 @@ namespace visibilidad.Generar_Publicación
                 int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);
                 MessageBox.Show(codigo_nuevo.ToString());
                 cn.cnn.Close();
+
+                foreach (object itemsCheck in checklist_rubros.CheckedItems) 
+                {
+                    string insert_rubros = "INSERT INTO lpb.PublicacionesPorRubro (publicacion_id, rubro_id) VALUES (" + codigo_nuevo + ",(SELECT r.id FROM lpb.rubros r WHERE r.descripcion = '" + itemsCheck.ToString() + "'))";
+                    cn.cnn.Open();
+                    SqlCommand insertar_publicacionPorRubro = new SqlCommand(insert_rubros, cn.cnn);
+                    insertar_publicacionPorRubro.ExecuteNonQuery();
+                    cn.cnn.Close();
+                }
             }
-
-
-
-
         }
 
         private void check_envio_CheckedChanged(object sender, EventArgs e)
