@@ -1,4 +1,3 @@
-
 USE [GD1C2016]
 
 IF NOT EXISTS (
@@ -460,8 +459,23 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Eliminacion_RolesxUsuario') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Eliminacion_RolesxUsuario
+END;
+GO
 
+IF OBJECT_ID('LPB.SP_Modificacion_Cliente') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Modificacion_Cliente
+END;
+GO
 
+IF OBJECT_ID('LPB.SP_Modificacion_Empresa') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Modificacion_Empresa
+END;
+GO
 
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
@@ -495,6 +509,49 @@ COMMIT TRANSACTION
 END
 GO
 
+CREATE PROCEDURE LPB.SP_Modificacion_Cliente (@username varchar(45),@pass varchar(100),@habilitado bit,@tipoDoc varchar(10),@numeroDoc numeric(18,0),
+@apellido nvarchar(255),@nombre nvarchar(255),@fechaNac datetime,@mail nvarchar(255),@telefono numeric(12,0),@calle nvarchar(255),
+@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@descrpLocalidad varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+Update LPB.Usuarios set 
+pass=@pass,habilitado=@habilitado
+where username=@username
+update LPB.Clientes set
+documento_tipo=@tipoDoc,documento_numero=@numeroDoc,apellido=@apellido,nombre=@nombre,fechaNacimiento=@fechaNac,mail=@mail,
+telefono=@telefono,domicilioCalle=@calle,nroCalle=@nroCalle,
+piso=case when @piso='999' then NULL else @piso END,
+dpto=case when @dpto='' then NULL else @dpto END,
+codPostal=@codPostal,
+Localidad_id=(select id from LPB.Localidades where descripcion=@descrpLocalidad)
+where Usuario_id=(select id from LPB.Usuarios where username=@username)
+COMMIT TRANSACTION
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Modificacion_Empresa (@username varchar(45),@pass varchar(100),@habilitado bit,@razonSoc nvarchar(255),
+@cuit nvarchar(50),@mail nvarchar(50),@telefono numeric(12,0),@calle nvarchar(100),@nroCalle numeric(18,0),@piso numeric(18,0),
+@dpto nvarchar(50),@codPostal nvarchar(50),@rubroDesc varchar(45),@nombreContacto nvarchar(100),@descLocalidad varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+update LPB.Usuarios set
+pass=@pass,habilitado=@habilitado
+where username=@username
+update lpb.Empresas set
+razonSocial=@razonSoc,cuit=@cuit,mail=@mail,telefono=@telefono,domicilioCalle=@calle,nroCalle=@nroCalle,
+piso=case when @piso='999' then NULL else @piso END,
+dpto=case when @dpto='' then NULL else @dpto END,
+codPostal=@codPostal,
+Rubro_id=(select id from LPB.RubrosEmpresa where descripcion=@rubroDesc),
+nombreContacto=@nombreContacto,
+Localidad_id=(select id from LPB.Localidades where descripcion=@descLocalidad)
+where Usuario_id=(select id from LPB.Usuarios where username=@username)
+COMMIT TRANSACTION
+END
+GO
+
 CREATE PROCEDURE LPB.SP_Alta_Empresa (@username varchar(45),@pass varchar(100),@razonSoc nvarchar(255),@cuit nvarchar(50),@mail nvarchar(50),
 @telefono numeric(12,0),@calle nvarchar(100),@nroCalle numeric(18,0),@piso numeric(18,0),@dpto nvarchar(50),@codPostal nvarchar(50),@rubroDesc varchar(45),
 @nombreContacto nvarchar(100),@descLocalidad varchar(45))
@@ -521,7 +578,7 @@ GO
 
 CREATE PROCEDURE lpb.SP_Guardar_Publicacion (@usuarioid int, @publicacion_estado int, @publicacion_tipo int,  
                                              @descripcion varchar(255), @stock numeric(18,0), @fecha_creacion datetime,
-											 @fecha_vencimiento datetime, @precio numeric(18,2), @acepta_envio bit,
+											 @fecha_vencimiento datetime, @precio numeric(18,0), @acepta_envio bit,
 											 @acepta_pregunta bit, @visibilidad_codigo numeric(18,0),@nuevo_codigo_publicacion numeric(18,2) OUTPUT)
 AS
 BEGIN
@@ -542,6 +599,15 @@ values(
 (select id from lpb.Roles where nombre=@nombreRol),
 (select id from lpb.Usuarios where username=@username)
 )
+COMMIT TRANSACTION
+END
+GO
+
+CREATE PROCEDURE LPB.SP_Eliminacion_RolesxUsuario (@username varchar(45))
+AS
+BEGIN
+BEGIN TRANSACTION
+delete lpb.RolesPorUsuario where Usuario_id=(select id from lpb.Usuarios where username=@username)
 COMMIT TRANSACTION
 END
 GO
