@@ -33,6 +33,8 @@ namespace visibilidad.Generar_Publicación
                 id_usuario = modo;
             if (evento == "M")
                 codigo_publicacion = modo;
+            if (evento == "V")
+                codigo_publicacion = modo;
             InitializeComponent();
         }
 
@@ -40,7 +42,7 @@ namespace visibilidad.Generar_Publicación
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            //this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             if (evento == "A")
             {
@@ -87,6 +89,7 @@ namespace visibilidad.Generar_Publicación
                 {
                     radio_borrador.Enabled = false;
                     cmb_visibilidad.Enabled = false;
+                    
                 }
                 if (radio_pausada.Checked == true)
                 {
@@ -94,6 +97,7 @@ namespace visibilidad.Generar_Publicación
                     radio_pausada.Enabled = true;
                     radio_finalizada.Enabled = true;
                     radio_activa.Enabled = true;
+                    btn_guardar.Enabled = true;
                 }
                 if (radio_finalizada.Checked == true)
                 {
@@ -103,6 +107,11 @@ namespace visibilidad.Generar_Publicación
                 }
                 
             }
+            if (evento == "V")
+            {
+                llenar_formulario(codigo_publicacion);
+                deshabilitar_todo();
+            }
         }
         private void deshabilitar_todo()
         {
@@ -111,8 +120,8 @@ namespace visibilidad.Generar_Publicación
             text_stock.Enabled = false;
             cmb_visibilidad.Enabled = false;
             check_envio.Enabled = false;
-            check_pregunta.Enabled = false;
-            checklist_rubros.Enabled = false;
+            check_pregunta.Enabled = false;            
+            checklist_rubros.SelectionMode = SelectionMode.None;
             radio_activa.Enabled = false;
             radio_borrador.Enabled = false;
             radio_pausada.Enabled = false;
@@ -464,6 +473,20 @@ namespace visibilidad.Generar_Publicación
                     cn.cnn.Open();
                     cmd.ExecuteNonQuery();            
                     cn.cnn.Close();
+                    
+                    string delete_rubros = "DELETE lpb.PublicacionesPorRubro where publicacion_id=" + codigo_publicacion;
+                    cn.cnn.Open();
+                    SqlCommand borrar_publicacionPorRubro = new SqlCommand(delete_rubros, cn.cnn);
+                    borrar_publicacionPorRubro.ExecuteNonQuery();
+                    cn.cnn.Close();
+                    foreach (object itemsCheck in checklist_rubros.CheckedItems)
+                    {
+                        string insert_rubros = "INSERT INTO lpb.PublicacionesPorRubro (publicacion_id, rubro_id) VALUES (" + codigo_publicacion + ",(SELECT r.id FROM lpb.rubros r WHERE r.descripcion = '" + itemsCheck.ToString() + "'))";
+                        cn.cnn.Open();
+                        SqlCommand insertar_publicacionPorRubro = new SqlCommand(insert_rubros, cn.cnn);
+                        insertar_publicacionPorRubro.ExecuteNonQuery();
+                        cn.cnn.Close();
+                    }
 
                     
                     MessageBox.Show("Publicacion actualizada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);

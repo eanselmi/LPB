@@ -58,6 +58,8 @@
             this.datagrid_listado.RowTemplate.Height = 28;
             this.datagrid_listado.Size = new System.Drawing.Size(962, 520);
             this.datagrid_listado.TabIndex = 1;
+            this.datagrid_listado.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_listado_CellContentDoubleClick);
+            this.datagrid_listado.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.datagrid_listado_CellDoubleClick);
             // 
             // groupBox2
             // 
