@@ -86,6 +86,7 @@ namespace visibilidad.Generar_Publicación
                 if (radio_activa.Checked == true)
                 {
                     radio_borrador.Enabled = false;
+                    cmb_visibilidad.Enabled = false;
                 }
                 if (radio_pausada.Checked == true)
                 {
