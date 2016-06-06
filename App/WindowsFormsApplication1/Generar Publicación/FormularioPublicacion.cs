@@ -73,9 +73,40 @@ namespace visibilidad.Generar_Publicación
             }
             if (evento == "M")
             {
-                llenar_formulario(codigo_publicacion);                
+                llenar_formulario(codigo_publicacion);
+                if (radio_activa.Checked == true)
+                {
+                    radio_borrador.Enabled = false;
+                }
+                if (radio_pausada.Checked == true)
+                {
+                    deshabilitar_todo();
+                    radio_finalizada.Enabled = true;
+                    radio_activa.Enabled = true;
+                }
+
             }
         }
+        private void deshabilitar_todo()
+        {
+            text_descripcion.Enabled = false;
+            text_precio.Enabled = false;
+            text_stock.Enabled = false;
+            cmb_visibilidad.Enabled = false;
+            check_envio.Enabled = false;
+            check_pregunta.Enabled = false;
+            checklist_rubros.Enabled = false;
+            radio_activa.Enabled = false;
+            radio_borrador.Enabled = false;
+            radio_pausada.Enabled = false;
+            radio_finalizada.Enabled = false;
+            radio_compra.Enabled = false;
+            radio_subasta.Enabled = false;
+            btn_guardar.Enabled = false;
+            btn_limpiar.Enabled = false;
+
+        }
+
 
         private void llenar_formulario(int codigo_pub)
         {
@@ -278,6 +309,7 @@ namespace visibilidad.Generar_Publicación
         private void radio_activa_CheckedChanged(object sender, EventArgs e)
         {
             if (radio_activa.Checked == true) publicacion_estado = 2;
+
         }
 
         private void radio_pausada_CheckedChanged(object sender, EventArgs e)
