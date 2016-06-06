@@ -83,5 +83,15 @@ namespace visibilidad.Generar_Publicación
             datagrid_listado.ReadOnly = true;
             datagrid_listado.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
+
+        private void btn_modificar_Click(object sender, EventArgs e)
+        {
+            int ind = datagrid_listado.CurrentCell.RowIndex;
+            string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+            
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "M");
+            formularioPublicacion.Show();
+            this.Hide();
+        }
     }
 }

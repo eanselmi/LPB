@@ -34,7 +34,6 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_salir = new System.Windows.Forms.Button();
             this.btn_modificar = new System.Windows.Forms.Button();
-            this.btn_eliminar = new System.Windows.Forms.Button();
             this.btn_nueva = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.datagrid_listado)).BeginInit();
@@ -46,7 +45,7 @@
             this.groupBox1.Controls.Add(this.datagrid_listado);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(998, 356);
+            this.groupBox1.Size = new System.Drawing.Size(998, 551);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Listado de Publicaciones";
@@ -57,16 +56,15 @@
             this.datagrid_listado.Location = new System.Drawing.Point(18, 25);
             this.datagrid_listado.Name = "datagrid_listado";
             this.datagrid_listado.RowTemplate.Height = 28;
-            this.datagrid_listado.Size = new System.Drawing.Size(962, 303);
+            this.datagrid_listado.Size = new System.Drawing.Size(962, 520);
             this.datagrid_listado.TabIndex = 1;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btn_salir);
             this.groupBox2.Controls.Add(this.btn_modificar);
-            this.groupBox2.Controls.Add(this.btn_eliminar);
             this.groupBox2.Controls.Add(this.btn_nueva);
-            this.groupBox2.Location = new System.Drawing.Point(12, 374);
+            this.groupBox2.Location = new System.Drawing.Point(12, 569);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(998, 77);
             this.groupBox2.TabIndex = 1;
@@ -84,21 +82,13 @@
             // 
             // btn_modificar
             // 
-            this.btn_modificar.Location = new System.Drawing.Point(543, 25);
+            this.btn_modificar.Location = new System.Drawing.Point(383, 25);
             this.btn_modificar.Name = "btn_modificar";
             this.btn_modificar.Size = new System.Drawing.Size(178, 36);
             this.btn_modificar.TabIndex = 4;
             this.btn_modificar.Text = "Modificar Publicacion";
             this.btn_modificar.UseVisualStyleBackColor = true;
-            // 
-            // btn_eliminar
-            // 
-            this.btn_eliminar.Location = new System.Drawing.Point(274, 25);
-            this.btn_eliminar.Name = "btn_eliminar";
-            this.btn_eliminar.Size = new System.Drawing.Size(178, 36);
-            this.btn_eliminar.TabIndex = 3;
-            this.btn_eliminar.Text = "Eliminar Publicacion";
-            this.btn_eliminar.UseVisualStyleBackColor = true;
+            this.btn_modificar.Click += new System.EventHandler(this.btn_modificar_Click);
             // 
             // btn_nueva
             // 
@@ -114,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1022, 470);
+            this.ClientSize = new System.Drawing.Size(1022, 658);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -134,7 +124,6 @@
         private System.Windows.Forms.DataGridView datagrid_listado;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btn_modificar;
-        private System.Windows.Forms.Button btn_eliminar;
         private System.Windows.Forms.Button btn_nueva;
         private System.Windows.Forms.Button btn_salir;
     }

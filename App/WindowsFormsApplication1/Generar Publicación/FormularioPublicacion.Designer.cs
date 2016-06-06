@@ -182,6 +182,7 @@
             // 
             // date_fin
             // 
+            this.date_fin.Enabled = false;
             this.date_fin.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.date_fin.Location = new System.Drawing.Point(352, 298);
             this.date_fin.Name = "date_fin";
@@ -190,6 +191,7 @@
             // 
             // date_inicio
             // 
+            this.date_inicio.Enabled = false;
             this.date_inicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.date_inicio.Location = new System.Drawing.Point(123, 298);
             this.date_inicio.Name = "date_inicio";

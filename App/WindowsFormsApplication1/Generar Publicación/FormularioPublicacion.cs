@@ -19,16 +19,20 @@ namespace visibilidad.Generar_Publicación
     {
         public Generar_Publicación.GenerarPublicacion generar;
         public int id_usuario;
+        public int codigo_publicacion;
         public int publicacion_tipo;
         public int publicacion_estado;
         public int publicacion_acepta_envio;
         public int publicacion_acepta_preguntas;
         public string evento;
-        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int usuario_id, string ev)
+        public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int modo, string ev)
         {
             generar = form;
             evento = ev;
-            id_usuario = usuario_id;
+            if (evento == "A")
+                id_usuario = modo;
+            if (evento == "M")
+                codigo_publicacion = modo;
             InitializeComponent();
         }
 
@@ -37,14 +41,44 @@ namespace visibilidad.Generar_Publicación
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            radio_compra.Checked = true;
-            radio_borrador.Checked = true;
 
-            date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-            date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-            date_fin.Value = date_fin.Value.AddDays(30);
-            date_fin.Enabled = false;
-            date_inicio.Enabled = false;
+            if (evento == "A")
+            {
+                radio_compra.Checked = true;
+                radio_borrador.Checked = true;
+
+                date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+                date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+                date_fin.Value = date_fin.Value.AddDays(30);
+                date_fin.Enabled = false;
+                date_inicio.Enabled = false;
+                cmb_visibilidad.Items.Clear();
+                string query_visibilidad = "select v.descripcion from lpb.visibilidades v";
+                Conexion con = new Conexion();
+                con.cnn.Open();
+                SqlCommand command = new SqlCommand(query_visibilidad, con.cnn);
+                SqlDataReader lector = command.ExecuteReader();
+                while (lector.Read())
+                    cmb_visibilidad.Items.Add(lector.GetString(0));
+                con.cnn.Close();
+                string query_rubros = "select r.descripcion from lpb.rubros r";
+                con = new Conexion();
+                con.cnn.Open();
+                command = new SqlCommand(query_rubros, con.cnn);
+                lector = command.ExecuteReader();
+                while (lector.Read())
+                    checklist_rubros.Items.Add(lector.GetString(0));
+                con.cnn.Close();
+                cmb_visibilidad.SelectedIndex = 0;
+            }
+            if (evento == "M")
+            {
+                llenar_formulario(codigo_publicacion);                
+            }
+        }
+
+        private void llenar_formulario(int codigo_pub)
+        {
             cmb_visibilidad.Items.Clear();
             string query_visibilidad = "select v.descripcion from lpb.visibilidades v";
             Conexion con = new Conexion();
@@ -54,15 +88,77 @@ namespace visibilidad.Generar_Publicación
             while (lector.Read())
                 cmb_visibilidad.Items.Add(lector.GetString(0));
             con.cnn.Close();
-            string query_rubros = "select r.descripcion from lpb.rubros r";
+
+
+
+            string query_publicacion_guardada = "SELECT p.descripcion, p.EstadoDePublicacion_id, p.TipoDePublicacion_id, p.stock, p.fechaCreacion, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, v.descripcion " +
+            "FROM LPB.Publicaciones p, lpb.Visibilidades v where p.Visibilidad_codigo=v.codigo and p.codigo=" + codigo_pub;
+
             con = new Conexion();
+            con.cnn.Open();
+            command = new SqlCommand(query_publicacion_guardada, con.cnn);
+            lector = command.ExecuteReader();
+
+            //Cargar el formulario con los datos de la publicacion guardada
+            lector.Read();
+            text_descripcion.Text = lector.GetString(0);
+
+            if (lector.GetInt32(1) == 1)
+                radio_borrador.Checked = true;
+            else if (lector.GetInt32(1) == 2)
+                radio_activa.Checked = true;
+            else if (lector.GetInt32(1) == 3)
+                radio_pausada.Checked = true;
+            else if (lector.GetInt32(1) == 4)
+                radio_finalizada.Checked = true;
+
+            if (lector.GetInt32(2) == 1)
+                radio_compra.Checked = true;
+            else if (lector.GetInt32(2) == 2)
+                radio_subasta.Checked = true;
+
+            text_stock.Text = lector.GetDecimal(3).ToString();
+            date_inicio.Value = lector.GetDateTime(4);
+            date_fin.Value = lector.GetDateTime(5);
+            text_precio.Text = lector.GetDecimal(6).ToString();
+            if (lector.GetBoolean(7) == true)
+                check_envio.Checked = true;
+            else check_envio.Checked = false;
+            if (lector.GetBoolean(8) == true)
+                check_pregunta.Checked = true;
+            else check_pregunta.Checked = false;
+            cmb_visibilidad.SelectedText = lector.GetString(9);
+            con.cnn.Close();
+
+
+
+            string query_rubros = "SELECT descripcion,id FROM lpb.rubros";
             con.cnn.Open();
             command = new SqlCommand(query_rubros, con.cnn);
             lector = command.ExecuteReader();
+            int i = 0;
+            string rubro;
+            int id_rubro;
             while (lector.Read())
-                checklist_rubros.Items.Add(lector.GetString(0));
+            {
+                rubro = lector.GetString(0);
+                checklist_rubros.Items.Add(rubro);
+                id_rubro = lector.GetInt32(1);
+                string query_control = "SELECT 1 FROM lpb.publicacionesporrubro " +
+                             "WHERE rubro_id = " + id_rubro + " and publicacion_id=" + codigo_pub;                
+                Conexion con2 = new Conexion();
+                con2.cnn.Open();
+                SqlCommand command2 = new SqlCommand(query_control, con2.cnn);
+                SqlDataReader lector2 = command2.ExecuteReader();
+                if (lector2.Read())
+                {
+                    checklist_rubros.SetItemChecked(i, true);
+                }
+                con2.cnn.Close();
+
+                i++;
+            }
             con.cnn.Close();
-            cmb_visibilidad.SelectedIndex = 0;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -166,7 +262,12 @@ namespace visibilidad.Generar_Publicación
 
         private void radio_compra_CheckedChanged(object sender, EventArgs e)
         {
-            if (radio_compra.Checked == true) publicacion_tipo = 1;
+            if (radio_compra.Checked == true)
+            {
+                publicacion_tipo = 1;
+                text_stock.Text = "";
+
+            }
         }
 
         private void radio_borrador_CheckedChanged(object sender, EventArgs e)
@@ -211,57 +312,66 @@ namespace visibilidad.Generar_Publicación
             }
             text_precio_aux.Text = text_precio.Text;
             text_precio_aux.Text = text_precio_aux.Text.Replace('.', ',');
-            //Guardar publicacion            
-            Conexion cn = new Conexion();
-            using (SqlCommand cmd = new SqlCommand("lpb.SP_Guardar_Publicacion", cn.cnn))
+
+            if (evento == "A")
             {
-                cmd.CommandType = CommandType.StoredProcedure;
 
-                // Seteo los parametros del SP
-                cmd.Parameters.Add("@usuarioid", SqlDbType.Int);
-                cmd.Parameters.Add("@publicacion_estado", SqlDbType.Int);
-                cmd.Parameters.Add("@publicacion_tipo", SqlDbType.Int);
-                cmd.Parameters.Add("@descripcion", SqlDbType.VarChar, 255);
-                cmd.Parameters.Add("@stock", SqlDbType.Int);
-                cmd.Parameters.Add("@fecha_creacion", SqlDbType.DateTime);
-                cmd.Parameters.Add("@fecha_vencimiento", SqlDbType.DateTime);
-                cmd.Parameters.Add("@precio", SqlDbType.Decimal);
-                cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
-                cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
-                cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
-                cmd.Parameters.Add("@nuevo_codigo_publicacion", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-                // Lleno los parametros
-                cmd.Parameters["@usuarioid"].Value = id_usuario;
-                cmd.Parameters["@publicacion_estado"].Value = publicacion_estado;
-                cmd.Parameters["@publicacion_tipo"].Value = publicacion_tipo;
-                cmd.Parameters["@descripcion"].Value = text_descripcion.Text;
-                cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
-                cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
-                cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
-                cmd.Parameters["@precio"].Value = decimal.Parse(text_precio_aux.Text);
-                cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
-                cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
-                cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
-                cn.cnn.Open();
-                cmd.ExecuteNonQuery();
-
-                // Leer la devolucion del SP
-                int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);                
-                cn.cnn.Close();
-
-                foreach (object itemsCheck in checklist_rubros.CheckedItems) 
+                //Guardar publicacion            
+                Conexion cn = new Conexion();
+                using (SqlCommand cmd = new SqlCommand("lpb.SP_Guardar_Publicacion", cn.cnn))
                 {
-                    string insert_rubros = "INSERT INTO lpb.PublicacionesPorRubro (publicacion_id, rubro_id) VALUES (" + codigo_nuevo + ",(SELECT r.id FROM lpb.rubros r WHERE r.descripcion = '" + itemsCheck.ToString() + "'))";
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    // Seteo los parametros del SP
+                    cmd.Parameters.Add("@usuarioid", SqlDbType.Int);
+                    cmd.Parameters.Add("@publicacion_estado", SqlDbType.Int);
+                    cmd.Parameters.Add("@publicacion_tipo", SqlDbType.Int);
+                    cmd.Parameters.Add("@descripcion", SqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@stock", SqlDbType.Int);
+                    cmd.Parameters.Add("@fecha_creacion", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@fecha_vencimiento", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@precio", SqlDbType.Decimal);
+                    cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
+                    cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
+                    cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
+                    cmd.Parameters.Add("@nuevo_codigo_publicacion", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    // Lleno los parametros
+                    cmd.Parameters["@usuarioid"].Value = id_usuario;
+                    cmd.Parameters["@publicacion_estado"].Value = publicacion_estado;
+                    cmd.Parameters["@publicacion_tipo"].Value = publicacion_tipo;
+                    cmd.Parameters["@descripcion"].Value = text_descripcion.Text;
+                    cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
+                    cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
+                    cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
+                    cmd.Parameters["@precio"].Value = decimal.Parse(text_precio_aux.Text);
+                    cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
+                    cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
+                    cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
                     cn.cnn.Open();
-                    SqlCommand insertar_publicacionPorRubro = new SqlCommand(insert_rubros, cn.cnn);
-                    insertar_publicacionPorRubro.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+
+                    // Leer la devolucion del SP
+                    int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);
                     cn.cnn.Close();
+
+                    foreach (object itemsCheck in checklist_rubros.CheckedItems)
+                    {
+                        string insert_rubros = "INSERT INTO lpb.PublicacionesPorRubro (publicacion_id, rubro_id) VALUES (" + codigo_nuevo + ",(SELECT r.id FROM lpb.rubros r WHERE r.descripcion = '" + itemsCheck.ToString() + "'))";
+                        cn.cnn.Open();
+                        SqlCommand insertar_publicacionPorRubro = new SqlCommand(insert_rubros, cn.cnn);
+                        insertar_publicacionPorRubro.ExecuteNonQuery();
+                        cn.cnn.Close();
+                    }
+                    MessageBox.Show("Publicacion creada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    generar.Show();
+                    generar.reset_publicaciones();
+
                 }
-                MessageBox.Show("Publicacion creada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
-                generar.Show();
-                generar.reset_publicaciones();              
+            }
+            if (evento == "M")
+            {
 
             }
         }
