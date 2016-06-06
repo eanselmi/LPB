@@ -46,7 +46,7 @@ namespace visibilidad.Generar_Publicación
             {
                 radio_compra.Checked = true;
                 radio_borrador.Checked = true;
-
+                btn_guardar.Text = "Guardar";
                 date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
                 date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
                 date_fin.Value = date_fin.Value.AddDays(30);
@@ -73,7 +73,16 @@ namespace visibilidad.Generar_Publicación
             }
             if (evento == "M")
             {
+                btn_guardar.Text = "Modificar";
+                btn_limpiar.Enabled = false;
+                radio_compra.Enabled = false;
+                radio_subasta.Enabled = false;
                 llenar_formulario(codigo_publicacion);
+                if (radio_borrador.Checked == true)
+                {
+                    radio_compra.Enabled = true;
+                    radio_subasta.Enabled = true;                    
+                }                
                 if (radio_activa.Checked == true)
                 {
                     radio_borrador.Enabled = false;
@@ -81,10 +90,16 @@ namespace visibilidad.Generar_Publicación
                 if (radio_pausada.Checked == true)
                 {
                     deshabilitar_todo();
+                    radio_pausada.Enabled = true;
                     radio_finalizada.Enabled = true;
                     radio_activa.Enabled = true;
                 }
-
+                if (radio_finalizada.Checked == true)
+                {
+                    MessageBox.Show("Esta publicacion esta finalizada y no admite cambios", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    deshabilitar_todo();
+                    
+                }
             }
         }
         private void deshabilitar_todo()
