@@ -101,6 +101,7 @@ namespace visibilidad.Generar_Publicación
                     deshabilitar_todo();
                     
                 }
+                
             }
         }
         private void deshabilitar_todo()
@@ -174,7 +175,14 @@ namespace visibilidad.Generar_Publicación
             if (lector.GetBoolean(8) == true)
                 check_pregunta.Checked = true;
             else check_pregunta.Checked = false;
-            cmb_visibilidad.SelectedText = lector.GetString(9);
+                        
+            int i;
+            for (i = 0; i < cmb_visibilidad.Items.Count; i++)
+            {
+                cmb_visibilidad.SelectedIndex = i;
+                if (cmb_visibilidad.Text == lector.GetString(9))
+                    break;                    
+            }
             con.cnn.Close();
 
 
@@ -182,10 +190,10 @@ namespace visibilidad.Generar_Publicación
             string query_rubros = "SELECT descripcion,id FROM lpb.rubros";
             con.cnn.Open();
             command = new SqlCommand(query_rubros, con.cnn);
-            lector = command.ExecuteReader();
-            int i = 0;
+            lector = command.ExecuteReader();            
             string rubro;
             int id_rubro;
+            i = 0;
             while (lector.Read())
             {
                 rubro = lector.GetString(0);
@@ -420,7 +428,50 @@ namespace visibilidad.Generar_Publicación
             }
             if (evento == "M")
             {
+                //Actualizar Publicacion
+                
+                Conexion cn = new Conexion();
+                using (SqlCommand cmd = new SqlCommand("lpb.SP_Actualizar_Publicacion", cn.cnn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Seteo los parametros del SP
+                    cmd.Parameters.Add("@codigo_publicacion", SqlDbType.Int);
+                    cmd.Parameters.Add("@publicacion_estado", SqlDbType.Int);
+                    cmd.Parameters.Add("@publicacion_tipo", SqlDbType.Int);
+                    cmd.Parameters.Add("@descripcion", SqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@stock", SqlDbType.Int);
+                    cmd.Parameters.Add("@fecha_creacion", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@fecha_vencimiento", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@precio", SqlDbType.Decimal);
+                    cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
+                    cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
+                    cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
+                    
+
+                    // Lleno los parametros
+                    cmd.Parameters["@codigo_publicacion"].Value = codigo_publicacion;
+                    cmd.Parameters["@publicacion_estado"].Value = publicacion_estado;
+                    cmd.Parameters["@publicacion_tipo"].Value = publicacion_tipo;
+                    cmd.Parameters["@descripcion"].Value = text_descripcion.Text;
+                    cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
+                    cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
+                    cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
+                    cmd.Parameters["@precio"].Value = decimal.Parse(text_precio_aux.Text);
+                    cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
+                    cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
+                    cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
+                    cn.cnn.Open();
+                    cmd.ExecuteNonQuery();            
+                    cn.cnn.Close();
+
+                    
+                    MessageBox.Show("Publicacion actualizada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    generar.Show();
+                    generar.reset_publicaciones();
+
+                }
             }
         }
 
