@@ -477,6 +477,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Modificacion_Password') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Modificacion_Password
+END;
+GO
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -831,7 +837,16 @@ BEGIN
 END
 GO
 
-
+CREATE PROCEDURE LPB.SP_Modificacion_Password (@id int,@password varchar(100))
+AS
+BEGIN
+BEGIN TRANSACTION
+update LPB.Usuarios 
+set pass=@password
+where id=@id
+COMMIT TRANSACTION
+END
+GO
 
 
 
