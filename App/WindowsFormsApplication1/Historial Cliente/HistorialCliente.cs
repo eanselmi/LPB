@@ -22,7 +22,7 @@ namespace visibilidad.Historial_Cliente
             InitializeComponent();
             idUsuario = idUser;
             Conexion datosCliente = new Conexion();
-            string queryCliente = "select documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id from LPB.Clientes where Usuario_id='"+idUsuario+"'";
+            string queryCliente = "select documento_tipo,documento_numero,apellido,nombre,fechaNacimiento,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Localidad_id,id from LPB.Clientes where Usuario_id='"+idUsuario+"'";
             datosCliente.cnn.Open();
             SqlCommand comandoCliente = new SqlCommand(queryCliente, datosCliente.cnn);
             SqlDataReader lectorCliente = comandoCliente.ExecuteReader();
@@ -53,6 +53,7 @@ namespace visibilidad.Historial_Cliente
             {
                 localidad_id = lectorCliente.GetInt32(12);
             }
+            int clienteID = lectorCliente.GetInt32(13);
             datosCliente.cnn.Close();
 
             if (localidad_id != 0)
@@ -67,6 +68,31 @@ namespace visibilidad.Historial_Cliente
                 buscarLocalidad.cnn.Close();
             }
 
+            //CARGO LAS GRILLAS
+            // CARGO LA GRILLA DE COMPRAS
+
+            Conexion connCompras = new Conexion();
+            connCompras.cnn.Open();
+            DataTable dataCompras = new DataTable();
+            string queryCompras = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',cantidad as 'CANTIDAD',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID',fecha as 'FECHA' from LPB.Compras where Cliente_id='" + clienteID + "' and fecha < getdate() order by fecha desc";
+            SqlDataAdapter sqlAdapter = new SqlDataAdapter(queryCompras, connCompras.cnn);
+            SqlCommandBuilder sqlCommand = new SqlCommandBuilder(sqlAdapter);
+            sqlAdapter.Fill(dataCompras);
+            superGridCompras.SetPagedDataSource(dataCompras, bindingNavigator1);
+            connCompras.cnn.Close();
+
+            //CARGO LA GRILLA DE SUBASTAS
+            Conexion connSubastas = new Conexion();
+            connSubastas.cnn.Open();
+            DataTable dataSubastas = new DataTable();
+            string querySubastas = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',monto as 'MONTO', case ganadora when 1 then 'SI' else 'NO' END as 'GANADORA',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID', fecha as 'FECHA' from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha < GETDATE() order by fecha desc";
+            SqlDataAdapter sqlAdapterSub = new SqlDataAdapter(querySubastas, connSubastas.cnn);
+            SqlCommandBuilder sqlCommandSub = new SqlCommandBuilder(sqlAdapterSub);
+            sqlAdapterSub.Fill(dataSubastas);
+            superGridOfertas.SetPagedDataSource(dataSubastas, bindingNavigator2);
+            connSubastas.cnn.Close();
+
+
         }
 
 
@@ -78,5 +104,54 @@ namespace visibilidad.Historial_Cliente
             //this.TopMost = true;
         }
 
+
+    }
+
+    //CLASE PARA MANEJAR EL DATAGRID PAGINADO
+    public class SuperGrid : DataGridView
+    {
+        public int PageSize
+        {
+            get
+            {
+                return _pageSize;
+            }
+            set
+            {
+                _pageSize = value;
+            }
+        }
+
+        public int _pageSize = 10;
+        BindingSource bs = new BindingSource();
+        BindingList<DataTable> tables = new BindingList<DataTable>();
+
+        public void SetPagedDataSource(DataTable dataTable, BindingNavigator bnav)
+        {
+            DataTable dt = null;
+            int counter = 1;
+            foreach (DataRow dr in dataTable.Rows)
+            {
+                if (counter == 1)
+                {
+                    dt = dataTable.Clone();
+                    tables.Add(dt);
+                }
+                dt.Rows.Add(dr.ItemArray);
+                if (PageSize < ++counter)
+                {
+                    counter = 1;
+                }
+            }
+            bnav.BindingSource = bs;
+            bs.DataSource = tables;
+            bs.PositionChanged += bs_PositionChanged;
+            bs_PositionChanged(bs, EventArgs.Empty);
+        }
+
+        void bs_PositionChanged(object sender, EventArgs e)
+        {
+                this.DataSource = tables[bs.Position];
+        }
     }
 }
