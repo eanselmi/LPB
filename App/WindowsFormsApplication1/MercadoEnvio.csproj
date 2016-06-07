@@ -126,6 +126,12 @@
     <Compile Include="Facturas\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Generar Publicación\Factura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Publicación\Factura.Designer.cs">
+      <DependentUpon>Factura.cs</DependentUpon>
+    </Compile>
     <Compile Include="Generar Publicación\FormularioPublicacion.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -209,6 +215,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOfertar\BusquedaPublicacion.resx">
       <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Publicación\Factura.resx">
+      <DependentUpon>Factura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicación\FormularioPublicacion.resx">
       <DependentUpon>FormularioPublicacion.cs</DependentUpon>
