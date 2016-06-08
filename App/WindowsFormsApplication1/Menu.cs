@@ -88,6 +88,23 @@ namespace visibilidad
                 }
             }
             con.cnn.Close();
+            
+            string query_tipo_usuario;
+            query_tipo_usuario = "select TipoUsuario from lpb.usuarios where id=" + usuario_id;
+
+            con.cnn.Open();
+            command = new SqlCommand(query_tipo_usuario, con.cnn);
+            lector1 = command.ExecuteReader();
+            lector1.Read();
+            string tipo_usuario = lector1.GetString(0);
+            con.cnn.Close();
+            if (tipo_usuario == "Empresa")
+            {
+                comprarToolStripMenuItem.Visible = false;
+                ofertarToolStripMenuItem.Visible = false;
+                historialToolStripMenuItem.Visible = false;
+            }
+
 
         }
 
