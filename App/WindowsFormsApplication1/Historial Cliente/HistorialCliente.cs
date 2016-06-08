@@ -191,7 +191,10 @@ namespace visibilidad.Historial_Cliente
 
         void bs_PositionChanged(object sender, EventArgs e)
         {
+            if (bs.Position >= 0)
+            {
                 this.DataSource = tables[bs.Position];
+            }
         }
     }
 }
