@@ -327,13 +327,18 @@ namespace visibilidad.ABM_Usuario
             // 
             // dataGridViewCliente
             // 
+            this.dataGridViewCliente.AllowUserToAddRows = false;
+            this.dataGridViewCliente.AllowUserToDeleteRows = false;
             this.dataGridViewCliente.AllowUserToOrderColumns = true;
-            this.dataGridViewCliente.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
-            this.dataGridViewCliente.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllHeaders;
+            this.dataGridViewCliente.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridViewCliente.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridViewCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewCliente.Location = new System.Drawing.Point(1, 172);
+            this.dataGridViewCliente.MultiSelect = false;
             this.dataGridViewCliente.Name = "dataGridViewCliente";
             this.dataGridViewCliente.ReadOnly = true;
+            this.dataGridViewCliente.RowHeadersVisible = false;
+            this.dataGridViewCliente.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dataGridViewCliente.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCliente.Size = new System.Drawing.Size(483, 250);
             this.dataGridViewCliente.TabIndex = 9;

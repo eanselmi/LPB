@@ -122,26 +122,35 @@ namespace visibilidad.ABM_Usuario
                     SqlCommand commandBuscarCliente = new SqlCommand(queryBuscarCliente, buscarCliente.cnn);
                     SqlDataReader lectorBuscarCliente = commandBuscarCliente.ExecuteReader();
                     lectorBuscarCliente.Read();
-                    string tipoDocu = lectorBuscarCliente.GetString(0);
-                    decimal nroDocu = lectorBuscarCliente.GetDecimal(1);
-                    string apellido = lectorBuscarCliente.GetString(2);
-                    string nombre = lectorBuscarCliente.GetString(3);
-                    DateTime fechaNac = lectorBuscarCliente.GetDateTime(4);
-                    string mail = lectorBuscarCliente.GetString(5);
-                    decimal telefono=0;
+                    comboBoxTipoDoc.Text = lectorBuscarCliente.GetString(0);
+                    textBoxNumeroDoc.Text = lectorBuscarCliente.GetDecimal(1).ToString();
+                    textBoxApellido.Text = lectorBuscarCliente.GetString(2);
+                    textBoxNombre.Text = lectorBuscarCliente.GetString(3);
+                    monthCalendar1.SetDate(lectorBuscarCliente.GetDateTime(4));
+                    textBoxFechaNac.Text = monthCalendar1.SelectionStart.Date.ToShortDateString();
+                    textBoxMail.Text = lectorBuscarCliente.GetString(5);
+                    
                     if (!(lectorBuscarCliente.IsDBNull(6)))
                     {
-                        telefono = lectorBuscarCliente.GetDecimal(6);
+                        textBoxTelefono.Text = lectorBuscarCliente.GetDecimal(6).ToString();
                     }
-                    string domicilioCal = lectorBuscarCliente.GetString(7);
-                    decimal nroCalle=lectorBuscarCliente.GetDecimal(8);
-                    decimal piso = lectorBuscarCliente.GetDecimal(9);
-                    string dpto = "";
+                    
+                    textBoxCalleCl.Text = lectorBuscarCliente.GetString(7);
+                    textBoxNroCl.Text = lectorBuscarCliente.GetDecimal(8).ToString();
+
+                    if (!(lectorBuscarCliente.IsDBNull(9)))
+                    {
+                        decimal pisoCliente = lectorBuscarCliente.GetDecimal(9);
+                        if (pisoCliente == 0) textBoxPisoCl.Text="PB";
+                        else textBoxPisoCl.Text=pisoCliente.ToString();
+                    }
+
                     if(!(lectorBuscarCliente.IsDBNull(10)))
                     {
-                        dpto=lectorBuscarCliente.GetString(10);
+                        textBoxDptoCl.Text=lectorBuscarCliente.GetString(10);
                     }
-                    string codPostal=lectorBuscarCliente.GetString(11);
+
+                    textBoxCodPostCl.Text=lectorBuscarCliente.GetString(11);
                     int localidadId=0;
                     if (!(lectorBuscarCliente.IsDBNull(12)))
                     {
@@ -149,7 +158,6 @@ namespace visibilidad.ABM_Usuario
                     }
                     buscarCliente.cnn.Close();
 
-                    string descLocalidad="";
                     if (localidadId != 0)
                     {
                         Conexion buscarLocalidadCli = new Conexion();
@@ -158,34 +166,11 @@ namespace visibilidad.ABM_Usuario
                         SqlCommand commandBuscarLocalidadCli = new SqlCommand(queryBuscarLocalidadCli, buscarLocalidadCli.cnn);
                         SqlDataReader lectorLocalidadCli = commandBuscarLocalidadCli.ExecuteReader();
                         lectorLocalidadCli.Read();
-                        descLocalidad = lectorLocalidadCli.GetString(0);
+                        comboBoxLocalidades.Text = lectorLocalidadCli.GetString(0);
                         buscarLocalidadCli.cnn.Close();
                     }
 
-                    //RELLENO LOS TEXTBOX
-                    textBoxNombre.Text = nombre;
-                    textBoxApellido.Text = apellido;
-                    comboBoxTipoDoc.Text = tipoDocu;
-                    textBoxNumeroDoc.Text = nroDocu.ToString();
-                    monthCalendar1.SetDate(fechaNac);
-                    textBoxFechaNac.Text = monthCalendar1.SelectionStart.Date.ToShortDateString();
-                    textBoxMail.Text = mail;
-                    if (telefono == 0)
-                    {
-                        textBoxTelefono.Text = "";
-                    }
-                    else
-                    {
-                        textBoxTelefono.Text = telefono.ToString();
-                    }
-                    textBoxCalleCl.Text = domicilioCal;
-                    textBoxNroCl.Text = nroCalle.ToString();
-                    textBoxPisoCl.Text = piso.ToString();
-                    textBoxDptoCl.Text = dpto;
-                    textBoxCodPostCl.Text = codPostal;
-                    comboBoxLocalidades.Text = descLocalidad;
-
-
+                    
                     //Cargo los Roles
                     Conexion buscarRoles = new Conexion();
                     buscarRoles.cnn.Open();
@@ -205,10 +190,100 @@ namespace visibilidad.ABM_Usuario
                 {
                     Conexion buscarEmpresa = new Conexion();
                     buscarEmpresa.cnn.Open();
-                    string queryBuscarEmpresa = "select id,TipoEmpresa,username,pass,habilitado from LPB.Empresas where username='" + username + "'";
+                    string queryBuscarEmpresa = "select razonSocial,cuit,mail,telefono,domicilioCalle,nroCalle,piso,dpto,codPostal,Rubro_id,nombreContacto,Localidad_id from LPB.Empresas where Usuario_id='" + idUser + "'";
                     SqlCommand commandBuscarEmpresa = new SqlCommand(queryBuscarEmpresa, buscarEmpresa.cnn);
                     SqlDataReader lectorBuscarEmpresa = commandBuscarEmpresa.ExecuteReader();
                     lectorBuscarEmpresa.Read();
+                    textBoxRazonSocial.Text = lectorBuscarEmpresa.GetString(0);
+                    textBoxCUITTipo.Text = lectorBuscarEmpresa.GetString(1).Substring(0, 2);
+                    textBoxCUITNro.Text = lectorBuscarEmpresa.GetString(1).Substring(3, 8);
+                    if (lectorBuscarEmpresa.IsDBNull(9))
+                    {
+                        textBoxCUITVerif.Text = lectorBuscarEmpresa.GetString(1).Substring(12, 2);
+                    }
+                    else
+                    {
+                        textBoxCUITVerif.Text = lectorBuscarEmpresa.GetString(1).Substring(12, 1);
+                    }
+                    textBoxMailEmp.Text = lectorBuscarEmpresa.GetString(2);
+
+                    if (!(lectorBuscarEmpresa.IsDBNull(3)))
+                    {
+                        textBoxTelefonoEmp.Text = lectorBuscarEmpresa.GetDecimal(3).ToString();
+                    }
+
+                    textBoxCalleEmp.Text = lectorBuscarEmpresa.GetString(4);
+                    textboxNroEmpr.Text = lectorBuscarEmpresa.GetDecimal(5).ToString();
+                    
+                    if (!(lectorBuscarEmpresa.IsDBNull(6)))
+                    {
+                        decimal pisoEmpresa = lectorBuscarEmpresa.GetDecimal(6);
+                        if (pisoEmpresa == 0) textboxPisoEmpr.Text = "PB";
+                        else textboxPisoEmpr.Text=pisoEmpresa.ToString();
+                    }
+
+                    if(!(lectorBuscarEmpresa.IsDBNull(7)))
+                    {
+                        textboxDptoEmpr.Text =lectorBuscarEmpresa.GetString(7);
+                    }
+
+                    textboxcodpostEmpr.Text = lectorBuscarEmpresa.GetString(8);
+
+                    int rubroID = 0;
+                    if (!(lectorBuscarEmpresa.IsDBNull(9)))
+                    {
+                        rubroID = lectorBuscarEmpresa.GetInt32(9);
+                    }
+
+                    if (!(lectorBuscarEmpresa.IsDBNull(10)))
+                    {
+                        textBoxNombreContacto.Text = lectorBuscarEmpresa.GetString(10);
+                    }
+
+                    int localidadID = 0;
+                    if (!(lectorBuscarEmpresa.IsDBNull(11)))
+                    {
+                        localidadID = lectorBuscarEmpresa.GetInt32(11);
+                    }
+                    buscarEmpresa.cnn.Close();
+
+                    if (localidadID != 0)
+                    {
+                        Conexion buscarLocalidadEmp = new Conexion();
+                        string queryBuscarLocalidadEmp = "select descripcion from LPB.Localidades where id='" + localidadID + "'";
+                        buscarLocalidadEmp.cnn.Open();
+                        SqlCommand commandBuscarLocalidadEmp = new SqlCommand(queryBuscarLocalidadEmp, buscarLocalidadEmp.cnn);
+                        SqlDataReader lectorLocalidadEmp = commandBuscarLocalidadEmp.ExecuteReader();
+                        lectorLocalidadEmp.Read();
+                        comboBoxLocalidadEmpr.Text = lectorLocalidadEmp.GetString(0);
+                        buscarLocalidadEmp.cnn.Close();
+                    }
+                    if (rubroID != 0)
+                    {
+                        Conexion buscarRubroEmp = new Conexion();
+                        string queryBuscarRubroEmp = "select descripcion from LPB.RubrosEmpresa where id='" + rubroID + "'";
+                        buscarRubroEmp.cnn.Open();
+                        SqlCommand commandBuscarRubroEmp = new SqlCommand(queryBuscarRubroEmp, buscarRubroEmp.cnn);
+                        SqlDataReader lectorRubroEmp = commandBuscarRubroEmp.ExecuteReader();
+                        lectorRubroEmp.Read();
+                        comboBoxRubro.Text = lectorRubroEmp.GetString(0);
+                        buscarRubroEmp.cnn.Close();
+                    }
+
+
+                    //Cargo los Roles
+                    Conexion buscarRoles = new Conexion();
+                    buscarRoles.cnn.Open();
+                    string queryBuscarRoles = "select nombre from LPB.Roles where id in (select Rol_id from LPB.RolesPorUsuario where Usuario_id='" + idUser + "')";
+                    SqlCommand commandBuscarRoles = new SqlCommand(queryBuscarRoles, buscarRoles.cnn);
+                    SqlDataReader lectorBuscarRoles = commandBuscarRoles.ExecuteReader();
+                    while (lectorBuscarRoles.Read())
+                    {
+                        int posicionaChequear = CheckedListBoxEmp.FindStringExact(lectorBuscarRoles.GetString(0), 0);
+                        CheckedListBoxEmp.SetItemChecked(posicionaChequear, true);
+                    }
+                    buscarRoles.cnn.Close();
+                    
                 }
             }
 
@@ -268,7 +343,7 @@ namespace visibilidad.ABM_Usuario
                     || textBoxNombre.Text.Equals("") || textBoxApellido.Text.Equals("") || textBoxMail.Text.Equals("")
                     || textBoxTelefono.Text.Equals("") || textBoxCalleCl.Text.Equals("") || textBoxCodPostCl.Text.Equals("")
                     || textBoxNumeroDoc.Text.Equals("") || comboBoxTipoDoc.Text.Equals("") || textBoxNroCl.Text.Equals("")
-                    || comboBoxLocalidades.Text.Equals("") || textBoxPisoCl.Text.Equals("") || textBoxFechaNac.Text.Equals("")
+                    || comboBoxLocalidades.Text.Equals("") || textBoxFechaNac.Text.Equals("")
                     || ((textBoxViejaPass.Visible)&&(textBoxViejaPass.Text.Equals("")))
                     )
                 {
@@ -386,10 +461,10 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textBoxPisoCl.Text.Equals("")))
                 {
-                    if (!(Regex.Match(textBoxPisoCl.Text, "^\\d\\d?$").Success))
+                    if (!(Regex.Match(textBoxPisoCl.Text, "^(\\d\\d?|PB)$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico y hasta dos dígitos (o PB)\n");
                     }
                 }
 
@@ -502,6 +577,7 @@ namespace visibilidad.ABM_Usuario
                         conUser.cnn.Close();
                     }
                 }
+
                 //VALIDACION VIEJA CONTRASEÑA ( SI SE TRATA DE UNA MODIFICACION EN DONDE CAMBIA LA CONTRASEÑA )
                 if ((!(textBoxViejaPass.Text.Equals("")))&&(textBoxViejaPass.Visible))
                 {
@@ -523,14 +599,29 @@ namespace visibilidad.ABM_Usuario
                 Conexion cargaUsuario = new Conexion();
                 cargaUsuario.cnn.Open();
 
+
                 //CARGA CLIENTE
+                //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
+                string pisoACargar = textBoxPisoCl.Text;
+
+                if (textBoxPisoCl.Text.Equals("PB"))
+                {
+                    pisoACargar = "0";
+                }
+                if (textBoxPisoCl.Text.Equals(""))
+                {
+                    pisoACargar = "999";
+                }
+
                 if (modalidad.Equals("Alta"))
                 {
+                    //ALTA DE CLIENTE
+
                     bool resultadoCliente = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Cliente",
                         Helper.Help.generarListaParaProcedure("@username", "@pass", "@tipoDoc", "@numeroDoc", "@apellido", "@nombre", "@fechaNac", "@mail", "@telefono", "@calle",
                         "@nroCalle", "@piso", "@dpto", "@codPostal", "@descrpLocalidad")
                         , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.comboBoxTipoDoc.Text, this.textBoxNumeroDoc.Text, this.textBoxApellido.Text, this.textBoxNombre.Text, this.monthCalendar1.SelectionStart.Date,
-                        this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, this.textBoxPisoCl.Text,
+                        this.textBoxMail.Text, this.textBoxTelefono.Text, this.textBoxCalleCl.Text, this.textBoxNroCl.Text, pisoACargar,
                         this.textBoxDptoCl.Text, this.textBoxCodPostCl.Text, this.comboBoxLocalidades.Text);
                     // Hay que ver que pasa cuando dpto va null//
 
@@ -550,6 +641,7 @@ namespace visibilidad.ABM_Usuario
                         MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 }
+
                 //MODIFICACION CLIENTE
                 else
                 {
@@ -565,7 +657,7 @@ namespace visibilidad.ABM_Usuario
                         "@apellido","@nombre","@fechaNac","@mail","@telefono","@calle","@nroCalle","@piso","@dpto","@codPostal","@descrpLocalidad"),
                         userAModificar,passwordFinal,checkBoxHabilitado.Checked,comboBoxTipoDoc.Text,textBoxNumeroDoc.Text,textBoxApellido.Text,
                         textBoxNombre.Text,monthCalendar1.SelectionStart.Date,textBoxMail.Text,textBoxTelefono.Text,textBoxCalleCl.Text,
-                        textBoxNroCl.Text,textBoxPisoCl.Text,textBoxDptoCl.Text,textBoxCodPostCl.Text,comboBoxLocalidades.Text);
+                        textBoxNroCl.Text,pisoACargar,textBoxDptoCl.Text,textBoxCodPostCl.Text,comboBoxLocalidades.Text);
 
                     //Elimino Roles
                     bool eliminarRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Eliminacion_RolesxUsuario",
@@ -606,9 +698,8 @@ namespace visibilidad.ABM_Usuario
                 if (textBoxUser.Text.Equals("") || textBoxPass.Text.Equals("") || textBoxConfirmarPass.Text.Equals("")
                     || textBoxRazonSocial.Text.Equals("") || textBoxCUITTipo.Text.Equals("") || textBoxMailEmp.Text.Equals("")
                     || textBoxTelefonoEmp.Text.Equals("") || textBoxNombreContacto.Text.Equals("") || comboBoxRubro.Text.Equals("")
-                    || textBoxCalleEmp.Text.Equals("") || textboxNroEmpr.Text.Equals("") || textboxPisoEmpr.Text.Equals("")
-                    || textboxcodpostEmpr.Text.Equals("") || comboBoxLocalidadEmpr.Text.Equals("") || textBoxCUITNro.Text.Equals("")
-                    || textBoxCUITVerif.Text.Equals("")
+                    || textBoxCalleEmp.Text.Equals("") || textboxNroEmpr.Text.Equals("") || textboxcodpostEmpr.Text.Equals("") 
+                    || comboBoxLocalidadEmpr.Text.Equals("") || textBoxCUITNro.Text.Equals("") || textBoxCUITVerif.Text.Equals("")
                     )
                 {
                     hayError = true;
@@ -727,10 +818,10 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textboxPisoEmpr.Text.Equals("")))
                 {
-                    if (!(Regex.Match(textboxPisoEmpr.Text, "^\\d\\d?$").Success))
+                    if (!(Regex.Match(textboxPisoEmpr.Text, "^(\\d\\d?|PB)$").Success))
                     {
                         hayError = true;
-                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico (Si desea indicar planta baja, ingrese 0) y hasta dos dígitos\n");
+                        mensajeDeError = String.Concat(mensajeDeError, "\tEl piso debe ser numérico y hasta dos dígitos (o PB)\n");
                     }
                 }
 
@@ -767,8 +858,16 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textBoxCUITTipo.Text.Equals("") || textBoxCUITNro.Text.Equals("") || textBoxCUITVerif.Text.Equals("")))
                 {
+                    string queryCUIT = "";
+                    if (modalidad.Equals("Alta"))
+                    {
+                        queryCUIT = "Select * from LPB.Empresas where cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'";
+                    }
+                    else
+                    {
+                        queryCUIT = "Select emp.Usuario_id from LPB.Empresas emp where emp.cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+ "' and exists(select * from LPB.Usuarios where id=emp.Usuario_id and username<>'" + userAModificar + "')";
+                    }
                     Conexion conCUIT = new Conexion();
-                    string queryCUIT = "Select * from LPB.Empresas where cuit = '" + textBoxCUITTipo.Text + "-"+textBoxCUITNro.Text+"-"+textBoxCUITVerif.Text+"'";
                     conCUIT.cnn.Open();
                     SqlCommand commandCUIT = new SqlCommand(queryCUIT, conCUIT.cnn);
                     SqlDataReader lectorCUIT = commandCUIT.ExecuteReader();
@@ -781,21 +880,35 @@ namespace visibilidad.ABM_Usuario
                 }
 
                 //VALIDACION USERNAME ÚNICO
-
-                if (!(textBoxUser.Text.Equals("")))
+                if (modalidad.Equals("Alta"))
                 {
-                    Conexion conUser = new Conexion();
-                    string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
-                    conUser.cnn.Open();
-                    SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
-                    SqlDataReader lectorUser = commandUser.ExecuteReader();
-                    if (lectorUser.Read())
+                    if (!(textBoxUser.Text.Equals("")))
+                    {
+                        Conexion conUser = new Conexion();
+                        string queryUser = "Select * from LPB.Usuarios where username = '" + textBoxUser.Text + "'";
+                        conUser.cnn.Open();
+                        SqlCommand commandUser = new SqlCommand(queryUser, conUser.cnn);
+                        SqlDataReader lectorUser = commandUser.ExecuteReader();
+                        if (lectorUser.Read())
+                        {
+                            hayError = true;
+                            mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                        }
+                        conUser.cnn.Close();
+                    }
+                }
+
+
+                //VALIDACION VIEJA CONTRASEÑA ( SI SE TRATA DE UNA MODIFICACION EN DONDE CAMBIA LA CONTRASEÑA )
+                if ((!(textBoxViejaPass.Text.Equals(""))) && (textBoxViejaPass.Visible))
+                {
+                    if (!(passwordVieja.Equals(Helper.Help.Sha256(textBoxViejaPass.Text))))
                     {
                         hayError = true;
-                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con ese username\n");
+                        mensajeDeError = string.Concat(mensajeDeError, "\tLa password vieja no es correcta\n");
                     }
-                    conUser.cnn.Close();
                 }
+
 
                 //SI HAY ERRORES LOS MUESTRO A TODOS
                 if (hayError)
@@ -810,30 +923,87 @@ namespace visibilidad.ABM_Usuario
                 cargaUsuario.cnn.Open();
 
                 //CARGA EMPRESA
-
-                bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
-                    Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
-                    "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
-                    , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,
-                    this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,
-                    this.textboxPisoEmpr.Text,this.textboxDptoEmpr.Text,this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,
-                    this.comboBoxLocalidadEmpr.Text);
-                // Hay que ver que pasa cuando dpto va null//
-
-                //Asignacion Roles
-                foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                //SI EL PISO ES NULL CARGO 999 EN LA BASE (LUEGO EL SP CARGARÁ NULL), SI ES PB CARGO 0
+                string pisoaCargar = textboxPisoEmpr.Text;
+                if (textboxPisoEmpr.Text.Equals("PB"))
                 {
-                    bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
-                        Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
-                    if (!resultadoRoles)
-                        MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    pisoaCargar = "0";
+                }
+                if (textboxPisoEmpr.Text.Equals(""))
+                {
+                    pisoaCargar = "999";
                 }
 
-                //VERIFICACION ÉXITO POSITIVO
-                if (resultadoEmpresa)
-                    MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (modalidad.Equals("Alta"))
+                {
+                    //ALTA DE EMPRESA
+                    bool resultadoEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Alta_Empresa",
+                        Helper.Help.generarListaParaProcedure("@username", "@pass", "@razonSoc", "@cuit", "@mail", "@telefono", "@calle", "@nroCalle", "@piso", "@dpto",
+                        "@codPostal", "@rubroDesc", "@nombreContacto", "@descLocalidad")
+                        , this.textBoxUser.Text, Helper.Help.Sha256(this.textBoxPass.Text), this.textBoxRazonSocial.Text, this.textBoxCUITTipo.Text + "-" + this.textBoxCUITNro.Text + "-" + this.textBoxCUITVerif.Text,
+                        this.textBoxMailEmp.Text, this.textBoxTelefonoEmp.Text, this.textBoxCalleEmp.Text, this.textboxNroEmpr.Text,
+                        pisoaCargar, this.textboxDptoEmpr.Text, this.textboxcodpostEmpr.Text, this.comboBoxRubro.Text, this.textBoxNombreContacto.Text,
+                        this.comboBoxLocalidadEmpr.Text);
+                    // Hay que ver que pasa cuando dpto va null//
+
+                    //Asignacion Roles
+                    foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                    {
+                        bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), this.textBoxUser.Text, itemChecked.ToString());
+                        if (!resultadoRoles)
+                            MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //VERIFICACION ÉXITO POSITIVO
+                    if (resultadoEmpresa)
+                        MessageBox.Show("Alta de usuario realizada con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                //MODIFICACION EMPRESA
                 else
-                    MessageBox.Show("El Usuario no pudo ser dado de alta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                 
+                    string passwordFinal="";
+                    if(textBoxViejaPass.Visible){
+                        passwordFinal=Helper.Help.Sha256(textBoxPass.Text);
+                    }
+                    else{
+                        passwordFinal=passwordVieja;
+                    }
+                    bool modificarEmpresa = cargaUsuario.executeProcedure(cargaUsuario.getSchema()+@".SP_Modificacion_Empresa",
+                        Helper.Help.generarListaParaProcedure("@username","@pass","@habilitado","@razonSoc","@cuit","@mail","@telefono",
+                        "@calle","@nroCalle","@piso","@dpto","@codPostal","@rubroDesc","@nombreContacto","@descLocalidad"),
+                        userAModificar,passwordFinal,checkBoxHabilitado.Checked,this.textBoxRazonSocial.Text,
+                        this.textBoxCUITTipo.Text+"-"+this.textBoxCUITNro.Text+"-"+this.textBoxCUITVerif.Text,this.textBoxMailEmp.Text,
+                        this.textBoxTelefonoEmp.Text,this.textBoxCalleEmp.Text,this.textboxNroEmpr.Text,pisoaCargar,this.textboxDptoEmpr.Text,
+                        this.textboxcodpostEmpr.Text,this.comboBoxRubro.Text,this.textBoxNombreContacto.Text,this.comboBoxLocalidadEmpr.Text);
+
+                    //Elimino Roles
+                    bool eliminarRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Eliminacion_RolesxUsuario",
+                        Helper.Help.generarListaParaProcedure("@username"), userAModificar);
+                    if (!eliminarRoles)
+                    {
+                        MessageBox.Show("Problema al reasignar roles, consultar ayuda", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //Asignacion Roles
+                    foreach (object itemChecked in CheckedListBoxEmp.CheckedItems)
+                    {
+                        bool resultadoRoles = cargaUsuario.executeProcedure(cargaUsuario.getSchema() + @".SP_Asignacion_Rol_Usuario",
+                            Helper.Help.generarListaParaProcedure("@username", "@nombreRol"), userAModificar, itemChecked.ToString());
+                        if (!resultadoRoles)
+                            MessageBox.Show("Problema en la asignacion de roles al usuario, modificar luego", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    //VERIFICACION ÉXITO POSITIVO
+                    if (modificarEmpresa)
+                        MessageBox.Show("Usuario modificado con éxito", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("El Usuario no pudo ser modificado", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
 
                 cargaUsuario.cnn.Close();
                 this.Close();

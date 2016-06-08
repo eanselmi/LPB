@@ -407,7 +407,7 @@
             this.labelPiso.Name = "labelPiso";
             this.labelPiso.Size = new System.Drawing.Size(37, 13);
             this.labelPiso.TabIndex = 9;
-            this.labelPiso.Text = "*Piso: ";
+            this.labelPiso.Text = "Piso: ";
             // 
             // labelNroCalle
             // 
@@ -714,7 +714,7 @@
             this.labelPisoEmpr.Name = "labelPisoEmpr";
             this.labelPisoEmpr.Size = new System.Drawing.Size(37, 13);
             this.labelPisoEmpr.TabIndex = 48;
-            this.labelPisoEmpr.Text = "*Piso: ";
+            this.labelPisoEmpr.Text = "Piso: ";
             // 
             // labelNroEmpr
             // 

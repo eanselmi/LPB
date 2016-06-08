@@ -198,5 +198,17 @@ namespace visibilidad
             abmUsuariosMod.Show();
         }
 
+        private void cambiarPasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Modificar_pass modificarPass = new Modificar_pass(id_usuario);
+            modificarPass.Show();
+        }
+
+        private void historialToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Historial_Cliente.HistorialCliente historialCli = new Historial_Cliente.HistorialCliente(id_usuario);
+            historialCli.Show();
+        }
+
     }
 }

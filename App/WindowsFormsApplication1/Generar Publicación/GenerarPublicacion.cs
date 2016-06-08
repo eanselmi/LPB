@@ -62,9 +62,60 @@ namespace visibilidad.Generar_Publicación
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario);
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario,"A");
             formularioPublicacion.Show();
             this.Hide();
+        }
+        public void reset_publicaciones()
+        {
+            this.datagrid_listado.DataSource = null;
+            this.datagrid_listado.Rows.Clear();
+            Conexion con = new Conexion();                        
+            string query_publicaciones = "SELECT p.codigo as Codigo, e.descripcion as Estado, t.descripcion as Tipo, p.descripcion as Descripcion " +
+                    "FROM lpb.Publicaciones p, lpb.EstadosDePublicacion e, lpb.TiposDePublicacion t " +
+                    "where p.EstadoDePublicacion_id=e.id and p.TipoDePublicacion_id=t.id and p.Usuario_id= " + id_usuario;
+            con.cnn.Open();
+            DataTable dtDatos = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(query_publicaciones, con.cnn);
+            da.Fill(dtDatos);
+            datagrid_listado.DataSource = dtDatos;
+            con.cnn.Close();
+            datagrid_listado.ReadOnly = true;
+            datagrid_listado.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        private void btn_modificar_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            int ind = datagrid_listado.CurrentCell.RowIndex;
+            string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+            
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "M");
+            formularioPublicacion.Show();
+            
+        }
+
+        private void datagrid_listado_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+
+        }
+
+        private void datagrid_listado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int ind = e.RowIndex;
+            string verificar_id = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+            if (verificar_id == "")
+            {
+                MessageBox.Show("Por favor seleccione una fila que contenga datos", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+            this.Hide();
+
+            string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "V");
+            formularioPublicacion.Show();
         }
     }
 }
