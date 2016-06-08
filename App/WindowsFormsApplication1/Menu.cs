@@ -26,12 +26,9 @@ namespace visibilidad
         }
 
         private void Menu_Load(object sender, EventArgs e)
-        {
-            //this.MaximizeBox = false;
+        {            
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            //this.TopMost = true;
-
         }
 
         public void cargarRoles(int usuario_id, string rol, Login form)
@@ -39,6 +36,10 @@ namespace visibilidad
             log = form;
             id_usuario = usuario_id;
             aBMToolStripMenuItem.Visible = false;
+            rolToolStripMenuItem.Visible = false;                    
+            usuariosToolStripMenuItem.Visible = false;
+            visibilidadToolStripMenuItem.Visible = false;
+            
             generarPublicacionToolStripMenuItem.Visible = false;
             comprarToolStripMenuItem.Visible = false;
             ofertarToolStripMenuItem.Visible = false;
@@ -55,11 +56,21 @@ namespace visibilidad
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector1 = command.ExecuteReader();
+            aBMToolStripMenuItem.Visible = true;
+            int i = 0;
             while (lector1.Read())
             {
-                if (lector1.GetString(0) == "abmRol" || lector1.GetString(0) == "abmUsuario" || lector1.GetString(0) == "abmRubro" || lector1.GetString(0) == "abmVisibilidad")
+                if (lector1.GetString(0) == "abmRol")
                 {
-                    aBMToolStripMenuItem.Visible = true;
+                    rolToolStripMenuItem.Visible = true; i++;                    
+                }
+                else if (lector1.GetString(0) == "abmUsuario")
+                {
+                    usuariosToolStripMenuItem.Visible = true; i++;
+                }
+                else if (lector1.GetString(0) == "abmVisibilidad")
+                {
+                    visibilidadToolStripMenuItem.Visible = true; i++;
                 }
                 else if (lector1.GetString(0) == "generarPublicacion")
                 {
@@ -87,8 +98,7 @@ namespace visibilidad
                     listadoEstadisticoToolStripMenuItem.Visible = true;
                 }
             }
-            con.cnn.Close();
-            
+            con.cnn.Close();    
             string query_tipo_usuario;
             query_tipo_usuario = "select TipoUsuario from lpb.usuarios where id=" + usuario_id;
 
@@ -104,6 +114,9 @@ namespace visibilidad
                 ofertarToolStripMenuItem.Visible = false;
                 historialToolStripMenuItem.Visible = false;
             }
+
+            if (i==0) aBMToolStripMenuItem.Visible = false;
+            
 
 
         }
@@ -225,6 +238,31 @@ namespace visibilidad
         {
             Historial_Cliente.HistorialCliente historialCli = new Historial_Cliente.HistorialCliente(id_usuario);
             historialCli.Show();
+        }
+
+        private void rolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void usuariosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void visibilidadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void aBMToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            visibilidadToolStripMenuItem.Visible = false;
         }
 
     }
