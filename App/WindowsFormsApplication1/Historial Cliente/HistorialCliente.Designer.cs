@@ -79,8 +79,33 @@
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.superGridCompras = new visibilidad.Historial_Cliente.SuperGrid();
             this.superGridOfertas = new visibilidad.Historial_Cliente.SuperGrid();
+            this.superGridCompras = new visibilidad.Historial_Cliente.SuperGrid();
+            this.labelHistorialCompras = new System.Windows.Forms.Label();
+            this.labelHistorialOfertas = new System.Windows.Forms.Label();
+            this.buttonSalir = new System.Windows.Forms.Button();
+            this.groupBoxEstadisticas = new System.Windows.Forms.GroupBox();
+            this.labelDatosOfertasGanadas = new System.Windows.Forms.Label();
+            this.labelDatosOfertasHechas = new System.Windows.Forms.Label();
+            this.labelDatosComprasHechas = new System.Windows.Forms.Label();
+            this.labelDatosOpConCalif = new System.Windows.Forms.Label();
+            this.labelDatosOpSinCalif = new System.Windows.Forms.Label();
+            this.labelOfertasGanadas = new System.Windows.Forms.Label();
+            this.labelOfertasHechas = new System.Windows.Forms.Label();
+            this.labelComprasHechas = new System.Windows.Forms.Label();
+            this.labelOperacionesCalificadas = new System.Windows.Forms.Label();
+            this.groupBoxEstrellas = new System.Windows.Forms.GroupBox();
+            this.labelDatos5Estrellas = new System.Windows.Forms.Label();
+            this.labelDatos4Estrellas = new System.Windows.Forms.Label();
+            this.labelDatos3Estrellas = new System.Windows.Forms.Label();
+            this.labelDatos2Estrellas = new System.Windows.Forms.Label();
+            this.labelDatos1Estrella = new System.Windows.Forms.Label();
+            this.label5Estrella = new System.Windows.Forms.Label();
+            this.label4Estrella = new System.Windows.Forms.Label();
+            this.label3Estrella = new System.Windows.Forms.Label();
+            this.label2Estrella = new System.Windows.Forms.Label();
+            this.label1Estrella = new System.Windows.Forms.Label();
+            this.labelOperacionesSinCalif = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -88,8 +113,10 @@
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator2)).BeginInit();
             this.bindingNavigator2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.superGridCompras)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.superGridOfertas)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.superGridCompras)).BeginInit();
+            this.groupBoxEstadisticas.SuspendLayout();
+            this.groupBoxEstrellas.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -385,7 +412,7 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2});
-            this.bindingNavigator1.Location = new System.Drawing.Point(123, 535);
+            this.bindingNavigator1.Location = new System.Drawing.Point(123, 551);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.bindingNavigator1.MoveNextItem = this.bindingNavigatorMoveNextItem;
@@ -480,7 +507,7 @@
             this.toolStripButton5,
             this.toolStripButton6,
             this.toolStripSeparator3});
-            this.bindingNavigator2.Location = new System.Drawing.Point(639, 535);
+            this.bindingNavigator2.Location = new System.Drawing.Point(639, 551);
             this.bindingNavigator2.MoveFirstItem = this.toolStripButton3;
             this.bindingNavigator2.MoveLastItem = this.toolStripButton6;
             this.bindingNavigator2.MoveNextItem = this.toolStripButton5;
@@ -558,20 +585,6 @@
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
-            // superGridCompras
-            // 
-            this.superGridCompras.AllowUserToAddRows = false;
-            this.superGridCompras.AllowUserToDeleteRows = false;
-            this.superGridCompras.AllowUserToOrderColumns = true;
-            this.superGridCompras.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.superGridCompras.Location = new System.Drawing.Point(9, 227);
-            this.superGridCompras.Name = "superGridCompras";
-            this.superGridCompras.PageSize = 10;
-            this.superGridCompras.ReadOnly = true;
-            this.superGridCompras.Size = new System.Drawing.Size(482, 305);
-            this.superGridCompras.TabIndex = 9;
-            this.superGridCompras.PageSize = 20;
-            // 
             // superGridOfertas
             // 
             this.superGridOfertas.AllowUserToAddRows = false;
@@ -580,17 +593,286 @@
             this.superGridOfertas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.superGridOfertas.Location = new System.Drawing.Point(516, 227);
             this.superGridOfertas.Name = "superGridOfertas";
-            this.superGridOfertas.PageSize = 10;
+            this.superGridOfertas.PageSize = 20;
             this.superGridOfertas.ReadOnly = true;
+            this.superGridOfertas.RowHeadersVisible = false;
+            this.superGridOfertas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.superGridOfertas.Size = new System.Drawing.Size(482, 305);
             this.superGridOfertas.TabIndex = 10;
-            this.superGridOfertas.PageSize = 20;
+            // 
+            // superGridCompras
+            // 
+            this.superGridCompras.AllowUserToAddRows = false;
+            this.superGridCompras.AllowUserToDeleteRows = false;
+            this.superGridCompras.AllowUserToOrderColumns = true;
+            this.superGridCompras.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.superGridCompras.Location = new System.Drawing.Point(9, 227);
+            this.superGridCompras.Name = "superGridCompras";
+            this.superGridCompras.PageSize = 20;
+            this.superGridCompras.ReadOnly = true;
+            this.superGridCompras.RowHeadersVisible = false;
+            this.superGridCompras.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.superGridCompras.Size = new System.Drawing.Size(482, 305);
+            this.superGridCompras.TabIndex = 9;
+            // 
+            // labelHistorialCompras
+            // 
+            this.labelHistorialCompras.AutoSize = true;
+            this.labelHistorialCompras.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHistorialCompras.Location = new System.Drawing.Point(180, 208);
+            this.labelHistorialCompras.Name = "labelHistorialCompras";
+            this.labelHistorialCompras.Size = new System.Drawing.Size(122, 13);
+            this.labelHistorialCompras.TabIndex = 11;
+            this.labelHistorialCompras.Text = "Historial de compras";
+            // 
+            // labelHistorialOfertas
+            // 
+            this.labelHistorialOfertas.AutoSize = true;
+            this.labelHistorialOfertas.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHistorialOfertas.Location = new System.Drawing.Point(705, 208);
+            this.labelHistorialOfertas.Name = "labelHistorialOfertas";
+            this.labelHistorialOfertas.Size = new System.Drawing.Size(114, 13);
+            this.labelHistorialOfertas.TabIndex = 12;
+            this.labelHistorialOfertas.Text = "Historial de ofertas";
+            // 
+            // buttonSalir
+            // 
+            this.buttonSalir.Location = new System.Drawing.Point(432, 551);
+            this.buttonSalir.Name = "buttonSalir";
+            this.buttonSalir.Size = new System.Drawing.Size(141, 23);
+            this.buttonSalir.TabIndex = 13;
+            this.buttonSalir.Text = "Salir";
+            this.buttonSalir.UseVisualStyleBackColor = true;
+            this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
+            // 
+            // groupBoxEstadisticas
+            // 
+            this.groupBoxEstadisticas.Controls.Add(this.labelDatosOfertasGanadas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelDatosOfertasHechas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelDatosComprasHechas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelDatosOpConCalif);
+            this.groupBoxEstadisticas.Controls.Add(this.labelDatosOpSinCalif);
+            this.groupBoxEstadisticas.Controls.Add(this.labelOfertasGanadas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelOfertasHechas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelComprasHechas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelOperacionesCalificadas);
+            this.groupBoxEstadisticas.Controls.Add(this.groupBoxEstrellas);
+            this.groupBoxEstadisticas.Controls.Add(this.labelOperacionesSinCalif);
+            this.groupBoxEstadisticas.Location = new System.Drawing.Point(551, 15);
+            this.groupBoxEstadisticas.Name = "groupBoxEstadisticas";
+            this.groupBoxEstadisticas.Size = new System.Drawing.Size(447, 181);
+            this.groupBoxEstadisticas.TabIndex = 14;
+            this.groupBoxEstadisticas.TabStop = false;
+            this.groupBoxEstadisticas.Text = "Estadísticas";
+            // 
+            // labelDatosOfertasGanadas
+            // 
+            this.labelDatosOfertasGanadas.AutoSize = true;
+            this.labelDatosOfertasGanadas.Location = new System.Drawing.Point(338, 134);
+            this.labelDatosOfertasGanadas.Name = "labelDatosOfertasGanadas";
+            this.labelDatosOfertasGanadas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOfertasGanadas.TabIndex = 23;
+            this.labelDatosOfertasGanadas.Text = "";
+            // 
+            // labelDatosOfertasHechas
+            // 
+            this.labelDatosOfertasHechas.AutoSize = true;
+            this.labelDatosOfertasHechas.Location = new System.Drawing.Point(338, 114);
+            this.labelDatosOfertasHechas.Name = "labelDatosOfertasHechas";
+            this.labelDatosOfertasHechas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOfertasHechas.TabIndex = 22;
+            this.labelDatosOfertasHechas.Text = "";
+            // 
+            // labelDatosComprasHechas
+            // 
+            this.labelDatosComprasHechas.AutoSize = true;
+            this.labelDatosComprasHechas.Location = new System.Drawing.Point(338, 92);
+            this.labelDatosComprasHechas.Name = "labelDatosComprasHechas";
+            this.labelDatosComprasHechas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosComprasHechas.TabIndex = 21;
+            this.labelDatosComprasHechas.Text = "";
+            // 
+            // labelDatosOpConCalif
+            // 
+            this.labelDatosOpConCalif.AutoSize = true;
+            this.labelDatosOpConCalif.Location = new System.Drawing.Point(361, 50);
+            this.labelDatosOpConCalif.Name = "labelDatosOpConCalif";
+            this.labelDatosOpConCalif.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOpConCalif.TabIndex = 20;
+            this.labelDatosOpConCalif.Text = "";
+            // 
+            // labelDatosOpSinCalif
+            // 
+            this.labelDatosOpSinCalif.AutoSize = true;
+            this.labelDatosOpSinCalif.Location = new System.Drawing.Point(361, 27);
+            this.labelDatosOpSinCalif.Name = "labelDatosOpSinCalif";
+            this.labelDatosOpSinCalif.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOpSinCalif.TabIndex = 10;
+            this.labelDatosOpSinCalif.Text = "";
+            // 
+            // labelOfertasGanadas
+            // 
+            this.labelOfertasGanadas.AutoSize = true;
+            this.labelOfertasGanadas.Location = new System.Drawing.Point(238, 134);
+            this.labelOfertasGanadas.Name = "labelOfertasGanadas";
+            this.labelOfertasGanadas.Size = new System.Drawing.Size(91, 13);
+            this.labelOfertasGanadas.TabIndex = 19;
+            this.labelOfertasGanadas.Text = "Ofertas ganadas: ";
+            // 
+            // labelOfertasHechas
+            // 
+            this.labelOfertasHechas.AutoSize = true;
+            this.labelOfertasHechas.Location = new System.Drawing.Point(238, 114);
+            this.labelOfertasHechas.Name = "labelOfertasHechas";
+            this.labelOfertasHechas.Size = new System.Drawing.Size(97, 13);
+            this.labelOfertasHechas.TabIndex = 18;
+            this.labelOfertasHechas.Text = "Ofertas realizadas: ";
+            // 
+            // labelComprasHechas
+            // 
+            this.labelComprasHechas.AutoSize = true;
+            this.labelComprasHechas.Location = new System.Drawing.Point(238, 92);
+            this.labelComprasHechas.Name = "labelComprasHechas";
+            this.labelComprasHechas.Size = new System.Drawing.Size(104, 13);
+            this.labelComprasHechas.TabIndex = 17;
+            this.labelComprasHechas.Text = "Compras realizadas: ";
+            // 
+            // labelOperacionesCalificadas
+            // 
+            this.labelOperacionesCalificadas.AutoSize = true;
+            this.labelOperacionesCalificadas.Location = new System.Drawing.Point(238, 50);
+            this.labelOperacionesCalificadas.Name = "labelOperacionesCalificadas";
+            this.labelOperacionesCalificadas.Size = new System.Drawing.Size(126, 13);
+            this.labelOperacionesCalificadas.TabIndex = 16;
+            this.labelOperacionesCalificadas.Text = "Operaciones calificadas: ";
+            // 
+            // groupBoxEstrellas
+            // 
+            this.groupBoxEstrellas.Controls.Add(this.labelDatos5Estrellas);
+            this.groupBoxEstrellas.Controls.Add(this.labelDatos4Estrellas);
+            this.groupBoxEstrellas.Controls.Add(this.labelDatos3Estrellas);
+            this.groupBoxEstrellas.Controls.Add(this.labelDatos2Estrellas);
+            this.groupBoxEstrellas.Controls.Add(this.labelDatos1Estrella);
+            this.groupBoxEstrellas.Controls.Add(this.label5Estrella);
+            this.groupBoxEstrellas.Controls.Add(this.label4Estrella);
+            this.groupBoxEstrellas.Controls.Add(this.label3Estrella);
+            this.groupBoxEstrellas.Controls.Add(this.label2Estrella);
+            this.groupBoxEstrellas.Controls.Add(this.label1Estrella);
+            this.groupBoxEstrellas.Location = new System.Drawing.Point(26, 27);
+            this.groupBoxEstrellas.Name = "groupBoxEstrellas";
+            this.groupBoxEstrellas.Size = new System.Drawing.Size(171, 134);
+            this.groupBoxEstrellas.TabIndex = 15;
+            this.groupBoxEstrellas.TabStop = false;
+            this.groupBoxEstrellas.Text = "Estrellas dadas";
+            // 
+            // labelDatos5Estrellas
+            // 
+            this.labelDatos5Estrellas.AutoSize = true;
+            this.labelDatos5Estrellas.Location = new System.Drawing.Point(87, 107);
+            this.labelDatos5Estrellas.Name = "labelDatos5Estrellas";
+            this.labelDatos5Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos5Estrellas.TabIndex = 9;
+            this.labelDatos5Estrellas.Text = "";
+            // 
+            // labelDatos4Estrellas
+            // 
+            this.labelDatos4Estrellas.AutoSize = true;
+            this.labelDatos4Estrellas.Location = new System.Drawing.Point(87, 87);
+            this.labelDatos4Estrellas.Name = "labelDatos4Estrellas";
+            this.labelDatos4Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos4Estrellas.TabIndex = 8;
+            this.labelDatos4Estrellas.Text = "";
+            // 
+            // labelDatos3Estrellas
+            // 
+            this.labelDatos3Estrellas.AutoSize = true;
+            this.labelDatos3Estrellas.Location = new System.Drawing.Point(87, 65);
+            this.labelDatos3Estrellas.Name = "labelDatos3Estrellas";
+            this.labelDatos3Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos3Estrellas.TabIndex = 7;
+            this.labelDatos3Estrellas.Text = "";
+            // 
+            // labelDatos2Estrellas
+            // 
+            this.labelDatos2Estrellas.AutoSize = true;
+            this.labelDatos2Estrellas.Location = new System.Drawing.Point(87, 43);
+            this.labelDatos2Estrellas.Name = "labelDatos2Estrellas";
+            this.labelDatos2Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos2Estrellas.TabIndex = 6;
+            this.labelDatos2Estrellas.Text = "";
+            // 
+            // labelDatos1Estrella
+            // 
+            this.labelDatos1Estrella.AutoSize = true;
+            this.labelDatos1Estrella.Location = new System.Drawing.Point(87, 23);
+            this.labelDatos1Estrella.Name = "labelDatos1Estrella";
+            this.labelDatos1Estrella.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos1Estrella.TabIndex = 5;
+            this.labelDatos1Estrella.Text = "";
+            // 
+            // label5Estrella
+            // 
+            this.label5Estrella.AutoSize = true;
+            this.label5Estrella.Location = new System.Drawing.Point(25, 107);
+            this.label5Estrella.Name = "label5Estrella";
+            this.label5Estrella.Size = new System.Drawing.Size(61, 13);
+            this.label5Estrella.TabIndex = 4;
+            this.label5Estrella.Text = "5 Estrellas: ";
+            // 
+            // label4Estrella
+            // 
+            this.label4Estrella.AutoSize = true;
+            this.label4Estrella.Location = new System.Drawing.Point(25, 87);
+            this.label4Estrella.Name = "label4Estrella";
+            this.label4Estrella.Size = new System.Drawing.Size(61, 13);
+            this.label4Estrella.TabIndex = 3;
+            this.label4Estrella.Text = "4 Estrellas: ";
+            // 
+            // label3Estrella
+            // 
+            this.label3Estrella.AutoSize = true;
+            this.label3Estrella.Location = new System.Drawing.Point(25, 65);
+            this.label3Estrella.Name = "label3Estrella";
+            this.label3Estrella.Size = new System.Drawing.Size(61, 13);
+            this.label3Estrella.TabIndex = 2;
+            this.label3Estrella.Text = "3 Estrellas: ";
+            // 
+            // label2Estrella
+            // 
+            this.label2Estrella.AutoSize = true;
+            this.label2Estrella.Location = new System.Drawing.Point(25, 43);
+            this.label2Estrella.Name = "label2Estrella";
+            this.label2Estrella.Size = new System.Drawing.Size(61, 13);
+            this.label2Estrella.TabIndex = 1;
+            this.label2Estrella.Text = "2 Estrellas: ";
+            // 
+            // label1Estrella
+            // 
+            this.label1Estrella.AutoSize = true;
+            this.label1Estrella.Location = new System.Drawing.Point(25, 23);
+            this.label1Estrella.Name = "label1Estrella";
+            this.label1Estrella.Size = new System.Drawing.Size(56, 13);
+            this.label1Estrella.TabIndex = 0;
+            this.label1Estrella.Text = "1 Estrella: ";
+            // 
+            // labelOperacionesSinCalif
+            // 
+            this.labelOperacionesSinCalif.AutoSize = true;
+            this.labelOperacionesSinCalif.Location = new System.Drawing.Point(238, 27);
+            this.labelOperacionesSinCalif.Name = "labelOperacionesSinCalif";
+            this.labelOperacionesSinCalif.Size = new System.Drawing.Size(128, 13);
+            this.labelOperacionesSinCalif.TabIndex = 0;
+            this.labelOperacionesSinCalif.Text = "Operaciones sin calificar: ";
             // 
             // HistorialCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1010, 569);
+            this.ClientSize = new System.Drawing.Size(1010, 585);
+            this.Controls.Add(this.groupBoxEstadisticas);
+            this.Controls.Add(this.buttonSalir);
+            this.Controls.Add(this.labelHistorialOfertas);
+            this.Controls.Add(this.labelHistorialCompras);
             this.Controls.Add(this.superGridOfertas);
             this.Controls.Add(this.superGridCompras);
             this.Controls.Add(this.bindingNavigator2);
@@ -611,8 +893,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator2)).EndInit();
             this.bindingNavigator2.ResumeLayout(false);
             this.bindingNavigator2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.superGridCompras)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.superGridOfertas)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.superGridCompras)).EndInit();
+            this.groupBoxEstadisticas.ResumeLayout(false);
+            this.groupBoxEstadisticas.PerformLayout();
+            this.groupBoxEstrellas.ResumeLayout(false);
+            this.groupBoxEstrellas.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -671,5 +957,30 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private SuperGrid superGridCompras;
         private SuperGrid superGridOfertas;
+        private System.Windows.Forms.Label labelHistorialCompras;
+        private System.Windows.Forms.Label labelHistorialOfertas;
+        private System.Windows.Forms.Button buttonSalir;
+        private System.Windows.Forms.GroupBox groupBoxEstadisticas;
+        private System.Windows.Forms.GroupBox groupBoxEstrellas;
+        private System.Windows.Forms.Label label5Estrella;
+        private System.Windows.Forms.Label label4Estrella;
+        private System.Windows.Forms.Label label3Estrella;
+        private System.Windows.Forms.Label label2Estrella;
+        private System.Windows.Forms.Label label1Estrella;
+        private System.Windows.Forms.Label labelOperacionesSinCalif;
+        private System.Windows.Forms.Label labelOperacionesCalificadas;
+        private System.Windows.Forms.Label labelOfertasGanadas;
+        private System.Windows.Forms.Label labelOfertasHechas;
+        private System.Windows.Forms.Label labelComprasHechas;
+        private System.Windows.Forms.Label labelDatosOfertasGanadas;
+        private System.Windows.Forms.Label labelDatosOfertasHechas;
+        private System.Windows.Forms.Label labelDatosComprasHechas;
+        private System.Windows.Forms.Label labelDatosOpConCalif;
+        private System.Windows.Forms.Label labelDatosOpSinCalif;
+        private System.Windows.Forms.Label labelDatos5Estrellas;
+        private System.Windows.Forms.Label labelDatos4Estrellas;
+        private System.Windows.Forms.Label labelDatos3Estrellas;
+        private System.Windows.Forms.Label labelDatos2Estrellas;
+        private System.Windows.Forms.Label labelDatos1Estrella;
     }
 }
