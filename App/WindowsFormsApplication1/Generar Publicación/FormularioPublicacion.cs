@@ -433,6 +433,36 @@ namespace visibilidad.Generar_Publicación
                     generar.Show();
                     generar.reset_publicaciones();
 
+                    if (radio_activa.Checked == true)
+                    {
+                        Generar_Publicación.Factura factura = new Generar_Publicación.Factura();
+                        string query_tipo_usuario;
+                        query_tipo_usuario = "select TipoUsuario from lpb.usuarios where id=" + id_usuario;
+                        Conexion con = new Conexion();
+                        con.cnn.Open();
+                        SqlCommand command = new SqlCommand(query_tipo_usuario, con.cnn);
+                        SqlDataReader lector1 = command.ExecuteReader();
+                        lector1.Read();
+                        string tipo_usuario = lector1.GetString(0);
+                        con.cnn.Close();
+                        MessageBox.Show(tipo_usuario);
+                        if (tipo_usuario == "Empresa")
+                        {
+                            factura.lbl_cliente.Text = id_usuario.ToString();
+                            factura.lbl_nombre_titulo.Text = "";
+                            factura.lbl_nombre_titulo.Text = "Razon Social: ";
+                            factura.lbl_nombre.Text = "";
+                            factura.lbl_apellido_titulo.Visible = false;
+                            factura.lbl_apellido.Visible = false;
+                            factura.lbl_documento_titulo.Text = "CUIT: ";
+                        }
+                        else
+                        {
+                        
+                        }
+                        factura.Show();
+                    }
+
                 }
             }
             if (evento == "M")

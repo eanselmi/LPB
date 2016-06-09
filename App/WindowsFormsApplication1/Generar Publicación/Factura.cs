@@ -19,12 +19,19 @@ namespace visibilidad.Generar_Publicación
 
         private void Factura_Load(object sender, EventArgs e)
         {
-
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.TopMost = true;
         }
 
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
