@@ -43,5 +43,12 @@ namespace visibilidad.Calificar
             Calificar.Informe informe = new Calificar.Informe(idUsuario);
             informe.Show();
         }
+
+        private void buttonIniciarCalificar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Calificar.ComprasOfertasSinCalificar COSinCalificar = new Calificar.ComprasOfertasSinCalificar(idUsuario);
+            COSinCalificar.Show();
+        }
     }
 }

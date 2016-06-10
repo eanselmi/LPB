@@ -45,6 +45,7 @@
             this.buttonIniciarCalificar.TabIndex = 0;
             this.buttonIniciarCalificar.Text = "Iniciar Calificacion";
             this.buttonIniciarCalificar.UseVisualStyleBackColor = true;
+            this.buttonIniciarCalificar.Click += new System.EventHandler(this.buttonIniciarCalificar_Click);
             // 
             // buttonHistorial
             // 

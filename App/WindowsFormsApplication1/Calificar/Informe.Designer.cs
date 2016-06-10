@@ -106,7 +106,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Informe";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.Informe_Load);
             this.groupBoxInforme.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInformes)).EndInit();
             this.ResumeLayout(false);

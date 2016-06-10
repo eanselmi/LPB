@@ -29,116 +29,109 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ComprasOfertasSinCalificar));
-            this.tabControlCO = new System.Windows.Forms.TabControl();
-            this.tabPageCompras = new System.Windows.Forms.TabPage();
-            this.tabPageOfertas = new System.Windows.Forms.TabPage();
             this.buttonVolver = new System.Windows.Forms.Button();
             this.buttonCalificar = new System.Windows.Forms.Button();
-            this.dataGridViewOfertas = new System.Windows.Forms.DataGridView();
-            this.dataGridViewCompras = new System.Windows.Forms.DataGridView();
-            this.tabControlCO.SuspendLayout();
-            this.tabPageCompras.SuspendLayout();
-            this.tabPageOfertas.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfertas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCompras)).BeginInit();
+            this.buttonComprar = new System.Windows.Forms.Button();
+            this.buttonOfertas = new System.Windows.Forms.Button();
+            this.groupBoxCalificar = new System.Windows.Forms.GroupBox();
+            this.dataGridViewCalificar = new System.Windows.Forms.DataGridView();
+            this.groupBoxCalificar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalificar)).BeginInit();
             this.SuspendLayout();
-            // 
-            // tabControlCO
-            // 
-            this.tabControlCO.Controls.Add(this.tabPageCompras);
-            this.tabControlCO.Controls.Add(this.tabPageOfertas);
-            this.tabControlCO.Location = new System.Drawing.Point(0, 0);
-            this.tabControlCO.Name = "tabControlCO";
-            this.tabControlCO.SelectedIndex = 0;
-            this.tabControlCO.Size = new System.Drawing.Size(388, 281);
-            this.tabControlCO.TabIndex = 0;
-            // 
-            // tabPageCompras
-            // 
-            this.tabPageCompras.Controls.Add(this.dataGridViewCompras);
-            this.tabPageCompras.Location = new System.Drawing.Point(4, 22);
-            this.tabPageCompras.Name = "tabPageCompras";
-            this.tabPageCompras.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageCompras.Size = new System.Drawing.Size(380, 255);
-            this.tabPageCompras.TabIndex = 0;
-            this.tabPageCompras.Text = "Compras";
-            this.tabPageCompras.UseVisualStyleBackColor = true;
-            // 
-            // tabPageOfertas
-            // 
-            this.tabPageOfertas.Controls.Add(this.dataGridViewOfertas);
-            this.tabPageOfertas.Location = new System.Drawing.Point(4, 22);
-            this.tabPageOfertas.Name = "tabPageOfertas";
-            this.tabPageOfertas.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOfertas.Size = new System.Drawing.Size(380, 255);
-            this.tabPageOfertas.TabIndex = 1;
-            this.tabPageOfertas.Text = "Ofertas";
-            this.tabPageOfertas.UseVisualStyleBackColor = true;
             // 
             // buttonVolver
             // 
-            this.buttonVolver.Location = new System.Drawing.Point(4, 287);
+            this.buttonVolver.Location = new System.Drawing.Point(12, 294);
             this.buttonVolver.Name = "buttonVolver";
             this.buttonVolver.Size = new System.Drawing.Size(75, 23);
             this.buttonVolver.TabIndex = 1;
             this.buttonVolver.Text = "Volver";
             this.buttonVolver.UseVisualStyleBackColor = true;
+            this.buttonVolver.Click += new System.EventHandler(this.buttonVolver_Click);
             // 
             // buttonCalificar
             // 
-            this.buttonCalificar.Location = new System.Drawing.Point(309, 287);
+            this.buttonCalificar.Enabled = false;
+            this.buttonCalificar.Location = new System.Drawing.Point(641, 294);
             this.buttonCalificar.Name = "buttonCalificar";
             this.buttonCalificar.Size = new System.Drawing.Size(75, 23);
             this.buttonCalificar.TabIndex = 2;
             this.buttonCalificar.Text = "Calificar";
             this.buttonCalificar.UseVisualStyleBackColor = true;
+            this.buttonCalificar.Click += new System.EventHandler(this.buttonCalificar_Click);
             // 
-            // dataGridViewOfertas
+            // buttonComprar
             // 
-            this.dataGridViewOfertas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewOfertas.Location = new System.Drawing.Point(0, 1);
-            this.dataGridViewOfertas.Name = "dataGridViewOfertas";
-            this.dataGridViewOfertas.Size = new System.Drawing.Size(380, 252);
-            this.dataGridViewOfertas.TabIndex = 1;
+            this.buttonComprar.Location = new System.Drawing.Point(188, 21);
+            this.buttonComprar.Name = "buttonComprar";
+            this.buttonComprar.Size = new System.Drawing.Size(130, 23);
+            this.buttonComprar.TabIndex = 3;
+            this.buttonComprar.Text = "Calificar Compras";
+            this.buttonComprar.UseVisualStyleBackColor = true;
+            this.buttonComprar.Click += new System.EventHandler(this.buttonComprar_Click);
             // 
-            // dataGridViewCompras
+            // buttonOfertas
             // 
-            this.dataGridViewCompras.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewCompras.Location = new System.Drawing.Point(0, 1);
-            this.dataGridViewCompras.Name = "dataGridViewCompras";
-            this.dataGridViewCompras.Size = new System.Drawing.Size(380, 252);
-            this.dataGridViewCompras.TabIndex = 1;
-            this.dataGridViewCompras.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewCompras_CellContentClick);
+            this.buttonOfertas.Location = new System.Drawing.Point(414, 21);
+            this.buttonOfertas.Name = "buttonOfertas";
+            this.buttonOfertas.Size = new System.Drawing.Size(138, 23);
+            this.buttonOfertas.TabIndex = 4;
+            this.buttonOfertas.Text = "Calificar Ofertas";
+            this.buttonOfertas.UseVisualStyleBackColor = true;
+            this.buttonOfertas.Click += new System.EventHandler(this.buttonOfertas_Click);
             // 
-            // Calificacion
+            // groupBoxCalificar
+            // 
+            this.groupBoxCalificar.Controls.Add(this.dataGridViewCalificar);
+            this.groupBoxCalificar.Location = new System.Drawing.Point(12, 63);
+            this.groupBoxCalificar.Name = "groupBoxCalificar";
+            this.groupBoxCalificar.Size = new System.Drawing.Size(704, 225);
+            this.groupBoxCalificar.TabIndex = 5;
+            this.groupBoxCalificar.TabStop = false;
+            this.groupBoxCalificar.Visible = false;
+            // 
+            // dataGridViewCalificar
+            // 
+            this.dataGridViewCalificar.AllowUserToAddRows = false;
+            this.dataGridViewCalificar.AllowUserToDeleteRows = false;
+            this.dataGridViewCalificar.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewCalificar.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewCalificar.Location = new System.Drawing.Point(18, 19);
+            this.dataGridViewCalificar.Name = "dataGridViewCalificar";
+            this.dataGridViewCalificar.ReadOnly = true;
+            this.dataGridViewCalificar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewCalificar.Size = new System.Drawing.Size(670, 185);
+            this.dataGridViewCalificar.TabIndex = 0;
+ 
+            // 
+            // ComprasOfertasSinCalificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 320);
+            this.ClientSize = new System.Drawing.Size(728, 329);
+            this.Controls.Add(this.groupBoxCalificar);
+            this.Controls.Add(this.buttonOfertas);
+            this.Controls.Add(this.buttonComprar);
             this.Controls.Add(this.buttonCalificar);
             this.Controls.Add(this.buttonVolver);
-            this.Controls.Add(this.tabControlCO);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Calificacion";
+            this.Name = "ComprasOfertasSinCalificar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calificacion";
-            this.tabControlCO.ResumeLayout(false);
-            this.tabPageCompras.ResumeLayout(false);
-            this.tabPageOfertas.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewOfertas)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCompras)).EndInit();
+            this.groupBoxCalificar.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalificar)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControlCO;
-        private System.Windows.Forms.TabPage tabPageCompras;
-        private System.Windows.Forms.TabPage tabPageOfertas;
-        private System.Windows.Forms.DataGridView dataGridViewOfertas;
         private System.Windows.Forms.Button buttonVolver;
         private System.Windows.Forms.Button buttonCalificar;
-        private System.Windows.Forms.DataGridView dataGridViewCompras;
+        private System.Windows.Forms.Button buttonComprar;
+        private System.Windows.Forms.Button buttonOfertas;
+        private System.Windows.Forms.GroupBox groupBoxCalificar;
+        private System.Windows.Forms.DataGridView dataGridViewCalificar;
 
     }
 }

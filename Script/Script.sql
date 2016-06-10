@@ -508,6 +508,17 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Compras_Sin_Calificar') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Compras_Sin_Calificar
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Ofertas_Sin_Calificar') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Ofertas_Sin_Calificar
+END;
+GO
 
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
@@ -917,14 +928,14 @@ CREATE PROCEDURE LPB.[SP_Ultimas_Cinco_Calificaciones]
 	@idUser INT
 AS 
 BEGIN
-	SELECT TOP 5  Cliente_id AS Cliente, Publicacion_cod AS Publicacion, CantidadComprada, cantEstrellas AS Estrellas
+	SELECT TOP 5  Publicacion_cod AS Publicacion, CantidadComprada, cantEstrellas AS Estrellas
 	FROM (
 		SELECT Cliente_id, Calificacion_cod, Publicacion_cod, cantidad AS CantidadComprada
 		FROM LPB.Compras
 		UNION ALL
 		SELECT Cliente_id, Calificacion_cod, Publicacion_cod, 1 AS CantidadComprada
 		FROM LPB.Ofertas
-		WHERE ganadora = 1 AND Calificacion_cod IS NOT NULL AND  Cliente_id = 1) AS Calificadas
+		WHERE ganadora = 1) AS Calificadas
 	INNER JOIN LPB.Calificaciones
 	ON Calificadas.Calificacion_cod = codigo
 	WHERE Cliente_id = @idUser AND Calificacion_cod IS NOT NULL
@@ -960,6 +971,32 @@ ORDER BY cantEstrellas
 END 
 GO
 
+CREATE PROCEDURE LPB.[SP_Compras_Sin_Calificar]
+	@idUser INT
+AS 
+BEGIN
+
+SELECT  DISTINCT c.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' , c.cantidad as 'Cantidad'
+FROM LPB.Compras c
+INNER JOIN LPB.Publicaciones p
+ON c.Publicacion_cod = p.codigo
+WHERE c.Calificacion_cod IS NULL AND c.Cliente_id != p.Usuario_id AND Cliente_id = @idUser
+ORDER BY c.Publicacion_cod
+END 
+GO
+
+CREATE PROCEDURE LPB.[SP_Ofertas_Sin_Calificar]
+	@idUser INT
+AS 
+BEGIN
+
+SELECT DISTINCT o.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' , 1 as 'Cantidad'
+FROM LPB.Ofertas o
+INNER JOIN LPB.Publicaciones p
+ON o.Publicacion_cod = p.codigo
+WHERE o.Calificacion_cod IS NOT  NULL AND o.Cliente_id != p.Usuario_id AND Cliente_id = @idUser AND ganadora = 1 
+END 
+GO
 
 /* Declaración de variables */
 

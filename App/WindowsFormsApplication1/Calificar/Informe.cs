@@ -30,14 +30,6 @@ namespace visibilidad.Calificar
             options2.Show();
         }
 
-        private void Informe_Load(object sender, EventArgs e)
-        {
-
-       
-
-         
-
-        }
 
         private void buttonInformeCompras_Click(object sender, EventArgs e)
         {
