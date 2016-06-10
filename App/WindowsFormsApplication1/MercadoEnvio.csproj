@@ -105,11 +105,17 @@
     <Compile Include="Ayuda.Designer.cs">
       <DependentUpon>Ayuda.cs</DependentUpon>
     </Compile>
-    <Compile Include="Calificar\Form1.cs">
+    <Compile Include="Calificar\ComprasOfertasSinCalificar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Calificar\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Calificar\ComprasOfertasSinCalificar.Designer.cs">
+      <DependentUpon>ComprasOfertasSinCalificar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Calificar\Calificacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calificar\Calificacion.Designer.cs">
+      <DependentUpon>Calificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="ComprarOfertar\Common.cs" />
     <Compile Include="Conexion.cs" />
@@ -206,6 +212,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Ayuda.resx">
       <DependentUpon>Ayuda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calificar\ComprasOfertasSinCalificar.resx">
+      <DependentUpon>ComprasOfertasSinCalificar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calificar\Calificacion.resx">
+      <DependentUpon>Calificacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOfertar\BusquedaPublicacion.resx">
       <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
