@@ -86,12 +86,36 @@ namespace visibilidad.Generar_Publicación
 
         private void btn_modificar_Click(object sender, EventArgs e)
         {
+            this.Hide();
             int ind = datagrid_listado.CurrentCell.RowIndex;
             string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
             
             Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "M");
             formularioPublicacion.Show();
+            
+        }
+
+        private void datagrid_listado_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+
+        }
+
+        private void datagrid_listado_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int ind = e.RowIndex;
+            string verificar_id = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+            if (verificar_id == "")
+            {
+                MessageBox.Show("Por favor seleccione una fila que contenga datos", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
             this.Hide();
+
+            string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "V");
+            formularioPublicacion.Show();
         }
     }
 }

@@ -118,6 +118,12 @@
       <DependentUpon>Calificacion.cs</DependentUpon>
     </Compile>
     <Compile Include="ComprarOfertar\Common.cs" />
+    <Compile Include="ComprarOfertar\Ofertar_Box.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ComprarOfertar\Ofertar_Box.Designer.cs">
+      <DependentUpon>Ofertar_Box.cs</DependentUpon>
+    </Compile>
     <Compile Include="Conexion.cs" />
     <Compile Include="ComprarOfertar\BusquedaPublicacion.cs">
       <SubType>Form</SubType>
@@ -131,6 +137,12 @@
     </Compile>
     <Compile Include="Facturas\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Publicación\Factura.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Publicación\Factura.Designer.cs">
+      <DependentUpon>Factura.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar Publicación\FormularioPublicacion.cs">
       <SubType>Form</SubType>
@@ -221,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOfertar\BusquedaPublicacion.resx">
       <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ComprarOfertar\Ofertar_Box.resx">
+      <DependentUpon>Ofertar_Box.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Publicación\Factura.resx">
+      <DependentUpon>Factura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicación\FormularioPublicacion.resx">
       <DependentUpon>FormularioPublicacion.cs</DependentUpon>

@@ -95,5 +95,12 @@ namespace visibilidad
             cambiarPass.cnn.Close();
             this.Close();
         }
+
+        private void Modificar_pass_Load_1(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
     }
 }

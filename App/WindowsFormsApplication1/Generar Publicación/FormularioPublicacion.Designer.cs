@@ -70,9 +70,6 @@
             this.groupBox1.Controls.Add(this.check_pregunta);
             this.groupBox1.Controls.Add(this.text_stock);
             this.groupBox1.Controls.Add(this.text_precio);
-            this.groupBox1.Controls.Add(this.btn_volver);
-            this.groupBox1.Controls.Add(this.btn_limpiar);
-            this.groupBox1.Controls.Add(this.btn_guardar);
             this.groupBox1.Controls.Add(this.check_envio);
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.date_fin);
@@ -89,7 +86,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(746, 560);
+            this.groupBox1.Size = new System.Drawing.Size(746, 716);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -123,7 +120,7 @@
             // 
             // btn_volver
             // 
-            this.btn_volver.Location = new System.Drawing.Point(548, 502);
+            this.btn_volver.Location = new System.Drawing.Point(593, 734);
             this.btn_volver.Name = "btn_volver";
             this.btn_volver.Size = new System.Drawing.Size(165, 35);
             this.btn_volver.TabIndex = 19;
@@ -133,7 +130,7 @@
             // 
             // btn_limpiar
             // 
-            this.btn_limpiar.Location = new System.Drawing.Point(548, 446);
+            this.btn_limpiar.Location = new System.Drawing.Point(308, 734);
             this.btn_limpiar.Name = "btn_limpiar";
             this.btn_limpiar.Size = new System.Drawing.Size(165, 35);
             this.btn_limpiar.TabIndex = 18;
@@ -143,7 +140,7 @@
             // 
             // btn_guardar
             // 
-            this.btn_guardar.Location = new System.Drawing.Point(548, 395);
+            this.btn_guardar.Location = new System.Drawing.Point(12, 734);
             this.btn_guardar.Name = "btn_guardar";
             this.btn_guardar.Size = new System.Drawing.Size(165, 35);
             this.btn_guardar.TabIndex = 17;
@@ -165,9 +162,9 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.checklist_rubros);
-            this.groupBox4.Location = new System.Drawing.Point(26, 362);
+            this.groupBox4.Location = new System.Drawing.Point(26, 395);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(486, 192);
+            this.groupBox4.Size = new System.Drawing.Size(693, 301);
             this.groupBox4.TabIndex = 14;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Rubros";
@@ -177,7 +174,7 @@
             this.checklist_rubros.FormattingEnabled = true;
             this.checklist_rubros.Location = new System.Drawing.Point(18, 25);
             this.checklist_rubros.Name = "checklist_rubros";
-            this.checklist_rubros.Size = new System.Drawing.Size(445, 130);
+            this.checklist_rubros.Size = new System.Drawing.Size(656, 256);
             this.checklist_rubros.TabIndex = 0;
             // 
             // date_fin
@@ -280,7 +277,7 @@
             // radio_pausada
             // 
             this.radio_pausada.AutoSize = true;
-            this.radio_pausada.Location = new System.Drawing.Point(36, 113);
+            this.radio_pausada.Location = new System.Drawing.Point(36, 112);
             this.radio_pausada.Name = "radio_pausada";
             this.radio_pausada.Size = new System.Drawing.Size(97, 24);
             this.radio_pausada.TabIndex = 4;
@@ -292,7 +289,7 @@
             // radio_activa
             // 
             this.radio_activa.AutoSize = true;
-            this.radio_activa.Location = new System.Drawing.Point(36, 70);
+            this.radio_activa.Location = new System.Drawing.Point(36, 69);
             this.radio_activa.Name = "radio_activa";
             this.radio_activa.Size = new System.Drawing.Size(77, 24);
             this.radio_activa.TabIndex = 3;
@@ -366,26 +363,32 @@
             // 
             // text_visibilidad_id
             // 
-            this.text_visibilidad_id.Location = new System.Drawing.Point(795, 110);
+            this.text_visibilidad_id.Location = new System.Drawing.Point(795, 109);
             this.text_visibilidad_id.Name = "text_visibilidad_id";
             this.text_visibilidad_id.Size = new System.Drawing.Size(100, 26);
             this.text_visibilidad_id.TabIndex = 1;
+            this.text_visibilidad_id.Visible = false;
             // 
             // text_precio_aux
             // 
-            this.text_precio_aux.Location = new System.Drawing.Point(795, 241);
+            this.text_precio_aux.Location = new System.Drawing.Point(795, 242);
             this.text_precio_aux.Name = "text_precio_aux";
             this.text_precio_aux.Size = new System.Drawing.Size(100, 26);
             this.text_precio_aux.TabIndex = 2;
+            this.text_precio_aux.Visible = false;
             // 
             // FormularioPublicacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(771, 602);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(779, 793);
             this.Controls.Add(this.text_precio_aux);
             this.Controls.Add(this.text_visibilidad_id);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.btn_volver);
+            this.Controls.Add(this.btn_guardar);
+            this.Controls.Add(this.btn_limpiar);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormularioPublicacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

@@ -33,6 +33,8 @@ namespace visibilidad.Generar_Publicación
                 id_usuario = modo;
             if (evento == "M")
                 codigo_publicacion = modo;
+            if (evento == "V")
+                codigo_publicacion = modo;
             InitializeComponent();
         }
 
@@ -40,13 +42,13 @@ namespace visibilidad.Generar_Publicación
         {
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            //this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             if (evento == "A")
             {
                 radio_compra.Checked = true;
                 radio_borrador.Checked = true;
-
+                btn_guardar.Text = "Guardar";
                 date_inicio.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
                 date_fin.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
                 date_fin.Value = date_fin.Value.AddDays(30);
@@ -73,18 +75,42 @@ namespace visibilidad.Generar_Publicación
             }
             if (evento == "M")
             {
+                btn_guardar.Text = "Modificar";
+                btn_limpiar.Enabled = false;
+                radio_compra.Enabled = false;
+                radio_subasta.Enabled = false;
                 llenar_formulario(codigo_publicacion);
+                if (radio_borrador.Checked == true)
+                {
+                    radio_compra.Enabled = true;
+                    radio_subasta.Enabled = true;                    
+                }                
                 if (radio_activa.Checked == true)
                 {
                     radio_borrador.Enabled = false;
+                    cmb_visibilidad.Enabled = false;
+                    
                 }
                 if (radio_pausada.Checked == true)
                 {
                     deshabilitar_todo();
+                    radio_pausada.Enabled = true;
                     radio_finalizada.Enabled = true;
                     radio_activa.Enabled = true;
+                    btn_guardar.Enabled = true;
                 }
-
+                if (radio_finalizada.Checked == true)
+                {
+                    MessageBox.Show("Esta publicacion esta finalizada y no admite cambios", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    deshabilitar_todo();
+                    
+                }
+                
+            }
+            if (evento == "V")
+            {
+                llenar_formulario(codigo_publicacion);
+                deshabilitar_todo();
             }
         }
         private void deshabilitar_todo()
@@ -94,8 +120,8 @@ namespace visibilidad.Generar_Publicación
             text_stock.Enabled = false;
             cmb_visibilidad.Enabled = false;
             check_envio.Enabled = false;
-            check_pregunta.Enabled = false;
-            checklist_rubros.Enabled = false;
+            check_pregunta.Enabled = false;            
+            checklist_rubros.SelectionMode = SelectionMode.None;
             radio_activa.Enabled = false;
             radio_borrador.Enabled = false;
             radio_pausada.Enabled = false;
@@ -158,7 +184,14 @@ namespace visibilidad.Generar_Publicación
             if (lector.GetBoolean(8) == true)
                 check_pregunta.Checked = true;
             else check_pregunta.Checked = false;
-            cmb_visibilidad.SelectedText = lector.GetString(9);
+                        
+            int i;
+            for (i = 0; i < cmb_visibilidad.Items.Count; i++)
+            {
+                cmb_visibilidad.SelectedIndex = i;
+                if (cmb_visibilidad.Text == lector.GetString(9))
+                    break;                    
+            }
             con.cnn.Close();
 
 
@@ -166,10 +199,10 @@ namespace visibilidad.Generar_Publicación
             string query_rubros = "SELECT descripcion,id FROM lpb.rubros";
             con.cnn.Open();
             command = new SqlCommand(query_rubros, con.cnn);
-            lector = command.ExecuteReader();
-            int i = 0;
+            lector = command.ExecuteReader();            
             string rubro;
             int id_rubro;
+            i = 0;
             while (lector.Read())
             {
                 rubro = lector.GetString(0);
@@ -400,11 +433,98 @@ namespace visibilidad.Generar_Publicación
                     generar.Show();
                     generar.reset_publicaciones();
 
+                    if (radio_activa.Checked == true)
+                    {
+                        Generar_Publicación.Factura factura = new Generar_Publicación.Factura();
+                        string query_tipo_usuario;
+                        query_tipo_usuario = "select TipoUsuario from lpb.usuarios where id=" + id_usuario;
+                        Conexion con = new Conexion();
+                        con.cnn.Open();
+                        SqlCommand command = new SqlCommand(query_tipo_usuario, con.cnn);
+                        SqlDataReader lector1 = command.ExecuteReader();
+                        lector1.Read();
+                        string tipo_usuario = lector1.GetString(0);
+                        con.cnn.Close();
+                        MessageBox.Show(tipo_usuario);
+                        if (tipo_usuario == "Empresa")
+                        {
+                            factura.lbl_cliente.Text = id_usuario.ToString();
+                            factura.lbl_nombre_titulo.Text = "";
+                            factura.lbl_nombre_titulo.Text = "Razon Social: ";
+                            factura.lbl_nombre.Text = "";
+                            factura.lbl_apellido_titulo.Visible = false;
+                            factura.lbl_apellido.Visible = false;
+                            factura.lbl_documento_titulo.Text = "CUIT: ";
+                        }
+                        else
+                        {
+                        
+                        }
+                        factura.Show();
+                    }
+
                 }
             }
             if (evento == "M")
             {
+                //Actualizar Publicacion
+                
+                Conexion cn = new Conexion();
+                using (SqlCommand cmd = new SqlCommand("lpb.SP_Actualizar_Publicacion", cn.cnn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Seteo los parametros del SP
+                    cmd.Parameters.Add("@codigo_publicacion", SqlDbType.Int);
+                    cmd.Parameters.Add("@publicacion_estado", SqlDbType.Int);
+                    cmd.Parameters.Add("@publicacion_tipo", SqlDbType.Int);
+                    cmd.Parameters.Add("@descripcion", SqlDbType.VarChar, 255);
+                    cmd.Parameters.Add("@stock", SqlDbType.Int);
+                    cmd.Parameters.Add("@fecha_creacion", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@fecha_vencimiento", SqlDbType.DateTime);
+                    cmd.Parameters.Add("@precio", SqlDbType.Decimal);
+                    cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
+                    cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
+                    cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
+                    
+
+                    // Lleno los parametros
+                    cmd.Parameters["@codigo_publicacion"].Value = codigo_publicacion;
+                    cmd.Parameters["@publicacion_estado"].Value = publicacion_estado;
+                    cmd.Parameters["@publicacion_tipo"].Value = publicacion_tipo;
+                    cmd.Parameters["@descripcion"].Value = text_descripcion.Text;
+                    cmd.Parameters["@stock"].Value = Convert.ToInt32(text_stock.Text);
+                    cmd.Parameters["@fecha_creacion"].Value = date_inicio.Value;
+                    cmd.Parameters["@fecha_vencimiento"].Value = date_fin.Value;
+                    cmd.Parameters["@precio"].Value = decimal.Parse(text_precio_aux.Text);
+                    cmd.Parameters["@acepta_envio"].Value = publicacion_acepta_envio;
+                    cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
+                    cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
+                    cn.cnn.Open();
+                    cmd.ExecuteNonQuery();            
+                    cn.cnn.Close();
+                    
+                    string delete_rubros = "DELETE lpb.PublicacionesPorRubro where publicacion_id=" + codigo_publicacion;
+                    cn.cnn.Open();
+                    SqlCommand borrar_publicacionPorRubro = new SqlCommand(delete_rubros, cn.cnn);
+                    borrar_publicacionPorRubro.ExecuteNonQuery();
+                    cn.cnn.Close();
+                    foreach (object itemsCheck in checklist_rubros.CheckedItems)
+                    {
+                        string insert_rubros = "INSERT INTO lpb.PublicacionesPorRubro (publicacion_id, rubro_id) VALUES (" + codigo_publicacion + ",(SELECT r.id FROM lpb.rubros r WHERE r.descripcion = '" + itemsCheck.ToString() + "'))";
+                        cn.cnn.Open();
+                        SqlCommand insertar_publicacionPorRubro = new SqlCommand(insert_rubros, cn.cnn);
+                        insertar_publicacionPorRubro.ExecuteNonQuery();
+                        cn.cnn.Close();
+                    }
+
+                    
+                    MessageBox.Show("Publicacion actualizada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                    generar.Show();
+                    generar.reset_publicaciones();
+
+                }
             }
         }
 

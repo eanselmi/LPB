@@ -459,6 +459,13 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('lpb.SP_Actualizar_Publicacion') IS NOT NULL
+BEGIN
+	DROP PROCEDURE lpb.SP_Actualizar_Publicacion
+END;
+GO
+
+
 IF OBJECT_ID('LPB.SP_Eliminacion_RolesxUsuario') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Eliminacion_RolesxUsuario
@@ -584,7 +591,7 @@ GO
 
 CREATE PROCEDURE lpb.SP_Guardar_Publicacion (@usuarioid int, @publicacion_estado int, @publicacion_tipo int,  
                                              @descripcion varchar(255), @stock numeric(18,0), @fecha_creacion datetime,
-											 @fecha_vencimiento datetime, @precio numeric(18,0), @acepta_envio bit,
+											 @fecha_vencimiento datetime, @precio numeric(18,2), @acepta_envio bit,
 											 @acepta_pregunta bit, @visibilidad_codigo numeric(18,0),@nuevo_codigo_publicacion numeric(18,2) OUTPUT)
 AS
 BEGIN
@@ -595,6 +602,28 @@ BEGIN
 	       @fecha_vencimiento,@precio,@acepta_envio,@acepta_pregunta,@visibilidad_codigo)
 END
 GO
+
+CREATE PROCEDURE lpb.SP_Actualizar_Publicacion (@codigo_publicacion numeric(18,2),@publicacion_estado int, @publicacion_tipo int,  
+                                                @descripcion varchar(255), @stock numeric(18,0), @fecha_creacion datetime,
+											    @fecha_vencimiento datetime, @precio numeric(18,2), @acepta_envio bit,
+											    @acepta_pregunta bit, @visibilidad_codigo numeric(18,0))
+AS
+BEGIN
+	update lpb.publicaciones set EstadoDePublicacion_id=@publicacion_estado,
+	                             TipoDePublicacion_id=@publicacion_tipo,
+	                             descripcion=@descripcion,
+	                             stock=@stock,
+	                             fechaCreacion=@fecha_creacion,
+	                             fechaVencimiento=@fecha_vencimiento,
+	                             precio=@precio,
+	                             aceptaEnvio=@acepta_envio,
+	                             aceptaPreguntas=@acepta_pregunta,
+	                             Visibilidad_codigo=@visibilidad_codigo	
+	where codigo=@codigo_publicacion
+END
+GO
+
+
 
 CREATE PROCEDURE lpb.SP_Asignacion_Rol_Usuario (@username varchar(45),@nombreRol varchar(45))
 AS

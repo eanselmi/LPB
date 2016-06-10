@@ -23,7 +23,7 @@ namespace visibilidad
 
             description = description.Trim();
 
-            if (sPrecio.Equals("") || sPrecio.Equals("") || sPrecio.Equals(""))
+            if (sPrecio.Equals("") || sPorcentaje.Equals("") || description.Equals(""))
             {
                 msg_final = "Debe completar todos los campos obligatorios\n";
                 if (!msg_final.Equals(""))
