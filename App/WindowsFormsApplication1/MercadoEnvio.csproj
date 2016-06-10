@@ -123,6 +123,12 @@
     <Compile Include="Calificar\Historial.Designer.cs">
       <DependentUpon>Historial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Calificar\Informe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calificar\Informe.Designer.cs">
+      <DependentUpon>Informe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Calificar\Opciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -245,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Calificar\Historial.resx">
       <DependentUpon>Historial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calificar\Informe.resx">
+      <DependentUpon>Informe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Calificar\Opciones.resx">
       <DependentUpon>Opciones.cs</DependentUpon>

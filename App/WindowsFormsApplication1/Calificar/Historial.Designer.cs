@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Historial));
             this.groupBoxLH = new System.Windows.Forms.GroupBox();
-            this.buttonVolverHistorial = new System.Windows.Forms.Button();
             this.dataGridViewHistorial = new System.Windows.Forms.DataGridView();
+            this.buttonVolverHistorial = new System.Windows.Forms.Button();
             this.groupBoxLH.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistorial)).BeginInit();
             this.SuspendLayout();
@@ -41,14 +41,26 @@
             this.groupBoxLH.Controls.Add(this.dataGridViewHistorial);
             this.groupBoxLH.Location = new System.Drawing.Point(12, 12);
             this.groupBoxLH.Name = "groupBoxLH";
-            this.groupBoxLH.Size = new System.Drawing.Size(456, 261);
+            this.groupBoxLH.Size = new System.Drawing.Size(456, 187);
             this.groupBoxLH.TabIndex = 0;
             this.groupBoxLH.TabStop = false;
             this.groupBoxLH.Text = "Listado";
             // 
+            // dataGridViewHistorial
+            // 
+            this.dataGridViewHistorial.AllowUserToAddRows = false;
+            this.dataGridViewHistorial.AllowUserToDeleteRows = false;
+            this.dataGridViewHistorial.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewHistorial.Location = new System.Drawing.Point(6, 19);
+            this.dataGridViewHistorial.Name = "dataGridViewHistorial";
+            this.dataGridViewHistorial.ReadOnly = true;
+            this.dataGridViewHistorial.Size = new System.Drawing.Size(444, 151);
+            this.dataGridViewHistorial.TabIndex = 0;
+            // 
             // buttonVolverHistorial
             // 
-            this.buttonVolverHistorial.Location = new System.Drawing.Point(201, 285);
+            this.buttonVolverHistorial.Location = new System.Drawing.Point(200, 205);
             this.buttonVolverHistorial.Name = "buttonVolverHistorial";
             this.buttonVolverHistorial.Size = new System.Drawing.Size(75, 23);
             this.buttonVolverHistorial.TabIndex = 1;
@@ -56,22 +68,11 @@
             this.buttonVolverHistorial.UseVisualStyleBackColor = true;
             this.buttonVolverHistorial.Click += new System.EventHandler(this.buttonVolverHistorial_Click);
             // 
-            // dataGridViewHistorial
-            // 
-            this.dataGridViewHistorial.AllowUserToAddRows = false;
-            this.dataGridViewHistorial.AllowUserToDeleteRows = false;
-            this.dataGridViewHistorial.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewHistorial.Location = new System.Drawing.Point(6, 19);
-            this.dataGridViewHistorial.Name = "dataGridViewHistorial";
-            this.dataGridViewHistorial.ReadOnly = true;
-            this.dataGridViewHistorial.Size = new System.Drawing.Size(444, 236);
-            this.dataGridViewHistorial.TabIndex = 0;
-            // 
             // Historial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 320);
+            this.ClientSize = new System.Drawing.Size(480, 240);
             this.Controls.Add(this.buttonVolverHistorial);
             this.Controls.Add(this.groupBoxLH);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

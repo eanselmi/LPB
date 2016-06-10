@@ -496,6 +496,18 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Cantidad_Estrellas_Compras') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Cantidad_Estrellas_Compras
+END;
+GO
+
+IF OBJECT_ID('LPB.SP_Cantidad_Estrellas_Ofertas') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Cantidad_Estrellas_Ofertas
+END;
+GO
+
 
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
@@ -919,6 +931,34 @@ BEGIN
 	ORDER BY Calificacion_cod DESC 
 END 
 GO 
+
+CREATE PROCEDURE LPB.[SP_Cantidad_Estrellas_Compras]
+	@idUser INT
+AS
+BEGIN
+SELECT cantEstrellas as 'Estrella', COUNT(*) as 'Cantidad'
+FROM LPB.Compras
+INNER JOIN LPB.Calificaciones
+ON Calificacion_cod = codigo
+WHERE Cliente_id = @idUser
+GROUP BY cantEstrellas
+ORDER BY cantEstrellas
+END 
+GO
+
+CREATE PROCEDURE LPB.[SP_Cantidad_Estrellas_Ofertas]
+	@idUser INT
+AS
+BEGIN
+SELECT cantEstrellas as 'Estrella', COUNT(*) as 'Cantidad'
+FROM LPB.Ofertas
+INNER JOIN LPB.Calificaciones
+ON Calificacion_cod = codigo
+WHERE Cliente_id = @idUser AND ganadora = 1
+GROUP BY cantEstrellas
+ORDER BY cantEstrellas
+END 
+GO
 
 
 /* Declaración de variables */

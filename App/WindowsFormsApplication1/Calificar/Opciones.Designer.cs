@@ -66,6 +66,7 @@
             this.buttonInforme.TabIndex = 2;
             this.buttonInforme.Text = "Ver Informe ";
             this.buttonInforme.UseVisualStyleBackColor = true;
+            this.buttonInforme.Click += new System.EventHandler(this.buttonInforme_Click);
             // 
             // groupBox1
             // 

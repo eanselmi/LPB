@@ -36,5 +36,12 @@ namespace visibilidad.Calificar
             Calificar.Historial historial = new Calificar.Historial(idUsuario);
             historial.Show();
         }
+
+        private void buttonInforme_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            Calificar.Informe informe = new Calificar.Informe(idUsuario);
+            informe.Show();
+        }
     }
 }
