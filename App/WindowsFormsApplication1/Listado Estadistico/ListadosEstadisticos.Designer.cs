@@ -222,6 +222,8 @@
             this.Controls.Add(this.buttonVolver);
             this.Controls.Add(this.groupBoxListados);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ListadoEstadistico";
             this.Text = "Listados Estadisticos  ";
             this.groupBoxListados.ResumeLayout(false);

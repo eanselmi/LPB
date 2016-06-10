@@ -265,5 +265,11 @@ namespace visibilidad
             visibilidadToolStripMenuItem.Visible = false;
         }
 
+        private void calificarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Calificar.Opciones options = new Calificar.Opciones(id_usuario);
+            options.Show();
+        }
+
     }
 }

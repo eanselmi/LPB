@@ -490,6 +490,13 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Ultimas_Cinco_Calificaciones') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Ultimas_Cinco_Calificaciones
+END;
+GO
+
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -894,6 +901,24 @@ COMMIT TRANSACTION
 END
 GO
 
+CREATE PROCEDURE LPB.[SP_Ultimas_Cinco_Calificaciones]
+	@idUser INT
+AS 
+BEGIN
+	SELECT TOP 5  Cliente_id AS Cliente, Publicacion_cod AS Publicacion, CantidadComprada, cantEstrellas AS Estrellas
+	FROM (
+		SELECT Cliente_id, Calificacion_cod, Publicacion_cod, cantidad AS CantidadComprada
+		FROM LPB.Compras
+		UNION ALL
+		SELECT Cliente_id, Calificacion_cod, Publicacion_cod, 1 AS CantidadComprada
+		FROM LPB.Ofertas
+		WHERE ganadora = 1 AND Calificacion_cod IS NOT NULL AND  Cliente_id = 1) AS Calificadas
+	INNER JOIN LPB.Calificaciones
+	ON Calificadas.Calificacion_cod = codigo
+	WHERE Cliente_id = @idUser AND Calificacion_cod IS NOT NULL
+	ORDER BY Calificacion_cod DESC 
+END 
+GO 
 
 
 /* Declaración de variables */

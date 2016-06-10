@@ -117,6 +117,18 @@
     <Compile Include="Calificar\Calificacion.Designer.cs">
       <DependentUpon>Calificacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Calificar\Historial.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calificar\Historial.Designer.cs">
+      <DependentUpon>Historial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Calificar\Opciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calificar\Opciones.Designer.cs">
+      <DependentUpon>Opciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="ComprarOfertar\Common.cs" />
     <Compile Include="ComprarOfertar\Ofertar_Box.cs">
       <SubType>Form</SubType>
@@ -230,6 +242,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Calificar\Calificacion.resx">
       <DependentUpon>Calificacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calificar\Historial.resx">
+      <DependentUpon>Historial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calificar\Opciones.resx">
+      <DependentUpon>Opciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOfertar\BusquedaPublicacion.resx">
       <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
