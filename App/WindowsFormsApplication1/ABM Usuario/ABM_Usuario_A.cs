@@ -494,8 +494,9 @@ namespace visibilidad.ABM_Usuario
 
                 if (!(textBoxFechaNac.Text.Equals("")))
                 {
-                    int age = DateTime.Today.Year - monthCalendar1.SelectionStart.Date.Year; 
-                    if (age < 18)
+                    DateTime fechaLimite = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture).AddYears(-18);
+
+                    if(monthCalendar1.SelectionStart.Date.CompareTo(fechaLimite)>0)
                     {
                         hayError = true;
                         mensajeDeError = String.Concat(mensajeDeError, "\tNo puede darse de alta a clientes menores de 18 años\n");

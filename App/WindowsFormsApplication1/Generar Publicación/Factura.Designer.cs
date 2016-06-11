@@ -53,6 +53,10 @@
             this.button1 = new System.Windows.Forms.Button();
             this.lbl_documento_titulo = new System.Windows.Forms.Label();
             this.lbl_documento = new System.Windows.Forms.Label();
+            this.lbl_razon_social_titulo = new System.Windows.Forms.Label();
+            this.lbl_razon_social = new System.Windows.Forms.Label();
+            this.lbl_cuit_titulo = new System.Windows.Forms.Label();
+            this.lbl_cuit = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -79,7 +83,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(53, 146);
+            this.label2.Location = new System.Drawing.Point(12, 146);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(79, 25);
             this.label2.TabIndex = 2;
@@ -89,7 +93,7 @@
             // 
             this.lbl_cliente.AutoSize = true;
             this.lbl_cliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_cliente.Location = new System.Drawing.Point(131, 146);
+            this.lbl_cliente.Location = new System.Drawing.Point(97, 146);
             this.lbl_cliente.Name = "lbl_cliente";
             this.lbl_cliente.Size = new System.Drawing.Size(68, 25);
             this.lbl_cliente.TabIndex = 3;
@@ -100,7 +104,7 @@
             // 
             this.lbl_nombre_titulo.AutoSize = true;
             this.lbl_nombre_titulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_nombre_titulo.Location = new System.Drawing.Point(225, 146);
+            this.lbl_nombre_titulo.Location = new System.Drawing.Point(230, 146);
             this.lbl_nombre_titulo.Name = "lbl_nombre_titulo";
             this.lbl_nombre_titulo.Size = new System.Drawing.Size(87, 25);
             this.lbl_nombre_titulo.TabIndex = 4;
@@ -110,7 +114,7 @@
             // 
             this.lbl_apellido_titulo.AutoSize = true;
             this.lbl_apellido_titulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_apellido_titulo.Location = new System.Drawing.Point(429, 146);
+            this.lbl_apellido_titulo.Location = new System.Drawing.Point(452, 146);
             this.lbl_apellido_titulo.Name = "lbl_apellido_titulo";
             this.lbl_apellido_titulo.Size = new System.Drawing.Size(88, 25);
             this.lbl_apellido_titulo.TabIndex = 5;
@@ -120,7 +124,7 @@
             // 
             this.lbl_nombre.AutoSize = true;
             this.lbl_nombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_nombre.Location = new System.Drawing.Point(309, 146);
+            this.lbl_nombre.Location = new System.Drawing.Point(323, 146);
             this.lbl_nombre.Name = "lbl_nombre";
             this.lbl_nombre.Size = new System.Drawing.Size(81, 25);
             this.lbl_nombre.TabIndex = 6;
@@ -130,7 +134,7 @@
             // 
             this.lbl_apellido.AutoSize = true;
             this.lbl_apellido.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_apellido.Location = new System.Drawing.Point(514, 146);
+            this.lbl_apellido.Location = new System.Drawing.Point(546, 146);
             this.lbl_apellido.Name = "lbl_apellido";
             this.lbl_apellido.Size = new System.Drawing.Size(82, 25);
             this.lbl_apellido.TabIndex = 7;
@@ -263,27 +267,71 @@
             // 
             this.lbl_documento_titulo.AutoSize = true;
             this.lbl_documento_titulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_documento_titulo.Location = new System.Drawing.Point(187, 219);
+            this.lbl_documento_titulo.Location = new System.Drawing.Point(315, 197);
             this.lbl_documento_titulo.Name = "lbl_documento_titulo";
-            this.lbl_documento_titulo.Size = new System.Drawing.Size(116, 25);
+            this.lbl_documento_titulo.Size = new System.Drawing.Size(119, 25);
             this.lbl_documento_titulo.TabIndex = 25;
-            this.lbl_documento_titulo.Text = "CUIL/CUIT:";
+            this.lbl_documento_titulo.Text = "DOC/CUIL: ";
             // 
             // lbl_documento
             // 
             this.lbl_documento.AutoSize = true;
             this.lbl_documento.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_documento.Location = new System.Drawing.Point(309, 219);
+            this.lbl_documento.Location = new System.Drawing.Point(437, 197);
             this.lbl_documento.Name = "lbl_documento";
-            this.lbl_documento.Size = new System.Drawing.Size(81, 25);
+            this.lbl_documento.Size = new System.Drawing.Size(109, 25);
             this.lbl_documento.TabIndex = 26;
-            this.lbl_documento.Text = "Numero";
+            this.lbl_documento.Text = "documento";
+            // 
+            // lbl_razon_social_titulo
+            // 
+            this.lbl_razon_social_titulo.AutoSize = true;
+            this.lbl_razon_social_titulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_razon_social_titulo.Location = new System.Drawing.Point(12, 197);
+            this.lbl_razon_social_titulo.Name = "lbl_razon_social_titulo";
+            this.lbl_razon_social_titulo.Size = new System.Drawing.Size(138, 25);
+            this.lbl_razon_social_titulo.TabIndex = 27;
+            this.lbl_razon_social_titulo.Text = "Razon Social: ";
+            // 
+            // lbl_razon_social
+            // 
+            this.lbl_razon_social.AutoSize = true;
+            this.lbl_razon_social.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_razon_social.Location = new System.Drawing.Point(142, 197);
+            this.lbl_razon_social.Name = "lbl_razon_social";
+            this.lbl_razon_social.Size = new System.Drawing.Size(81, 25);
+            this.lbl_razon_social.TabIndex = 28;
+            this.lbl_razon_social.Text = "Nombre";
+            // 
+            // lbl_cuit_titulo
+            // 
+            this.lbl_cuit_titulo.AutoSize = true;
+            this.lbl_cuit_titulo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cuit_titulo.Location = new System.Drawing.Point(12, 242);
+            this.lbl_cuit_titulo.Name = "lbl_cuit_titulo";
+            this.lbl_cuit_titulo.Size = new System.Drawing.Size(70, 25);
+            this.lbl_cuit_titulo.TabIndex = 29;
+            this.lbl_cuit_titulo.Text = "CUIT: ";
+            // 
+            // lbl_cuit
+            // 
+            this.lbl_cuit.AutoSize = true;
+            this.lbl_cuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_cuit.Location = new System.Drawing.Point(78, 242);
+            this.lbl_cuit.Name = "lbl_cuit";
+            this.lbl_cuit.Size = new System.Drawing.Size(42, 25);
+            this.lbl_cuit.TabIndex = 30;
+            this.lbl_cuit.Text = "cuit";
             // 
             // Factura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(680, 561);
+            this.Controls.Add(this.lbl_cuit);
+            this.Controls.Add(this.lbl_cuit_titulo);
+            this.Controls.Add(this.lbl_razon_social);
+            this.Controls.Add(this.lbl_razon_social_titulo);
             this.Controls.Add(this.lbl_documento);
             this.Controls.Add(this.lbl_documento_titulo);
             this.Controls.Add(this.button1);
@@ -344,6 +392,10 @@
         public System.Windows.Forms.Button button1;
         public System.Windows.Forms.Label lbl_documento_titulo;
         public System.Windows.Forms.Label lbl_documento;
+        public System.Windows.Forms.Label lbl_razon_social_titulo;
+        public System.Windows.Forms.Label lbl_razon_social;
+        public System.Windows.Forms.Label lbl_cuit_titulo;
+        public System.Windows.Forms.Label lbl_cuit;
 
     }
 }

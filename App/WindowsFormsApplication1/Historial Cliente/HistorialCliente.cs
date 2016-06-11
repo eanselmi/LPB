@@ -11,6 +11,7 @@ using Helper;
 using conectar;
 using System.Data.SqlClient;
 
+
 namespace visibilidad.Historial_Cliente
 {
     public partial class HistorialCliente : Form
@@ -56,6 +57,7 @@ namespace visibilidad.Historial_Cliente
             int clienteID = lectorCliente.GetInt32(13);
             datosCliente.cnn.Close();
 
+
             if (localidad_id != 0)
             {
                 Conexion buscarLocalidad = new Conexion();
@@ -68,9 +70,12 @@ namespace visibilidad.Historial_Cliente
                 buscarLocalidad.cnn.Close();
             }
 
+            DateTime fechadeHoy;
+            fechadeHoy = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+
             //CARGO LAS ESTADÍSTICAS
             Conexion connEstrellas = new Conexion();
-            string queryEstrellas = "select (select count(codigo) from LPB.Calificaciones where cantEstrellas='1' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <=GETDATE() UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <=GETDATE() )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='2' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <=GETDATE() UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <=GETDATE() )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='3' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <=GETDATE() UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <=GETDATE() )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='4' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <=GETDATE() UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <=GETDATE() )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='5' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <=GETDATE() UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <=GETDATE())),(select count(Publicacion_cod) from lpb.Compras where Cliente_id='"+clienteID+"' and fecha <=GETDATE()) as 'COMPRAS HECHAS',(select count(publicacion_cod) from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha<=GETDATE()) as 'SUBASTAS HECHAS',(select count(publicacion_cod) from LPB.Ofertas where Cliente_id='"+clienteID+"' and ganadora=1 and fecha<=GETDATE()) as 'SUBASTAS GANADAS',(select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id='"+clienteID+"' and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id='"+clienteID+"' and b.ganadora=1 and b.Calificacion_cod is null) as publicacionesSinCalif)";
+            string queryEstrellas = "select (select count(codigo) from LPB.Calificaciones where cantEstrellas='1' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"') ), (select count(codigo) from LPB.Calificaciones where cantEstrellas='2' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='3' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='4' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='5' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"')),(select count(Publicacion_cod) from lpb.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"') as 'COMPRAS HECHAS',(select count(publicacion_cod) from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha<='"+fechadeHoy.ToShortDateString()+"') as 'SUBASTAS HECHAS',(select count(publicacion_cod) from LPB.Ofertas where Cliente_id='"+clienteID+"' and ganadora=1 and fecha<='"+fechadeHoy.ToShortDateString()+"') as 'SUBASTAS GANADAS',(select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id='"+clienteID+"' and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id='"+clienteID+"' and b.ganadora=1 and b.Calificacion_cod is null) as publicacionesSinCalif)";
             connEstrellas.cnn.Open();
             SqlCommand comandoEstrellas = new SqlCommand(queryEstrellas, connEstrellas.cnn);
             SqlDataReader lectorEstrellas = comandoEstrellas.ExecuteReader();
@@ -107,7 +112,7 @@ namespace visibilidad.Historial_Cliente
             Conexion connCompras = new Conexion();
             connCompras.cnn.Open();
             DataTable dataCompras = new DataTable();
-            string queryCompras = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',cantidad as 'CANTIDAD',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID',fecha as 'FECHA' from LPB.Compras where Cliente_id='" + clienteID + "' and fecha <= getdate() order by fecha desc";
+            string queryCompras = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',cantidad as 'CANTIDAD',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID',fecha as 'FECHA' from LPB.Compras where Cliente_id='" + clienteID + "' and fecha <='"+fechadeHoy.ToShortDateString()+"'  order by fecha desc";
             SqlDataAdapter sqlAdapter = new SqlDataAdapter(queryCompras, connCompras.cnn);
             SqlCommandBuilder sqlCommand = new SqlCommandBuilder(sqlAdapter);
             sqlAdapter.Fill(dataCompras);
@@ -118,7 +123,7 @@ namespace visibilidad.Historial_Cliente
             Conexion connSubastas = new Conexion();
             connSubastas.cnn.Open();
             DataTable dataSubastas = new DataTable();
-            string querySubastas = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',monto as 'MONTO', case ganadora when 1 then 'SI' else 'NO' END as 'GANADORA',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID', fecha as 'FECHA' from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <= GETDATE() order by fecha desc";
+            string querySubastas = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',monto as 'MONTO', case ganadora when 1 then 'SI' else 'NO' END as 'GANADORA',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID', fecha as 'FECHA' from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' order by fecha desc";
             SqlDataAdapter sqlAdapterSub = new SqlDataAdapter(querySubastas, connSubastas.cnn);
             SqlCommandBuilder sqlCommandSub = new SqlCommandBuilder(sqlAdapterSub);
             sqlAdapterSub.Fill(dataSubastas);
@@ -195,6 +200,11 @@ namespace visibilidad.Historial_Cliente
             {
                 this.DataSource = tables[bs.Position];
             }
+        }
+
+        public void clearData()
+        {
+            tables.Clear();
         }
     }
 }
