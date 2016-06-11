@@ -520,6 +520,18 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.[SP_Insertar_Calificacion_Compras]') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.[SP_Insertar_Calificacion_Compras]
+END;
+GO
+
+IF OBJECT_ID('LPB.[SP_Insertar_Calificacion_Ofertas]') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.[SP_Insertar_Calificacion_Ofertas]
+END;
+GO
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -1007,6 +1019,34 @@ ON o.Cliente_id = cli.id
 WHERE o.Calificacion_cod IS NULL AND o.Cliente_id != p.Usuario_id AND cli.Usuario_id = @idUser AND ganadora = 1 
 END 
 GO
+
+CREATE PROCEDURE LPB.[SP_Insertar_Calificacion_Compras]
+@Publicacion_cod numeric(18, 0),
+@detalle nvarchar(255),
+@estrellas numeric(18, 0)
+AS BEGIN 
+INSERT INTO LPB.Calificaciones(codigo, descripcion, cantEstrellas)
+VALUES ((select max(codigo) from LPB.Calificaciones) +1, @detalle, @estrellas)
+UPDATE LPB.Compras
+SET  Calificacion_cod = (SELECT TOP 1 codigo FROM LPB.Calificaciones ORDER BY codigo DESC)
+WHERE Publicacion_cod = @Publicacion_cod
+END 
+GO
+
+CREATE PROCEDURE LPB.[SP_Insertar_Calificacion_Ofertas]
+@Publicacion_cod numeric(18, 0),
+@detalle nvarchar(255),
+@estrellas numeric(18, 0)
+AS BEGIN 
+INSERT INTO LPB.Calificaciones(codigo, descripcion, cantEstrellas)
+VALUES ((select max(codigo) from LPB.Calificaciones) +1, @detalle, @estrellas)
+UPDATE LPB.Ofertas
+SET  Calificacion_cod = (SELECT TOP 1 codigo FROM LPB.Calificaciones ORDER BY codigo DESC)
+WHERE Publicacion_cod = @Publicacion_cod
+END 
+GO
+
+
 
 /* Declaración de variables */
 

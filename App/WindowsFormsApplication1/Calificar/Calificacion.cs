@@ -18,19 +18,28 @@ namespace visibilidad.Calificar
         Conexion cn = new Conexion();
         private int idUser;
         private decimal idPublic;
-        public Calificacion(int idUsuario, decimal idPublicacion)
+        private int CuO;
+        public Calificacion(int idUsuario, decimal idPublicacion, int compraUOferta)
         {
             InitializeComponent();
             idUser = idUsuario;
             idPublic = idPublicacion;
+            CuO = compraUOferta;
             //Carga del combo Box Estrellas
             comboBoxEstrellas.Items.Add("1");
             comboBoxEstrellas.Items.Add("2");
             comboBoxEstrellas.Items.Add("3");
             comboBoxEstrellas.Items.Add("4");
             comboBoxEstrellas.Items.Add("5");
+            //Carga del combo Box Detalle
+            comboBoxDetalle.Items.Add("Positivo");
+            comboBoxDetalle.Items.Add("Neutral");
+            comboBoxDetalle.Items.Add("Negativo");
             this.textBox2.Text = idPublic.ToString();
         }
+
+
+
 
         private void buttonVolverCalificacion_Click(object sender, EventArgs e)
         {
@@ -41,7 +50,39 @@ namespace visibilidad.Calificar
 
         private void buttonConfirmar_Click(object sender, EventArgs e)
         {
-            this.Close();
+            int estrella = int.Parse(comboBoxEstrellas.SelectedItem.ToString());
+            if ((string)comboBoxDetalle.SelectedItem != "")
+            {
+                string detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
+            }
+            else
+            {
+                string detalle = this.textBoxDetalleP.Text.ToString();
+            }
+            List<string> lista = Helper.Help.generarListaParaProcedure("@Publicacion_cod", "@detalle", "@estrellas");
+            Conexion cn = new Conexion();
+            cn.cnn.Open();
+            if (CuO == 1)
+            {
+               
+                bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
+                if (resultado)
+                    MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("No se ha podido calificar la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
+            else
+            {
+                bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, idPublic, detalle, estrella);
+                if (resultado)
+                    MessageBox.Show("Ha calificado correctamente la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("No se ha podido calificar la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            cn.cnn.Close();
+
+           
         }
 
         private void comboBoxEstrellas_SelectedIndexChanged(object sender, EventArgs e)
@@ -50,6 +91,29 @@ namespace visibilidad.Calificar
             {
                 groupBoxDetalle.Enabled = true;
             }
+
+        }
+
+        private void comboBoxDetalle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((string)comboBoxDetalle.SelectedItem != "")
+            {
+                this.textBoxDetalleP.Enabled = false;
+                buttonConfirmar.Enabled = true;
+            }
+          
+        }
+
+        private void textBoxDetalleP_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.comboBoxDetalle.Enabled = false;
+            buttonConfirmar.Enabled = true;
+        }
+
+        private void textBoxDetalleP_MouseLeave(object sender, EventArgs e)
+        {
+           
+
         }
     }
 }

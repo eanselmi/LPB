@@ -32,11 +32,10 @@
             this.labelEstrellas = new System.Windows.Forms.Label();
             this.comboBoxEstrellas = new System.Windows.Forms.ComboBox();
             this.groupBoxDetalle = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
-            this.radioButtonNegativo = new System.Windows.Forms.RadioButton();
-            this.radioButtonNeutral = new System.Windows.Forms.RadioButton();
-            this.radioButtonPositivo = new System.Windows.Forms.RadioButton();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxDetalle = new System.Windows.Forms.ComboBox();
+            this.textBoxDetalleP = new System.Windows.Forms.TextBox();
             this.buttonVolverCalificacion = new System.Windows.Forms.Button();
             this.buttonConfirmar = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -65,73 +64,58 @@
             // 
             // groupBoxDetalle
             // 
-            this.groupBoxDetalle.Controls.Add(this.textBox1);
-            this.groupBoxDetalle.Controls.Add(this.radioButton4);
-            this.groupBoxDetalle.Controls.Add(this.radioButtonNegativo);
-            this.groupBoxDetalle.Controls.Add(this.radioButtonNeutral);
-            this.groupBoxDetalle.Controls.Add(this.radioButtonPositivo);
+            this.groupBoxDetalle.Controls.Add(this.label2);
+            this.groupBoxDetalle.Controls.Add(this.label1);
+            this.groupBoxDetalle.Controls.Add(this.comboBoxDetalle);
+            this.groupBoxDetalle.Controls.Add(this.textBoxDetalleP);
             this.groupBoxDetalle.Enabled = false;
             this.groupBoxDetalle.Location = new System.Drawing.Point(12, 48);
             this.groupBoxDetalle.Name = "groupBoxDetalle";
-            this.groupBoxDetalle.Size = new System.Drawing.Size(245, 133);
+            this.groupBoxDetalle.Size = new System.Drawing.Size(245, 115);
             this.groupBoxDetalle.TabIndex = 2;
             this.groupBoxDetalle.TabStop = false;
             this.groupBoxDetalle.Text = "Detalle De La Calificacion";
             // 
-            // textBox1
+            // label2
             // 
-            this.textBox1.Location = new System.Drawing.Point(40, 101);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 4;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(8, 74);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(84, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Detalle Personal";
             // 
-            // radioButton4
+            // label1
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Location = new System.Drawing.Point(21, 101);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(85, 17);
-            this.radioButton4.TabIndex = 3;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "radioButton4";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Elegir Detalle";
             // 
-            // radioButtonNegativo
+            // comboBoxDetalle
             // 
-            this.radioButtonNegativo.AutoSize = true;
-            this.radioButtonNegativo.Location = new System.Drawing.Point(21, 78);
-            this.radioButtonNegativo.Name = "radioButtonNegativo";
-            this.radioButtonNegativo.Size = new System.Drawing.Size(68, 17);
-            this.radioButtonNegativo.TabIndex = 2;
-            this.radioButtonNegativo.TabStop = true;
-            this.radioButtonNegativo.Text = "Negativo";
-            this.radioButtonNegativo.UseVisualStyleBackColor = true;
+            this.comboBoxDetalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxDetalle.FormattingEnabled = true;
+            this.comboBoxDetalle.Location = new System.Drawing.Point(102, 31);
+            this.comboBoxDetalle.Name = "comboBoxDetalle";
+            this.comboBoxDetalle.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxDetalle.TabIndex = 5;
+            this.comboBoxDetalle.SelectedIndexChanged += new System.EventHandler(this.comboBoxDetalle_SelectedIndexChanged);
             // 
-            // radioButtonNeutral
+            // textBoxDetalleP
             // 
-            this.radioButtonNeutral.AutoSize = true;
-            this.radioButtonNeutral.Location = new System.Drawing.Point(21, 55);
-            this.radioButtonNeutral.Name = "radioButtonNeutral";
-            this.radioButtonNeutral.Size = new System.Drawing.Size(59, 17);
-            this.radioButtonNeutral.TabIndex = 1;
-            this.radioButtonNeutral.TabStop = true;
-            this.radioButtonNeutral.Text = "Neutral";
-            this.radioButtonNeutral.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonPositivo
-            // 
-            this.radioButtonPositivo.AutoSize = true;
-            this.radioButtonPositivo.Location = new System.Drawing.Point(21, 32);
-            this.radioButtonPositivo.Name = "radioButtonPositivo";
-            this.radioButtonPositivo.Size = new System.Drawing.Size(62, 17);
-            this.radioButtonPositivo.TabIndex = 0;
-            this.radioButtonPositivo.TabStop = true;
-            this.radioButtonPositivo.Text = "Positivo";
-            this.radioButtonPositivo.UseVisualStyleBackColor = true;
+            this.textBoxDetalleP.Location = new System.Drawing.Point(102, 71);
+            this.textBoxDetalleP.Name = "textBoxDetalleP";
+            this.textBoxDetalleP.Size = new System.Drawing.Size(121, 20);
+            this.textBoxDetalleP.TabIndex = 4;
+            this.textBoxDetalleP.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxDetalleP_MouseClick);
+            this.textBoxDetalleP.MouseLeave += new System.EventHandler(this.textBoxDetalleP_MouseLeave);
             // 
             // buttonVolverCalificacion
             // 
-            this.buttonVolverCalificacion.Location = new System.Drawing.Point(15, 201);
+            this.buttonVolverCalificacion.Location = new System.Drawing.Point(15, 183);
             this.buttonVolverCalificacion.Name = "buttonVolverCalificacion";
             this.buttonVolverCalificacion.Size = new System.Drawing.Size(75, 23);
             this.buttonVolverCalificacion.TabIndex = 3;
@@ -142,7 +126,7 @@
             // buttonConfirmar
             // 
             this.buttonConfirmar.Enabled = false;
-            this.buttonConfirmar.Location = new System.Drawing.Point(182, 201);
+            this.buttonConfirmar.Location = new System.Drawing.Point(182, 183);
             this.buttonConfirmar.Name = "buttonConfirmar";
             this.buttonConfirmar.Size = new System.Drawing.Size(75, 23);
             this.buttonConfirmar.TabIndex = 4;
@@ -156,12 +140,13 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(100, 20);
             this.textBox2.TabIndex = 5;
+            this.textBox2.Visible = false;
             // 
             // Calificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(268, 246);
+            this.ClientSize = new System.Drawing.Size(268, 221);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.buttonConfirmar);
             this.Controls.Add(this.buttonVolverCalificacion);
@@ -187,13 +172,12 @@
         private System.Windows.Forms.Label labelEstrellas;
         private System.Windows.Forms.ComboBox comboBoxEstrellas;
         private System.Windows.Forms.GroupBox groupBoxDetalle;
-        private System.Windows.Forms.RadioButton radioButton4;
-        private System.Windows.Forms.RadioButton radioButtonNegativo;
-        private System.Windows.Forms.RadioButton radioButtonNeutral;
-        private System.Windows.Forms.RadioButton radioButtonPositivo;
         private System.Windows.Forms.Button buttonVolverCalificacion;
         private System.Windows.Forms.Button buttonConfirmar;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxDetalleP;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxDetalle;
     }
 }

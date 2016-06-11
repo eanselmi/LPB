@@ -18,11 +18,12 @@ namespace visibilidad.Calificar
     {
         Conexion cn = new Conexion();
         private int idUser;
+
         public ComprasOfertasSinCalificar(int idUsuario)
         {
             InitializeComponent();
             idUser = idUsuario;
-            this.textBox1.Text = idUser.ToString();
+            this.textBoxUser.Text = idUser.ToString();
         }
 
 
@@ -50,7 +51,7 @@ namespace visibilidad.Calificar
             {
                 buttonCalificar.Enabled = false;
             }
-
+            this.textBoxCompra.Text = "1";
 
      
         }
@@ -72,15 +73,17 @@ namespace visibilidad.Calificar
             {
                 buttonCalificar.Enabled = false;
             }
+
+            this.textBoxCompra.Text = "0";
      
         }
 
         private void buttonCalificar_Click(object sender, EventArgs e)
         {
-
+            int CuO = Int32.Parse(this.textBoxCompra.Text.ToString());
             decimal idPublicacion = Decimal.Parse(dataGridViewCalificar.SelectedCells[0].Value.ToString());
             this.Close();
-            Calificar.Calificacion calificacion = new Calificar.Calificacion(idUser, idPublicacion);
+            Calificar.Calificacion calificacion = new Calificar.Calificacion(idUser, idPublicacion, CuO);
             calificacion.Show();
         }
 
