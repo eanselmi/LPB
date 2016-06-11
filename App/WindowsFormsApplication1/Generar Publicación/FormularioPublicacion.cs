@@ -25,6 +25,7 @@ namespace visibilidad.Generar_Publicación
         public int publicacion_acepta_envio;
         public int publicacion_acepta_preguntas;
         public string evento;
+        public int codigo_nuevo;
         public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int modo, string ev)
         {
             generar = form;
@@ -83,13 +84,13 @@ namespace visibilidad.Generar_Publicación
                 if (radio_borrador.Checked == true)
                 {
                     radio_compra.Enabled = true;
-                    radio_subasta.Enabled = true;                    
-                }                
+                    radio_subasta.Enabled = true;
+                }
                 if (radio_activa.Checked == true)
                 {
                     radio_borrador.Enabled = false;
                     cmb_visibilidad.Enabled = false;
-                    
+
                 }
                 if (radio_pausada.Checked == true)
                 {
@@ -103,9 +104,9 @@ namespace visibilidad.Generar_Publicación
                 {
                     MessageBox.Show("Esta publicacion esta finalizada y no admite cambios", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     deshabilitar_todo();
-                    
+
                 }
-                
+
             }
             if (evento == "V")
             {
@@ -120,7 +121,7 @@ namespace visibilidad.Generar_Publicación
             text_stock.Enabled = false;
             cmb_visibilidad.Enabled = false;
             check_envio.Enabled = false;
-            check_pregunta.Enabled = false;            
+            check_pregunta.Enabled = false;
             checklist_rubros.SelectionMode = SelectionMode.None;
             radio_activa.Enabled = false;
             radio_borrador.Enabled = false;
@@ -184,13 +185,13 @@ namespace visibilidad.Generar_Publicación
             if (lector.GetBoolean(8) == true)
                 check_pregunta.Checked = true;
             else check_pregunta.Checked = false;
-                        
+
             int i;
             for (i = 0; i < cmb_visibilidad.Items.Count; i++)
             {
                 cmb_visibilidad.SelectedIndex = i;
                 if (cmb_visibilidad.Text == lector.GetString(9))
-                    break;                    
+                    break;
             }
             con.cnn.Close();
 
@@ -199,7 +200,7 @@ namespace visibilidad.Generar_Publicación
             string query_rubros = "SELECT descripcion,id FROM lpb.rubros";
             con.cnn.Open();
             command = new SqlCommand(query_rubros, con.cnn);
-            lector = command.ExecuteReader();            
+            lector = command.ExecuteReader();
             string rubro;
             int id_rubro;
             i = 0;
@@ -209,7 +210,7 @@ namespace visibilidad.Generar_Publicación
                 checklist_rubros.Items.Add(rubro);
                 id_rubro = lector.GetInt32(1);
                 string query_control = "SELECT 1 FROM lpb.publicacionesporrubro " +
-                             "WHERE rubro_id = " + id_rubro + " and publicacion_id=" + codigo_pub;                
+                             "WHERE rubro_id = " + id_rubro + " and publicacion_id=" + codigo_pub;
                 Conexion con2 = new Conexion();
                 con2.cnn.Open();
                 SqlCommand command2 = new SqlCommand(query_control, con2.cnn);
@@ -417,7 +418,7 @@ namespace visibilidad.Generar_Publicación
                     cmd.ExecuteNonQuery();
 
                     // Leer la devolucion del SP
-                    int codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);
+                    codigo_nuevo = Convert.ToInt32(cmd.Parameters["@nuevo_codigo_publicacion"].Value);
                     cn.cnn.Close();
 
                     foreach (object itemsCheck in checklist_rubros.CheckedItems)
@@ -429,77 +430,115 @@ namespace visibilidad.Generar_Publicación
                         cn.cnn.Close();
                     }
                     MessageBox.Show("Publicacion creada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
-                    generar.Show();
-                    generar.reset_publicaciones();
+                }
 
-                    if (radio_activa.Checked == true)
+
+                if (radio_activa.Checked == true)
+                {
+                    Generar_Publicación.Factura factura = new Generar_Publicación.Factura();
+                    string query_tipo_usuario;
+                    query_tipo_usuario = "select TipoUsuario from lpb.usuarios where id=" + id_usuario;
+                    Conexion con = new Conexion();
+                    con.cnn.Open();
+                    SqlCommand command = new SqlCommand(query_tipo_usuario, con.cnn);
+                    SqlDataReader lector1 = command.ExecuteReader();
+                    lector1.Read();
+                    string tipo_usuario = lector1.GetString(0);
+                    con.cnn.Close();
+                    factura.dateTimePicker1.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+
+                    cn = new Conexion();
+                    using (SqlCommand comando = new SqlCommand("lpb.SP_Generar_Facturacion_Publicacion", cn.cnn))
                     {
-                        Generar_Publicación.Factura factura = new Generar_Publicación.Factura();
-                        string query_tipo_usuario;
-                        query_tipo_usuario = "select TipoUsuario from lpb.usuarios where id=" + id_usuario;
-                        Conexion con = new Conexion();
-                        con.cnn.Open();
-                        SqlCommand command = new SqlCommand(query_tipo_usuario, con.cnn);
-                        SqlDataReader lector1 = command.ExecuteReader();
-                        lector1.Read();
-                        string tipo_usuario = lector1.GetString(0);
-                        con.cnn.Close();                        
-                        if (tipo_usuario == "Empresa")
-                        {
-                            factura.lbl_cliente.Text = id_usuario.ToString();
-                            factura.lbl_nombre_titulo.Visible = false;                            
-                            factura.lbl_nombre.Visible = false;
-                            factura.lbl_apellido_titulo.Visible = false;
-                            factura.lbl_apellido.Visible = false;
-                            factura.lbl_documento_titulo.Visible = false;
-                            factura.lbl_documento.Visible = false;
-                            factura.textBox1.Text = "Cargos por publicacion " + cmb_visibilidad.Text;
-                            factura.textBox2.Text = "1";
+                        comando.CommandType = CommandType.StoredProcedure;
 
-                            string query_costo_publicacion;
-                            query_costo_publicacion = "select precio from lpb.visibilidades where codigo=" + text_visibilidad_id.Text;
-                            con = new Conexion();
-                            con.cnn.Open();
-                            command = new SqlCommand(query_costo_publicacion, con.cnn);
-                            lector1 = command.ExecuteReader();
-                            lector1.Read();
-                            factura.textBox3.Text = lector1.GetDecimal(0).ToString();
-                            factura.textBox4.Text = lector1.GetDecimal(0).ToString();
-                            con.cnn.Close();                                                   
+                        // Seteo los parametros del SP                           
 
-                            //Traigo los datos de la empresa
-                            string query_datos_empresa;
-                            query_datos_empresa = "select e.id, e.razonSocial, e.cuit "+
-                                                  "from lpb.Usuarios u, lpb.Empresas e where e.Usuario_id=u.id and u.id=" + id_usuario;
-                            con = new Conexion();
-                            con.cnn.Open();
-                            command = new SqlCommand(query_datos_empresa, con.cnn);
-                            lector1 = command.ExecuteReader();
-                            lector1.Read();
-                            
-                            factura.lbl_cliente.Text = lector1.GetInt32(0).ToString();
-                            factura.lbl_razon_social.Text = lector1.GetString(1);
-                            factura.lbl_cuit.Text = lector1.GetString(2);                           
-                            
-                            con.cnn.Close();                        
+                        comando.Parameters.Add("@fecha_factura", SqlDbType.DateTime);
+                        comando.Parameters.Add("@visibilidad_codigo", SqlDbType.Decimal);
+                        comando.Parameters.Add("@usuario_id", SqlDbType.Int);
+                        comando.Parameters.Add("@publicacion_cod", SqlDbType.Decimal);
+                        comando.Parameters.Add("@descripcion", SqlDbType.VarChar, 100);
+                        comando.Parameters.Add("@nuevo_codigo_factura", SqlDbType.Decimal).Direction = ParameterDirection.Output;
 
 
-                        }
+                        // Lleno los parametros
+
+                        comando.Parameters["@fecha_factura"].Value = factura.dateTimePicker1.Value;
+                        comando.Parameters["@visibilidad_codigo"].Value = Convert.ToDecimal(text_visibilidad_id.Text);
+                        comando.Parameters["@usuario_id"].Value = id_usuario;
+                        if (evento == "A") //Si es un alta no tengo el codigo de la publicacion por parametro
+                            comando.Parameters["@publicacion_cod"].Value = codigo_nuevo;
                         else
-                        {
-                            MessageBox.Show("entro por donde no debia");
+                            comando.Parameters["@publicacion_cod"].Value = codigo_publicacion;
+                        comando.Parameters["@descripcion"].Value = "Cargos por publicacion " + cmb_visibilidad.Text;
 
-                        }
-                        factura.Show();
+                        cn.cnn.Open();
+                        comando.ExecuteNonQuery();
+
+                        // Leer la devolucion del SP
+                        Decimal codigo_factura = Convert.ToDecimal(comando.Parameters["@nuevo_codigo_factura"].Value);
+                        factura.lbl_numero.Text = codigo_factura.ToString();
+                        cn.cnn.Close();
+
                     }
 
+                    if (tipo_usuario == "Empresa")
+                    {
+                        factura.lbl_cliente.Text = id_usuario.ToString();
+                        factura.lbl_nombre_titulo.Visible = false;
+                        factura.lbl_nombre.Visible = false;
+                        factura.lbl_apellido_titulo.Visible = false;
+                        factura.lbl_apellido.Visible = false;
+                        factura.lbl_documento_titulo.Visible = false;
+                        factura.lbl_documento.Visible = false;
+                        factura.textBox1.Text = "Cargos por publicacion " + cmb_visibilidad.Text;
+                        factura.textBox2.Text = "1";
+
+                        string query_costo_publicacion;
+                        query_costo_publicacion = "select precio from lpb.visibilidades where codigo=" + text_visibilidad_id.Text;
+                        con = new Conexion();
+                        con.cnn.Open();
+                        command = new SqlCommand(query_costo_publicacion, con.cnn);
+                        lector1 = command.ExecuteReader();
+                        lector1.Read();
+                        factura.textBox3.Text = lector1.GetDecimal(0).ToString();
+                        factura.textBox4.Text = lector1.GetDecimal(0).ToString();
+                        con.cnn.Close();
+
+                        //Traigo los datos de la empresa
+                        string query_datos_empresa;
+                        query_datos_empresa = "select e.id, e.razonSocial, e.cuit " +
+                                              "from lpb.Usuarios u, lpb.Empresas e where e.Usuario_id=u.id and u.id=" + id_usuario;
+                        con = new Conexion();
+                        con.cnn.Open();
+                        command = new SqlCommand(query_datos_empresa, con.cnn);
+                        lector1 = command.ExecuteReader();
+                        lector1.Read();
+
+                        factura.lbl_cliente.Text = lector1.GetInt32(0).ToString();
+                        factura.lbl_razon_social.Text = lector1.GetString(1);
+                        factura.lbl_cuit.Text = lector1.GetString(2);
+
+                        con.cnn.Close();
+
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("entro por donde no debia, aca van clientes");
+                    }
+                    factura.Show();
                 }
+                this.Close();
+                generar.Show();
+                generar.reset_publicaciones();
+
             }
             if (evento == "M")
             {
                 //Actualizar Publicacion
-                
+
                 Conexion cn = new Conexion();
                 using (SqlCommand cmd = new SqlCommand("lpb.SP_Actualizar_Publicacion", cn.cnn))
                 {
@@ -517,7 +556,7 @@ namespace visibilidad.Generar_Publicación
                     cmd.Parameters.Add("@acepta_envio", SqlDbType.Bit);
                     cmd.Parameters.Add("@acepta_pregunta", SqlDbType.Bit);
                     cmd.Parameters.Add("@visibilidad_codigo", SqlDbType.Int);
-                    
+
 
                     // Lleno los parametros
                     cmd.Parameters["@codigo_publicacion"].Value = codigo_publicacion;
@@ -532,9 +571,9 @@ namespace visibilidad.Generar_Publicación
                     cmd.Parameters["@acepta_pregunta"].Value = publicacion_acepta_preguntas;
                     cmd.Parameters["@visibilidad_codigo"].Value = Convert.ToInt32(text_visibilidad_id.Text);
                     cn.cnn.Open();
-                    cmd.ExecuteNonQuery();            
+                    cmd.ExecuteNonQuery();
                     cn.cnn.Close();
-                    
+
                     string delete_rubros = "DELETE lpb.PublicacionesPorRubro where publicacion_id=" + codigo_publicacion;
                     cn.cnn.Open();
                     SqlCommand borrar_publicacionPorRubro = new SqlCommand(delete_rubros, cn.cnn);
@@ -549,7 +588,7 @@ namespace visibilidad.Generar_Publicación
                         cn.cnn.Close();
                     }
 
-                    
+
                     MessageBox.Show("Publicacion actualizada exitosamente", "Correcto", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     generar.Show();

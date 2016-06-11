@@ -461,6 +461,11 @@ BEGIN
 	DROP PROCEDURE LPB.SP_Eliminacion_RolesxUsuario
 END;
 GO
+IF OBJECT_ID('lpb.SP_Generar_Facturacion_Publicacion') IS NOT NULL
+BEGIN
+	DROP PROCEDURE lpb.SP_Generar_Facturacion_Publicacion
+END;
+GO
 
 IF OBJECT_ID('LPB.SP_Modificacion_Cliente') IS NOT NULL
 BEGIN
@@ -507,18 +512,6 @@ GO
 IF OBJECT_ID('LPB.SP_Ofertas_Sin_Calificar') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Ofertas_Sin_Calificar
-END;
-GO
-
-IF OBJECT_ID('LPB.[SP_Insertar_Calificacion_Compras]') IS NOT NULL
-BEGIN
-	DROP PROCEDURE LPB.[SP_Insertar_Calificacion_Compras]
-END;
-GO
-
-IF OBJECT_ID('LPB.[SP_Insertar_Calificacion_Ofertas]') IS NOT NULL
-BEGIN
-	DROP PROCEDURE LPB.[SP_Insertar_Calificacion_Ofertas]
 END;
 GO
 
@@ -620,6 +613,22 @@ case when @dpto='' then NULL else @dpto END,
 COMMIT TRANSACTION
 END
 GO
+
+CREATE PROCEDURE lpb.SP_Generar_Facturacion_Publicacion (@fecha_factura Datetime, @visibilidad_codigo numeric(18,0), @usuario_id int, @publicacion_cod numeric(18,0), @descripcion varchar(100), @nuevo_codigo_factura numeric(18,0) OUTPUT)
+AS
+BEGIN	
+	set @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
+	Declare @total Numeric(18,2);
+	set @total = (select precio from Visibilidades where codigo=@visibilidad_codigo);
+	insert into lpb.facturas(numero,fecha,total,FormaDePago,Usuario_id)
+	values(@nuevo_codigo_factura,@fecha_factura,@total,NULL,@usuario_id)
+	
+	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
+	values(@total,1,@nuevo_codigo_factura,@publicacion_cod,@descripcion)
+END
+GO
+
+
 
 CREATE PROCEDURE lpb.SP_Guardar_Publicacion (@usuarioid int, @publicacion_estado int, @publicacion_tipo int,  
                                              @descripcion varchar(255), @stock numeric(18,0), @fecha_creacion datetime,
@@ -1009,34 +1018,6 @@ ON o.Cliente_id = cli.id
 WHERE o.Calificacion_cod IS NULL AND o.Cliente_id != p.Usuario_id AND cli.Usuario_id = @idUser AND ganadora = 1 
 END 
 GO
-
-CREATE PROCEDURE LPB.[SP_Insertar_Calificacion_Compras]
-@Publicacion_cod numeric(18, 0),
-@detalle nvarchar(255),
-@estrellas numeric(18, 0)
-AS BEGIN 
-INSERT INTO LPB.Calificaciones(codigo, descripcion, cantEstrellas)
-VALUES ((select max(codigo) from LPB.Calificaciones) +1, @detalle, @estrellas)
-UPDATE LPB.Compras
-SET  Calificacion_cod = (SELECT TOP 1 codigo FROM LPB.Calificaciones ORDER BY codigo DESC)
-WHERE Publicacion_cod = @Publicacion_cod
-END 
-GO
-
-CREATE PROCEDURE LPB.[SP_Insertar_Calificacion_Ofertas]
-@Publicacion_cod numeric(18, 0),
-@detalle nvarchar(255),
-@estrellas numeric(18, 0)
-AS BEGIN 
-INSERT INTO LPB.Calificaciones(codigo, descripcion, cantEstrellas)
-VALUES ((select max(codigo) from LPB.Calificaciones) +1, @detalle, @estrellas)
-UPDATE LPB.Ofertas
-SET  Calificacion_cod = (SELECT TOP 1 codigo FROM LPB.Calificaciones ORDER BY codigo DESC)
-WHERE Publicacion_cod = @Publicacion_cod
-END 
-GO
-
-
 
 /* Declaración de variables */
 

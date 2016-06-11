@@ -22,7 +22,7 @@ namespace visibilidad.Generar_Publicación
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.TopMost = true;
-            dateTimePicker1.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            
 
             
         }
