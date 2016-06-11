@@ -150,11 +150,11 @@
       <DependentUpon>BusquedaPublicacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Configuracion.cs" />
-    <Compile Include="Facturas\Form1.cs">
+    <Compile Include="Facturas\ConsultaFacturas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Facturas\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Facturas\ConsultaFacturas.Designer.cs">
+      <DependentUpon>ConsultaFacturas.cs</DependentUpon>
     </Compile>
     <Compile Include="Generar Publicación\Factura.cs">
       <SubType>Form</SubType>
@@ -263,6 +263,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ComprarOfertar\Ofertar_Box.resx">
       <DependentUpon>Ofertar_Box.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturas\ConsultaFacturas.resx">
+      <DependentUpon>ConsultaFacturas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generar Publicación\Factura.resx">
       <DependentUpon>Factura.cs</DependentUpon>

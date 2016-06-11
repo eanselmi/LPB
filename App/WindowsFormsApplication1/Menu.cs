@@ -271,5 +271,11 @@ namespace visibilidad
             options.Show();
         }
 
+        private void consultaFacturacionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Facturas.ConsultaFacturas consultaFacturas = new Facturas.ConsultaFacturas(id_usuario);
+            consultaFacturas.Show();
+        }
+
     }
 }
