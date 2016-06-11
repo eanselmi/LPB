@@ -256,6 +256,7 @@
             this.consultaFacturacionToolStripMenuItem.Name = "consultaFacturacionToolStripMenuItem";
             this.consultaFacturacionToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.consultaFacturacionToolStripMenuItem.Text = "Consulta Facturacion";
+            this.consultaFacturacionToolStripMenuItem.Click += new System.EventHandler(this.consultaFacturacionToolStripMenuItem_Click);
             // 
             // listadoEstadisticoToolStripMenuItem
             // 
