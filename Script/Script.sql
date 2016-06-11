@@ -209,8 +209,8 @@ stock NUMERIC(18,0) NOT NULL,
 fechaCreacion DATETIME NOT NULL,
 fechaVencimiento DATETIME NOT NULL,
 precio NUMERIC(18,2) NOT NULL,
-aceptaEnvio BIT,
-aceptaPreguntas BIT,
+aceptaEnvio BIT NOT NULL DEFAULT 0,
+aceptaPreguntas BIT NOT NULL DEFAuLT 0,
 Visibilidad_codigo NUMERIC(18,0),
 PRIMARY KEY(codigo)
 )
@@ -621,8 +621,7 @@ BEGIN
 	Declare @total Numeric(18,2);
 	set @total = (select precio from Visibilidades where codigo=@visibilidad_codigo);
 	insert into lpb.facturas(numero,fecha,total,FormaDePago,Usuario_id)
-	values(@nuevo_codigo_factura,@fecha_factura,@total,NULL,@usuario_id)
-	
+	values(@nuevo_codigo_factura,@fecha_factura,@total,NULL,@usuario_id)	
 	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
 	values(@total,1,@nuevo_codigo_factura,@publicacion_cod,@descripcion)
 END
@@ -1239,7 +1238,7 @@ INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Borrador');
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Activa');
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Pausada');
 INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Finalizada');
-INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Publicada');
+--INSERT INTO LPB.EstadosDePublicacion (descripcion) VALUES ('Publicada');
 COMMIT;
 
 /*Rubros*/
@@ -1283,7 +1282,7 @@ INSERT INTO [LPB].[Publicaciones] (
 	)
 SELECT DISTINCT [Publicacion_Cod]
 	,[Empresas].[Usuario_Id]
-	,1
+	,4
 	,[Tipos].[Id]
 	,[Publicacion_Descripcion]	
 	,[Publicacion_Stock]
@@ -1302,7 +1301,7 @@ UNION ALL
 
 SELECT DISTINCT [Publicacion_Cod]
 	,[Clientes].[Usuario_Id]
-	,1
+	,4
 	,[Tipos].[Id]
 	,[Publicacion_Descripcion]	
 	,[Publicacion_Stock]
