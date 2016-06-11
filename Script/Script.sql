@@ -938,7 +938,9 @@ BEGIN
 		WHERE ganadora = 1) AS Calificadas
 	INNER JOIN LPB.Calificaciones
 	ON Calificadas.Calificacion_cod = codigo
-	WHERE Cliente_id = @idUser AND Calificacion_cod IS NOT NULL
+	INNER JOIN LPB.Clientes cli
+    ON Calificadas.Cliente_id = cli.id
+	WHERE cli.Usuario_id = @idUser AND Calificacion_cod IS NOT NULL
 	ORDER BY Calificacion_cod DESC 
 END 
 GO 
@@ -951,7 +953,9 @@ SELECT cantEstrellas as 'Estrella', COUNT(*) as 'Cantidad'
 FROM LPB.Compras
 INNER JOIN LPB.Calificaciones
 ON Calificacion_cod = codigo
-WHERE Cliente_id = @idUser
+INNER JOIN LPB.Clientes cli
+ON Cliente_id = cli.id
+WHERE cli.Usuario_id = @idUser
 GROUP BY cantEstrellas
 ORDER BY cantEstrellas
 END 
@@ -965,7 +969,9 @@ SELECT cantEstrellas as 'Estrella', COUNT(*) as 'Cantidad'
 FROM LPB.Ofertas
 INNER JOIN LPB.Calificaciones
 ON Calificacion_cod = codigo
-WHERE Cliente_id = @idUser AND ganadora = 1
+INNER JOIN LPB.Clientes cli
+ON Cliente_id = cli.id
+WHERE cli.Usuario_id = @idUser AND ganadora = 1
 GROUP BY cantEstrellas
 ORDER BY cantEstrellas
 END 
@@ -980,7 +986,9 @@ SELECT  DISTINCT c.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion'
 FROM LPB.Compras c
 INNER JOIN LPB.Publicaciones p
 ON c.Publicacion_cod = p.codigo
-WHERE c.Calificacion_cod IS NULL AND c.Cliente_id != p.Usuario_id AND Cliente_id = @idUser
+INNER JOIN LPB.Clientes cli
+ON c.Cliente_id = cli.id
+WHERE c.Calificacion_cod IS NULL AND c.Cliente_id != p.Usuario_id AND cli.Usuario_id = @idUser
 ORDER BY c.Publicacion_cod
 END 
 GO
@@ -994,7 +1002,9 @@ SELECT DISTINCT o.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' 
 FROM LPB.Ofertas o
 INNER JOIN LPB.Publicaciones p
 ON o.Publicacion_cod = p.codigo
-WHERE o.Calificacion_cod IS NOT  NULL AND o.Cliente_id != p.Usuario_id AND Cliente_id = @idUser AND ganadora = 1 
+INNER JOIN LPB.Clientes cli
+ON o.Cliente_id = cli.id
+WHERE o.Calificacion_cod IS NULL AND o.Cliente_id != p.Usuario_id AND cli.Usuario_id = @idUser AND ganadora = 1 
 END 
 GO
 

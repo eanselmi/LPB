@@ -35,6 +35,7 @@
             this.buttonOfertas = new System.Windows.Forms.Button();
             this.groupBoxCalificar = new System.Windows.Forms.GroupBox();
             this.dataGridViewCalificar = new System.Windows.Forms.DataGridView();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBoxCalificar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalificar)).BeginInit();
             this.SuspendLayout();
@@ -102,13 +103,20 @@
             this.dataGridViewCalificar.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewCalificar.Size = new System.Drawing.Size(670, 185);
             this.dataGridViewCalificar.TabIndex = 0;
- 
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(43, 21);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 6;
             // 
             // ComprasOfertasSinCalificar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 329);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBoxCalificar);
             this.Controls.Add(this.buttonOfertas);
             this.Controls.Add(this.buttonComprar);
@@ -121,6 +129,7 @@
             this.groupBoxCalificar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalificar)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -132,6 +141,7 @@
         private System.Windows.Forms.Button buttonOfertas;
         private System.Windows.Forms.GroupBox groupBoxCalificar;
         private System.Windows.Forms.DataGridView dataGridViewCalificar;
+        private System.Windows.Forms.TextBox textBox1;
 
     }
 }

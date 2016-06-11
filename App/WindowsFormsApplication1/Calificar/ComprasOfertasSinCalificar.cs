@@ -22,6 +22,7 @@ namespace visibilidad.Calificar
         {
             InitializeComponent();
             idUser = idUsuario;
+            this.textBox1.Text = idUser.ToString();
         }
 
 
