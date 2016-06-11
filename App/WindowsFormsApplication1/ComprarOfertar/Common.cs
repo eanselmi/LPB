@@ -58,32 +58,8 @@ namespace common
             }
 
             query += " order by v.precio desc" ;
-
-            Conexion con = new Conexion();
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            DataTable publis_table = new DataTable();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con.cnn);
-            con.cnn.Close();
-
-            publis.AutoGenerateColumns = false;
-            dataAdapter.Fill(publis_table);
-            publis.ReadOnly = true;
-            publis.DataSource = publis_table;
-         
-           crearColumnas(publis, 0,"codigo", "Código", true);
-           crearColumnas(publis, 1, "Usuario_id", "Usuario_id", false);
-           crearColumnas(publis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
-           crearColumnas(publis, 3, "descripcion", "Descripción",true);
-           crearColumnas(publis, 4, "stock", "Stock", true);
-           crearColumnas(publis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
-           crearColumnas(publis, 6, "precio", "Precio", true);
-           crearColumnas(publis, 7, "aceptaEnvio", "aceptaEnvio", false);
-           crearColumnas(publis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
-           crearColumnas(publis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
       
-           return publis;
+           return generarTabla(query, publis);
         }
 
         private String applyFilterRubros(CheckedListBox.CheckedItemCollection rubros)
@@ -114,13 +90,48 @@ namespace common
             }
         }
 
+        private DataGridView generarTabla(String query, DataGridView publis)
+        {
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            DataTable publis_table = new DataTable();
+            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con.cnn);
+            con.cnn.Close();
+
+            publis.AutoGenerateColumns = false;
+            dataAdapter.Fill(publis_table);
+            publis.ReadOnly = true;
+            publis.DataSource = publis_table;
+
+            crearColumnas(publis, 0, "codigo", "Código", true);
+            crearColumnas(publis, 1, "Usuario_id", "Usuario_id", false);
+            crearColumnas(publis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
+            crearColumnas(publis, 3, "descripcion", "Descripción", true);
+            crearColumnas(publis, 4, "stock", "Stock", true);
+            crearColumnas(publis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
+            crearColumnas(publis, 6, "precio", "Precio", true);
+            crearColumnas(publis, 7, "aceptaEnvio", "aceptaEnvio", false);
+            crearColumnas(publis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
+            crearColumnas(publis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
+
+            return publis;
+        }
+
         private void crearColumnas(DataGridView publis, int columna, String nombre, String header, Boolean visible)
         {
             publis.Columns[columna].Name = nombre;
             publis.Columns[columna].HeaderText = header;
             publis.Columns[columna].DataPropertyName = nombre;
             publis.Columns[columna].Visible = visible;
+        }
 
+        public DataGridViewRow actualizarPublicacion(DataGridView publis, int publicacionSeleccionada)
+        {
+            String query = "select * from LPB.Publicaciones where codigo = " + publicacionSeleccionada.ToString();
+            DataGridView table =  generarTabla(query, publis);
+            return table.Rows[0];
         }
     }
 }

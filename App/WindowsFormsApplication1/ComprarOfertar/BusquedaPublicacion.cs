@@ -17,11 +17,13 @@ namespace visibilidad.ComprarOfertar
     {
         String tipoPublicacionABuscar;
         String publicacionSeleccionada;
+        int idUsuario;
 
-        public BusquedaPublicacion(String tipoPublicacion)
+        public BusquedaPublicacion(String tipoPublicacion, int id_usuario)
         {
             InitializeComponent();
             tipoPublicacionABuscar = tipoPublicacion;
+            idUsuario = id_usuario;
             if (tipoPublicacionABuscar.Equals("Compra Inmediata"))
             {
                 btn_comprar.Text = "Comprar";
@@ -160,8 +162,9 @@ namespace visibilidad.ComprarOfertar
             /* Evaluo cantidad a ofertar */
             if(btn_comprar.Text.Equals("Ofertar")){
                 DataGridViewRow row = grid_publis.SelectedRows[0];
-                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString());
+                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString(), idUsuario, publicacionSeleccionada, grid_publis);
                 ofertar.Show();
+                btn_todas.Enabled = true;
             }
 
 
