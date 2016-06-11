@@ -45,10 +45,7 @@ IF OBJECT_ID('LPB.Ofertas') IS NOT NULL
 BEGIN
 		DROP TABLE LPB.Ofertas;
 END;
-IF OBJECT_ID('LPB.FormasDePago') IS NOT NULL
-BEGIN
-        DROP TABLE LPB.FormasDePago ;
-END;
+
 IF OBJECT_ID('LPB.PublicacionesPorRubro') IS NOT NULL
 BEGIN
         DROP TABLE LPB.PublicacionesPorRubro;
@@ -139,17 +136,11 @@ Rol_id INT NOT NULL,
 PRIMARY KEY(Funcionalidad_id, Rol_id));
 GO
 
-CREATE TABLE [LPB].FormasDePago(
-id INT NOT NULL IDENTITY(1,1),
-descripcion nvarchar(255) NOT NULL,
-PRIMARY KEY(id));
-GO
-
 CREATE TABLE [LPB].Facturas(
 numero numeric(18,0) UNIQUE NOT NULL,
 fecha DATETIME NOT NULL,
 total numeric(18,2) NOT NULL,
-FormaDePago_id INT NOT NULL,
+FormaDePago varchar(50),
 Usuario_id INT NOT NULL,
 PRIMARY KEY(numero));
 GO
@@ -324,7 +315,6 @@ ALTER TABLE LPB.FuncionalidadesPorRol ADD
 GO   
                                                          
 ALTER TABLE LPB.Facturas ADD
-            FOREIGN KEY (FormaDePago_id) references LPB.FormasDePago,
             FOREIGN KEY (Usuario_id) references LPB.Usuarios;
             
 GO
@@ -1113,15 +1103,6 @@ INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (9, @ID)
 
 COMMIT;
 
-BEGIN TRANSACTION
-
-INSERT INTO LPB.FormasDePago(descripcion) 
-SELECT DISTINCT Forma_Pago_Desc
-FROM [gd_esquema].[Maestra]
-WHERE Forma_Pago_Desc IS NOT NULL;
-
-COMMIT;
-
 
 /*creacion Usuarios -HASH del password w23e: 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7'*/
 BEGIN TRANSACTION
@@ -1226,11 +1207,11 @@ COMMIT;
 /*Migracion Factura*/
 
 BEGIN TRANSACTION
-INSERT INTO LPB.Facturas (numero, fecha, total, FormaDePago_id,Usuario_id)	
+INSERT INTO LPB.Facturas (numero, fecha, total, FormaDePago,Usuario_id)	
 SELECT DISTINCT [Factura_Nro],
 	            [Factura_Fecha],
 				[Factura_Total],
-				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc]),
+				[Forma_Pago_Desc],
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Cuit + REPLACE([Publ_Empresa_Cuit],'-',''))
 FROM [gd_esquema].[Maestra]
 WHERE [Factura_Nro] IS NOT NULL and [Publ_Empresa_Cuit] IS NOT NULL
@@ -1238,7 +1219,7 @@ UNION ALL
 SELECT DISTINCT [Factura_Nro],
 	            [Factura_Fecha],
 				[Factura_Total],
-				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc]),
+				[Forma_Pago_Desc],
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Cli_Dni] AS varchar(20)))				
 FROM [gd_esquema].[Maestra]
 WHERE [Factura_Nro] IS NOT NULL and [Cli_Dni] IS NOT NULL
@@ -1246,7 +1227,7 @@ UNION
 SELECT DISTINCT [Factura_Nro],
 	            [Factura_Fecha],
 				[Factura_Total],
-				(SELECT id FROM [LPB].FormasDePago WHERE descripcion=[Forma_Pago_Desc]),
+				[Forma_Pago_Desc],
 				(select id from LPB.Usuarios where username=@DocumentoCodigo_Dni+CAST([Publ_Cli_Dni] AS varchar(20)))				
 FROM [gd_esquema].[Maestra]
 WHERE [Factura_Nro] IS NOT NULL and [Publ_Cli_Dni] IS NOT NULL
