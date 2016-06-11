@@ -17,6 +17,8 @@ namespace visibilidad.ComprarOfertar
     {
         String tipoPublicacionABuscar;
         String publicacionSeleccionada;
+        DataTable tablaPublicaciones = new DataTable();
+
 
         public BusquedaPublicacion(String tipoPublicacion)
         {
@@ -35,7 +37,22 @@ namespace visibilidad.ComprarOfertar
             Common busqueda = new Common();
             checklist_rubros = busqueda.cargarRubros(checklist_rubros);
             limpiar();
-            grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacion , null, null);
+            busqueda.cargarPublicaciones(tablaPublicaciones, tipoPublicacion , null, null);
+
+            superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+
+
+            busqueda.crearColumnas(superGridPublis, 0, "codigo", "Código", true);
+            busqueda.crearColumnas(superGridPublis, 1, "Usuario_id", "Usuario_id", false);
+            busqueda.crearColumnas(superGridPublis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
+            busqueda.crearColumnas(superGridPublis, 3, "descripcion", "Descripción", true);
+            busqueda.crearColumnas(superGridPublis, 4, "stock", "Stock", true);
+            busqueda.crearColumnas(superGridPublis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
+            busqueda.crearColumnas(superGridPublis, 6, "precio", "Precio", true);
+            busqueda.crearColumnas(superGridPublis, 7, "aceptaEnvio", "aceptaEnvio", false);
+            busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
+            busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
+           
 
             btn_todas.Enabled = false;
         }
@@ -94,21 +111,30 @@ namespace visibilidad.ComprarOfertar
 
         private void btn_buscar_Click(object sender, EventArgs e)
         {
+            tablaPublicaciones.Rows.Clear();
+            tablaPublicaciones.Columns.Clear();
+            superGridPublis.clearData();
             btn_todas.Enabled = true;
             Common busqueda = new Common();
-            grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacionABuscar, tbox_descr.Text, checklist_rubros.CheckedItems);
+            busqueda.cargarPublicaciones(tablaPublicaciones, tipoPublicacionABuscar, tbox_descr.Text, checklist_rubros.CheckedItems);
+            superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            tablaPublicaciones.Rows.Clear();
+            tablaPublicaciones.Columns.Clear();
+            superGridPublis.clearData();
             Common busqueda = new Common();
-            grid_publis = busqueda.cargarPublicaciones(grid_publis, tipoPublicacionABuscar, null, null);
+            busqueda.cargarPublicaciones(tablaPublicaciones, tipoPublicacionABuscar, null, null);
+            superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
             limpiar();
         }
 
         private void grid_publis_Click(object sender, EventArgs e)
         {
-            DataGridViewRow row = grid_publis.SelectedRows[0];
+            DataGridViewRow row = superGridPublis.SelectedRows[0];
 
             btn_comprar.Enabled = true;
             btn_pregunta.Enabled = obtenerEnabledSegunValor(row,"aceptaPreguntas");
@@ -159,7 +185,7 @@ namespace visibilidad.ComprarOfertar
 
             /* Evaluo cantidad a ofertar */
             if(btn_comprar.Text.Equals("Ofertar")){
-                DataGridViewRow row = grid_publis.SelectedRows[0];
+                DataGridViewRow row = superGridPublis.SelectedRows[0];
                 Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString());
                 ofertar.Show();
             }

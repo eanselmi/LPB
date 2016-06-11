@@ -73,7 +73,6 @@ namespace visibilidad.Historial_Cliente
             DateTime fechadeHoy;
             fechadeHoy = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
 
-            MessageBox.Show(fechadeHoy.ToShortDateString());
             //CARGO LAS ESTADÍSTICAS
             Conexion connEstrellas = new Conexion();
             string queryEstrellas = "select (select count(codigo) from LPB.Calificaciones where cantEstrellas='1' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"') ), (select count(codigo) from LPB.Calificaciones where cantEstrellas='2' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='3' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='4' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' )), (select count(codigo) from LPB.Calificaciones where cantEstrellas='5' and codigo in (select calificacion_cod from LPB.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' UNION select calificacion_cod from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"')),(select count(Publicacion_cod) from lpb.Compras where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"') as 'COMPRAS HECHAS',(select count(publicacion_cod) from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha<='"+fechadeHoy.ToShortDateString()+"') as 'SUBASTAS HECHAS',(select count(publicacion_cod) from LPB.Ofertas where Cliente_id='"+clienteID+"' and ganadora=1 and fecha<='"+fechadeHoy.ToShortDateString()+"') as 'SUBASTAS GANADAS',(select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id='"+clienteID+"' and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id='"+clienteID+"' and b.ganadora=1 and b.Calificacion_cod is null) as publicacionesSinCalif)";
@@ -201,6 +200,11 @@ namespace visibilidad.Historial_Cliente
             {
                 this.DataSource = tables[bs.Position];
             }
+        }
+
+        public void clearData()
+        {
+            tables.Clear();
         }
     }
 }
