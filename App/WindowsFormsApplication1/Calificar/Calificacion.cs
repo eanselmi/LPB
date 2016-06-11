@@ -51,45 +51,58 @@ namespace visibilidad.Calificar
         private void buttonConfirmar_Click(object sender, EventArgs e)
         {
             int estrella = int.Parse(comboBoxEstrellas.SelectedItem.ToString());
-            string detalle; 
             List<string> lista = Helper.Help.generarListaParaProcedure("@Publicacion_cod", "@detalle", "@estrellas");
             Conexion cn = new Conexion();
             cn.cnn.Open();
             if (CuO == 1)
             {
-                if ((string)comboBoxDetalle.SelectedItem != "")
+                if ((string)comboBoxDetalle.SelectedText != "")
                 {
-                     detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
+                     string detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
+                     bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
+                     if (resultado)
+                         MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                     else
+                         MessageBox.Show("No se ha podido calificar la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
                 else
                 {
-                     detalle = this.textBoxDetalleP.Text.ToString();
+                    string  detalle = this.textBoxDetalleP.Text.ToString();
+                    bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
+                    if (resultado)
+                        MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    else
+                        MessageBox.Show("No se ha podido calificar la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
                 }
                
-                bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
-                if (resultado)
-                    MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("No se ha podido calificar la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                
             }
             else
             {
-                if ((string)comboBoxDetalle.SelectedItem != "")
+                if ((string)comboBoxDetalle.SelectedText != "")
                 {
-                   detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
+                   string detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
+                   bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, idPublic, detalle, estrella);
+                   if (resultado)
+                       MessageBox.Show("Ha calificado correctamente la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   else
+                       MessageBox.Show("No se ha podido calificar la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                   detalle = this.textBoxDetalleP.Text.ToString();
+                   string detalle = this.textBoxDetalleP.Text.ToString();
+                   bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, idPublic, detalle, estrella);
+                   if (resultado)
+                       MessageBox.Show("Ha calificado correctamente la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                   else
+                       MessageBox.Show("No se ha podido calificar la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, idPublic, detalle, estrella);
-                if (resultado)
-                    MessageBox.Show("Ha calificado correctamente la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("No se ha podido calificar la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
             }
             cn.cnn.Close();
+            this.Close();
 
            
         }
@@ -110,19 +123,27 @@ namespace visibilidad.Calificar
                 this.textBoxDetalleP.Enabled = false;
                 buttonConfirmar.Enabled = true;
             }
+            else
+            {
+                this.textBoxDetalleP.Enabled = true;
+                buttonConfirmar.Enabled = false;
+            }
+
           
         }
 
-        private void textBoxDetalleP_MouseClick(object sender, MouseEventArgs e)
+        private void textBoxDetalleP_TextChanged(object sender, EventArgs e)
         {
-            this.comboBoxDetalle.Enabled = false;
-            buttonConfirmar.Enabled = true;
-        }
-
-        private void textBoxDetalleP_MouseLeave(object sender, EventArgs e)
-        {
-           
-
+            if (string.IsNullOrWhiteSpace(this.textBoxDetalleP.Text))
+            {
+                this.comboBoxDetalle.Enabled = true;
+                buttonConfirmar.Enabled = false;
+            }
+            else
+            {
+                this.comboBoxDetalle.Enabled = false;
+                buttonConfirmar.Enabled = true;
+            }
         }
     }
 }

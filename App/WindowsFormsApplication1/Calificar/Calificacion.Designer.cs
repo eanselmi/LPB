@@ -110,8 +110,7 @@
             this.textBoxDetalleP.Name = "textBoxDetalleP";
             this.textBoxDetalleP.Size = new System.Drawing.Size(121, 20);
             this.textBoxDetalleP.TabIndex = 4;
-            this.textBoxDetalleP.MouseClick += new System.Windows.Forms.MouseEventHandler(this.textBoxDetalleP_MouseClick);
-            this.textBoxDetalleP.MouseLeave += new System.EventHandler(this.textBoxDetalleP_MouseLeave);
+            this.textBoxDetalleP.TextChanged += new System.EventHandler(this.textBoxDetalleP_TextChanged);
             // 
             // buttonVolverCalificacion
             // 
