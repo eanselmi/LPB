@@ -444,21 +444,52 @@ namespace visibilidad.Generar_Publicación
                         SqlDataReader lector1 = command.ExecuteReader();
                         lector1.Read();
                         string tipo_usuario = lector1.GetString(0);
-                        con.cnn.Close();
-                        MessageBox.Show(tipo_usuario);
+                        con.cnn.Close();                        
                         if (tipo_usuario == "Empresa")
                         {
                             factura.lbl_cliente.Text = id_usuario.ToString();
-                            factura.lbl_nombre_titulo.Text = "";
-                            factura.lbl_nombre_titulo.Text = "Razon Social: ";
-                            factura.lbl_nombre.Text = "";
+                            factura.lbl_nombre_titulo.Visible = false;                            
+                            factura.lbl_nombre.Visible = false;
                             factura.lbl_apellido_titulo.Visible = false;
                             factura.lbl_apellido.Visible = false;
-                            factura.lbl_documento_titulo.Text = "CUIT: ";
+                            factura.lbl_documento_titulo.Visible = false;
+                            factura.lbl_documento.Visible = false;
+                            factura.textBox1.Text = "Cargos por publicacion " + cmb_visibilidad.Text;
+                            factura.textBox2.Text = "1";
+
+                            string query_costo_publicacion;
+                            query_costo_publicacion = "select precio from lpb.visibilidades where codigo=" + text_visibilidad_id.Text;
+                            con = new Conexion();
+                            con.cnn.Open();
+                            command = new SqlCommand(query_costo_publicacion, con.cnn);
+                            lector1 = command.ExecuteReader();
+                            lector1.Read();
+                            factura.textBox3.Text = lector1.GetDecimal(0).ToString();
+                            factura.textBox4.Text = lector1.GetDecimal(0).ToString();
+                            con.cnn.Close();                                                   
+
+                            //Traigo los datos de la empresa
+                            string query_datos_empresa;
+                            query_datos_empresa = "select e.id, e.razonSocial, e.cuit "+
+                                                  "from lpb.Usuarios u, lpb.Empresas e where e.Usuario_id=u.id and u.id=" + id_usuario;
+                            con = new Conexion();
+                            con.cnn.Open();
+                            command = new SqlCommand(query_datos_empresa, con.cnn);
+                            lector1 = command.ExecuteReader();
+                            lector1.Read();
+                            
+                            factura.lbl_cliente.Text = lector1.GetInt32(0).ToString();
+                            factura.lbl_razon_social.Text = lector1.GetString(1);
+                            factura.lbl_cuit.Text = lector1.GetString(2);                           
+                            
+                            con.cnn.Close();                        
+
+
                         }
                         else
                         {
-                        
+                            MessageBox.Show("entro por donde no debia");
+
                         }
                         factura.Show();
                     }
