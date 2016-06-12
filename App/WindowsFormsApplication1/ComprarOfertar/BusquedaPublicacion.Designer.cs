@@ -76,11 +76,11 @@
             this.group_buscar.Controls.Add(this.btn_buscar);
             this.group_buscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.group_buscar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.group_buscar.Location = new System.Drawing.Point(9, 9);
-            this.group_buscar.Margin = new System.Windows.Forms.Padding(2);
+            this.group_buscar.Location = new System.Drawing.Point(12, 11);
+            this.group_buscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.group_buscar.Name = "group_buscar";
-            this.group_buscar.Padding = new System.Windows.Forms.Padding(2);
-            this.group_buscar.Size = new System.Drawing.Size(660, 165);
+            this.group_buscar.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.group_buscar.Size = new System.Drawing.Size(880, 203);
             this.group_buscar.TabIndex = 4;
             this.group_buscar.TabStop = false;
             this.group_buscar.Text = "Búsqueda de Publicaciones";
@@ -89,10 +89,10 @@
             // 
             this.btn_todas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_todas.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_todas.Location = new System.Drawing.Point(536, 94);
-            this.btn_todas.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_todas.Location = new System.Drawing.Point(715, 116);
+            this.btn_todas.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_todas.Name = "btn_todas";
-            this.btn_todas.Size = new System.Drawing.Size(112, 24);
+            this.btn_todas.Size = new System.Drawing.Size(149, 30);
             this.btn_todas.TabIndex = 9;
             this.btn_todas.Text = "Todas";
             this.btn_todas.UseVisualStyleBackColor = true;
@@ -102,10 +102,10 @@
             // 
             this.btn_limpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_limpiar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_limpiar.Location = new System.Drawing.Point(536, 61);
-            this.btn_limpiar.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_limpiar.Location = new System.Drawing.Point(715, 75);
+            this.btn_limpiar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_limpiar.Name = "btn_limpiar";
-            this.btn_limpiar.Size = new System.Drawing.Size(112, 24);
+            this.btn_limpiar.Size = new System.Drawing.Size(149, 30);
             this.btn_limpiar.TabIndex = 8;
             this.btn_limpiar.Text = "Limpiar";
             this.btn_limpiar.UseVisualStyleBackColor = true;
@@ -114,19 +114,18 @@
             // label_rubro
             // 
             this.label_rubro.AutoSize = true;
-            this.label_rubro.Location = new System.Drawing.Point(14, 59);
-            this.label_rubro.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_rubro.Location = new System.Drawing.Point(19, 73);
             this.label_rubro.Name = "label_rubro";
-            this.label_rubro.Size = new System.Drawing.Size(54, 17);
+            this.label_rubro.Size = new System.Drawing.Size(63, 20);
             this.label_rubro.TabIndex = 7;
             this.label_rubro.Text = "Rubros";
             // 
             // tbox_descr
             // 
-            this.tbox_descr.Location = new System.Drawing.Point(118, 29);
-            this.tbox_descr.Margin = new System.Windows.Forms.Padding(2);
+            this.tbox_descr.Location = new System.Drawing.Point(157, 36);
+            this.tbox_descr.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbox_descr.Name = "tbox_descr";
-            this.tbox_descr.Size = new System.Drawing.Size(407, 23);
+            this.tbox_descr.Size = new System.Drawing.Size(541, 27);
             this.tbox_descr.TabIndex = 6;
             this.tbox_descr.TextChanged += new System.EventHandler(this.tbox_descr_TextChanged);
             // 
@@ -134,20 +133,19 @@
             // 
             this.checklist_rubros.CheckOnClick = true;
             this.checklist_rubros.FormattingEnabled = true;
-            this.checklist_rubros.Location = new System.Drawing.Point(118, 59);
-            this.checklist_rubros.Margin = new System.Windows.Forms.Padding(2);
+            this.checklist_rubros.Location = new System.Drawing.Point(157, 73);
+            this.checklist_rubros.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checklist_rubros.Name = "checklist_rubros";
-            this.checklist_rubros.Size = new System.Drawing.Size(407, 76);
+            this.checklist_rubros.Size = new System.Drawing.Size(541, 92);
             this.checklist_rubros.TabIndex = 5;
             this.checklist_rubros.SelectedIndexChanged += new System.EventHandler(this.checklist_rubros_SelectedIndexChanged);
             // 
             // label_palabrasclave
             // 
             this.label_palabrasclave.AutoSize = true;
-            this.label_palabrasclave.Location = new System.Drawing.Point(14, 29);
-            this.label_palabrasclave.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_palabrasclave.Location = new System.Drawing.Point(19, 36);
             this.label_palabrasclave.Name = "label_palabrasclave";
-            this.label_palabrasclave.Size = new System.Drawing.Size(82, 17);
+            this.label_palabrasclave.Size = new System.Drawing.Size(99, 20);
             this.label_palabrasclave.TabIndex = 4;
             this.label_palabrasclave.Text = "Descripción";
             // 
@@ -155,10 +153,10 @@
             // 
             this.btn_volver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_volver.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_volver.Location = new System.Drawing.Point(536, 128);
-            this.btn_volver.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_volver.Location = new System.Drawing.Point(715, 158);
+            this.btn_volver.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_volver.Name = "btn_volver";
-            this.btn_volver.Size = new System.Drawing.Size(112, 24);
+            this.btn_volver.Size = new System.Drawing.Size(149, 30);
             this.btn_volver.TabIndex = 2;
             this.btn_volver.Text = "Volver";
             this.btn_volver.UseVisualStyleBackColor = true;
@@ -168,10 +166,10 @@
             // 
             this.btn_buscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_buscar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_buscar.Location = new System.Drawing.Point(536, 28);
-            this.btn_buscar.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_buscar.Location = new System.Drawing.Point(715, 34);
+            this.btn_buscar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_buscar.Name = "btn_buscar";
-            this.btn_buscar.Size = new System.Drawing.Size(112, 24);
+            this.btn_buscar.Size = new System.Drawing.Size(149, 30);
             this.btn_buscar.TabIndex = 1;
             this.btn_buscar.Text = "Buscar";
             this.btn_buscar.UseVisualStyleBackColor = true;
@@ -189,11 +187,11 @@
             this.groupBox1.Controls.Add(this.btn_comprar);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.groupBox1.Location = new System.Drawing.Point(9, 178);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Location = new System.Drawing.Point(12, 219);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(660, 422);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(880, 519);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Búsqueda de Publicaciones";
@@ -215,21 +213,21 @@
             this.bindingNavigatorMoveNextItem,
             this.bindingNavigatorMoveLastItem,
             this.bindingNavigatorSeparator2});
-            this.bindingNavigator1.Location = new System.Drawing.Point(133, 390);
+            this.bindingNavigator1.Location = new System.Drawing.Point(177, 480);
             this.bindingNavigator1.MoveFirstItem = this.bindingNavigatorMoveFirstItem;
             this.bindingNavigator1.MoveLastItem = this.bindingNavigatorMoveLastItem;
             this.bindingNavigator1.MoveNextItem = this.bindingNavigatorMoveNextItem;
             this.bindingNavigator1.MovePreviousItem = this.bindingNavigatorMovePreviousItem;
             this.bindingNavigator1.Name = "bindingNavigator1";
             this.bindingNavigator1.PositionItem = this.bindingNavigatorPositionItem;
-            this.bindingNavigator1.Size = new System.Drawing.Size(211, 25);
+            this.bindingNavigator1.Size = new System.Drawing.Size(237, 27);
             this.bindingNavigator1.TabIndex = 16;
             this.bindingNavigator1.Text = "bindingNavigator1";
             // 
             // bindingNavigatorCountItem
             // 
             this.bindingNavigatorCountItem.Name = "bindingNavigatorCountItem";
-            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(37, 22);
+            this.bindingNavigatorCountItem.Size = new System.Drawing.Size(48, 24);
             this.bindingNavigatorCountItem.Text = "de {0}";
             this.bindingNavigatorCountItem.ToolTipText = "Número total de elementos";
             // 
@@ -239,7 +237,7 @@
             this.bindingNavigatorMoveFirstItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveFirstItem.Image")));
             this.bindingNavigatorMoveFirstItem.Name = "bindingNavigatorMoveFirstItem";
             this.bindingNavigatorMoveFirstItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveFirstItem.Size = new System.Drawing.Size(23, 24);
             this.bindingNavigatorMoveFirstItem.Text = "Mover primero";
             // 
             // bindingNavigatorMovePreviousItem
@@ -248,27 +246,27 @@
             this.bindingNavigatorMovePreviousItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMovePreviousItem.Image")));
             this.bindingNavigatorMovePreviousItem.Name = "bindingNavigatorMovePreviousItem";
             this.bindingNavigatorMovePreviousItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMovePreviousItem.Size = new System.Drawing.Size(23, 24);
             this.bindingNavigatorMovePreviousItem.Text = "Mover anterior";
             // 
             // bindingNavigatorSeparator
             // 
             this.bindingNavigatorSeparator.Name = "bindingNavigatorSeparator";
-            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 25);
+            this.bindingNavigatorSeparator.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorPositionItem
             // 
             this.bindingNavigatorPositionItem.AccessibleName = "Posición";
             this.bindingNavigatorPositionItem.AutoSize = false;
             this.bindingNavigatorPositionItem.Name = "bindingNavigatorPositionItem";
-            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(50, 23);
+            this.bindingNavigatorPositionItem.Size = new System.Drawing.Size(65, 27);
             this.bindingNavigatorPositionItem.Text = "0";
             this.bindingNavigatorPositionItem.ToolTipText = "Posición actual";
             // 
             // bindingNavigatorSeparator1
             // 
             this.bindingNavigatorSeparator1.Name = "bindingNavigatorSeparator1";
-            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 25);
+            this.bindingNavigatorSeparator1.Size = new System.Drawing.Size(6, 27);
             // 
             // bindingNavigatorMoveNextItem
             // 
@@ -276,7 +274,7 @@
             this.bindingNavigatorMoveNextItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveNextItem.Image")));
             this.bindingNavigatorMoveNextItem.Name = "bindingNavigatorMoveNextItem";
             this.bindingNavigatorMoveNextItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveNextItem.Size = new System.Drawing.Size(23, 24);
             this.bindingNavigatorMoveNextItem.Text = "Mover siguiente";
             // 
             // bindingNavigatorMoveLastItem
@@ -285,63 +283,62 @@
             this.bindingNavigatorMoveLastItem.Image = ((System.Drawing.Image)(resources.GetObject("bindingNavigatorMoveLastItem.Image")));
             this.bindingNavigatorMoveLastItem.Name = "bindingNavigatorMoveLastItem";
             this.bindingNavigatorMoveLastItem.RightToLeftAutoMirrorImage = true;
-            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 22);
+            this.bindingNavigatorMoveLastItem.Size = new System.Drawing.Size(23, 24);
             this.bindingNavigatorMoveLastItem.Text = "Mover último";
             // 
             // bindingNavigatorSeparator2
             // 
             this.bindingNavigatorSeparator2.Name = "bindingNavigatorSeparator2";
-            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.bindingNavigatorSeparator2.Size = new System.Drawing.Size(6, 27);
             // 
             // superGridPublis
             // 
-            //
-            this.superGridPublis.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.superGridPublis.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.superGridPublis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.superGridPublis.MultiSelect = false;
-            this.superGridPublis.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.superGridPublis.AllowUserToAddRows = false;
             this.superGridPublis.AllowUserToDeleteRows = false;
             this.superGridPublis.AllowUserToOrderColumns = true;
+            this.superGridPublis.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.superGridPublis.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.superGridPublis.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.superGridPublis.Location = new System.Drawing.Point(5, 30);
+            this.superGridPublis.Location = new System.Drawing.Point(7, 37);
+            this.superGridPublis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.superGridPublis.MultiSelect = false;
             this.superGridPublis.Name = "superGridPublis";
             this.superGridPublis.PageSize = 14;
             this.superGridPublis.ReadOnly = true;
             this.superGridPublis.RowHeadersVisible = false;
+            this.superGridPublis.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.superGridPublis.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.superGridPublis.Size = new System.Drawing.Size(520, 357);
+            this.superGridPublis.Size = new System.Drawing.Size(693, 439);
             this.superGridPublis.TabIndex = 15;
+            this.superGridPublis.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.superGridPublis_CellClick);
             // 
             // checkbox_envio
             // 
             this.checkbox_envio.AutoSize = true;
             this.checkbox_envio.Enabled = false;
-            this.checkbox_envio.Location = new System.Drawing.Point(536, 191);
-            this.checkbox_envio.Margin = new System.Windows.Forms.Padding(2);
+            this.checkbox_envio.Location = new System.Drawing.Point(715, 235);
+            this.checkbox_envio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkbox_envio.Name = "checkbox_envio";
-            this.checkbox_envio.Size = new System.Drawing.Size(115, 21);
+            this.checkbox_envio.Size = new System.Drawing.Size(136, 24);
             this.checkbox_envio.TabIndex = 14;
             this.checkbox_envio.Text = "Solicitar envío";
             this.checkbox_envio.UseVisualStyleBackColor = true;
             // 
             // tbox_cant
             // 
-            this.tbox_cant.Location = new System.Drawing.Point(596, 120);
-            this.tbox_cant.Margin = new System.Windows.Forms.Padding(2);
+            this.tbox_cant.Location = new System.Drawing.Point(795, 148);
+            this.tbox_cant.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tbox_cant.Name = "tbox_cant";
-            this.tbox_cant.Size = new System.Drawing.Size(54, 23);
+            this.tbox_cant.Size = new System.Drawing.Size(71, 27);
             this.tbox_cant.TabIndex = 12;
             this.tbox_cant.Text = "1";
             // 
             // label_cantidad
             // 
             this.label_cantidad.AutoSize = true;
-            this.label_cantidad.Location = new System.Drawing.Point(532, 123);
-            this.label_cantidad.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label_cantidad.Location = new System.Drawing.Point(709, 151);
             this.label_cantidad.Name = "label_cantidad";
-            this.label_cantidad.Size = new System.Drawing.Size(64, 17);
+            this.label_cantidad.Size = new System.Drawing.Size(75, 20);
             this.label_cantidad.TabIndex = 11;
             this.label_cantidad.Text = "Cantidad";
             // 
@@ -350,10 +347,10 @@
             this.btn_pregunta.Enabled = false;
             this.btn_pregunta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_pregunta.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_pregunta.Location = new System.Drawing.Point(536, 48);
-            this.btn_pregunta.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_pregunta.Location = new System.Drawing.Point(715, 59);
+            this.btn_pregunta.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_pregunta.Name = "btn_pregunta";
-            this.btn_pregunta.Size = new System.Drawing.Size(112, 60);
+            this.btn_pregunta.Size = new System.Drawing.Size(149, 74);
             this.btn_pregunta.TabIndex = 9;
             this.btn_pregunta.Text = "Realizar Pregunta";
             this.btn_pregunta.UseVisualStyleBackColor = true;
@@ -364,10 +361,10 @@
             this.btn_comprar.Enabled = false;
             this.btn_comprar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_comprar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btn_comprar.Location = new System.Drawing.Point(536, 154);
-            this.btn_comprar.Margin = new System.Windows.Forms.Padding(2);
+            this.btn_comprar.Location = new System.Drawing.Point(715, 190);
+            this.btn_comprar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btn_comprar.Name = "btn_comprar";
-            this.btn_comprar.Size = new System.Drawing.Size(112, 24);
+            this.btn_comprar.Size = new System.Drawing.Size(149, 30);
             this.btn_comprar.TabIndex = 8;
             this.btn_comprar.Text = "Comprar";
             this.btn_comprar.UseVisualStyleBackColor = true;
@@ -375,12 +372,12 @@
             // 
             // BusquedaPublicacion
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(680, 602);
+            this.ClientSize = new System.Drawing.Size(907, 741);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.group_buscar);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "BusquedaPublicacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Búsqueda de Publicaciones";
