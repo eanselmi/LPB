@@ -31,5 +31,10 @@ namespace visibilidad
         {
 
         }
+
+        private void Ayuda_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

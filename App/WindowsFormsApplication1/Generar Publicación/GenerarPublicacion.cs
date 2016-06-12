@@ -52,6 +52,15 @@ namespace visibilidad.Generar_Publicación
             string usuario = lector.GetString(0);
             con.cnn.Close();
             groupBox1.Text = "Listado de publicaciones del usuario " + usuario;
+
+            cmb_estado.Items.Add("Borrador");
+            cmb_estado.Items.Add("Activa");
+            cmb_estado.Items.Add("Pausada");
+            cmb_estado.Items.Add("Finalizada");
+
+            cmb_tipo.Items.Add("Compra Inmediata");
+            cmb_tipo.Items.Add("Subasta");
+
             
         }
 
@@ -116,6 +125,44 @@ namespace visibilidad.Generar_Publicación
 
             Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, id_usuario, Convert.ToInt32(cod), "V");
             formularioPublicacion.Show();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            string descripcion="";
+            string estado="";
+            string tipo="";
+
+            if (text_descripcion.Text != "")
+                descripcion = " and p.descripcion like '%"+text_descripcion.Text+"%'";
+            if (cmb_tipo.Text != "")
+                tipo = " and t.descripcion = '" + cmb_tipo.Text +"'";
+            if (cmb_estado.Text != "")
+                estado = " and e.descripcion = '" + cmb_estado.Text + "'";
+
+
+            this.datagrid_listado.DataSource = null;
+            this.datagrid_listado.Rows.Clear();
+            Conexion con = new Conexion();
+            string query_publicaciones = "SELECT p.codigo as Codigo, e.descripcion as Estado, t.descripcion as Tipo, p.descripcion as Descripcion " +
+                    "FROM lpb.Publicaciones p, lpb.EstadosDePublicacion e, lpb.TiposDePublicacion t " +
+                    "where p.EstadoDePublicacion_id=e.id and p.TipoDePublicacion_id=t.id and p.Usuario_id= " + id_usuario + descripcion + tipo + estado;
+            con.cnn.Open();
+            DataTable dtDatos = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(query_publicaciones, con.cnn);
+            da.Fill(dtDatos);
+            datagrid_listado.DataSource = dtDatos;
+            con.cnn.Close();
+            datagrid_listado.ReadOnly = true;
+            datagrid_listado.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            text_descripcion.Text = "";
+            cmb_estado.SelectedIndex = -1;
+            cmb_tipo.SelectedIndex = -1;
+            reset_publicaciones();
         }
     }
 }
