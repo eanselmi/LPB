@@ -625,7 +625,10 @@ AS
 BEGIN	
 	set @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
 	Declare @total Numeric(18,2);
-	set @total = (select precio from Visibilidades where codigo=@visibilidad_codigo);
+	if @visibilidad_codigo=-1
+		set @total = 0
+	else
+		set @total = (select precio from Visibilidades where codigo=@visibilidad_codigo);
 	insert into lpb.facturas(numero,fecha,total,FormaDePago,Usuario_id)
 	values(@nuevo_codigo_factura,@fecha_factura,@total,NULL,@usuario_id)	
 	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
