@@ -1075,6 +1075,7 @@ INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (5, @ID)
 INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (6, @ID);
 INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (7, @ID);
 INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (8, @ID);
+INSERT INTO LPB.FuncionalidadesPorRol (Funcionalidad_id, Rol_id) VALUES (9, @ID);
 
 SET @ID = (SELECT id FROM [LPB].Roles WHERE nombre='Empresa');
 
