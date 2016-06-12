@@ -62,7 +62,7 @@ namespace visibilidad.Generar_Publicación
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario,"A");
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario,0,"A");
             formularioPublicacion.Show();
             this.Hide();
         }
@@ -90,7 +90,7 @@ namespace visibilidad.Generar_Publicación
             int ind = datagrid_listado.CurrentCell.RowIndex;
             string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
             
-            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "M");
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario,Convert.ToInt32(cod), "M");
             formularioPublicacion.Show();
             
         }
@@ -114,7 +114,7 @@ namespace visibilidad.Generar_Publicación
 
             string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
 
-            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, Convert.ToInt32(cod), "V");
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, id_usuario, Convert.ToInt32(cod), "V");
             formularioPublicacion.Show();
         }
     }
