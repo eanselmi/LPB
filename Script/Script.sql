@@ -503,6 +503,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('lpb.SP_Actualizar_Vencimientos') IS NOT NULL
+BEGIN
+	DROP PROCEDURE lpb.SP_Actualizar_Vencimientos
+END;
+GO
+
 IF OBJECT_ID('LPB.SP_Compras_Sin_Calificar') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Compras_Sin_Calificar
@@ -633,6 +639,39 @@ BEGIN
 	values(@nuevo_codigo_factura,@fecha_factura,@total,NULL,@usuario_id)	
 	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
 	values(@total,1,@nuevo_codigo_factura,@publicacion_cod,@descripcion)
+END
+GO
+
+CREATE PROCEDURE lpb.SP_Actualizar_Vencimientos (@fecha_actual Datetime)
+AS
+BEGIN
+	declare @codigo Numeric(18,0)
+	declare @tipo int
+	declare @fecha date
+	declare cursorFechas cursor for SELECT codigo,TipoDePublicacion_id,fechaVencimiento
+									from   lpb.Publicaciones
+									where  EstadoDePublicacion_id!=4
+										   order by 1
+	open cursorFechas
+	fetch next from cursorFechas INTO @codigo,@tipo,@fecha		
+	WHILE(@@FETCH_STATUS = 0)
+	BEGIN		
+		IF( (DATEDIFF(dd, @fecha, @fecha_actual) ) > 0 )  --Quiere decir que la fecha de la publicacion es anterior a la actual
+		BEGIN
+			IF (@tipo=1)	--Actualizo el estado de una compra inmediata
+			BEGIN
+				update lpb.Publicaciones SET EstadoDePublicacion_id=4 where codigo=@codigo
+			END
+			IF (@tipo=2)    --Actualizo el estado de una subasta y ademas tengo que procesar al ganados si lo hay
+			BEGIN
+				update lpb.Publicaciones SET EstadoDePublicacion_id=4 where codigo=@codigo
+				--Procesaar al ganador
+			END
+		END				
+		fetch next from cursorFechas INTO @codigo,@tipo,@fecha		
+	END   	
+	close cursorFechas
+	deallocate cursorFechas
 END
 GO
 

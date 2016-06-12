@@ -33,7 +33,19 @@ namespace visibilidad
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            //this.TopMost = true;
+            
+            //Disparar actualizaciones de vencimientos
+            DateTime fecha_actual = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+
+            Conexion cn = new Conexion();
+            cn.cnn.Open();
+            bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Actualizar_Vencimientos", Helper.Help.generarListaParaProcedure("@fecha_actual"), fecha_actual);
+            //if (resultado)
+            //    MessageBox.Show("Fechas actualizadas", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //else
+            //    MessageBox.Show("Las fechas no se pudieron actualizar", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            cn.cnn.Close();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -156,14 +168,14 @@ namespace visibilidad
             {
                 Menu mp = new Menu();
                 this.Hide();
-                mp.Show();                
+                mp.Show();
                 mp.cargarRoles(id_usuario, cmb_roles.Text, this);
                 grp_rol.Visible = false;
                 grp_login.Visible = true;
                 cmb_roles.SelectedIndex = -1;
 
             }
-            
+
         }
 
         private void text_password_KeyPress(object sender, KeyPressEventArgs e)
