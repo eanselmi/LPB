@@ -515,6 +515,12 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Realizar_Oferta') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Realizar_Oferta
+END;
+GO
+
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
 CREATE PROCEDURE lpb.SP_Baja_Rol (@rol varchar(45), @id INT)
@@ -1015,6 +1021,34 @@ ON o.Publicacion_cod = p.codigo
 INNER JOIN LPB.Clientes cli
 ON o.Cliente_id = cli.id
 WHERE o.Calificacion_cod IS NULL AND o.Cliente_id != p.Usuario_id AND cli.Usuario_id = @idUser AND ganadora = 1 
+END 
+GO
+
+
+CREATE PROCEDURE LPB.[SP_Realizar_Oferta] @idUsuario int, @idPublicacion int, @monto int
+AS 
+BEGIN
+BEGIN TRANSACTION
+INSERT INTO [LPB].[Ofertas] (
+	 [fecha]
+	,[monto]
+	,[Cliente_id]	
+	,[Publicacion_cod]
+	,[ganadora]
+	,[envio])
+	values(
+	GETDATE()
+	,@monto
+	,(SELECT TOP 1 id from LPB.Clientes where Usuario_id = @idUsuario)
+	,@idPublicacion
+	,0
+	,(SELECT ISNULL(aceptaEnvio,0) from LPB.Publicaciones where codigo = @idPublicacion))	
+	
+UPDATE LPB.Publicaciones 
+SET precio=@monto
+WHERE codigo=@idPublicacion;
+		
+COMMIT;
 END 
 GO
 

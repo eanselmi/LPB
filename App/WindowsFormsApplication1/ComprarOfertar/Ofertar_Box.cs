@@ -19,14 +19,16 @@ namespace visibilidad.ComprarOfertar
         int idUsuario;
         int idPublicacion;
         DataGridView tablaPublicaciones;
+        BusquedaPublicacion busqueda;
 
-        public Ofertar_Box(String anterior, int id_usuario, String publicacion, DataGridView rowParaActualizar)
+        public Ofertar_Box(String anterior, int id_usuario, String publicacion, DataGridView rowParaActualizar, BusquedaPublicacion _busqueda)
         {
             InitializeComponent();
             label_anterior.Text += anterior;
             montoAnterior = anterior;
             idUsuario = id_usuario;
             tablaPublicaciones = rowParaActualizar;
+            busqueda = _busqueda;
             try
             {
                 idPublicacion = int.Parse(publicacion);
@@ -63,8 +65,8 @@ namespace visibilidad.ComprarOfertar
             {
                 MessageBox.Show("La oferta se ha realizado con éxito", "Oferta", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
-                Common busqueda = new Common();
-                tablaPublicaciones.SelectedRows[0].SetValues(busqueda.actualizarPublicacion(tablaPublicaciones, idPublicacion));
+                busqueda.button1_Click(sender,e);
+
             }
             else
             {

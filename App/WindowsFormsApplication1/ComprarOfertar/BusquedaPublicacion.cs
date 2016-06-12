@@ -33,6 +33,8 @@ namespace visibilidad.ComprarOfertar
             else
             {
                 btn_comprar.Text = "Ofertar";
+                tbox_cant.Visible = false;
+                label_cantidad.Visible = false;
             }
             btn_comprar.Enabled = false;
 
@@ -123,7 +125,7 @@ namespace visibilidad.ComprarOfertar
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public void button1_Click(object sender, EventArgs e)
         {
             tablaPublicaciones.Rows.Clear();
             tablaPublicaciones.Columns.Clear();
@@ -188,9 +190,10 @@ namespace visibilidad.ComprarOfertar
             /* Evaluo cantidad a ofertar */
             if(btn_comprar.Text.Equals("Ofertar")){
                 DataGridViewRow row = superGridPublis.SelectedRows[0];
-                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString(), idUsuario, publicacionSeleccionada, superGridPublis);
+                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString(), idUsuario, publicacionSeleccionada, superGridPublis, this);
                 ofertar.Show();
                 btn_todas.Enabled = true;
+
             }
 
 

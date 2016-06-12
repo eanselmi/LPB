@@ -53,13 +53,13 @@
             this.textBoxMontoHasta = new System.Windows.Forms.TextBox();
             this.buttonFiltrar = new System.Windows.Forms.Button();
             this.buttonSalir = new System.Windows.Forms.Button();
-            this.superGridFacturas = new visibilidad.Historial_Cliente.SuperGrid();
             this.comboBoxDetalle = new System.Windows.Forms.ComboBox();
             this.buttonLimpiar = new System.Windows.Forms.Button();
             this.buttonSeleccionarDesde = new System.Windows.Forms.Button();
             this.buttonSeleccionarHasta = new System.Windows.Forms.Button();
             this.monthCalendarDesde = new System.Windows.Forms.MonthCalendar();
             this.monthCalendarHasta = new System.Windows.Forms.MonthCalendar();
+            this.superGridFacturas = new visibilidad.Historial_Cliente.SuperGrid();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.superGridFacturas)).BeginInit();
@@ -271,21 +271,6 @@
             this.buttonSalir.UseVisualStyleBackColor = true;
             this.buttonSalir.Click += new System.EventHandler(this.buttonSalir_Click);
             // 
-            // superGridFacturas
-            // 
-            this.superGridFacturas.AllowUserToAddRows = false;
-            this.superGridFacturas.AllowUserToDeleteRows = false;
-            this.superGridFacturas.AllowUserToOrderColumns = true;
-            this.superGridFacturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.superGridFacturas.Location = new System.Drawing.Point(12, 165);
-            this.superGridFacturas.Name = "superGridFacturas";
-            this.superGridFacturas.PageSize = 10;
-            this.superGridFacturas.ReadOnly = true;
-            this.superGridFacturas.RowHeadersVisible = false;
-            this.superGridFacturas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.superGridFacturas.Size = new System.Drawing.Size(635, 382);
-            this.superGridFacturas.TabIndex = 0;
-            // 
             // comboBoxDetalle
             // 
             this.comboBoxDetalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -340,6 +325,21 @@
             this.monthCalendarHasta.Name = "monthCalendarHasta";
             this.monthCalendarHasta.TabIndex = 26;
             this.monthCalendarHasta.Visible = false;
+            // 
+            // superGridFacturas
+            // 
+            this.superGridFacturas.AllowUserToAddRows = false;
+            this.superGridFacturas.AllowUserToDeleteRows = false;
+            this.superGridFacturas.AllowUserToOrderColumns = true;
+            this.superGridFacturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.superGridFacturas.Location = new System.Drawing.Point(12, 165);
+            this.superGridFacturas.Name = "superGridFacturas";
+            this.superGridFacturas.PageSize = 15;
+            this.superGridFacturas.ReadOnly = true;
+            this.superGridFacturas.RowHeadersVisible = false;
+            this.superGridFacturas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.superGridFacturas.Size = new System.Drawing.Size(635, 383);
+            this.superGridFacturas.TabIndex = 0;
             // 
             // ConsultaFacturas
             // 
