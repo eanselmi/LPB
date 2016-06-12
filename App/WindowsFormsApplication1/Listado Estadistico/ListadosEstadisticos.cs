@@ -22,7 +22,7 @@ namespace visibilidad.Listado_Estadistico
         {
             InitializeComponent();
             //Propiedades de la ventana Listados Estadisticos
-            this.TopMost = true;
+            //this.TopMost = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -79,6 +79,7 @@ namespace visibilidad.Listado_Estadistico
                 comboBoxVisibilidad.Enabled = true;
                 labelRubro.Enabled = false;
                 comboBoxRubro.Enabled = false;
+                comboBoxRubro.SelectedIndex = -1;
                 buttonConsultar.Enabled = false;
  
             }else
@@ -90,12 +91,15 @@ namespace visibilidad.Listado_Estadistico
                     comboBoxRubro.Enabled = true;
                     labelVisibilidad.Enabled = false;
                     comboBoxVisibilidad.Enabled = false;
+                    comboBoxVisibilidad.SelectedIndex = -1;
                     buttonConsultar.Enabled = false;
                  }
                     else
                     {
                         labelVisibilidad.Enabled = false;
                         comboBoxVisibilidad.Enabled = false;
+                        comboBoxRubro.SelectedIndex = -1;
+                        comboBoxVisibilidad.SelectedIndex = -1;
                         labelRubro.Enabled = false;
                         comboBoxRubro.Enabled = false;
                         buttonConsultar.Enabled = true;
@@ -173,6 +177,16 @@ namespace visibilidad.Listado_Estadistico
         private void buttonVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void buttonLimpiar_Click(object sender, EventArgs e)
+        {
+            dateTimePickerListados.ResetText();
+            comboBoxListados.SelectedIndex = -1;
+            comboBoxRubro.SelectedIndex = -1;
+            comboBoxTrimestre.SelectedIndex = -1;
+            comboBoxVisibilidad.SelectedIndex = -1;
+            buttonConsultar.Enabled = false;
         }
 
 

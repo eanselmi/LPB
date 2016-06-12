@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListadoEstadistico));
             this.groupBoxListados = new System.Windows.Forms.GroupBox();
+            this.buttonLimpiar = new System.Windows.Forms.Button();
             this.comboBoxRubro = new System.Windows.Forms.ComboBox();
             this.labelRubro = new System.Windows.Forms.Label();
             this.comboBoxVisibilidad = new System.Windows.Forms.ComboBox();
@@ -49,6 +50,7 @@
             // 
             // groupBoxListados
             // 
+            this.groupBoxListados.Controls.Add(this.buttonLimpiar);
             this.groupBoxListados.Controls.Add(this.comboBoxRubro);
             this.groupBoxListados.Controls.Add(this.labelRubro);
             this.groupBoxListados.Controls.Add(this.comboBoxVisibilidad);
@@ -66,6 +68,17 @@
             this.groupBoxListados.TabIndex = 0;
             this.groupBoxListados.TabStop = false;
             this.groupBoxListados.Text = "Listados";
+            // 
+            // buttonLimpiar
+            // 
+            this.buttonLimpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonLimpiar.Location = new System.Drawing.Point(445, 190);
+            this.buttonLimpiar.Name = "buttonLimpiar";
+            this.buttonLimpiar.Size = new System.Drawing.Size(91, 22);
+            this.buttonLimpiar.TabIndex = 3;
+            this.buttonLimpiar.Text = "Limpiar filtros";
+            this.buttonLimpiar.UseVisualStyleBackColor = true;
+            this.buttonLimpiar.Click += new System.EventHandler(this.buttonLimpiar_Click);
             // 
             // comboBoxRubro
             // 
@@ -250,5 +263,6 @@
         private System.Windows.Forms.ComboBox comboBoxVisibilidad;
         private System.Windows.Forms.ComboBox comboBoxRubro;
         private System.Windows.Forms.Label labelRubro;
+        private System.Windows.Forms.Button buttonLimpiar;
     }
 }
