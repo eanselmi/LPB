@@ -16,7 +16,7 @@ namespace visibilidad.ComprarOfertar
     public partial class BusquedaPublicacion : Form
     {
         String tipoPublicacionABuscar;
-        String publicacionSeleccionada;
+        int publicacionSeleccionada;
         int idUsuario;
         DataTable tablaPublicaciones = new DataTable();
 
@@ -41,32 +41,8 @@ namespace visibilidad.ComprarOfertar
             Common busqueda = new Common();
             checklist_rubros = busqueda.cargarRubros(checklist_rubros);
             limpiar();
-
-            //SI NO HAY PUBLICACIONES NO CARGO NADA EN EL GRID
-            if (!(busqueda.cargarPublicaciones(idUsuario, tablaPublicaciones, tipoPublicacion, null, null)))
-            {
-                superGridPublis.clearData();
-                superGridPublis.DataSource = tablaPublicaciones; ;
-            }
-            else
-            {
-                superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
-            }
-
-            busqueda.crearColumnas(superGridPublis, 0, "codigo", "Código", true);
-            busqueda.crearColumnas(superGridPublis, 1, "Usuario_id", "Usuario_id", false);
-            busqueda.crearColumnas(superGridPublis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
-            busqueda.crearColumnas(superGridPublis, 3, "descripcion", "Descripción", true);
-            busqueda.crearColumnas(superGridPublis, 4, "stock", "Stock", true);
-            busqueda.crearColumnas(superGridPublis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
-            busqueda.crearColumnas(superGridPublis, 6, "precio", "Precio", true);
-            busqueda.crearColumnas(superGridPublis, 7, "aceptaEnvio", "aceptaEnvio", false);
-            busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
-            busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
-            busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+            cargarTodasLasPublicaciones(tipoPublicacion, busqueda);
            
-
-            btn_todas.Enabled = false;
         }
 
         private void limpiar()
@@ -185,7 +161,16 @@ namespace visibilidad.ComprarOfertar
             btn_comprar.Enabled = true;
             btn_pregunta.Enabled = obtenerEnabledSegunValor(row,"aceptaPreguntas");
             checkbox_envio.Enabled = obtenerEnabledSegunValor(row, "aceptaEnvio");
-            publicacionSeleccionada = row.Cells["codigo"].Value.ToString();
+
+            try
+            {
+                publicacionSeleccionada = int.Parse(row.Cells["codigo"].Value.ToString());
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Hubo un error al gestionar la carga", "Error Publicación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
 
         private bool obtenerEnabledSegunValor(DataGridViewRow row, String columna)
@@ -232,18 +217,97 @@ namespace visibilidad.ComprarOfertar
             /* Evaluo cantidad a ofertar */
             if(btn_comprar.Text.Equals("Ofertar")){
                 DataGridViewRow row = superGridPublis.SelectedRows[0];
-                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString(), idUsuario, publicacionSeleccionada, superGridPublis, this);
+                Ofertar_Box ofertar = new Ofertar_Box(row.Cells["precio"].Value.ToString(), idUsuario, publicacionSeleccionada.ToString(), superGridPublis, this);
                 ofertar.Show();
                 btn_todas.Enabled = true;
-
             }
 
+            if(btn_comprar.Text.Equals("Comprar")){
+                DataGridViewRow row = superGridPublis.SelectedRows[0];
+                decimal monto;
+                int visibilidad;
+                int cantidad;
+                Boolean envio;
 
+                try
+                {
+                    visibilidad = int.Parse(row.Cells["Visibilidad_codigo"].Value.ToString());
+                    cantidad = int.Parse(tbox_cant.Text);
+                    envio = bool.Parse(checkbox_envio.Checked.ToString());
+                    monto = decimal.Parse(row.Cells["precio"].Value.ToString());
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Hubo un error al gestionar la compra", "Error Compra", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                
+                if (facturarCompra(visibilidad, monto, stock, cantidad, envio))
+                {
+                    cargarTodasLasPublicaciones("Compra inmediata", new Common());
+                    checkbox_envio.Checked = false;
+                    tbox_cant.Text = "1";
+                    MessageBox.Show("¡Muchas gracias por su compra!", btn_comprar.Text, MessageBoxButtons.OK, MessageBoxIcon.None);
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Ocurrió un error gestionando su compra. Por favor, vuelva a intentarlo.", btn_comprar.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            
+            }
+
+        }
+
+        private Boolean facturarCompra(int visibilidad, decimal monto, int stock, int cantidad, Boolean envio)
+        {
+            Boolean resultadoFacturaCompra;
+            Conexion conexion = new Conexion();
+            conexion.cnn.Open();
+            resultadoFacturaCompra = conexion.executeProcedure(conexion.getSchema() + @".SP_Generar_Facturacion_Venta",
+                   Helper.Help.generarListaParaProcedure("@publicacion_cod", "@visibilidad_codigo", "@usuario_id", "@monto", "@stock", "@cantidad", "@envio"),
+                   publicacionSeleccionada, visibilidad, idUsuario, monto, stock, cantidad, envio);
+            conexion.cnn.Close();
+            return resultadoFacturaCompra;
         }
 
         private void superGridPublis_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             grid_publis_Click(sender,e);
+        }
+
+        private void cargarTodasLasPublicaciones(String tipoPublicacion, Common busqueda)
+        {
+            tablaPublicaciones.Clear();
+            tablaPublicaciones.Reset();
+            superGridPublis.clearData();
+           
+            //SI NO HAY PUBLICACIONES NO CARGO NADA EN EL GRID
+            if (!(busqueda.cargarPublicaciones(idUsuario, tablaPublicaciones, tipoPublicacion, null, null)))
+            {
+                superGridPublis.clearData();
+                superGridPublis.DataSource = tablaPublicaciones; ;
+            }
+            else
+            {
+                superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+            }
+
+            busqueda.crearColumnas(superGridPublis, 0, "codigo", "Código", true);
+            busqueda.crearColumnas(superGridPublis, 1, "Usuario_id", "Usuario_id", false);
+            busqueda.crearColumnas(superGridPublis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
+            busqueda.crearColumnas(superGridPublis, 3, "descripcion", "Descripción", true);
+            busqueda.crearColumnas(superGridPublis, 4, "stock", "Stock", true);
+            busqueda.crearColumnas(superGridPublis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
+            busqueda.crearColumnas(superGridPublis, 6, "precio", "Precio", true);
+            busqueda.crearColumnas(superGridPublis, 7, "aceptaEnvio", "aceptaEnvio", false);
+            busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
+            busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
+            busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+
+
+            btn_todas.Enabled = false;
         }
 
      

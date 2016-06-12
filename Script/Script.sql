@@ -467,6 +467,13 @@ BEGIN
 END;
 GO
 
+IF OBJECT_ID('LPB.SP_Generar_Facturacion_Venta') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.SP_Generar_Facturacion_Venta
+END;
+GO
+
+
 IF OBJECT_ID('LPB.SP_Modificacion_Cliente') IS NOT NULL
 BEGIN
 	DROP PROCEDURE LPB.SP_Modificacion_Cliente
@@ -639,6 +646,42 @@ BEGIN
 	values(@nuevo_codigo_factura,@fecha_factura,@total,NULL,@usuario_id)	
 	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
 	values(@total,1,@nuevo_codigo_factura,@publicacion_cod,@descripcion)
+END
+GO
+
+
+CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @usuario_id int, @monto numeric(18,2),  @stock numeric(18,0), @cantidad numeric(18,0), @envio bit)
+AS
+BEGIN	
+	declare @nuevo_codigo_factura Numeric(18,2);
+	declare @total Numeric(18,2);
+	declare @stockRestante numeric(18,0);
+	set @total = (select porcentaje from Visibilidades where codigo=@visibilidad_codigo)*@monto*@cantidad;
+	set  @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
+
+	-- Genero cabezal de factura
+	insert into lpb.facturas(numero,fecha,total,FormaDePago,Usuario_id)
+	values(@nuevo_codigo_factura,GETDATE(),@total,'Efectivo',@usuario_id)	
+
+	-- Genero renglon por la venta
+	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
+	values(@total,@cantidad,@nuevo_codigo_factura,@publicacion_cod,'Comision por venta')
+
+	-- Genero renglón por el envío, si corresponde
+	if(@envio=1)
+	begin
+		insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
+		values(98,1,@nuevo_codigo_factura,@publicacion_cod,'Comision por envio')
+		update LPB.Facturas set total=(@total+98) where numero = @nuevo_codigo_factura;
+	end
+
+	-- Actualizo stock y finalizo publicacion si corresponde
+	set @stockRestante = @stock-@cantidad
+	if(@stockRestante = 0)
+		update LPB.Publicaciones set stock=stock-@cantidad, EstadoDePublicacion_id = (select id from LPB.EstadosDePublicacion where descripcion='Finalizada') where codigo = @publicacion_cod;
+	else
+		update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
+
 END
 GO
 
