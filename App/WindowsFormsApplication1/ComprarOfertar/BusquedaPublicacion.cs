@@ -41,10 +41,17 @@ namespace visibilidad.ComprarOfertar
             Common busqueda = new Common();
             checklist_rubros = busqueda.cargarRubros(checklist_rubros);
             limpiar();
-            busqueda.cargarPublicaciones(tablaPublicaciones, tipoPublicacion , null, null);
 
-            superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
-
+            //SI NO HAY PUBLICACIONES NO CARGO NADA EN EL GRID
+            if (!(busqueda.cargarPublicaciones(idUsuario, tablaPublicaciones, tipoPublicacion, null, null)))
+            {
+                superGridPublis.clearData();
+                superGridPublis.DataSource = tablaPublicaciones; ;
+            }
+            else
+            {
+                superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+            }
 
             busqueda.crearColumnas(superGridPublis, 0, "codigo", "Código", true);
             busqueda.crearColumnas(superGridPublis, 1, "Usuario_id", "Usuario_id", false);
@@ -56,6 +63,7 @@ namespace visibilidad.ComprarOfertar
             busqueda.crearColumnas(superGridPublis, 7, "aceptaEnvio", "aceptaEnvio", false);
             busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
             busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
+            busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
            
 
             btn_todas.Enabled = false;
@@ -120,8 +128,25 @@ namespace visibilidad.ComprarOfertar
             superGridPublis.clearData();
             btn_todas.Enabled = true;
             Common busqueda = new Common();
-            busqueda.cargarPublicaciones(tablaPublicaciones, tipoPublicacionABuscar, tbox_descr.Text, checklist_rubros.CheckedItems);
-            superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+            if(!(busqueda.cargarPublicaciones(idUsuario,tablaPublicaciones, tipoPublicacionABuscar, tbox_descr.Text, checklist_rubros.CheckedItems)))
+            {
+                superGridPublis.DataSource = null;
+            }
+            else
+            {
+                superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+                busqueda.crearColumnas(superGridPublis, 0, "codigo", "Código", true);
+                busqueda.crearColumnas(superGridPublis, 1, "Usuario_id", "Usuario_id", false);
+                busqueda.crearColumnas(superGridPublis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
+                busqueda.crearColumnas(superGridPublis, 3, "descripcion", "Descripción", true);
+                busqueda.crearColumnas(superGridPublis, 4, "stock", "Stock", true);
+                busqueda.crearColumnas(superGridPublis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
+                busqueda.crearColumnas(superGridPublis, 6, "precio", "Precio", true);
+                busqueda.crearColumnas(superGridPublis, 7, "aceptaEnvio", "aceptaEnvio", false);
+                busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
+                busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
+                busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+            }
 
         }
 
@@ -131,8 +156,25 @@ namespace visibilidad.ComprarOfertar
             tablaPublicaciones.Columns.Clear();
             superGridPublis.clearData();
             Common busqueda = new Common();
-            busqueda.cargarPublicaciones(tablaPublicaciones, tipoPublicacionABuscar, null, null);
-            superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+            if(!(busqueda.cargarPublicaciones(idUsuario,tablaPublicaciones, tipoPublicacionABuscar, null, null)))
+            {
+                superGridPublis.DataSource = null;
+            }
+            else
+            {
+                superGridPublis.SetPagedDataSource(tablaPublicaciones, bindingNavigator1);
+                busqueda.crearColumnas(superGridPublis, 0, "codigo", "Código", true);
+                busqueda.crearColumnas(superGridPublis, 1, "Usuario_id", "Usuario_id", false);
+                busqueda.crearColumnas(superGridPublis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
+                busqueda.crearColumnas(superGridPublis, 3, "descripcion", "Descripción", true);
+                busqueda.crearColumnas(superGridPublis, 4, "stock", "Stock", true);
+                busqueda.crearColumnas(superGridPublis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
+                busqueda.crearColumnas(superGridPublis, 6, "precio", "Precio", true);
+                busqueda.crearColumnas(superGridPublis, 7, "aceptaEnvio", "aceptaEnvio", false);
+                busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
+                busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
+                busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+            }
             limpiar();
         }
 

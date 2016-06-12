@@ -30,17 +30,17 @@ namespace common
             return rubros;
         }
 
-        public void cargarPublicaciones(DataTable publis, String tipo, String filter_desc, CheckedListBox.CheckedItemCollection rubros)
+        public bool cargarPublicaciones(int idUsuario,DataTable publis, String tipo, String filter_desc, CheckedListBox.CheckedItemCollection rubros)
         {
   
             String query = "";
 
             if (rubros != null && rubros.Count > 0)
             {
-                query += "select p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo " +
+                query += "select distinct p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo,v.precio " +
                         " from  LPB.Publicaciones p, LPB.Rubros r, LPB.PublicacionesPorRubro pr, LPB.TiposDePublicacion t , LPB.Visibilidades v " +
                         " where p.codigo = pr.Publicacion_id and r.id = pr.Rubro_id and t.id = p.TipoDePublicacion_id and  v.codigo = p.Visibilidad_codigo " +
-                        " and t.descripcion = '" + tipo + "' ";
+                        " and p.usuario_id<>'" + idUsuario + "' and t.descripcion = '" + tipo + "' ";
            
                 query += applyFilterDescr(filter_desc);
                 query += " and (";
@@ -49,11 +49,11 @@ namespace common
             }
             else
             {
-                query += "select p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, " +
-                        "p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo " +
+                query += "select distinct p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, " +
+                        "p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo,v.precio " +
                         " from LPB.Publicaciones p , LPB.TiposDePublicacion t, LPB.Visibilidades v " +
                         " where  t.id = p.TipoDePublicacion_id and v.codigo = p.Visibilidad_codigo " +
-                        " and t.descripcion = '" + tipo + "' ";
+                        " and p.usuario_id<>'" + idUsuario + "' and t.descripcion = '" + tipo + "' ";
 
                   query += applyFilterDescr(filter_desc);
             }
@@ -65,12 +65,24 @@ namespace common
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con.cnn);
             SqlCommandBuilder sqlCommandSub = new SqlCommandBuilder(dataAdapter);
+
+            //CHEQUEO SI NO HAY VALORES
+            SqlCommand commandChequear = new SqlCommand(query, con.cnn);
+            SqlDataReader lector1 = commandChequear.ExecuteReader();
+            lector1.Read();
+            if (!(lector1.HasRows))
+            {
+                publis.Rows.Clear();
+                publis.Columns.Clear();
+                con.cnn.Close();
+                return false;
+            }
+
             con.cnn.Close();
 
             dataAdapter.Fill(publis);
-    
-            
-           return;
+
+           return true;
         }
 
         private String applyFilterRubros(CheckedListBox.CheckedItemCollection rubros)
@@ -110,41 +122,6 @@ namespace common
 
         }
 
-        private DataGridView generarTabla(String query, DataGridView publis)
-        {
-            Conexion con = new Conexion();
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            DataTable publis_table = new DataTable();
-            SqlDataAdapter dataAdapter = new SqlDataAdapter(query, con.cnn);
-            con.cnn.Close();
-
-            publis.AutoGenerateColumns = false;
-            dataAdapter.Fill(publis_table);
-            publis.ReadOnly = true;
-            publis.DataSource = publis_table;
-
-            crearColumnas(publis, 0, "codigo", "Código", true);
-            crearColumnas(publis, 1, "Usuario_id", "Usuario_id", false);
-            crearColumnas(publis, 2, "EstadoDePublicacion_id", "EstadoDePublicacion_id", false);
-            crearColumnas(publis, 3, "descripcion", "Descripción", true);
-            crearColumnas(publis, 4, "stock", "Stock", true);
-            crearColumnas(publis, 5, "fechaVencimiento", "Fecha de Vencimiento", true);
-            crearColumnas(publis, 6, "precio", "Precio", true);
-            crearColumnas(publis, 7, "aceptaEnvio", "aceptaEnvio", false);
-            crearColumnas(publis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
-            crearColumnas(publis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
-
-            return publis;
-        }
-
-        public DataGridViewRow actualizarPublicacion(DataGridView publis, int publicacionSeleccionada)
-        {
-            String query = "select * from LPB.Publicaciones where codigo = " + publicacionSeleccionada.ToString();
-            DataGridView table =  generarTabla(query, publis);
-            return table.Rows[0];
-         }
-
+ 
     }
 }
