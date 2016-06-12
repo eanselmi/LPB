@@ -60,6 +60,7 @@
             this.monthCalendarDesde = new System.Windows.Forms.MonthCalendar();
             this.monthCalendarHasta = new System.Windows.Forms.MonthCalendar();
             this.superGridFacturas = new visibilidad.Historial_Cliente.SuperGrid();
+            this.buttonTodas = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).BeginInit();
             this.bindingNavigator1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.superGridFacturas)).BeginInit();
@@ -254,16 +255,17 @@
             // 
             // buttonFiltrar
             // 
-            this.buttonFiltrar.Location = new System.Drawing.Point(468, 31);
+            this.buttonFiltrar.Location = new System.Drawing.Point(468, 15);
             this.buttonFiltrar.Name = "buttonFiltrar";
             this.buttonFiltrar.Size = new System.Drawing.Size(75, 23);
             this.buttonFiltrar.TabIndex = 16;
             this.buttonFiltrar.Text = "Filtrar";
             this.buttonFiltrar.UseVisualStyleBackColor = true;
+            this.buttonFiltrar.Click += new System.EventHandler(this.buttonFiltrar_Click);
             // 
             // buttonSalir
             // 
-            this.buttonSalir.Location = new System.Drawing.Point(468, 115);
+            this.buttonSalir.Location = new System.Drawing.Point(468, 132);
             this.buttonSalir.Name = "buttonSalir";
             this.buttonSalir.Size = new System.Drawing.Size(75, 23);
             this.buttonSalir.TabIndex = 17;
@@ -276,9 +278,9 @@
             this.comboBoxDetalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDetalle.FormattingEnabled = true;
             this.comboBoxDetalle.Items.AddRange(new object[] {
-            "Comisión por venta",
-            "Costo por publicación",
-            "Costo por envío"});
+            "Comision por venta",
+            "Costo por publicar",
+            "Costo por envio"});
             this.comboBoxDetalle.Location = new System.Drawing.Point(153, 132);
             this.comboBoxDetalle.Name = "comboBoxDetalle";
             this.comboBoxDetalle.Size = new System.Drawing.Size(215, 21);
@@ -286,7 +288,7 @@
             // 
             // buttonLimpiar
             // 
-            this.buttonLimpiar.Location = new System.Drawing.Point(468, 73);
+            this.buttonLimpiar.Location = new System.Drawing.Point(468, 93);
             this.buttonLimpiar.Name = "buttonLimpiar";
             this.buttonLimpiar.Size = new System.Drawing.Size(75, 23);
             this.buttonLimpiar.TabIndex = 20;
@@ -302,6 +304,7 @@
             this.buttonSeleccionarDesde.TabIndex = 23;
             this.buttonSeleccionarDesde.Text = "Seleccionar";
             this.buttonSeleccionarDesde.UseVisualStyleBackColor = true;
+            this.buttonSeleccionarDesde.Click += new System.EventHandler(this.buttonSeleccionarDesde_Click);
             // 
             // buttonSeleccionarHasta
             // 
@@ -311,6 +314,7 @@
             this.buttonSeleccionarHasta.TabIndex = 24;
             this.buttonSeleccionarHasta.Text = "Seleccionar";
             this.buttonSeleccionarHasta.UseVisualStyleBackColor = true;
+            this.buttonSeleccionarHasta.Click += new System.EventHandler(this.buttonSeleccionarHasta_Click);
             // 
             // monthCalendarDesde
             // 
@@ -318,6 +322,7 @@
             this.monthCalendarDesde.Name = "monthCalendarDesde";
             this.monthCalendarDesde.TabIndex = 25;
             this.monthCalendarDesde.Visible = false;
+            this.monthCalendarDesde.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendarDesde_DateSelected);
             // 
             // monthCalendarHasta
             // 
@@ -325,6 +330,7 @@
             this.monthCalendarHasta.Name = "monthCalendarHasta";
             this.monthCalendarHasta.TabIndex = 26;
             this.monthCalendarHasta.Visible = false;
+            this.monthCalendarHasta.DateSelected += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendarHasta_DateSelected);
             // 
             // superGridFacturas
             // 
@@ -341,13 +347,25 @@
             this.superGridFacturas.Size = new System.Drawing.Size(635, 383);
             this.superGridFacturas.TabIndex = 0;
             // 
+            // buttonTodas
+            // 
+            this.buttonTodas.Enabled = false;
+            this.buttonTodas.Location = new System.Drawing.Point(468, 53);
+            this.buttonTodas.Name = "buttonTodas";
+            this.buttonTodas.Size = new System.Drawing.Size(75, 23);
+            this.buttonTodas.TabIndex = 27;
+            this.buttonTodas.Text = "Ver todas";
+            this.buttonTodas.UseVisualStyleBackColor = true;
+            this.buttonTodas.Click += new System.EventHandler(this.buttonTodas_Click);
+            // 
             // ConsultaFacturas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(665, 594);
-            this.Controls.Add(this.monthCalendarHasta);
             this.Controls.Add(this.monthCalendarDesde);
+            this.Controls.Add(this.monthCalendarHasta);
+            this.Controls.Add(this.buttonTodas);
             this.Controls.Add(this.buttonSeleccionarHasta);
             this.Controls.Add(this.buttonSeleccionarDesde);
             this.Controls.Add(this.buttonLimpiar);
@@ -411,5 +429,6 @@
         private System.Windows.Forms.Button buttonSeleccionarHasta;
         private System.Windows.Forms.MonthCalendar monthCalendarDesde;
         private System.Windows.Forms.MonthCalendar monthCalendarHasta;
+        private System.Windows.Forms.Button buttonTodas;
     }
 }
