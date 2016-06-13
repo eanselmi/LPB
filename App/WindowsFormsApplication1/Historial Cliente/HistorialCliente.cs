@@ -112,7 +112,7 @@ namespace visibilidad.Historial_Cliente
             Conexion connCompras = new Conexion();
             connCompras.cnn.Open();
             DataTable dataCompras = new DataTable();
-            string queryCompras = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',cantidad as 'CANTIDAD',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID',fecha as 'FECHA' from LPB.Compras where Cliente_id='" + clienteID + "' and fecha <='"+fechadeHoy.ToShortDateString()+"'  order by fecha desc";
+            string queryCompras = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',cantidad as 'CANTIDAD',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else (select cantEstrellas from lpb.calificaciones where codigo=Calificacion_cod) END as 'CALIFICACIÓN',fecha as 'FECHA' from LPB.Compras where Cliente_id='" + clienteID + "' and fecha <='"+fechadeHoy.ToShortDateString()+"'  order by fecha desc";
             SqlDataAdapter sqlAdapter = new SqlDataAdapter(queryCompras, connCompras.cnn);
             SqlCommandBuilder sqlCommand = new SqlCommandBuilder(sqlAdapter);
             sqlAdapter.Fill(dataCompras);
@@ -123,7 +123,7 @@ namespace visibilidad.Historial_Cliente
             Conexion connSubastas = new Conexion();
             connSubastas.cnn.Open();
             DataTable dataSubastas = new DataTable();
-            string querySubastas = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',monto as 'MONTO', case ganadora when 1 then 'SI' else 'NO' END as 'GANADORA',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else Calificacion_cod END as 'CALIFICACIÓN ID', fecha as 'FECHA' from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' order by fecha desc";
+            string querySubastas = "select Publicacion_cod as 'CÓDIGO DE PUBLICACIÓN',monto as 'MONTO', case ganadora when 1 then 'SI' else 'NO' END as 'GANADORA',case envio when 0 then 'NO' else 'SI' END as 'CON ENVIO',case Calificacion_cod when NULL then 'NO' else (select cantEstrellas from lpb.calificaciones where codigo=Calificacion_cod) END as 'CALIFICACIÓN', fecha as 'FECHA' from LPB.Ofertas where Cliente_id='"+clienteID+"' and fecha <='"+fechadeHoy.ToShortDateString()+"' order by fecha desc";
             SqlDataAdapter sqlAdapterSub = new SqlDataAdapter(querySubastas, connSubastas.cnn);
             SqlCommandBuilder sqlCommandSub = new SqlCommandBuilder(sqlAdapterSub);
             sqlAdapterSub.Fill(dataSubastas);
