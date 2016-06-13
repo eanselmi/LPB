@@ -650,7 +650,7 @@ END
 GO
 
 
-CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @usuario_id int, @monto numeric(18,2),  @stock numeric(18,0), @cantidad numeric(18,0), @envio bit)
+CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@fecha datetime, @publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @vendedor_id int, @comprador_id int, @monto numeric(18,2),  @stock numeric(18,0), @cantidad numeric(18,0), @envio bit)
 AS
 BEGIN	
 	declare @nuevo_codigo_factura Numeric(18,2);
@@ -661,7 +661,7 @@ BEGIN
 
 	-- Genero cabezal de factura
 	insert into lpb.facturas(numero,fecha,total,FormaDePago,Usuario_id)
-	values(@nuevo_codigo_factura,GETDATE(),@total,'Efectivo',@usuario_id)	
+	values(@nuevo_codigo_factura,@fecha,@total,'Efectivo',@vendedor_id)	
 
 	-- Genero renglon por la venta
 	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
@@ -682,6 +682,9 @@ BEGIN
 	else
 		update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
 
+	-- Genero compra
+	insert into lpb.Compras(fecha,cantidad,Cliente_id,Publicacion_cod,envio)
+		values(@fecha,@cantidad,(select id from LPB.Clientes where Usuario_id = @comprador_id),@publicacion_cod,@envio)
 END
 GO
 

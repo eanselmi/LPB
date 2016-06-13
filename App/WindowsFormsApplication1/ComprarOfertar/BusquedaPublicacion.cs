@@ -227,6 +227,7 @@ namespace visibilidad.ComprarOfertar
                 decimal monto;
                 int visibilidad;
                 int cantidad;
+                int vendedor;
                 Boolean envio;
 
                 try
@@ -235,6 +236,7 @@ namespace visibilidad.ComprarOfertar
                     cantidad = int.Parse(tbox_cant.Text);
                     envio = bool.Parse(checkbox_envio.Checked.ToString());
                     monto = decimal.Parse(row.Cells["precio"].Value.ToString());
+                    vendedor = int.Parse(row.Cells["Usuario_id"].Value.ToString());
                 }
                 catch (Exception)
                 {
@@ -242,7 +244,7 @@ namespace visibilidad.ComprarOfertar
                     return;
                 }
                 
-                if (facturarCompra(visibilidad, monto, stock, cantidad, envio))
+                if (facturarCompra(vendedor, visibilidad, monto, stock, cantidad, envio))
                 {
                     cargarTodasLasPublicaciones("Compra inmediata", new Common());
                     checkbox_envio.Checked = false;
@@ -260,14 +262,16 @@ namespace visibilidad.ComprarOfertar
 
         }
 
-        private Boolean facturarCompra(int visibilidad, decimal monto, int stock, int cantidad, Boolean envio)
+        private Boolean facturarCompra(int vendedor, int visibilidad, decimal monto, int stock, int cantidad, Boolean envio)
         {
             Boolean resultadoFacturaCompra;
+            DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+           
             Conexion conexion = new Conexion();
             conexion.cnn.Open();
             resultadoFacturaCompra = conexion.executeProcedure(conexion.getSchema() + @".SP_Generar_Facturacion_Venta",
-                   Helper.Help.generarListaParaProcedure("@publicacion_cod", "@visibilidad_codigo", "@usuario_id", "@monto", "@stock", "@cantidad", "@envio"),
-                   publicacionSeleccionada, visibilidad, idUsuario, monto, stock, cantidad, envio);
+                   Helper.Help.generarListaParaProcedure("@fecha", "@publicacion_cod", "@visibilidad_codigo", "@vendedor_id","@comprador_id", "@monto", "@stock", "@cantidad", "@envio"),
+                   fecha, publicacionSeleccionada, visibilidad, vendedor, idUsuario, monto, stock, cantidad, envio);
             conexion.cnn.Close();
             return resultadoFacturaCompra;
         }
