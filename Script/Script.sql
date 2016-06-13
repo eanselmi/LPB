@@ -955,29 +955,11 @@ CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Facturacion]
 	@trimestre INT
 AS
 BEGIN
-	SELECT TOP 5
-		Mes,
-		Año,
-		Id,
-		Username,
-		Facturacion
-	FROM LPB.Usuarios
-	INNER JOIN
-	(
-		SELECT
-			p.Usuario_Id AS Usuario_Id,
-			SUM(fi.monto) AS Facturacion,
-			MONTH(fechaCreacion) AS Mes,
-			YEAR(fechaCreacion) AS Año
-		FROM LPB.Items AS fi
-		INNER JOIN LPB.Publicaciones AS p
-			ON fi.Publicacion_cod = p.codigo
-		WHERE YEAR(p.fechaCreacion) = @anio
-			AND LPB.[fn_trimestre](p.fechaCreacion) = @trimestre
-		GROUP BY p.Usuario_Id, MONTH(fechaCreacion), YEAR(fechaCreacion)
-	) AS tmp
-	ON Usuarios.Id = tmp.Usuario_Id
-	ORDER BY Facturacion DESC
+SELECT TOP 5 MONTH(fecha) AS Mes, YEAR(fecha) AS Año, Usuario_id AS Usuario, SUM(total) AS Cantidad
+FROM LPB.Facturas
+WHERE YEAR(fecha) = @anio AND LPB.[fn_trimestre](fecha) = @trimestre
+GROUP BY MONTH(fecha), YEAR(fecha), Usuario_id 
+ORDER BY Cantidad DESC
 END
 GO
 
