@@ -695,7 +695,10 @@ BEGIN
 	-- Actualizo stock y finalizo publicacion si corresponde
 	set @stockRestante = @stock-@cantidad
 	if(@stockRestante = 0)
-		update LPB.Publicaciones set stock=stock-@cantidad, EstadoDePublicacion_id = (select id from LPB.EstadosDePublicacion where descripcion='Finalizada') where codigo = @publicacion_cod;
+		begin
+		update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
+		update LPB.Publicaciones set EstadoDePublicacion_id = (select id from LPB.EstadosDePublicacion where descripcion='Finalizada') where codigo = @publicacion_cod;
+		end
 	else
 		update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
 
