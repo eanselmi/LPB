@@ -147,6 +147,13 @@ namespace visibilidad.Historial_Cliente
             this.Close();
         }
 
+        private void HistorialCliente_Load_1(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
   
 
 

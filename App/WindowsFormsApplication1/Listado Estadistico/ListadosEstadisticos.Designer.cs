@@ -240,6 +240,7 @@
             this.MinimizeBox = false;
             this.Name = "ListadoEstadistico";
             this.Text = "Listados Estadisticos  ";
+            this.Load += new System.EventHandler(this.ListadoEstadistico_Load);
             this.groupBoxListados.ResumeLayout(false);
             this.groupBoxListados.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewListados)).EndInit();

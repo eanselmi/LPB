@@ -137,6 +137,7 @@
             this.Name = "ComprasOfertasSinCalificar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calificacion";
+            this.Load += new System.EventHandler(this.ComprasOfertasSinCalificar_Load);
             this.groupBoxCalificar.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewCalificar)).EndInit();
             this.ResumeLayout(false);

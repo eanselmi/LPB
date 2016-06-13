@@ -670,45 +670,40 @@
             this.labelDatosOfertasGanadas.AutoSize = true;
             this.labelDatosOfertasGanadas.Location = new System.Drawing.Point(338, 134);
             this.labelDatosOfertasGanadas.Name = "labelDatosOfertasGanadas";
-            this.labelDatosOfertasGanadas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOfertasGanadas.Size = new System.Drawing.Size(0, 13);
             this.labelDatosOfertasGanadas.TabIndex = 23;
-            this.labelDatosOfertasGanadas.Text = "";
             // 
             // labelDatosOfertasHechas
             // 
             this.labelDatosOfertasHechas.AutoSize = true;
             this.labelDatosOfertasHechas.Location = new System.Drawing.Point(338, 114);
             this.labelDatosOfertasHechas.Name = "labelDatosOfertasHechas";
-            this.labelDatosOfertasHechas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOfertasHechas.Size = new System.Drawing.Size(0, 13);
             this.labelDatosOfertasHechas.TabIndex = 22;
-            this.labelDatosOfertasHechas.Text = "";
             // 
             // labelDatosComprasHechas
             // 
             this.labelDatosComprasHechas.AutoSize = true;
             this.labelDatosComprasHechas.Location = new System.Drawing.Point(338, 92);
             this.labelDatosComprasHechas.Name = "labelDatosComprasHechas";
-            this.labelDatosComprasHechas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosComprasHechas.Size = new System.Drawing.Size(0, 13);
             this.labelDatosComprasHechas.TabIndex = 21;
-            this.labelDatosComprasHechas.Text = "";
             // 
             // labelDatosOpConCalif
             // 
             this.labelDatosOpConCalif.AutoSize = true;
             this.labelDatosOpConCalif.Location = new System.Drawing.Point(361, 50);
             this.labelDatosOpConCalif.Name = "labelDatosOpConCalif";
-            this.labelDatosOpConCalif.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOpConCalif.Size = new System.Drawing.Size(0, 13);
             this.labelDatosOpConCalif.TabIndex = 20;
-            this.labelDatosOpConCalif.Text = "";
             // 
             // labelDatosOpSinCalif
             // 
             this.labelDatosOpSinCalif.AutoSize = true;
             this.labelDatosOpSinCalif.Location = new System.Drawing.Point(361, 27);
             this.labelDatosOpSinCalif.Name = "labelDatosOpSinCalif";
-            this.labelDatosOpSinCalif.Size = new System.Drawing.Size(41, 13);
+            this.labelDatosOpSinCalif.Size = new System.Drawing.Size(0, 13);
             this.labelDatosOpSinCalif.TabIndex = 10;
-            this.labelDatosOpSinCalif.Text = "";
             // 
             // labelOfertasGanadas
             // 
@@ -770,45 +765,40 @@
             this.labelDatos5Estrellas.AutoSize = true;
             this.labelDatos5Estrellas.Location = new System.Drawing.Point(87, 107);
             this.labelDatos5Estrellas.Name = "labelDatos5Estrellas";
-            this.labelDatos5Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos5Estrellas.Size = new System.Drawing.Size(0, 13);
             this.labelDatos5Estrellas.TabIndex = 9;
-            this.labelDatos5Estrellas.Text = "";
             // 
             // labelDatos4Estrellas
             // 
             this.labelDatos4Estrellas.AutoSize = true;
             this.labelDatos4Estrellas.Location = new System.Drawing.Point(87, 87);
             this.labelDatos4Estrellas.Name = "labelDatos4Estrellas";
-            this.labelDatos4Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos4Estrellas.Size = new System.Drawing.Size(0, 13);
             this.labelDatos4Estrellas.TabIndex = 8;
-            this.labelDatos4Estrellas.Text = "";
             // 
             // labelDatos3Estrellas
             // 
             this.labelDatos3Estrellas.AutoSize = true;
             this.labelDatos3Estrellas.Location = new System.Drawing.Point(87, 65);
             this.labelDatos3Estrellas.Name = "labelDatos3Estrellas";
-            this.labelDatos3Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos3Estrellas.Size = new System.Drawing.Size(0, 13);
             this.labelDatos3Estrellas.TabIndex = 7;
-            this.labelDatos3Estrellas.Text = "";
             // 
             // labelDatos2Estrellas
             // 
             this.labelDatos2Estrellas.AutoSize = true;
             this.labelDatos2Estrellas.Location = new System.Drawing.Point(87, 43);
             this.labelDatos2Estrellas.Name = "labelDatos2Estrellas";
-            this.labelDatos2Estrellas.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos2Estrellas.Size = new System.Drawing.Size(0, 13);
             this.labelDatos2Estrellas.TabIndex = 6;
-            this.labelDatos2Estrellas.Text = "";
             // 
             // labelDatos1Estrella
             // 
             this.labelDatos1Estrella.AutoSize = true;
             this.labelDatos1Estrella.Location = new System.Drawing.Point(87, 23);
             this.labelDatos1Estrella.Name = "labelDatos1Estrella";
-            this.labelDatos1Estrella.Size = new System.Drawing.Size(41, 13);
+            this.labelDatos1Estrella.Size = new System.Drawing.Size(0, 13);
             this.labelDatos1Estrella.TabIndex = 5;
-            this.labelDatos1Estrella.Text = "";
             // 
             // label5Estrella
             // 
@@ -878,9 +868,11 @@
             this.Controls.Add(this.bindingNavigator2);
             this.Controls.Add(this.bindingNavigator1);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "HistorialCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Historial del cliente";
+            this.Load += new System.EventHandler(this.HistorialCliente_Load_1);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);

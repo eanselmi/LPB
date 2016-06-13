@@ -165,5 +165,12 @@ namespace visibilidad.Facturas
             return;
 
         }
+
+        private void ConsultaFacturas_Load_1(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
     }
 }

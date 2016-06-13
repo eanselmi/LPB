@@ -158,7 +158,7 @@
             this.Name = "Calificacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Calificacion";
-         //   this.TopMost = true;
+            this.Load += new System.EventHandler(this.Calificacion_Load);
             this.groupBoxDetalle.ResumeLayout(false);
             this.groupBoxDetalle.PerformLayout();
             this.ResumeLayout(false);

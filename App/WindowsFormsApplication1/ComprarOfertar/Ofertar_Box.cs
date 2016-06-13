@@ -93,5 +93,12 @@ namespace visibilidad.ComprarOfertar
             return resultadoRealizacionOferta;
         }
 
+        private void Ofertar_Box_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
     }
 }

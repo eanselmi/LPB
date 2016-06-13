@@ -60,7 +60,9 @@ namespace visibilidad.ComprarOfertar
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)

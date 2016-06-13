@@ -31,9 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Informe));
             this.buttonVolverInforme = new System.Windows.Forms.Button();
             this.groupBoxInforme = new System.Windows.Forms.GroupBox();
+            this.dataGridViewInformes = new System.Windows.Forms.DataGridView();
             this.buttonInformeCompras = new System.Windows.Forms.Button();
             this.buttonInformeOfertas = new System.Windows.Forms.Button();
-            this.dataGridViewInformes = new System.Windows.Forms.DataGridView();
             this.groupBoxInforme.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInformes)).BeginInit();
             this.SuspendLayout();
@@ -58,6 +58,18 @@
             this.groupBoxInforme.TabStop = false;
             this.groupBoxInforme.Visible = false;
             // 
+            // dataGridViewInformes
+            // 
+            this.dataGridViewInformes.AllowUserToAddRows = false;
+            this.dataGridViewInformes.AllowUserToDeleteRows = false;
+            this.dataGridViewInformes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewInformes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewInformes.Location = new System.Drawing.Point(10, 19);
+            this.dataGridViewInformes.Name = "dataGridViewInformes";
+            this.dataGridViewInformes.ReadOnly = true;
+            this.dataGridViewInformes.Size = new System.Drawing.Size(372, 142);
+            this.dataGridViewInformes.TabIndex = 0;
+            // 
             // buttonInformeCompras
             // 
             this.buttonInformeCompras.Location = new System.Drawing.Point(22, 19);
@@ -78,18 +90,6 @@
             this.buttonInformeOfertas.UseVisualStyleBackColor = true;
             this.buttonInformeOfertas.Click += new System.EventHandler(this.buttonInformeOfertas_Click);
             // 
-            // dataGridViewInformes
-            // 
-            this.dataGridViewInformes.AllowUserToAddRows = false;
-            this.dataGridViewInformes.AllowUserToDeleteRows = false;
-            this.dataGridViewInformes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewInformes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewInformes.Location = new System.Drawing.Point(10, 19);
-            this.dataGridViewInformes.Name = "dataGridViewInformes";
-            this.dataGridViewInformes.ReadOnly = true;
-            this.dataGridViewInformes.Size = new System.Drawing.Size(372, 142);
-            this.dataGridViewInformes.TabIndex = 0;
-            // 
             // Informe
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -105,7 +105,7 @@
             this.Name = "Informe";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Informe";
-           // this.TopMost = true;
+            this.Load += new System.EventHandler(this.Informe_Load);
             this.groupBoxInforme.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewInformes)).EndInit();
             this.ResumeLayout(false);

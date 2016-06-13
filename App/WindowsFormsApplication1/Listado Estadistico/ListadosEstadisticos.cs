@@ -189,6 +189,13 @@ namespace visibilidad.Listado_Estadistico
             buttonConsultar.Enabled = false;
         }
 
+        private void ListadoEstadistico_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
 
 
 

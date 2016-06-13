@@ -77,9 +77,9 @@
             this.group_buscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.group_buscar.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.group_buscar.Location = new System.Drawing.Point(9, 9);
-            this.group_buscar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.group_buscar.Margin = new System.Windows.Forms.Padding(2);
             this.group_buscar.Name = "group_buscar";
-            this.group_buscar.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.group_buscar.Padding = new System.Windows.Forms.Padding(2);
             this.group_buscar.Size = new System.Drawing.Size(660, 165);
             this.group_buscar.TabIndex = 4;
             this.group_buscar.TabStop = false;
@@ -90,7 +90,7 @@
             this.btn_todas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_todas.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_todas.Location = new System.Drawing.Point(536, 94);
-            this.btn_todas.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_todas.Margin = new System.Windows.Forms.Padding(2);
             this.btn_todas.Name = "btn_todas";
             this.btn_todas.Size = new System.Drawing.Size(112, 24);
             this.btn_todas.TabIndex = 9;
@@ -103,7 +103,7 @@
             this.btn_limpiar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_limpiar.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_limpiar.Location = new System.Drawing.Point(536, 61);
-            this.btn_limpiar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_limpiar.Margin = new System.Windows.Forms.Padding(2);
             this.btn_limpiar.Name = "btn_limpiar";
             this.btn_limpiar.Size = new System.Drawing.Size(112, 24);
             this.btn_limpiar.TabIndex = 8;
@@ -124,7 +124,7 @@
             // tbox_descr
             // 
             this.tbox_descr.Location = new System.Drawing.Point(118, 29);
-            this.tbox_descr.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbox_descr.Margin = new System.Windows.Forms.Padding(2);
             this.tbox_descr.Name = "tbox_descr";
             this.tbox_descr.Size = new System.Drawing.Size(407, 23);
             this.tbox_descr.TabIndex = 6;
@@ -135,7 +135,7 @@
             this.checklist_rubros.CheckOnClick = true;
             this.checklist_rubros.FormattingEnabled = true;
             this.checklist_rubros.Location = new System.Drawing.Point(118, 59);
-            this.checklist_rubros.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checklist_rubros.Margin = new System.Windows.Forms.Padding(2);
             this.checklist_rubros.Name = "checklist_rubros";
             this.checklist_rubros.Size = new System.Drawing.Size(407, 76);
             this.checklist_rubros.TabIndex = 5;
@@ -156,7 +156,7 @@
             this.btn_volver.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_volver.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_volver.Location = new System.Drawing.Point(536, 128);
-            this.btn_volver.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_volver.Margin = new System.Windows.Forms.Padding(2);
             this.btn_volver.Name = "btn_volver";
             this.btn_volver.Size = new System.Drawing.Size(112, 24);
             this.btn_volver.TabIndex = 2;
@@ -169,7 +169,7 @@
             this.btn_buscar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_buscar.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_buscar.Location = new System.Drawing.Point(536, 28);
-            this.btn_buscar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_buscar.Margin = new System.Windows.Forms.Padding(2);
             this.btn_buscar.Name = "btn_buscar";
             this.btn_buscar.Size = new System.Drawing.Size(112, 24);
             this.btn_buscar.TabIndex = 1;
@@ -190,9 +190,9 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.groupBox1.Location = new System.Drawing.Point(9, 178);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(660, 422);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
@@ -318,7 +318,7 @@
             this.checkbox_envio.AutoSize = true;
             this.checkbox_envio.Enabled = false;
             this.checkbox_envio.Location = new System.Drawing.Point(536, 191);
-            this.checkbox_envio.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkbox_envio.Margin = new System.Windows.Forms.Padding(2);
             this.checkbox_envio.Name = "checkbox_envio";
             this.checkbox_envio.Size = new System.Drawing.Size(115, 21);
             this.checkbox_envio.TabIndex = 14;
@@ -328,7 +328,7 @@
             // tbox_cant
             // 
             this.tbox_cant.Location = new System.Drawing.Point(596, 120);
-            this.tbox_cant.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tbox_cant.Margin = new System.Windows.Forms.Padding(2);
             this.tbox_cant.Name = "tbox_cant";
             this.tbox_cant.Size = new System.Drawing.Size(54, 23);
             this.tbox_cant.TabIndex = 12;
@@ -350,7 +350,7 @@
             this.btn_pregunta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_pregunta.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_pregunta.Location = new System.Drawing.Point(536, 48);
-            this.btn_pregunta.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_pregunta.Margin = new System.Windows.Forms.Padding(2);
             this.btn_pregunta.Name = "btn_pregunta";
             this.btn_pregunta.Size = new System.Drawing.Size(112, 60);
             this.btn_pregunta.TabIndex = 9;
@@ -364,7 +364,7 @@
             this.btn_comprar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_comprar.ForeColor = System.Drawing.SystemColors.ControlText;
             this.btn_comprar.Location = new System.Drawing.Point(536, 154);
-            this.btn_comprar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btn_comprar.Margin = new System.Windows.Forms.Padding(2);
             this.btn_comprar.Name = "btn_comprar";
             this.btn_comprar.Size = new System.Drawing.Size(112, 24);
             this.btn_comprar.TabIndex = 8;
@@ -376,10 +376,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(680, 602);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.group_buscar);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "BusquedaPublicacion";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Búsqueda de Publicaciones";

@@ -50,5 +50,12 @@ namespace visibilidad.Calificar
             Calificar.ComprasOfertasSinCalificar COSinCalificar = new Calificar.ComprasOfertasSinCalificar(idUsuario);
             COSinCalificar.Show();
         }
+
+        private void Opciones_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
     }
 }

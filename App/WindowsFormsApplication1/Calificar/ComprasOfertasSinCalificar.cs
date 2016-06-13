@@ -87,6 +87,13 @@ namespace visibilidad.Calificar
             calificacion.Show();
         }
 
+        private void ComprasOfertasSinCalificar_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
 
     }
 }

@@ -53,6 +53,13 @@ namespace visibilidad.Calificar
             groupBoxInforme.Visible = true;
         }
 
+        private void Informe_Load(object sender, EventArgs e)
+        {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+        }
+
 
 
     }

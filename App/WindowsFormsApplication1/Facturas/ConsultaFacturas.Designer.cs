@@ -381,9 +381,11 @@
             this.Controls.Add(this.labelFecha);
             this.Controls.Add(this.bindingNavigator1);
             this.Controls.Add(this.superGridFacturas);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConsultaFacturas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Facturas realizadas al vendedor";
+            this.Load += new System.EventHandler(this.ConsultaFacturas_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.bindingNavigator1)).EndInit();
             this.bindingNavigator1.ResumeLayout(false);
             this.bindingNavigator1.PerformLayout();

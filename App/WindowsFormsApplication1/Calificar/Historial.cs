@@ -26,6 +26,9 @@ namespace visibilidad.Calificar
 
         private void Historial_Load(object sender, EventArgs e)
         {
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog; 
             DataTable dt = new DataTable();
             List<string> lista = Helper.Help.generarListaParaProcedure("@idUser");
             cn.cnn.Open();
