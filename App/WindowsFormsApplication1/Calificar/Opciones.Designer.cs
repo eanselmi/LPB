@@ -92,7 +92,7 @@
             this.MinimizeBox = false;
             this.Name = "Opciones";
             this.Text = "Opciones De Calificar";
-            this.TopMost = true;
+          //  this.TopMost = true;
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
