@@ -205,12 +205,20 @@ namespace visibilidad.ComprarOfertar
             lector1.Read();
             if (lector1.GetInt32(0) >= 3)
             {
-                MessageBox.Show("No puede realizar una oferta porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No puede realizar otra operación porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 conCSSC.cnn.Close();
                 return;
             }
             conCSSC.cnn.Close();
 
+            /* Chequeo que no esté en estado "pausada"*/
+            DataGridViewRow rowSeleccionada = superGridPublis.SelectedRows[0];
+            int estadoPub = int.Parse(rowSeleccionada.Cells["EstadoDePublicacion_id"].Value.ToString());
+            if (estadoPub == 3)
+            {
+                MessageBox.Show("No puede realizar una operación en la publicación seleccionada, ya que se encuentra pausada", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
 
             /* Chequeo que alcance el stock */
             Conexion con = new Conexion();
