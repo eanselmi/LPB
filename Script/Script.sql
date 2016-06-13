@@ -263,7 +263,7 @@ GO
 
 CREATE TABLE [LPB].Compras(
 id INT NOT NULL IDENTITY(1,1),
-fecha DATETIME NOT NULL default getdate(),
+fecha DATETIME NOT NULL,
 cantidad NUMERIC(18,0) NOT NULL,
 Cliente_id INT NOT NULL,
 Publicacion_cod NUMERIC(18,0) NOT NULL,
@@ -274,7 +274,7 @@ GO
 
 CREATE TABLE [LPB].Ofertas(
 id INT NOT NULL IDENTITY(1,1),
-fecha DATETIME NOT NULL default getdate(),
+fecha DATETIME NOT NULL,
 monto NUMERIC(18,2) NOT NULL,
 Cliente_id INT NOT NULL,
 Publicacion_cod NUMERIC(18,0) NOT NULL,
@@ -678,7 +678,7 @@ BEGIN
 
 	-- Genero cabezal de factura
 	insert into lpb.facturas(numero,fecha,total,FormaDePago,Usuario_id)
-	values(@nuevo_codigo_factura,@fecha,@total,'Efectivo',@vendedor_id)	
+	values(@nuevo_codigo_factura,@fecha,@total,NULL,@vendedor_id)	
 
 	-- Genero renglon por la venta
 	insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
