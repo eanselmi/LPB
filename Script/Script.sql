@@ -533,6 +533,11 @@ BEGIN
 	DROP PROCEDURE LPB.SP_Realizar_Oferta
 END;
 GO
+IF OBJECT_ID('lpb.SP_Facturar_Subasta_Finalizada') IS NOT NULL
+BEGIN
+	DROP PROCEDURE lpb.SP_Facturar_Subasta_Finalizada
+END;
+GO
 
 IF OBJECT_ID('LPB.[SP_Insertar_Calificacion_Compras]') IS NOT NULL
 BEGIN
@@ -700,6 +705,39 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE lpb.SP_Facturar_Subasta_Finalizada (@codigo Numeric(18,0),@fecha_actual Datetime)
+AS
+BEGIN
+	declare @oferta_ganadora numeric(18,2);
+	set @oferta_ganadora = (select max(monto) from Ofertas where Publicacion_cod=@codigo);	
+	if @oferta_ganadora is not null
+	begin
+		declare @total Numeric(18,2);	
+		declare @porcentaje numeric(18,2);
+		set @porcentaje = (select v.porcentaje from lpb.visibilidades v, lpb.Publicaciones p where v.codigo=p.Visibilidad_codigo and p.codigo=@codigo)
+		set @total = @porcentaje*@oferta_ganadora;
+		declare @nuevo_codigo_factura Numeric(18,2);
+	    set  @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
+
+		insert into lpb.facturas(numero,fecha,total,Usuario_id)
+		values(@nuevo_codigo_factura,@fecha_actual,@total,(select usuario_id from lpb.Publicaciones where codigo=@codigo))	
+
+		-- Genero renglon por la venta
+		insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
+		values(@total,1,@nuevo_codigo_factura,@codigo,'Comision por venta')
+
+		-- Genero renglón por el envío, si corresponde
+		if( (select aceptaEnvio from Publicaciones where codigo=@codigo) = 1)
+		begin
+			insert into lpb.Items(monto,cantidad,Factura_nro,Publicacion_cod,descripcion)
+			values(98,1,@nuevo_codigo_factura,@codigo,'Comision por envio')
+			update LPB.Facturas set total=(@total+98) where numero = @nuevo_codigo_factura;
+		end
+
+	end
+END
+GO
+
 CREATE PROCEDURE lpb.SP_Actualizar_Vencimientos (@fecha_actual Datetime)
 AS
 BEGIN
@@ -724,6 +762,7 @@ BEGIN
 			BEGIN
 				update lpb.Publicaciones SET EstadoDePublicacion_id=4 where codigo=@codigo
 				--Procesaar al ganador
+				EXEC lpb.SP_Facturar_Subasta_Finalizada @codigo,@fecha_actual;
 			END
 		END				
 		fetch next from cursorFechas INTO @codigo,@tipo,@fecha		
