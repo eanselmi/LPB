@@ -708,10 +708,16 @@ GO
 CREATE PROCEDURE lpb.SP_Facturar_Subasta_Finalizada (@codigo Numeric(18,0),@fecha_actual Datetime)
 AS
 BEGIN
-	declare @oferta_ganadora numeric(18,2);
+	declare @oferta_ganadora numeric(18,2);	
 	set @oferta_ganadora = (select max(monto) from Ofertas where Publicacion_cod=@codigo);	
 	if @oferta_ganadora is not null
 	begin
+		declare @codigo_oferta_ganadora int;
+		
+		--Busco la oferta ganadora y la marco como tal
+		set @codigo_oferta_ganadora =  (select TOP 1 id from LPB.Ofertas where Publicacion_cod=@codigo group by id order by max(monto) desc)
+		update LPB.Ofertas set ganadora=1 where id = @codigo_oferta_ganadora;
+
 		declare @total Numeric(18,2);	
 		declare @porcentaje numeric(18,2);
 		set @porcentaje = (select v.porcentaje from lpb.visibilidades v, lpb.Publicaciones p where v.codigo=p.Visibilidad_codigo and p.codigo=@codigo)
@@ -719,6 +725,7 @@ BEGIN
 		declare @nuevo_codigo_factura Numeric(18,2);
 	    set  @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
 
+		--inserto el maestro de factura
 		insert into lpb.facturas(numero,fecha,total,Usuario_id)
 		values(@nuevo_codigo_factura,@fecha_actual,@total,(select usuario_id from lpb.Publicaciones where codigo=@codigo))	
 
