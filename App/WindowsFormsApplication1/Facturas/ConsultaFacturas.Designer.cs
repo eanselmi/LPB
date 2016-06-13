@@ -277,10 +277,6 @@
             // 
             this.comboBoxDetalle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxDetalle.FormattingEnabled = true;
-            this.comboBoxDetalle.Items.AddRange(new object[] {
-            "Comision por venta",
-            "Costo por publicar",
-            "Costo por envio"});
             this.comboBoxDetalle.Location = new System.Drawing.Point(153, 132);
             this.comboBoxDetalle.Name = "comboBoxDetalle";
             this.comboBoxDetalle.Size = new System.Drawing.Size(215, 21);
