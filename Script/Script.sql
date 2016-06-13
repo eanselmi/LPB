@@ -1073,7 +1073,7 @@ END
 GO
 
 
-CREATE PROCEDURE LPB.[SP_Realizar_Oferta] @idUsuario int, @idPublicacion int, @monto int
+CREATE PROCEDURE [LPB].[SP_Realizar_Oferta] @fecha datetime, @idUsuario int, @idPublicacion int, @monto int
 AS 
 BEGIN
 BEGIN TRANSACTION
@@ -1085,7 +1085,7 @@ INSERT INTO [LPB].[Ofertas] (
 	,[ganadora]
 	,[envio])
 	values(
-	GETDATE()
+	 @fecha
 	,@monto
 	,(SELECT TOP 1 id from LPB.Clientes where Usuario_id = @idUsuario)
 	,@idPublicacion
