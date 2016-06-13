@@ -83,11 +83,12 @@ namespace visibilidad.ComprarOfertar
         private Boolean realizarOferta(int idUsuario, int idPublicacion, int monto)
         {
             Boolean resultadoRealizacionOferta;
+            DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             Conexion conexion = new Conexion();
             conexion.cnn.Open();
             resultadoRealizacionOferta = conexion.executeProcedure(conexion.getSchema() + @".SP_Realizar_Oferta",
-                   Helper.Help.generarListaParaProcedure("@idUsuario", "@idPublicacion", "@monto"),
-                   idUsuario, idPublicacion, monto);
+                   Helper.Help.generarListaParaProcedure("@fecha", "@idUsuario", "@idPublicacion", "@monto"),
+                   fecha, idUsuario, idPublicacion, monto);
             conexion.cnn.Close();
             return resultadoRealizacionOferta;
         }

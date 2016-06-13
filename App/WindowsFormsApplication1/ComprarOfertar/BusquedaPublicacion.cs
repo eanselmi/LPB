@@ -265,9 +265,9 @@ namespace visibilidad.ComprarOfertar
         private Boolean facturarCompra(int vendedor, int visibilidad, decimal monto, int stock, int cantidad, Boolean envio)
         {
             Boolean resultadoFacturaCompra;
-            Conexion conexion = new Conexion();
             DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-            
+           
+            Conexion conexion = new Conexion();
             conexion.cnn.Open();
             resultadoFacturaCompra = conexion.executeProcedure(conexion.getSchema() + @".SP_Generar_Facturacion_Venta",
                    Helper.Help.generarListaParaProcedure("@fecha", "@publicacion_cod", "@visibilidad_codigo", "@vendedor_id","@comprador_id", "@monto", "@stock", "@cantidad", "@envio"),
