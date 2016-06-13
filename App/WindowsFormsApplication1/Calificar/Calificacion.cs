@@ -59,8 +59,6 @@ namespace visibilidad.Calificar
                 if (comboBoxDetalle.Text == "")
                 {
                     string detalle = this.textBoxDetalleP.Text.ToString();
-                     
-                     MessageBox.Show(detalle);
                      bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
                      if (resultado)
                          MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -71,7 +69,6 @@ namespace visibilidad.Calificar
                 else
                 {
                     string detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
-                    MessageBox.Show(detalle);
                     bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
                     if (resultado)
                         MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
