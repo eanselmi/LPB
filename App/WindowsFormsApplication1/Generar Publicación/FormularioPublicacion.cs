@@ -27,6 +27,7 @@ namespace visibilidad.Generar_Publicación
         public string evento;
         public int codigo_nuevo;
         public bool usuario_nuevo=false;
+        public bool estaba_pausada=false;
         public FormularioPublicacion(Generar_Publicación.GenerarPublicacion form, int usuario, int modo, string ev)
         {
             generar = form;
@@ -354,7 +355,11 @@ namespace visibilidad.Generar_Publicación
 
         private void radio_pausada_CheckedChanged(object sender, EventArgs e)
         {
-            if (radio_pausada.Checked == true) publicacion_estado = 3;
+            if (radio_pausada.Checked == true)
+            {
+                publicacion_estado = 3;
+                estaba_pausada = true;
+            }
         }
 
         private void radio_finalizada_CheckedChanged(object sender, EventArgs e)
@@ -668,7 +673,7 @@ namespace visibilidad.Generar_Publicación
                 }
 
                 //ACA VA LO DE CHECKED ACTIVA
-                if (radio_activa.Checked == true)
+                if (radio_activa.Checked == true && !estaba_pausada)
                 {
 
                     Generar_Publicación.Factura factura = new Generar_Publicación.Factura();

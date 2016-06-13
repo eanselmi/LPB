@@ -418,7 +418,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(519, 467);
+            this.ClientSize = new System.Drawing.Size(519, 506);
             this.Controls.Add(this.text_precio_aux);
             this.Controls.Add(this.text_visibilidad_id);
             this.Controls.Add(this.groupBox1);
