@@ -193,6 +193,23 @@ namespace visibilidad.ComprarOfertar
 
         private void btn_comprar_Click(object sender, EventArgs e)
         {
+
+            /* Chequeo que no tenga 3 operaciones sin calificar*/
+            string queryCheck = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            Conexion conCSSC = new Conexion();
+            conCSSC.cnn.Open();
+            SqlCommand comandoCSSC = new SqlCommand(queryCheck, conCSSC.cnn);
+            SqlDataReader lector1 = comandoCSSC.ExecuteReader();
+            lector1.Read();
+            if (lector1.GetInt32(0) >= 3)
+            {
+                MessageBox.Show("No puede realizar una oferta porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                conCSSC.cnn.Close();
+                return;
+            }
+            conCSSC.cnn.Close();
+
+
             /* Chequeo que alcance el stock */
             Conexion con = new Conexion();
             String query = "select COUNT(*) from LPB.Publicaciones where stock>=" + tbox_cant.Text + " and codigo = " +
