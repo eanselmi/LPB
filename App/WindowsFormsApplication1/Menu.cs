@@ -205,6 +205,20 @@ namespace visibilidad
 
         private void comprarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //SI TIENE 3 COMPRAS O SUBASTAS SIN CALIFICAR NO PUEDE COMPRAR NADA
+            string query = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            Conexion conCSSC = new Conexion();
+            conCSSC.cnn.Open();
+            SqlCommand comandoCSSC = new SqlCommand(query, conCSSC.cnn);
+            SqlDataReader lector1 = comandoCSSC.ExecuteReader();
+            lector1.Read();
+            if (lector1.GetInt32(0) >= 3)
+            {
+                MessageBox.Show("No puede realizar una compra porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                conCSSC.cnn.Close();
+                return;
+            }
+            conCSSC.cnn.Close();
             ComprarOfertar.BusquedaPublicacion busquedaPublicacion = new ComprarOfertar.BusquedaPublicacion("Compra Inmediata", id_usuario);
             busquedaPublicacion.Show();
         }
@@ -212,6 +226,20 @@ namespace visibilidad
 
         private void ofertarToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //SI TIENE 3 COMPRAS O SUBASTAS SIN CALIFICAR NO PUEDE COMPRAR NADA
+            string query = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            Conexion conCSSC = new Conexion();
+            conCSSC.cnn.Open();
+            SqlCommand comandoCSSC = new SqlCommand(query, conCSSC.cnn);
+            SqlDataReader lector1 = comandoCSSC.ExecuteReader();
+            lector1.Read();
+            if (lector1.GetInt32(0) >= 3)
+            {
+                MessageBox.Show("No puede realizar una compra porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                conCSSC.cnn.Close();
+                return;
+            }
+
             ComprarOfertar.BusquedaPublicacion busquedaPublicacion = new ComprarOfertar.BusquedaPublicacion("Subasta", id_usuario);
             busquedaPublicacion.Show();
         }
