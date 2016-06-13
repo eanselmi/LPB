@@ -33,9 +33,6 @@
             this.check_pregunta = new System.Windows.Forms.CheckBox();
             this.text_stock = new System.Windows.Forms.TextBox();
             this.text_precio = new System.Windows.Forms.TextBox();
-            this.btn_volver = new System.Windows.Forms.Button();
-            this.btn_limpiar = new System.Windows.Forms.Button();
-            this.btn_guardar = new System.Windows.Forms.Button();
             this.check_envio = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checklist_rubros = new System.Windows.Forms.CheckedListBox();
@@ -57,6 +54,9 @@
             this.radio_compra = new System.Windows.Forms.RadioButton();
             this.text_descripcion = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btn_volver = new System.Windows.Forms.Button();
+            this.btn_limpiar = new System.Windows.Forms.Button();
+            this.btn_guardar = new System.Windows.Forms.Button();
             this.text_visibilidad_id = new System.Windows.Forms.TextBox();
             this.text_precio_aux = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
@@ -117,36 +117,6 @@
             this.text_precio.Size = new System.Drawing.Size(100, 26);
             this.text_precio.TabIndex = 21;
             this.text_precio.Leave += new System.EventHandler(this.textBox2_Leave);
-            // 
-            // btn_volver
-            // 
-            this.btn_volver.Location = new System.Drawing.Point(593, 734);
-            this.btn_volver.Name = "btn_volver";
-            this.btn_volver.Size = new System.Drawing.Size(165, 35);
-            this.btn_volver.TabIndex = 19;
-            this.btn_volver.Text = "Volver";
-            this.btn_volver.UseVisualStyleBackColor = true;
-            this.btn_volver.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // btn_limpiar
-            // 
-            this.btn_limpiar.Location = new System.Drawing.Point(308, 734);
-            this.btn_limpiar.Name = "btn_limpiar";
-            this.btn_limpiar.Size = new System.Drawing.Size(165, 35);
-            this.btn_limpiar.TabIndex = 18;
-            this.btn_limpiar.Text = "Reestablecer";
-            this.btn_limpiar.UseVisualStyleBackColor = true;
-            this.btn_limpiar.Click += new System.EventHandler(this.btn_limpiar_Click);
-            // 
-            // btn_guardar
-            // 
-            this.btn_guardar.Location = new System.Drawing.Point(12, 734);
-            this.btn_guardar.Name = "btn_guardar";
-            this.btn_guardar.Size = new System.Drawing.Size(165, 35);
-            this.btn_guardar.TabIndex = 17;
-            this.btn_guardar.Text = "Guardar";
-            this.btn_guardar.UseVisualStyleBackColor = true;
-            this.btn_guardar.Click += new System.EventHandler(this.btn_guardar_Click);
             // 
             // check_envio
             // 
@@ -265,6 +235,7 @@
             // radio_finalizada
             // 
             this.radio_finalizada.AutoSize = true;
+            this.radio_finalizada.Enabled = false;
             this.radio_finalizada.Location = new System.Drawing.Point(36, 160);
             this.radio_finalizada.Name = "radio_finalizada";
             this.radio_finalizada.Size = new System.Drawing.Size(106, 24);
@@ -360,6 +331,36 @@
             this.label1.Size = new System.Drawing.Size(92, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Descripcion";
+            // 
+            // btn_volver
+            // 
+            this.btn_volver.Location = new System.Drawing.Point(593, 734);
+            this.btn_volver.Name = "btn_volver";
+            this.btn_volver.Size = new System.Drawing.Size(165, 35);
+            this.btn_volver.TabIndex = 19;
+            this.btn_volver.Text = "Volver";
+            this.btn_volver.UseVisualStyleBackColor = true;
+            this.btn_volver.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // btn_limpiar
+            // 
+            this.btn_limpiar.Location = new System.Drawing.Point(308, 734);
+            this.btn_limpiar.Name = "btn_limpiar";
+            this.btn_limpiar.Size = new System.Drawing.Size(165, 35);
+            this.btn_limpiar.TabIndex = 18;
+            this.btn_limpiar.Text = "Reestablecer";
+            this.btn_limpiar.UseVisualStyleBackColor = true;
+            this.btn_limpiar.Click += new System.EventHandler(this.btn_limpiar_Click);
+            // 
+            // btn_guardar
+            // 
+            this.btn_guardar.Location = new System.Drawing.Point(12, 734);
+            this.btn_guardar.Name = "btn_guardar";
+            this.btn_guardar.Size = new System.Drawing.Size(165, 35);
+            this.btn_guardar.TabIndex = 17;
+            this.btn_guardar.Text = "Guardar";
+            this.btn_guardar.UseVisualStyleBackColor = true;
+            this.btn_guardar.Click += new System.EventHandler(this.btn_guardar_Click);
             // 
             // text_visibilidad_id
             // 

@@ -84,6 +84,7 @@ namespace visibilidad.Generar_Publicación
                 btn_limpiar.Enabled = false;
                 radio_compra.Enabled = false;
                 radio_subasta.Enabled = false;
+                radio_finalizada.Enabled = true;
                 llenar_formulario(codigo_publicacion);
                 if (radio_borrador.Checked == true)
                 {
@@ -843,6 +844,15 @@ namespace visibilidad.Generar_Publicación
 
 
             }
+            if (radio_finalizada.Checked == true && radio_subasta.Checked == true)
+            {
+                DateTime fecha_actual = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);       
+                Conexion cn = new Conexion();
+                cn.cnn.Open();
+                bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Facturar_Subasta_Finalizada", Helper.Help.generarListaParaProcedure("@codigo","@fecha_actual"),codigo_publicacion,fecha_actual);                
+                cn.cnn.Close();
+            }
+
         }
 
         private void check_envio_CheckedChanged(object sender, EventArgs e)
