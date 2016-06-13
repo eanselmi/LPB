@@ -858,21 +858,12 @@ CREATE PROCEDURE LPB.[SP_Vendedores_Mayor_Productos_No_Vendidos]
 	@visibilidad NUMERIC(18,0)
 AS
 BEGIN
-SELECT TOP 5
-		Año,
-		Mes,
-		Id,
-		Username,
-		CAST(SinVender AS INT) AS Cantidad,
-		Visibilidad
-	FROM LPB.Usuarios
-	INNER JOIN
-	(
+
 		SELECT TOP 5
 			MONTH(Fecha) AS Mes,
 			YEAR(Fecha) AS Año,
 			Usuario_id,
-			SUM(Stock - Ventas) AS SinVender,
+			SUM(Stock - Ventas) AS Cantidad,
 			Visibilidad
 		FROM
 		(
@@ -900,10 +891,7 @@ SELECT TOP 5
 		WHERE YEAR(Fecha) = @anio
 		AND LPB.fn_trimestre(Fecha) = @trimestre
 		GROUP BY MONTH(Fecha), YEAR(fecha), Usuario_id, Visibilidad
-		ORDER BY SinVender DESC
-	) AS tmp
-	ON Usuarios.id = tmp.Usuario_id
-	ORDER BY Mes,Año, Visibilidad
+		ORDER BY Cantidad DESC
 END
 GO
 
