@@ -85,6 +85,7 @@ namespace visibilidad.Generar_Publicación
                 radio_compra.Enabled = false;
                 radio_subasta.Enabled = false;
                 radio_finalizada.Enabled = true;
+                radio_pausada.Enabled = true;
                 llenar_formulario(codigo_publicacion);
                 if (radio_borrador.Checked == true)
                 {
