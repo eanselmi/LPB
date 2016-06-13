@@ -899,56 +899,26 @@ CREATE PROCEDURE LPB.[SP_Clientes_Mayor_Productos_Comprados]
 AS
 BEGIN
 
-SELECT TOP 5
-		Mes,
-		Año,
-		Id,
-		Username,
-		CAST(Compras AS INT) AS Cantidad,
-		Rubro
-	FROM LPB.Usuarios
-	INNER JOIN
-	(
-
-		SELECT  TOP 5 
-				MONTH(Fecha) AS Mes,
-				YEAR(Fecha) AS Año,
-				Usuario_Id,
-				Compras, 
-				Rubro
-		FROM
-		(SELECT 
-				Usuario_id,
-				fechaCreacion AS Fecha,
-				ISNULL(Compras, 0) AS Compras,
-				Rubro_id AS Rubro
-			FROM LPB.Publicaciones 
-			LEFT JOIN
-			(
-				SELECT Publicacion_cod, SUM(cantidad) AS Compras
-				FROM LPB.Compras
-				GROUP BY Publicacion_cod
-				UNION ALL
-				SELECT Publicacion_cod, 1 AS Compras
-				FROM LPB.Ofertas
-				WHERE ganadora = 1
-				GROUP BY Publicacion_cod
-				) AS Operaciones
-			ON Publicaciones.codigo = Operaciones.Publicacion_cod
-			INNER JOIN 
-			LPB.PublicacionesPorRubro pr
-			ON pr.Publicacion_id = Publicacion_cod) AS ComprasPorRubro
-		where YEAR(Fecha) = @anio
-		AND LPB.fn_trimestre(Fecha) = @trimestre
-		AND Rubro = @rubro
-		GROUP BY MONTH(Fecha) ,
-				YEAR(Fecha) ,
-				Usuario_Id,
-				Compras, 
-				Rubro
-	)AS tmp
-	ON Usuarios.id = tmp.Usuario_id
-	ORDER BY Compras DESC
+SELECT TOP 5 Mes, Año, Rubro_id, Cliente_id, Cantidad
+FROM
+(SELECT  MONTH(fecha) AS Mes, YEAR(fecha) AS Año, Rubro_id,  Cliente_id , COUNT(*) as Cantidad
+FROM LPB.Compras
+INNER JOIN LPB.Publicaciones
+ON Publicacion_cod = codigo
+INNER JOIN LPB.PublicacionesPorRubro
+ON Publicacion_id = codigo
+WHERE YEAR(fecha) = @anio AND LPB.fn_trimestre(fecha) = @trimestre AND Rubro_id = @rubro
+GROUP BY  MONTH(fecha), YEAR(fecha),Rubro_id, Cliente_id
+UNION ALL
+SELECT  MONTH(fecha) AS Mes, YEAR(fecha) AS Año,Rubro_id, Cliente_id, COUNT(*) as Cantidad
+FROM LPB.Ofertas
+INNER JOIN LPB.Publicaciones
+ON Publicacion_cod = codigo
+INNER JOIN LPB.PublicacionesPorRubro
+ON Publicacion_id = codigo
+WHERE YEAR(fecha) = @anio AND LPB.fn_trimestre(fecha) = @trimestre AND Rubro_id = @rubro AND ganadora = 1
+GROUP BY  MONTH(fecha), YEAR(fecha),Rubro_id, Cliente_id) AS comprasOfertas
+ORDER BY Cantidad DESC
 END 
 GO
 
