@@ -235,7 +235,7 @@ namespace visibilidad
             lector1.Read();
             if (lector1.GetInt32(0) >= 3)
             {
-                MessageBox.Show("No puede realizar una compra porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("No puede realizar una oferta porque tiene 3 operaciones sin calificar", "Mensaje..", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 conCSSC.cnn.Close();
                 return;
             }

@@ -81,7 +81,7 @@
             this.Name = "Historial";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado Historial De Calificaciones";
-            this.TopMost = true;
+           // this.TopMost = true;
             this.Load += new System.EventHandler(this.Historial_Load);
             this.groupBoxLH.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewHistorial)).EndInit();
