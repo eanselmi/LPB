@@ -39,6 +39,7 @@
             this.buttonVolverCalificacion = new System.Windows.Forms.Button();
             this.buttonConfirmar = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxVendedor = new System.Windows.Forms.TextBox();
             this.groupBoxDetalle.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,17 +136,26 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(153, 19);
+            this.textBox2.Location = new System.Drawing.Point(199, 27);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.Size = new System.Drawing.Size(58, 20);
             this.textBox2.TabIndex = 5;
             this.textBox2.Visible = false;
+            // 
+            // textBoxVendedor
+            // 
+            this.textBoxVendedor.Location = new System.Drawing.Point(199, 1);
+            this.textBoxVendedor.Name = "textBoxVendedor";
+            this.textBoxVendedor.Size = new System.Drawing.Size(57, 20);
+            this.textBoxVendedor.TabIndex = 6;
+            this.textBoxVendedor.Visible = false;
             // 
             // Calificacion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(268, 221);
+            this.Controls.Add(this.textBoxVendedor);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.buttonConfirmar);
             this.Controls.Add(this.buttonVolverCalificacion);
@@ -178,5 +188,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxDetalle;
+        private System.Windows.Forms.TextBox textBoxVendedor;
     }
 }

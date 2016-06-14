@@ -108,6 +108,7 @@ habilitado BIT DEFAULT 1,
 cantIntentosFallidos INT DEFAULT 0,
 nuevo BIT DEFAULT 1,
 fechaCreacion DATETIME NOT NULL DEFAULT GETDATE(),
+reputacion NUMERIC(18,2) DEFAULT 0,
 PRIMARY KEY(id));
 GO
 
@@ -550,6 +551,14 @@ BEGIN
 	DROP PROCEDURE LPB.[SP_Insertar_Calificacion_Ofertas]
 END;
 GO
+
+IF OBJECT_ID('LPB.[SP_Actualizar_Reputacion]') IS NOT NULL
+BEGIN
+	DROP PROCEDURE LPB.[SP_Actualizar_Reputacion]
+END;
+GO
+
+
 
 /*-------------- Definiciones de Stored Procedures ----------------*/
 
@@ -1065,7 +1074,7 @@ CREATE PROCEDURE LPB.[SP_Compras_Sin_Calificar]
 AS 
 BEGIN
 
-SELECT  DISTINCT c.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' , c.cantidad as 'Cantidad'
+SELECT  DISTINCT c.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' , c.cantidad as 'Cantidad', p.Usuario_id AS 'Vendedor'
 FROM LPB.Compras c
 INNER JOIN LPB.Publicaciones p
 ON c.Publicacion_cod = p.codigo
@@ -1081,7 +1090,7 @@ CREATE PROCEDURE LPB.[SP_Ofertas_Sin_Calificar]
 AS 
 BEGIN
 
-SELECT DISTINCT o.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' , 1 as 'Cantidad'
+SELECT DISTINCT o.Publicacion_cod as 'publicacion',descripcion AS 'Descripcion' , 1 as 'Cantidad', p.Usuario_id AS 'Vendedor'
 FROM LPB.Ofertas o
 INNER JOIN LPB.Publicaciones p
 ON o.Publicacion_cod = p.codigo
@@ -1116,6 +1125,44 @@ SET  Calificacion_cod = (SELECT TOP 1 codigo FROM LPB.Calificaciones ORDER BY co
 WHERE Publicacion_cod = @Publicacion_cod
 END 
 GO
+
+
+CREATE PROCEDURE LPB.[SP_Actualizar_Reputacion]
+@vendedor INT,
+@estrellas INT
+AS
+BEGIN
+
+DECLARE @cantidadEstrellas NUMERIC(18,2);
+DECLARE @cantidadOperacionesConcretadas NUMERIC(18,2); 
+
+SET @cantidadEstrellas = 
+(SELECT 
+(select sum(ca.cantEstrellas) as cantidad_estrellas
+ from lpb.Usuarios u, lpb.Publicaciones p, lpb.Compras c, lpb.Calificaciones ca
+ where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor)
+ +
+ (select sum(ca2.cantEstrellas) as cantidad_estrellas
+  from lpb.Usuarios u2, lpb.Publicaciones p2, lpb.Ofertas o2, lpb.Calificaciones ca2
+  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor)) + @estrellas
+
+SET @cantidadOperacionesConcretadas =
+( SELECT
+ ( select  count(*) as cantidad_operaciones
+ from lpb.Usuarios u, lpb.Publicaciones p, lpb.Compras c, lpb.Calificaciones ca
+ where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor)
+ +
+ (select  count(*) as cantidad_operaciones
+  from lpb.Usuarios u2, lpb.Publicaciones p2, lpb.Ofertas o2, lpb.Calificaciones ca2
+  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor)) +1
+
+UPDATE LPB.Usuarios
+SET reputacion = ((@cantidadEstrellas * 100) / 5) / @cantidadOperacionesConcretadas
+WHERE id = @vendedor
+
+END 
+GO
+
 
 
 CREATE PROCEDURE [LPB].[SP_Realizar_Oferta] @fecha datetime, @idUsuario int, @idPublicacion int, @monto int

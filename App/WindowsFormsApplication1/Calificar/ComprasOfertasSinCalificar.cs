@@ -42,6 +42,20 @@ namespace visibilidad.Calificar
             dt = cn.obtenerTablaSegunProcedure(cn.getSchema() + @".SP_Compras_Sin_Calificar", lista, idUser);
             cn.cnn.Close();
             this.dataGridViewCalificar.DataSource = dt;
+
+            this.dataGridViewCalificar.Columns[3].Visible = false;
+            //Conexion con = new Conexion();
+            //string query_publicaciones = "SELECT  DISTINCT c.Publicacion_cod as publicacion ,descripcion AS Descripcion , c.cantidad as Cantidad, p.Usuario_id as Vendedor " +
+            //        "FROM LPB.Compras c INNER JOIN LPB.Publicaciones p ON c.Publicacion_cod = p.codigo INNER JOIN LPB.Clientes cli ON c.Cliente_id = cli.id " +
+            //        "WHERE c.Calificacion_cod IS NULL AND c.Cliente_id != p.Usuario_id AND cli.Usuario_id = " + idUser;
+            //con.cnn.Open();
+            //DataTable dtDatos = new DataTable();
+            //SqlDataAdapter da = new SqlDataAdapter(query_publicaciones, con.cnn);
+            //da.Fill(dtDatos);
+            //dataGridViewCalificar.DataSource = dtDatos;
+            //con.cnn.Close();
+        
+           
             groupBoxCalificar.Visible = true;
             if (dataGridViewCalificar.Rows.Count != 0)
             {
@@ -64,6 +78,8 @@ namespace visibilidad.Calificar
             dt1 = cn.obtenerTablaSegunProcedure(cn.getSchema() + @".SP_Ofertas_Sin_Calificar", lista, idUser);
             cn.cnn.Close();
             this.dataGridViewCalificar.DataSource = dt1;
+            this.dataGridViewCalificar.Columns[3].Visible = false;
+           
             groupBoxCalificar.Visible = true;
             if (dataGridViewCalificar.Rows.Count != 0)
             {
@@ -81,9 +97,16 @@ namespace visibilidad.Calificar
         private void buttonCalificar_Click(object sender, EventArgs e)
         {
             int CuO = Int32.Parse(this.textBoxCompra.Text.ToString());
-            decimal idPublicacion = Decimal.Parse(dataGridViewCalificar.SelectedCells[0].Value.ToString());
+            string  idPublicacion = dataGridViewCalificar.SelectedCells[0].Value.ToString();
+            string vendedor = dataGridViewCalificar.SelectedCells[3].Value.ToString();
+            //int ind = dataGridViewCalificar.CurrentCell.RowIndex;
+            //string vendedor = dataGridViewCalificar.Rows[ind].Cells["Vendedor"].Value.ToString();
+            //string idPublicacion = dataGridViewCalificar.Rows[ind].Cells["publicacion"].Value.ToString();
+            MessageBox.Show(vendedor);
+            MessageBox.Show(idPublicacion);
+  
             this.Close();
-            Calificar.Calificacion calificacion = new Calificar.Calificacion(idUser, idPublicacion, CuO);
+            Calificar.Calificacion calificacion = new Calificar.Calificacion(idUser, Convert.ToDecimal(idPublicacion), CuO, Convert.ToInt32(vendedor));
             calificacion.Show();
         }
 

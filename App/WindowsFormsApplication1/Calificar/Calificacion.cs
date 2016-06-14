@@ -19,12 +19,14 @@ namespace visibilidad.Calificar
         private int idUser;
         private decimal idPublic;
         private int CuO;
-        public Calificacion(int idUsuario, decimal idPublicacion, int compraUOferta)
+        private int codigoVendedor;
+        public Calificacion(int idUsuario, decimal idPublicacion, int compraUOferta, int vendedor)
         {
             InitializeComponent();
             idUser = idUsuario;
             idPublic = idPublicacion;
             CuO = compraUOferta;
+            codigoVendedor = vendedor;
             //Carga del combo Box Estrellas
             comboBoxEstrellas.Items.Add("1");
             comboBoxEstrellas.Items.Add("2");
@@ -36,6 +38,7 @@ namespace visibilidad.Calificar
             comboBoxDetalle.Items.Add("Neutral");
             comboBoxDetalle.Items.Add("Negativo");
             this.textBox2.Text = idPublic.ToString();
+            this.textBoxVendedor.Text = codigoVendedor.ToString();
         }
 
 
@@ -102,6 +105,11 @@ namespace visibilidad.Calificar
                 
             }
             cn.cnn.Close();
+            cn.cnn.Open();
+            List<string> lista1 = Helper.Help.generarListaParaProcedure("@vendedor", "@estrellas");
+            bool resultado1 = cn.executeProcedure(cn.getSchema() + @".SP_Actualizar_Reputacion", lista1, codigoVendedor,estrella);
+            cn.cnn.Close();
+            MessageBox.Show("Actualizacion reputacion OK");
             this.Close();
 
            
