@@ -694,13 +694,9 @@ BEGIN
 
 	-- Actualizo stock y finalizo publicacion si corresponde
 	set @stockRestante = @stock-@cantidad
+	update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
 	if(@stockRestante = 0)
-		begin
-		update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
 		update LPB.Publicaciones set EstadoDePublicacion_id = (select id from LPB.EstadosDePublicacion where descripcion='Finalizada') where codigo = @publicacion_cod;
-		end
-	else
-		update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
 
 	-- Genero compra
 	insert into lpb.Compras(fecha,cantidad,Cliente_id,Publicacion_cod,envio)

@@ -224,18 +224,18 @@ namespace visibilidad.ComprarOfertar
             Conexion con = new Conexion();
             String query = "select COUNT(*) from LPB.Publicaciones where stock>=" + tbox_cant.Text + " and codigo = " +
                 publicacionSeleccionada;
-            int stock = 0;
+            int publicacionesconStock = 0;
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
 
             while (lector.Read())
             {
-                stock = lector.GetInt32(0);
+                publicacionesconStock = lector.GetInt32(0);
             }
             con.cnn.Close();
 
-            if (stock <= 0)
+            if (publicacionesconStock <= 0)
             {
                 MessageBox.Show("No hay suficiente stock para realizar esta acción", btn_comprar.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -251,16 +251,18 @@ namespace visibilidad.ComprarOfertar
 
             if(btn_comprar.Text.Equals("Comprar")){
                 DataGridViewRow row = superGridPublis.SelectedRows[0];
+                int cantidad;
+                int stock;
                 decimal monto;
                 int visibilidad;
-                int cantidad;
                 int vendedor;
                 Boolean envio;
 
                 try
                 {
-                    visibilidad = int.Parse(row.Cells["Visibilidad_codigo"].Value.ToString());
                     cantidad = int.Parse(tbox_cant.Text);
+                    stock = int.Parse(row.Cells["stock"].Value.ToString());
+                    visibilidad = int.Parse(row.Cells["Visibilidad_codigo"].Value.ToString());
                     envio = bool.Parse(checkbox_envio.Checked.ToString());
                     monto = decimal.Parse(row.Cells["precio"].Value.ToString());
                     vendedor = int.Parse(row.Cells["Usuario_id"].Value.ToString());
