@@ -17,16 +17,16 @@ namespace visibilidad.Calificar
     {
         Conexion cn = new Conexion();
         private int idUser;
-        private decimal idPublic;
         private int CuO;
         private int codigoVendedor;
-        public Calificacion(int idUsuario, decimal idPublicacion, int compraUOferta, int vendedor)
+        private int Ope;
+        public Calificacion(int idUsuario, int compraUOferta, int vendedor, int operacion)
         {
             InitializeComponent();
             idUser = idUsuario;
-            idPublic = idPublicacion;
             CuO = compraUOferta;
             codigoVendedor = vendedor;
+            Ope = operacion;
             //Carga del combo Box Estrellas
             comboBoxEstrellas.Items.Add("1");
             comboBoxEstrellas.Items.Add("2");
@@ -37,7 +37,6 @@ namespace visibilidad.Calificar
             comboBoxDetalle.Items.Add("Positivo");
             comboBoxDetalle.Items.Add("Neutral");
             comboBoxDetalle.Items.Add("Negativo");
-            this.textBox2.Text = idPublic.ToString();
             this.textBoxVendedor.Text = codigoVendedor.ToString();
         }
 
@@ -54,7 +53,7 @@ namespace visibilidad.Calificar
         private void buttonConfirmar_Click(object sender, EventArgs e)
         {
             int estrella = int.Parse(comboBoxEstrellas.SelectedItem.ToString());
-            List<string> lista = Helper.Help.generarListaParaProcedure("@Publicacion_cod", "@detalle", "@estrellas");
+            List<string> lista = Helper.Help.generarListaParaProcedure("@operacion", "@detalle", "@estrellas");
             Conexion cn = new Conexion();
             cn.cnn.Open();
             if (CuO == 1)
@@ -62,7 +61,7 @@ namespace visibilidad.Calificar
                 if (comboBoxDetalle.Text == "")
                 {
                     string detalle = this.textBoxDetalleP.Text.ToString();
-                     bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
+                     bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, Ope, detalle, estrella);
                      if (resultado)
                          MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                      else
@@ -72,7 +71,7 @@ namespace visibilidad.Calificar
                 else
                 {
                     string detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
-                    bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, idPublic, detalle, estrella);
+                    bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Compras", lista, Ope, detalle, estrella);
                     if (resultado)
                         MessageBox.Show("Ha calificado correctamente la Compra", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     else
@@ -87,7 +86,7 @@ namespace visibilidad.Calificar
                 if (comboBoxDetalle.Text ==  "")
                 {
                     string detalle = this.textBoxDetalleP.Text.ToString();
-                   bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, idPublic, detalle, estrella);
+                   bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, Ope, detalle, estrella);
                    if (resultado)
                        MessageBox.Show("Ha calificado correctamente la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                    else
@@ -96,7 +95,7 @@ namespace visibilidad.Calificar
                 else
                 {
                     string detalle = ((string)comboBoxDetalle.SelectedItem.ToString());
-                   bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, idPublic, detalle, estrella);
+                   bool resultado = cn.executeProcedure(cn.getSchema() + @".SP_Insertar_Calificacion_Ofertas", lista, Ope, detalle, estrella);
                    if (resultado)
                        MessageBox.Show("Ha calificado correctamente la Oferta", "Mensaje...", MessageBoxButtons.OK, MessageBoxIcon.Information);
                    else
@@ -106,10 +105,9 @@ namespace visibilidad.Calificar
             }
             cn.cnn.Close();
             cn.cnn.Open();
-            List<string> lista1 = Helper.Help.generarListaParaProcedure("@vendedor", "@estrellas");
-            bool resultado1 = cn.executeProcedure(cn.getSchema() + @".SP_Actualizar_Reputacion", lista1, codigoVendedor,estrella);
+            List<string> lista1 = Helper.Help.generarListaParaProcedure("@vendedor");
+            bool resultado1 = cn.executeProcedure(cn.getSchema() + @".SP_Actualizar_Reputacion", lista1, codigoVendedor);
             cn.cnn.Close();
-            MessageBox.Show("Actualizacion reputacion OK");
             this.Close();
 
            
