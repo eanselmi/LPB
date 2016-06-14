@@ -1286,7 +1286,7 @@ COMMIT;
 
 /*creacion Usuarios -HASH del password w23e: 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7'*/
 BEGIN TRANSACTION
-INSERT INTO LPB.Usuarios (TipoUsuario, username, pass, nuevo) VALUES('Administrador','admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',0);
+INSERT INTO LPB.Usuarios (TipoUsuario, username, pass, nuevo, reputacion) VALUES('Administrador','admin','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7',0,0);
 COMMIT;
 
 /* Migracion Usuarios */
@@ -1793,4 +1793,27 @@ Insert into LPB.RubrosEmpresa(descripcion) values('Vinos');
 Insert into LPB.RubrosEmpresa(descripcion) values('Web y multimedia');
 Insert into LPB.RubrosEmpresa(descripcion) values('Zapaterías');
 Insert into LPB.RubrosEmpresa(descripcion) values('Otro');
+COMMIT;
+
+/*ACTUALIZACION DE REPUTACION DE USUARIOS*/
+BEGIN TRANSACTION
+-- Declaracion de variables para el cursor
+DECLARE @IdUsuario int
+-- Declaración del cursor
+DECLARE cursorReputacion CURSOR FOR
+SELECT  id from LPB.Usuarios where id<>1
+-- Apertura del cursor
+OPEN cursorReputacion
+-- Lectura de la primera fila del cursor
+FETCH cursorReputacion INTO @IdUsuario
+WHILE (@@FETCH_STATUS = 0 )
+	BEGIN
+	EXEC LPB.SP_Actualizar_Reputacion @IdUsuario;
+	-- Lectura de la siguiente fila del cursor
+	FETCH cursorReputacion INTO @IdUsuario
+	END
+-- Cierre del cursor
+CLOSE cursorReputacion
+-- Liberar los recursos
+DEALLOCATE cursorReputacion
 COMMIT;
