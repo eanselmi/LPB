@@ -676,12 +676,11 @@ END
 GO
 
 
-CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@fecha datetime, @publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @vendedor_id int, @comprador_id int, @monto numeric(18,2),  @stock numeric(18,0), @cantidad numeric(18,0), @envio bit)
+CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@fecha datetime, @publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @vendedor_id int, @comprador_id int, @monto numeric(18,2), @cantidad numeric(18,0), @envio bit)
 AS
 BEGIN	
 	declare @nuevo_codigo_factura Numeric(18,2);
 	declare @total Numeric(18,2);
-	declare @stockRestante numeric(18,0);
 	set @total = (select porcentaje from Visibilidades where codigo=@visibilidad_codigo)*@monto*@cantidad;
 	set  @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
 
