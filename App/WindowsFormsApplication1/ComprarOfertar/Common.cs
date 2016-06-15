@@ -37,9 +37,9 @@ namespace common
 
             if (rubros != null && rubros.Count > 0)
             {
-                query += "select distinct p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo,v.precio " +
-                        " from  LPB.Publicaciones p, LPB.Rubros r, LPB.PublicacionesPorRubro pr, LPB.TiposDePublicacion t , LPB.Visibilidades v " +
-                        " where p.codigo = pr.Publicacion_id and r.id = pr.Rubro_id and t.id = p.TipoDePublicacion_id and  v.codigo = p.Visibilidad_codigo " +
+                query += "select distinct p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo,v.precio,u.reputacion " +
+                        " from  LPB.Publicaciones p, LPB.Rubros r, LPB.PublicacionesPorRubro pr, LPB.TiposDePublicacion t , LPB.Visibilidades v, lpb.usuarios u " +
+                        " where p.codigo = pr.Publicacion_id and r.id = pr.Rubro_id and t.id = p.TipoDePublicacion_id and  v.codigo = p.Visibilidad_codigo and u.id=p.usuario_id " +
                         " and p.estadoDePublicacion_id in ('2','3') and p.usuario_id<>'" + idUsuario + "' and t.descripcion = '" + tipo + "' ";
            
                 query += applyFilterDescr(filter_desc);
@@ -50,9 +50,9 @@ namespace common
             else
             {
                 query += "select distinct p.codigo, p.Usuario_id, p.EstadoDePublicacion_id, p.descripcion, " +
-                        "p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo,v.precio " +
-                        " from LPB.Publicaciones p , LPB.TiposDePublicacion t, LPB.Visibilidades v " +
-                        " where  t.id = p.TipoDePublicacion_id and v.codigo = p.Visibilidad_codigo " +
+                        "p.stock, p.fechaVencimiento, p.precio, p.aceptaEnvio, p.aceptaPreguntas, p.Visibilidad_codigo,v.precio, u.reputacion " +
+                        " from LPB.Publicaciones p , LPB.TiposDePublicacion t, LPB.Visibilidades v, LPB.usuarios u " +
+                        " where  t.id = p.TipoDePublicacion_id and v.codigo = p.Visibilidad_codigo and u.id=p.usuario_id" +
                         " and p.estadoDePublicacion_id in ('2','3') and p.usuario_id<>'" + idUsuario + "' and t.descripcion = '" + tipo + "' ";
 
                   query += applyFilterDescr(filter_desc);

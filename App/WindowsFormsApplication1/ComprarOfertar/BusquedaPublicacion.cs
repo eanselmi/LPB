@@ -124,6 +124,8 @@ namespace visibilidad.ComprarOfertar
                 busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
                 busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
                 busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+                busqueda.crearColumnas(superGridPublis, 11, "reputacion", "Reputacion del vendedor", true);
+
             }
 
         }
@@ -152,6 +154,7 @@ namespace visibilidad.ComprarOfertar
                 busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
                 busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
                 busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+                busqueda.crearColumnas(superGridPublis, 11, "reputacion", "Reputacion del vendedor", true);
             }
             limpiar();
         }
@@ -197,7 +200,7 @@ namespace visibilidad.ComprarOfertar
         {
 
             /* Chequeo que no tenga 3 operaciones sin calificar*/
-            string queryCheck = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            string queryCheck = "select count(*) from (select a.id from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and a.Calificacion_cod is null union select b.id from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
             Conexion conCSSC = new Conexion();
             conCSSC.cnn.Open();
             SqlCommand comandoCSSC = new SqlCommand(queryCheck, conCSSC.cnn);
@@ -335,6 +338,7 @@ namespace visibilidad.ComprarOfertar
                 busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
                 busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
                 busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+                busqueda.crearColumnas(superGridPublis, 11, "reputacion", "Reputacion del vendedor", true);
             }
 
             
