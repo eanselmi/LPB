@@ -676,12 +676,11 @@ END
 GO
 
 
-CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@fecha datetime, @publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @vendedor_id int, @comprador_id int, @monto numeric(18,2),  @stock numeric(18,0), @cantidad numeric(18,0), @envio bit)
+CREATE PROCEDURE LPB.SP_Generar_Facturacion_Venta (@fecha datetime, @publicacion_cod numeric(18,0), @visibilidad_codigo numeric(18,0), @vendedor_id int, @comprador_id int, @monto numeric(18,2), @cantidad numeric(18,0), @envio bit)
 AS
 BEGIN	
 	declare @nuevo_codigo_factura Numeric(18,2);
 	declare @total Numeric(18,2);
-	declare @stockRestante numeric(18,0);
 	set @total = (select porcentaje from Visibilidades where codigo=@visibilidad_codigo)*@monto*@cantidad;
 	set  @nuevo_codigo_factura = (select max(numero) from lpb.facturas) + 1;
 
@@ -702,9 +701,8 @@ BEGIN
 	end
 
 	-- Actualizo stock y finalizo publicacion si corresponde
-	set @stockRestante = @stock-@cantidad
 	update LPB.Publicaciones set stock=stock-@cantidad where codigo = @publicacion_cod;
-	if(@stockRestante = 0)
+	if((select stock from LPB.Publicaciones where codigo = @publicacion_cod) = 0)
 		update LPB.Publicaciones set EstadoDePublicacion_id = (select id from LPB.EstadosDePublicacion where descripcion='Finalizada') where codigo = @publicacion_cod;
 
 	-- Genero compra
@@ -1131,60 +1129,35 @@ CREATE PROCEDURE LPB.[SP_Actualizar_Reputacion]
 @vendedor INT
 AS
 BEGIN
-UPDATE LPB.Usuarios
-SET reputacion = 
-(((SELECT CantidadEstrellas
-FROM
-(SELECT usuario, SUM(cantEstrellas) as CantidadEstrellas
-FROM
-((SELECT u.id AS usuario, SUM(ca.cantEstrellas) AS cantEstrellas
-FROM LPB.Usuarios u
-INNER JOIN LPB.Publicaciones p
-ON u.id = p.Usuario_id
-INNER JOIN LPB.Compras c
-ON c.Publicacion_cod = p.codigo
-INNER JOIN LPB.Calificaciones ca
-ON ca.codigo = c.Calificacion_cod
-GROUP BY u.id)
-UNION 
-(SELECT u.id, SUM(ca.cantEstrellas) AS cantEstrellas
-FROM LPB.Usuarios u
-INNER JOIN LPB.Publicaciones p
-ON u.id = p.Usuario_id
-INNER JOIN LPB.Ofertas o
-ON o.Publicacion_cod = p.codigo
-INNER JOIN LPB.Calificaciones ca
-ON ca.codigo = o.Calificacion_cod
-GROUP BY u.id)) AS cantTotal
-WHERE usuario = @vendedor
-GROUP BY usuario) AS total) * 100) / 5) /
 
-(SELECT CantidadCO
-FROM
-(SELECT usuario, SUM(cantOperaciones) as CantidadCO
-FROM
-((SELECT u.id AS usuario, COUNT(*) AS cantOperaciones
-FROM LPB.Usuarios u
-INNER JOIN LPB.Publicaciones p
-ON u.id = p.Usuario_id
-INNER JOIN LPB.Compras c
-ON c.Publicacion_cod = p.codigo
-INNER JOIN LPB.Calificaciones ca
-ON ca.codigo = c.Calificacion_cod
-GROUP BY u.id)
-UNION 
-(SELECT u.id, COUNT(*) AS cantOperaciones
-FROM LPB.Usuarios u
-INNER JOIN LPB.Publicaciones p
-ON u.id = p.Usuario_id
-INNER JOIN LPB.Ofertas o
-ON o.Publicacion_cod = p.codigo
-INNER JOIN LPB.Calificaciones ca
-ON ca.codigo = o.Calificacion_cod
-GROUP BY u.id)) AS cantTotalCO
-WHERE usuario = @vendedor
-GROUP BY usuario) AS totalCO)
+DECLARE @cantidadEstrellas NUMERIC(18,2);
+DECLARE @cantidadOperacionesConcretadas NUMERIC(18,2); 
+
+SET @cantidadEstrellas = 
+(SELECT 
+ISNULL((select sum(ca.cantEstrellas) as cantidad_estrellas
+ from lpb.Usuarios u, lpb.Publicaciones p, lpb.Compras c, lpb.Calificaciones ca
+ where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor),0) 
+
+ +
+ ISNULL((select sum(ca2.cantEstrellas) as cantidad_estrellas
+  from lpb.Usuarios u2, lpb.Publicaciones p2, lpb.Ofertas o2, lpb.Calificaciones ca2
+  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor),0))
+
+SET @cantidadOperacionesConcretadas =
+( SELECT
+ ISNULL((select  count(*) as cantidad_operaciones
+ from lpb.Usuarios u, lpb.Publicaciones p, lpb.Compras c, lpb.Calificaciones ca
+ where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor),0)
+ +
+ ISNULL((select  count(*) as cantidad_operaciones
+  from lpb.Usuarios u2, lpb.Publicaciones p2, lpb.Ofertas o2, lpb.Calificaciones ca2
+  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor),0))
+
+UPDATE LPB.Usuarios
+SET reputacion = ((@cantidadEstrellas * 100) / 5) / @cantidadOperacionesConcretadas
 WHERE id = @vendedor
+
 END 
 GO
 

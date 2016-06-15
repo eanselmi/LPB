@@ -106,7 +106,7 @@ namespace visibilidad.Calificar
             cn.cnn.Close();
             cn.cnn.Open();
             List<string> lista1 = Helper.Help.generarListaParaProcedure("@vendedor");
-            bool resultado1 = cn.executeProcedure(cn.getSchema() + @".SP_Actualizar_Reputacion", lista1, codigoVendedor);
+            bool resultado1 = cn.executeProcedure(cn.getSchema() + @".SP_Actualizar_Reputacion", lista1, codigoVendedor.ToString());
             cn.cnn.Close();
             this.Close();
 

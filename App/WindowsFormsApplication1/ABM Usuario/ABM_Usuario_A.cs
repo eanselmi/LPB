@@ -880,6 +880,31 @@ namespace visibilidad.ABM_Usuario
                     conCUIT.cnn.Close();
                 }
 
+                //VALIDACION RAZÓN SOCIAL ÚNICA
+
+                if (!(textBoxRazonSocial.Text.Equals("")))
+                {
+                    string queryRazSoc = "";
+                    if (modalidad.Equals("Alta"))
+                    {
+                        queryRazSoc = "Select * from LPB.Empresas where razonSocial = '" + textBoxRazonSocial.Text + "'";
+                    }
+                    else
+                    {
+                        queryRazSoc = "Select emp.Usuario_id from LPB.Empresas emp where emp.razonSocial = '" + textBoxRazonSocial.Text + "' and exists(select * from LPB.Usuarios where id=emp.Usuario_id and username<>'" + userAModificar + "')";
+                    }
+                    Conexion conRazSoc = new Conexion();
+                    conRazSoc.cnn.Open();
+                    SqlCommand commandRazSoc = new SqlCommand(queryRazSoc, conRazSoc.cnn);
+                    SqlDataReader lectorRazSoc = commandRazSoc.ExecuteReader();
+                    if (lectorRazSoc.Read())
+                    {
+                        hayError = true;
+                        mensajeDeError = string.Concat(mensajeDeError, "\tYa existe un usuario con esa razón social\n");
+                    }
+                    conRazSoc.cnn.Close();
+                }
+
                 //VALIDACION USERNAME ÚNICO
                 if (modalidad.Equals("Alta"))
                 {

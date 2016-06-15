@@ -206,7 +206,7 @@ namespace visibilidad
         private void comprarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //SI TIENE 3 COMPRAS O SUBASTAS SIN CALIFICAR NO PUEDE COMPRAR NADA
-            string query = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            string query = "select count(*) from (select a.id from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and a.Calificacion_cod is null union select b.id from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
             Conexion conCSSC = new Conexion();
             conCSSC.cnn.Open();
             SqlCommand comandoCSSC = new SqlCommand(query, conCSSC.cnn);
@@ -227,7 +227,7 @@ namespace visibilidad
         private void ofertarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //SI TIENE 3 COMPRAS O SUBASTAS SIN CALIFICAR NO PUEDE COMPRAR NADA
-            string query = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            string query = "select count(*) from (select a.id from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and a.Calificacion_cod is null union select b.id from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + id_usuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
             Conexion conCSSC = new Conexion();
             conCSSC.cnn.Open();
             SqlCommand comandoCSSC = new SqlCommand(query, conCSSC.cnn);

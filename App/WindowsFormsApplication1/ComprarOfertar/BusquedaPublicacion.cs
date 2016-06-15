@@ -124,6 +124,8 @@ namespace visibilidad.ComprarOfertar
                 busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
                 busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
                 busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+                busqueda.crearColumnas(superGridPublis, 11, "reputacion", "Reputacion del vendedor", true);
+
             }
 
         }
@@ -152,6 +154,7 @@ namespace visibilidad.ComprarOfertar
                 busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
                 busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
                 busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+                busqueda.crearColumnas(superGridPublis, 11, "reputacion", "Reputacion del vendedor", true);
             }
             limpiar();
         }
@@ -197,7 +200,7 @@ namespace visibilidad.ComprarOfertar
         {
 
             /* Chequeo que no tenga 3 operaciones sin calificar*/
-            string queryCheck = "select count(*) from (select a.publicacion_cod from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and a.Calificacion_cod is null union select b.Publicacion_cod from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
+            string queryCheck = "select count(*) from (select a.id from lpb.Compras a where a.cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and a.Calificacion_cod is null union select b.id from lpb.ofertas b where b.Cliente_id=(select id from LPB.Clientes where Usuario_id='" + idUsuario + "') and b.ganadora=1 and b.Calificacion_cod is null) as pubsincalif";
             Conexion conCSSC = new Conexion();
             conCSSC.cnn.Open();
             SqlCommand comandoCSSC = new SqlCommand(queryCheck, conCSSC.cnn);
@@ -252,7 +255,6 @@ namespace visibilidad.ComprarOfertar
             if(btn_comprar.Text.Equals("Comprar")){
                 DataGridViewRow row = superGridPublis.SelectedRows[0];
                 int cantidad;
-                int stock;
                 decimal monto;
                 int visibilidad;
                 int vendedor;
@@ -261,7 +263,6 @@ namespace visibilidad.ComprarOfertar
                 try
                 {
                     cantidad = int.Parse(tbox_cant.Text);
-                    stock = int.Parse(row.Cells["stock"].Value.ToString());
                     visibilidad = int.Parse(row.Cells["Visibilidad_codigo"].Value.ToString());
                     envio = bool.Parse(checkbox_envio.Checked.ToString());
                     monto = decimal.Parse(row.Cells["precio"].Value.ToString());
@@ -273,7 +274,7 @@ namespace visibilidad.ComprarOfertar
                     return;
                 }
                 
-                if (facturarCompra(vendedor, visibilidad, monto, stock, cantidad, envio))
+                if (facturarCompra(vendedor, visibilidad, monto, cantidad, envio))
                 {
                     cargarTodasLasPublicaciones("Compra inmediata", new Common());
                     checkbox_envio.Checked = false;
@@ -291,7 +292,7 @@ namespace visibilidad.ComprarOfertar
 
         }
 
-        private Boolean facturarCompra(int vendedor, int visibilidad, decimal monto, int stock, int cantidad, Boolean envio)
+        private Boolean facturarCompra(int vendedor, int visibilidad, decimal monto, int cantidad, Boolean envio)
         {
             Boolean resultadoFacturaCompra;
             DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
@@ -299,8 +300,8 @@ namespace visibilidad.ComprarOfertar
             Conexion conexion = new Conexion();
             conexion.cnn.Open();
             resultadoFacturaCompra = conexion.executeProcedure(conexion.getSchema() + @".SP_Generar_Facturacion_Venta",
-                   Helper.Help.generarListaParaProcedure("@fecha", "@publicacion_cod", "@visibilidad_codigo", "@vendedor_id","@comprador_id", "@monto", "@stock", "@cantidad", "@envio"),
-                   fecha, publicacionSeleccionada, visibilidad, vendedor, idUsuario, monto, stock, cantidad, envio);
+                   Helper.Help.generarListaParaProcedure("@fecha", "@publicacion_cod", "@visibilidad_codigo", "@vendedor_id","@comprador_id", "@monto", "@cantidad", "@envio"),
+                   fecha, publicacionSeleccionada, visibilidad, vendedor, idUsuario, monto, cantidad, envio);
             conexion.cnn.Close();
             return resultadoFacturaCompra;
         }
@@ -335,6 +336,7 @@ namespace visibilidad.ComprarOfertar
                 busqueda.crearColumnas(superGridPublis, 8, "aceptaPreguntas", "aceptaPreguntas", false);
                 busqueda.crearColumnas(superGridPublis, 9, "Visibilidad_codigo", "Visibilidad_codigo", false);
                 busqueda.crearColumnas(superGridPublis, 10, "precio1", "precio1", false);
+                busqueda.crearColumnas(superGridPublis, 11, "reputacion", "Reputacion del vendedor", true);
             }
 
             
