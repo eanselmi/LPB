@@ -95,11 +95,21 @@ namespace visibilidad.Generar_Publicación
 
         private void btn_modificar_Click(object sender, EventArgs e)
         {
+            int ind;
+            string cod;
+            try
+            {
+                ind = datagrid_listado.CurrentCell.RowIndex;
+                cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error, debe seleccionar una publicacion para editarla", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             this.Hide();
-            int ind = datagrid_listado.CurrentCell.RowIndex;
-            string cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
-            
-            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this,id_usuario,Convert.ToInt32(cod), "M");
+            Generar_Publicación.FormularioPublicacion formularioPublicacion = new Generar_Publicación.FormularioPublicacion(this, id_usuario, Convert.ToInt32(cod), "M");
             formularioPublicacion.Show();
             
         }
