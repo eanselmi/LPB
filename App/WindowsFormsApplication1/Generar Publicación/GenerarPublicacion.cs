@@ -102,7 +102,7 @@ namespace visibilidad.Generar_Publicación
                 ind = datagrid_listado.CurrentCell.RowIndex;
                 cod = datagrid_listado.Rows[ind].Cells["Codigo"].Value.ToString();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageBox.Show("Error, debe seleccionar una publicacion para editarla", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
