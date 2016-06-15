@@ -1137,23 +1137,24 @@ DECLARE @cantidadOperacionesConcretadas NUMERIC(18,2);
 
 SET @cantidadEstrellas = 
 (SELECT 
-(select sum(ca.cantEstrellas) as cantidad_estrellas
+ISNULL((select sum(ca.cantEstrellas) as cantidad_estrellas
  from lpb.Usuarios u, lpb.Publicaciones p, lpb.Compras c, lpb.Calificaciones ca
- where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor)
+ where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor),0) 
+
  +
- (select sum(ca2.cantEstrellas) as cantidad_estrellas
+ ISNULL((select sum(ca2.cantEstrellas) as cantidad_estrellas
   from lpb.Usuarios u2, lpb.Publicaciones p2, lpb.Ofertas o2, lpb.Calificaciones ca2
-  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor))
+  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor),0))
 
 SET @cantidadOperacionesConcretadas =
 ( SELECT
- ( select  count(*) as cantidad_operaciones
+ ISNULL((select  count(*) as cantidad_operaciones
  from lpb.Usuarios u, lpb.Publicaciones p, lpb.Compras c, lpb.Calificaciones ca
- where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor)
+ where u.id=p.Usuario_id and p.codigo=c.Publicacion_cod and c.Calificacion_cod=ca.codigo and u.id=@vendedor),0)
  +
- (select  count(*) as cantidad_operaciones
+ ISNULL((select  count(*) as cantidad_operaciones
   from lpb.Usuarios u2, lpb.Publicaciones p2, lpb.Ofertas o2, lpb.Calificaciones ca2
-  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor))
+  where u2.id=p2.Usuario_id and p2.codigo=o2.Publicacion_cod and o2.Calificacion_cod=ca2.codigo and u2.id=@vendedor),0))
 
 UPDATE LPB.Usuarios
 SET reputacion = ((@cantidadEstrellas * 100) / 5) / @cantidadOperacionesConcretadas
